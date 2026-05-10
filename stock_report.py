@@ -376,17 +376,19 @@ def build_html(today, idx_data, stk_data, vol_history):
 
     sector_summary.sort(key=lambda x: x[1], reverse=True)
 
-    sector_rows = ''.join(
-        f"<tr>"
-        f"<td><b>{sec}</b></td>"
-        f"<td style='color:{clr(avg)};font-weight:bold'>{fp(avg)}</td>"
-        f"<td style='color:#6b7280'>{cnt}只</td>"
-        f"<td>{badge}</td>"
-        f"<td style='color:{clr(best[\"pct\"])}'>{best[\"name\"]} {fp(best[\"pct\"])}</td>"
-        f"<td style='color:{clr(worst[\"pct\"])}'>{worst[\"name\"]} {fp(worst[\"pct\"])}</td>"
-        f"</tr>"
-        for sec, avg, cnt, best, worst, badge in sector_summary
-    )
+    sector_rows = ''
+    for sec, avg, cnt, best, worst, badge in sector_summary:
+        bp, bn, wp, wn = best['pct'], best['name'], worst['pct'], worst['name']
+        sector_rows += (
+            f"<tr>"
+            f"<td><b>{sec}</b></td>"
+            f"<td style='color:{clr(avg)};font-weight:bold'>{fp(avg)}</td>"
+            f"<td style='color:#6b7280'>{cnt}只</td>"
+            f"<td>{badge}</td>"
+            f"<td style='color:{clr(bp)}'>{bn} {fp(bp)}</td>"
+            f"<td style='color:{clr(wp)}'>{wn} {fp(wp)}</td>"
+            f"</tr>"
+        )
 
     # ── Limit-up/down alerts ──
     limit_up = [d for d in all_parsed if d['pct'] >= 9.9]
