@@ -1,0 +1,26 @@
+name: A股AI板块午报
+
+on:
+  workflow_dispatch:
+    inputs:
+      triggered_by:
+        description: 'Triggered by'
+        required: false
+        default: 'manual'
+
+permissions:
+  contents: read
+
+jobs:
+  send-report-pm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: python stock_report_pm.py
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
