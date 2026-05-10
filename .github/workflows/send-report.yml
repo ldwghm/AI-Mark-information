@@ -8,6 +8,9 @@ on:
         required: false
         default: 'manual'
 
+permissions:
+  contents: write
+
 jobs:
   send-report:
     runs-on: ubuntu-latest
@@ -20,3 +23,4 @@ jobs:
       - run: python stock_report.py
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
