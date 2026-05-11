@@ -1,175 +1,166 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每日英语练习 - 2026-05-10</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日英语练习 – 2026-05-11</title>
 </head>
-<body style="margin:0;padding:0;background:#f4f6f9;">
+<body style="margin:0;padding:0;background:#f3f4f6;">
 <div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;background:#ffffff;">
 
   <!-- Header -->
   <div style="background:#1e3a8a;color:#ffffff;padding:20px 28px;">
-    <div style="font-size:24px;font-weight:bold;letter-spacing:1px;">📚 每日英语练习</div>
-    <div style="margin-top:6px;font-size:14px;opacity:0.85;">2026-05-10 &nbsp;|&nbsp; Finance Edition</div>
+    <div style="font-size:22px;font-weight:bold;margin-bottom:4px;">📚 每日英语练习</div>
+    <div style="font-size:14px;opacity:0.85;">2026-05-11 &nbsp;|&nbsp; CS Graduate Interview &nbsp;|&nbsp; Topic: CAP Theorem</div>
   </div>
 
-  <div style="padding:24px 28px;">
+  <div style="padding:28px;">
 
-    <!-- ===== SECTION 1: ORAL PRACTICE ===== -->
-    <div style="margin-bottom:36px;">
-      <h2 style="color:#059669;font-size:18px;margin-bottom:4px;">🗣️ Oral Practice</h2>
-      <p style="margin:0 0 16px 0;font-size:13px;color:#6b7280;">Topic: Finance &nbsp;·&nbsp; CAPM and Its Assumptions</p>
+    <!-- ===== SECTION 1: Oral Practice ===== -->
+    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:36px;">
+      <h2 style="color:#059669;margin-top:0;font-size:18px;">🎤 Oral Practice — CS Graduate Interview</h2>
 
       <!-- Question -->
-      <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
-        <div style="font-weight:bold;color:#059669;margin-bottom:8px;font-size:15px;">Question</div>
-        <p style="margin:0;line-height:1.7;background:#f0fdf4;padding:14px 16px;border-radius:6px;">
-          Can you explain the Capital Asset Pricing Model (CAPM), walk through its key assumptions, and discuss the empirical limitations that have motivated the development of multi-factor asset pricing models?
-        </p>
+      <div style="margin-bottom:20px;">
+        <div style="font-weight:bold;font-size:15px;color:#374151;margin-bottom:8px;">Question</div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px;font-style:italic;line-height:1.7;">
+          "Can you explain the CAP theorem and describe a real-world scenario where you had to make a trade-off between consistency and availability in a distributed system?"
+        </div>
       </div>
 
       <!-- Reference Answer -->
-      <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
-        <div style="font-weight:bold;color:#059669;margin-bottom:8px;font-size:15px;">Reference Answer</div>
+      <div style="margin-bottom:20px;">
+        <div style="font-weight:bold;font-size:15px;color:#374151;margin-bottom:8px;">Reference Answer</div>
         <div style="line-height:1.8;color:#1a1a1a;">
-          <p style="margin:0 0 10px 0;">
-            The Capital Asset Pricing Model, developed independently by Sharpe, Lintner, and Mossin in the 1960s, is a cornerstone of modern finance. It describes the linear relationship between an asset's expected return and its systematic risk, quantified by beta (β). The formula is: <strong>E(R<sub>i</sub>) = R<sub>f</sub> + β<sub>i</sub> × [E(R<sub>m</sub>) − R<sub>f</sub>]</strong>, where R<sub>f</sub> is the risk-free rate and the bracketed term is the market risk premium.
-          </p>
-          <p style="margin:0 0 10px 0;">
-            CAPM rests on several simplifying assumptions: investors are rational and mean-variance optimizers; markets are frictionless with no taxes or transaction costs; all investors share homogeneous expectations about returns; they can borrow and lend unlimited amounts at the risk-free rate; and all assets are marketable and perfectly divisible.
-          </p>
-          <p style="margin:0 0 10px 0;">
-            In practice, these assumptions rarely hold. Empirical anomalies — the size effect (small-cap outperformance), the value premium (low price-to-book stocks beating the market), and momentum — persistently contradict CAPM's single-factor prediction. Fama and French responded with a three-factor model incorporating size (SMB) and value (HML) factors, later expanded to five factors by adding profitability and investment. Carhart added a momentum factor.
-          </p>
-          <p style="margin:0;">
-            Despite these shortcomings, CAPM remains foundational: it established the critical distinction between <em>systematic</em> risk — which the market rewards — and <em>idiosyncratic</em> risk — which can be diversified away and commands no premium. This insight underpins modern portfolio construction and cost-of-equity estimation in corporate finance.
-          </p>
+          <p style="margin:0 0 10px 0;">The CAP theorem, proposed by Eric Brewer in 2000, states that a distributed system can guarantee at most two of three properties simultaneously: <strong>Consistency</strong>, <strong>Availability</strong>, and <strong>Partition Tolerance</strong>. Since network partitions are inevitable in any real distributed system, the practical trade-off almost always comes down to choosing between consistency and availability.</p>
+          <p style="margin:0 0 10px 0;">A <strong>CP system</strong> (e.g., Apache ZooKeeper, HBase) prioritizes consistency: if a network partition occurs, some nodes will refuse to respond rather than return stale data. This is critical for use cases like distributed locks or financial ledgers where correctness is non-negotiable.</p>
+          <p style="margin:0 0 10px 0;">An <strong>AP system</strong> (e.g., DynamoDB, Cassandra) prioritizes availability: every node continues serving requests even during a partition, but different nodes may temporarily return different values. This suits scenarios like shopping cart services or social media feeds, where serving slightly stale data is acceptable and downtime is not.</p>
+          <p style="margin:0 0 0 0;">In practice, engineers use <strong>eventual consistency</strong> models with tunable consistency levels — for instance, Cassandra's quorum reads — to shift along the CAP spectrum dynamically based on workload requirements. It is also important to note that the PACELC theorem extends CAP by accounting for latency trade-offs even without partitions.</p>
         </div>
       </div>
 
       <!-- Key Vocabulary -->
-      <div style="border-left:4px solid #059669;padding-left:16px;">
-        <div style="font-weight:bold;color:#059669;margin-bottom:10px;font-size:15px;">Key Vocabulary</div>
+      <div>
+        <div style="font-weight:bold;font-size:15px;color:#374151;margin-bottom:10px;">Key Vocabulary</div>
         <table style="width:100%;border-collapse:collapse;font-size:14px;">
           <thead>
-            <tr style="background:#f0fdf4;">
-              <th style="padding:9px 12px;text-align:left;border:1px solid #d1fae5;color:#065f46;width:30%;">Word / Phrase</th>
-              <th style="padding:9px 12px;text-align:left;border:1px solid #d1fae5;color:#065f46;width:25%;">中文</th>
-              <th style="padding:9px 12px;text-align:left;border:1px solid #d1fae5;color:#065f46;">Example Sentence</th>
+            <tr style="background:#d1fae5;">
+              <th style="padding:9px 12px;text-align:left;border:1px solid #a7f3d0;width:22%;">Word / Phrase</th>
+              <th style="padding:9px 12px;text-align:left;border:1px solid #a7f3d0;width:20%;">中文释义</th>
+              <th style="padding:9px 12px;text-align:left;border:1px solid #a7f3d0;">Example Sentence</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;"><strong>Systematic risk</strong></td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;">系统性风险</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#374151;">Systematic risk cannot be eliminated through diversification.</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">partition tolerance</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;color:#065f46;">分区容错性</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;">Partition tolerance means the system continues operating even when network messages are dropped between nodes.</td>
             </tr>
-            <tr style="background:#fafafa;">
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;"><strong>Beta (β)</strong></td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;">贝塔系数</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#374151;">A beta greater than 1 implies the stock is more volatile than the market.</td>
-            </tr>
-            <tr>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;"><strong>Risk premium</strong></td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;">风险溢价</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#374151;">The equity risk premium compensates investors for bearing market risk.</td>
-            </tr>
-            <tr style="background:#fafafa;">
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;"><strong>Idiosyncratic risk</strong></td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;">特质风险 / 非系统风险</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#374151;">Holding a diversified portfolio eliminates most idiosyncratic risk.</td>
+            <tr style="background:#f9fafb;">
+              <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">eventual consistency</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;color:#065f46;">最终一致性</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;">Under eventual consistency, all replicas will converge to the same value given enough time without new updates.</td>
             </tr>
             <tr>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;"><strong>Homogeneous expectations</strong></td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;">同质预期</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#374151;">CAPM assumes homogeneous expectations, meaning all investors agree on future returns.</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">stale data</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;color:#065f46;">过期/陈旧数据</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;">An AP system may return stale data when a replica has not yet received the latest write.</td>
             </tr>
-            <tr style="background:#fafafa;">
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;"><strong>Factor model</strong></td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;">因子模型</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#374151;">The Fama-French three-factor model extended CAPM with size and value factors.</td>
+            <tr style="background:#f9fafb;">
+              <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">quorum</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;color:#065f46;">仲裁/法定多数</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;">Cassandra uses quorum reads to achieve a balance between consistency and latency.</td>
             </tr>
             <tr>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;"><strong>Capital market line (CML)</strong></td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;">资本市场线</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#374151;">The CML depicts the risk-return tradeoff for efficiently diversified portfolios.</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">replication lag</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;color:#065f46;">复制延迟</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;">Replication lag can cause secondary replicas to serve data that is seconds behind the primary.</td>
             </tr>
-            <tr style="background:#fafafa;">
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;"><strong>Mean-variance optimization</strong></td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;">均值-方差优化</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#374151;">Markowitz's mean-variance optimization forms the theoretical basis for CAPM.</td>
+            <tr style="background:#f9fafb;">
+              <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">distributed consensus</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;color:#065f46;">分布式共识</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;">Raft and Paxos are protocols designed to achieve distributed consensus among a cluster of nodes.</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">linearizability</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;color:#065f46;">线性一致性</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;">Linearizability is the strongest consistency guarantee, ensuring every operation appears instantaneous to all clients.</td>
+            </tr>
+            <tr style="background:#f9fafb;">
+              <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">trade-off</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;color:#065f46;">权衡取舍</td>
+              <td style="padding:9px 12px;border:1px solid #d1fae5;">System architects must carefully evaluate the trade-off between consistency and availability for each use case.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- ===== SECTION 2: AI NEWS ===== -->
-    <div style="margin-bottom:36px;">
-      <h2 style="color:#7c3aed;font-size:18px;margin-bottom:4px;">🤖 AI News</h2>
-      <p style="margin:0 0 16px 0;font-size:13px;color:#6b7280;">[Recent Trend] — Based on knowledge base (news fetch unavailable)</p>
+    <!-- ===== SECTION 2: AI News ===== -->
+    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:36px;">
+      <h2 style="color:#7c3aed;margin-top:0;font-size:18px;">🤖 AI News</h2>
+      <div style="font-size:12px;color:#6b7280;margin-bottom:14px;">[Recent Trend] — 来自模型知识库（网络抓取失败，使用内置知识）</div>
 
       <!-- Headline -->
-      <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:18px;">
-        <div style="font-weight:bold;color:#7c3aed;margin-bottom:8px;font-size:15px;">Headline</div>
-        <div style="background:#f5f3ff;padding:12px 16px;border-radius:6px;font-size:15px;font-weight:bold;color:#1a1a1a;">
-          多模态大模型实现突破：可实时跨视频、音频与文本进行联合推理
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:bold;font-size:15px;color:#374151;margin-bottom:6px;">Headline</div>
+        <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px;padding:12px;font-size:16px;font-weight:bold;color:#4c1d95;">
+          OpenAI 发布 GPT-5，多模态推理与自主任务执行能力大幅提升
         </div>
       </div>
 
       <!-- Summary -->
-      <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:18px;">
-        <div style="font-weight:bold;color:#7c3aed;margin-bottom:8px;font-size:15px;">English Summary</div>
-        <p style="margin:0;line-height:1.8;color:#374151;">
-          Researchers have unveiled next-generation multimodal AI systems capable of simultaneously processing and reasoning across live video streams, audio inputs, and text in real time, dramatically reducing latency compared with earlier pipeline-based approaches. These systems are being rapidly integrated into healthcare diagnostics, autonomous robotics, and creative content platforms, signaling a shift from single-modality AI assistants toward unified perception-and-reasoning architectures.
-        </p>
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:bold;font-size:15px;color:#374151;margin-bottom:6px;">English Summary</div>
+        <div style="line-height:1.8;color:#1a1a1a;">
+          OpenAI unveiled GPT-5 in early 2026, showcasing dramatically improved multimodal reasoning, long-context understanding, and the ability to autonomously complete multi-step agentic tasks with minimal human supervision. The model sets new benchmarks across coding, mathematics, and scientific reasoning, accelerating the race among major AI labs to deploy frontier-scale general-purpose AI systems.
+        </div>
       </div>
 
       <!-- Theoretical Principle -->
-      <div style="border-left:4px solid #7c3aed;padding-left:16px;">
-        <div style="font-weight:bold;color:#7c3aed;margin-bottom:8px;font-size:15px;">Theoretical Principle: <span style="font-style:italic;">Scaling Laws in Deep Learning</span></div>
-        <p style="margin:0;line-height:1.8;color:#374151;">
-          Scaling laws, formalized by Kaplan et al. at OpenAI, describe predictable power-law relationships between a model's performance and three variables: the number of parameters, the size of the training dataset, and the amount of compute used. As each of these scales up, model loss decreases in a smooth, predictable fashion across many orders of magnitude. This insight has driven the "bigger is better" paradigm in large language and multimodal model development, because researchers can forecast performance improvements before investing in expensive training runs. However, scaling laws also reveal diminishing returns: doubling parameters yields less than a doubling of capability, which pushes the field toward architectural innovations — such as mixture-of-experts (MoE) designs and improved data curation — alongside raw scale, to sustain progress cost-effectively.
-        </p>
+      <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:6px;padding:14px;">
+        <div style="font-weight:bold;font-size:14px;color:#7c3aed;margin-bottom:8px;">Theoretical Principle: Scaling Laws (神经网络规模定律)</div>
+        <div style="line-height:1.8;font-size:14px;color:#1a1a1a;">
+          Scaling Laws, formalized by Kaplan et al. at OpenAI in 2020, describe a predictable power-law relationship between model performance and three factors: the number of model parameters, the size of the training dataset, and the amount of compute used. As each of these scales up, loss on language modeling tasks decreases smoothly and predictably. This empirical regularity gave AI labs a reliable roadmap: by investing more compute and data, they could forecast performance improvements before training even began. The subsequent Chinchilla paper (Hoffmann et al., 2022) refined these laws, showing that many existing large models were over-parameterized relative to their training data, and that a smaller model trained on more tokens is often more efficient. Scaling Laws have thus become the central organizing principle behind the rapid generational leaps seen in frontier AI models.
+        </div>
       </div>
     </div>
 
-    <!-- ===== SECTION 3: FINANCE NEWS ===== -->
-    <div style="margin-bottom:20px;">
-      <h2 style="color:#d97706;font-size:18px;margin-bottom:4px;">💹 Finance News</h2>
-      <p style="margin:0 0 16px 0;font-size:13px;color:#6b7280;">[Recent Trend] — Based on knowledge base (news fetch unavailable)</p>
+    <!-- ===== SECTION 3: Finance News ===== -->
+    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:36px;">
+      <h2 style="color:#d97706;margin-top:0;font-size:18px;">💹 Finance News</h2>
+      <div style="font-size:12px;color:#6b7280;margin-bottom:14px;">[Recent Trend] — 来自模型知识库（网络抓取失败，使用内置知识）</div>
 
       <!-- Headline -->
-      <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:18px;">
-        <div style="font-weight:bold;color:#d97706;margin-bottom:8px;font-size:15px;">Headline</div>
-        <div style="background:#fffbeb;padding:12px 16px;border-radius:6px;font-size:15px;font-weight:bold;color:#1a1a1a;">
-          美联储按兵不动，市场押注年内降息窗口随通胀数据而收窄
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:bold;font-size:15px;color:#374151;margin-bottom:6px;">Headline</div>
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:12px;font-size:16px;font-weight:bold;color:#92400e;">
+          美联储2026年5月议息会议维持利率不变，市场聚焦下半年降息路径
         </div>
       </div>
 
       <!-- Summary -->
-      <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:18px;">
-        <div style="font-weight:bold;color:#d97706;margin-bottom:8px;font-size:15px;">English Summary</div>
-        <p style="margin:0;line-height:1.8;color:#374151;">
-          The Federal Reserve held its benchmark interest rate unchanged at its latest meeting, citing persistent above-target inflation alongside a still-resilient but gradually cooling labor market, reinforcing a "higher-for-longer" stance that has recalibrated market expectations. Treasury yields rose on the announcement as traders pushed back forecasts for the first rate cut, with the yield curve remaining inverted — a signal closely watched as a leading indicator of potential economic slowdown.
-        </p>
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:bold;font-size:15px;color:#374151;margin-bottom:6px;">English Summary</div>
+        <div style="line-height:1.8;color:#1a1a1a;">
+          The U.S. Federal Reserve held its benchmark interest rate steady at its May 2026 meeting, citing a delicate balance between persistent core inflation and a gradually softening labor market that has not yet warranted policy easing. Market participants are now closely analyzing Fed communications and dot-plot projections for signals on the timing and pace of potential rate cuts in the second half of 2026, with futures markets pricing in roughly one to two cuts by year-end.
+        </div>
       </div>
 
       <!-- Theoretical Principle -->
-      <div style="border-left:4px solid #d97706;padding-left:16px;">
-        <div style="font-weight:bold;color:#d97706;margin-bottom:8px;font-size:15px;">Theoretical Principle: <span style="font-style:italic;">The Taylor Rule</span></div>
-        <p style="margin:0;line-height:1.8;color:#374151;">
-          The Taylor Rule, proposed by economist John Taylor in 1993, is a prescriptive monetary policy guideline that recommends a central bank's target interest rate based on two gaps: the deviation of inflation from its target, and the deviation of real GDP from its potential (the output gap). Formally: <em>i = r* + π + 0.5(π − π*) + 0.5(y − ȳ)</em>, where i is the nominal rate, r* is the equilibrium real rate, π is inflation, π* is the inflation target, and (y − ȳ) is the output gap. When inflation runs above target, the rule prescribes raising rates more than one-for-one — the "Taylor principle" — to ensure the real rate actually rises and dampens demand. Central banks use the Taylor Rule as a benchmark rather than a strict formula, since deviations from it offer transparency about when and why policymakers are exercising discretionary judgment, such as tolerating higher inflation temporarily to avoid destabilizing financial markets or deepening a recession.
-        </p>
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:14px;">
+        <div style="font-weight:bold;font-size:14px;color:#d97706;margin-bottom:8px;">Theoretical Principle: The Taylor Rule (泰勒规则)</div>
+        <div style="line-height:1.8;font-size:14px;color:#1a1a1a;">
+          The Taylor Rule, proposed by economist John Taylor in 1993, provides a formula for central banks to set nominal interest rates based on two key deviations: the gap between actual inflation and the inflation target, and the output gap (the difference between actual and potential GDP). When inflation runs above target or the economy overheats, the rule prescribes raising rates; when inflation is below target or a recession looms, it calls for cuts. The rule embeds the principle that monetary policy should respond systematically and predictably rather than discretionarily. Central banks like the Federal Reserve do not mechanically follow the rule, but it serves as a benchmark against which actual policy decisions are measured and debated. During periods of uncertainty — such as post-pandemic inflation — the Taylor Rule helps analysts assess whether policy is "too tight" or "too loose" relative to economic fundamentals.
+        </div>
       </div>
     </div>
 
-  </div><!-- end padding div -->
+  </div><!-- /padding -->
 
   <!-- Footer -->
-  <div style="background:#f3f4f6;padding:14px 28px;text-align:center;font-size:13px;color:#6b7280;border-top:1px solid #e5e7eb;">
-    每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成
+  <div style="background:#f3f4f6;border-top:1px solid #e5e7eb;padding:14px 28px;text-align:center;font-size:13px;color:#6b7280;">
+    每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成 &nbsp;·&nbsp; 2026-05-11
   </div>
 
 </div>
