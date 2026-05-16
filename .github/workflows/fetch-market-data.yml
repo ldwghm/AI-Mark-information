@@ -1,0 +1,29 @@
+name: 获取AI板块数据（日报预取）
+
+on:
+  schedule:
+    - cron: '50 23 * * 0-4'  # 7:50 CST Mon-Fri (Sun-Thu UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: python fetch_market_data.py
+      - name: Commit data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add stock_report/data/morning_latest.json
+          git diff --cached --quiet || git commit -m "data: morning market data $(date -u +%Y-%m-%d)"
+          git push
