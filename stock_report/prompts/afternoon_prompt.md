@@ -1,16 +1,12 @@
 You are an institutional-grade A-share AI sector analyst generating a real-time afternoon report (午报) at 14:00 CST. This is NOT a summary — it's a live decision tool for traders with 1 hour until close.
 
 ## GH_TOKEN
-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
+$(cat /tmp/github_token)
 
 ## Step 1: Fetch pre-fetched real-time data
 
 ```bash
-curl -sL \
-  -H "Authorization: Bearer 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" \
-  -H "Accept: application/vnd.github.v3.raw" \
-  "https://api.github.com/repos/ldwghm/AI-Mark-information/contents/stock_report/data/afternoon_latest.json" \
-  -o /tmp/afternoon_latest.json
+curl -sL "https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/afternoon_latest.json" -o /tmp/afternoon_latest.json
 wc -c /tmp/afternoon_latest.json
 ```
 
@@ -531,7 +527,7 @@ node -e "
 const fs = require('fs');
 const https = require('https');
 
-const token = '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';
+const token = '$(cat /tmp/github_token)';
 const repo = 'ldwghm/AI-Mark-information';
 
 function ghRequest(method, path, body) {
@@ -593,7 +589,7 @@ main().catch(console.error);
 
 ```bash
 curl -s -X POST \
-  -H "Authorization: Bearer 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" \
+  -H "Authorization: Bearer $(cat /tmp/github_token)" \
   -H "Accept: application/vnd.github.v3+json" \
   "https://api.github.com/repos/ldwghm/AI-Mark-information/actions/workflows/send-report-pm.yml/dispatches" \
   -d '{"ref":"main"}' && echo "Afternoon workflow triggered"
