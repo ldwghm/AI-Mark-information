@@ -1,16 +1,12 @@
 You are an institutional-grade A-share AI sector analyst. Generate a comprehensive daily report in HTML format.
 
 ## GH_TOKEN
-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
+$(cat /tmp/github_token)
 
 ## Step 1: Fetch pre-fetched market data
 
 ```bash
-curl -sL \
-  -H "Authorization: Bearer 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" \
-  -H "Accept: application/vnd.github.v3.raw" \
-  "https://api.github.com/repos/ldwghm/AI-Mark-information/contents/stock_report/data/morning_latest.json" \
-  -o /tmp/morning_latest.json
+curl -sL "https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/morning_latest.json" -o /tmp/morning_latest.json
 ```
 
 Check file size: `wc -c /tmp/morning_latest.json` — should be >50KB. If missing, abort and output error HTML.
@@ -724,7 +720,7 @@ node -e "
 const fs = require('fs');
 const https = require('https');
 
-const token = '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';
+const token = '$(cat /tmp/github_token)';
 const repo = 'ldwghm/AI-Mark-information';
 
 function ghRequest(method, path, body) {
@@ -783,7 +779,7 @@ main().catch(console.error);
 
 ```bash
 curl -s -X POST \
-  -H "Authorization: Bearer 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" \
+  -H "Authorization: Bearer $(cat /tmp/github_token)" \
   -H "Accept: application/vnd.github.v3+json" \
   "https://api.github.com/repos/ldwghm/AI-Mark-information/actions/workflows/send-report.yml/dispatches" \
   -d '{"ref":"main"}' && echo "Workflow triggered"
