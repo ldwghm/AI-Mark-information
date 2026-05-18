@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A股AI板块午报 2026-05-18 — 数据获取失败</title>
+<style>
+  body {font-family:-apple-system,"PingFang SC",Arial,sans-serif;margin:0;padding:0;background:#0f172a;color:#e2e8f0}
+  .wrap {max-width:800px;margin:0 auto;background:#1e293b}
+  .hdr {background:linear-gradient(135deg,#1e293b,#334155);color:#fff;padding:24px 28px;border-bottom:2px solid #475569}
+  .hdr h1 {margin:0;font-size:20px;font-weight:700;letter-spacing:2px;color:#f8fafc}
+  .hdr p {margin:6px 0 0;font-size:12px;color:#94a3b8}
+  .hdr .status {display:inline-block;background:#6b7280;color:#fff;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700;margin-left:10px}
+  .section {padding:18px 22px;border-bottom:1px solid #334155}
+  .sec-title {font-size:14px;font-weight:700;margin-bottom:12px;padding:5px 10px;border-radius:4px;color:#fff;background:#991b1b}
+  .error-box {background:#450a0a;border:2px solid #dc2626;border-radius:8px;padding:20px;margin:12px 0}
+  .error-box h3 {color:#f87171;margin:0 0 12px;font-size:16px}
+  .error-box p {color:#fecaca;font-size:13px;line-height:1.8;margin:8px 0}
+  .error-box code {background:#1f2937;color:#f59e0b;padding:3px 8px;border-radius:4px;font-size:12px}
+  .info-box {background:#1c1917;border:1px solid #57534e;border-radius:8px;padding:14px;margin:12px 0}
+  .info-box h4 {color:#fbbf24;margin:0 0 8px;font-size:12px}
+  .info-box ul {margin:0;padding:0 0 0 16px;font-size:12px;color:#d6d3d1;line-height:1.9}
+  .footer {background:#0f172a;padding:14px 22px;text-align:center;font-size:11px;color:#475569}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hdr">
+  <h1>A股AI板块午报 <span class="status">数据缺失</span></h1>
+  <p>2026-05-18 14:00 CST · 实时数据获取失败</p>
+</div>
+
+<div class="section">
+  <div class="sec-title">⚠ 数据获取失败通知</div>
+  <div class="error-box">
+    <h3>午报实时数据未能成功获取</h3>
+    <p>数据文件 <code>afternoon_latest.json</code> 当前不可用（返回 404 / 文件大小 &lt; 10KB），无法生成完整的实时午报。</p>
+    <p><b>可能原因：</b></p>
+    <p>① 数据采集脚本（fetch_afternoon_data）未在今日13:50前成功执行<br>
+    ② GitHub Actions 工作流触发失败或网络超时<br>
+    ③ 数据文件路径或命名不匹配</p>
+    <p><b>影响：</b>本次午报（2026-05-18 14:00）无法输出五大模块分析，午后操作建议暂缺。</p>
+  </div>
+
+  <div class="info-box">
+    <h4>手动应急参考</h4>
+    <ul>
+      <li>请直接查看东方财富、同花顺、雪球等平台的AI板块实时行情</li>
+      <li>重点关注：人工智能ETF（515070/159819）、算力板块、大模型板块成交量及资金流向</li>
+      <li>核心龙头：英伟达供应链（旭创、新易盛、天孚）、国内算力（寒武纪、海光信息）、大模型（科大讯飞、商汤）</li>
+      <li>判断逻辑：若上午AI板块成交量较5日均值放大，且主力净流入为正，则午后偏多操作；反之防守</li>
+    </ul>
+  </div>
+
+  <div class="info-box">
+    <h4>系统恢复建议</h4>
+    <ul>
+      <li>检查 <code>fetch_afternoon_data.yml</code> 工作流执行日志</li>
+      <li>确认 <code>stock_report/data/afternoon_latest.json</code> 文件是否已更新</li>
+      <li>验证东方财富/新浪财经 API 接口是否正常响应</li>
+      <li>如需手动触发：在 GitHub Actions → fetch-afternoon-data → Run workflow</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  数据获取失败 — 报告内容为空 | 生成时间：2026-05-18 06:14:01 CST<br>
+  本报告为自动化系统生成，不构成投资建议
+</div>
+</div>
+</body>
+</html>
