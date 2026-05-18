@@ -3,100 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A股AI板块机构级日报 2026-05-17</title>
+<title>A股AI板块日报 2026-05-17</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:#eef0f3;color:#1f2937}
-  .wrap{max-width:820px;margin:0 auto;background:#fff;box-shadow:0 2px 20px rgba(0,0,0,.12)}
-  .hdr{background:linear-gradient(135deg,#0f2744 0%,#1e3a5c 50%,#1a5276 100%);color:#fff;padding:32px;text-align:center}
-  .hdr h1{font-size:24px;font-weight:800;letter-spacing:3px;margin-bottom:6px}
-  .hdr .sub{font-size:13px;opacity:.75;margin-top:4px}
-  .hdr .badge{display:inline-block;margin:10px 4px 0;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3)}
-  .section{padding:22px 28px;border-bottom:1px solid #e5e7eb}
-  .sec-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;margin-bottom:16px;padding:8px 14px;border-radius:6px;color:#fff}
-  .sec-title .ico{font-size:18px}
-  .m1{background:linear-gradient(90deg,#1d4ed8,#3b82f6)}
-  .m2{background:linear-gradient(90deg,#6d28d9,#8b5cf6)}
-  .m3{background:linear-gradient(90deg,#b45309,#d97706)}
-  .m4{background:linear-gradient(90deg,#065f46,#059669)}
-  .m5{background:linear-gradient(90deg,#991b1b,#dc2626)}
-  .m6{background:linear-gradient(90deg,#155e75,#0891b2)}
-  .m7{background:linear-gradient(90deg,#3730a3,#6366f1)}
-  .m8{background:linear-gradient(90deg,#1e293b,#334155)}
-  table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:14px}
-  th{background:#f1f5f9;padding:8px 10px;text-align:left;font-weight:600;border-bottom:2px solid #cbd5e1;color:#475569;font-size:12px}
-  td{padding:7px 10px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
-  tr:last-child td{border-bottom:none}
-  tr:hover td{background:#f8fafc}
-  .up{color:#dc2626;font-weight:700} .dn{color:#16a34a;font-weight:700} .flat{color:#6b7280}
-  .judge{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border-left:4px solid #3b82f6;padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0 4px;font-size:13.5px;line-height:1.75;color:#1e3a5c}
-  .judge strong{color:#1d4ed8;display:block;margin-bottom:4px;font-size:13px}
-  .strat-wrap{background:#0f172a;color:#f1f5f9;padding:28px}
-  .strat-title{font-size:18px;font-weight:800;color:#fbbf24;margin-bottom:6px}
-  .strat-tone{font-size:28px;font-weight:800;color:#fff;margin:10px 0 6px}
-  .strat-sub{font-size:13px;color:#94a3b8;margin-bottom:20px;line-height:1.6}
-  .card{background:#1e293b;border-radius:10px;padding:16px 20px;margin:14px 0}
-  .card h4{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:10px;font-weight:700}
-  .card ul{padding-left:18px;color:#cbd5e1;font-size:13px;line-height:2}
-  .card li{margin-bottom:2px}
-  .risk-box{background:#1a0505;border:1px solid #7f1d1d;border-left:4px solid #dc2626;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#fca5a5;line-height:1.7}
-  .pos-box{background:#052e16;border:1px solid #15803d;padding:12px 20px;border-radius:8px;font-weight:700;font-size:15px;text-align:center;margin:14px 0;color:#4ade80}
-  .footer{background:#f8fafc;padding:18px 28px;text-align:center;font-size:11px;color:#9ca3af;line-height:1.8}
-  .tag{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;font-weight:700;margin-left:4px}
-  .tag-up{background:#fee2e2;color:#dc2626}
-  .tag-dn{background:#dcfce7;color:#16a34a}
-  .tag-hot{background:#fef9c3;color:#a16207}
-  .tag-warn{background:#fff7ed;color:#c2410c}
-  .kv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-  .kv{background:#f8fafc;border-radius:8px;padding:10px 12px;border:1px solid #e2e8f0}
-  .kv .label{font-size:11px;color:#94a3b8;margin-bottom:3px}
-  .kv .value{font-size:18px;font-weight:700}
-  .kv .change{font-size:12px;margin-top:2px}
-  .divider{height:1px;background:linear-gradient(90deg,transparent,#cbd5e1,transparent);margin:16px 0}
-  @media(max-width:600px){.kv-grid{grid-template-columns:repeat(2,1fr)}.hdr h1{font-size:18px}}
+  body {font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;margin:0;padding:0;background:#f0f2f5;color:#1f2937}
+  .wrap {max-width:820px;margin:0 auto;background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.08)}
+  .hdr {background:linear-gradient(135deg,#1e3a5c,#2d5a8e);color:#fff;padding:28px 32px;text-align:center}
+  .hdr h1 {margin:0;font-size:22px;font-weight:700;letter-spacing:2px}
+  .hdr p {margin:8px 0 0;font-size:13px;opacity:.8}
+  .section {padding:20px 24px;border-bottom:1px solid #e5e7eb}
+  .sec-title {font-size:15px;font-weight:700;margin-bottom:14px;padding:7px 14px;border-radius:5px;color:#fff;display:inline-block}
+  .m1 {background:#3b82f6} .m2 {background:#8b5cf6} .m3 {background:#d97706}
+  .m4 {background:#059669} .m5 {background:#dc2626} .m6 {background:#0891b2}
+  .m7 {background:#6366f1} .m8 {background:#1e293b}
+  table {width:100%;border-collapse:collapse;font-size:13px;margin-bottom:12px}
+  th {background:#f8fafc;padding:8px 9px;text-align:left;font-weight:600;border-bottom:2px solid #e2e8f0;color:#374151;white-space:nowrap}
+  td {padding:7px 9px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+  tr:hover td {background:#f8fafc}
+  .up {color:#dc2626;font-weight:600} .dn {color:#16a34a;font-weight:600} .flat {color:#6b7280}
+  .judge {background:#eff6ff;border-left:4px solid #3b82f6;padding:13px 17px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13.5px;line-height:1.75;color:#1e3a5c}
+  .judge strong {color:#1d4ed8}
+  .strat {background:#1e293b;color:#f8fafc;padding:28px 28px 20px;margin:0}
+  .strat-title {color:#fbbf24;margin:0 0 6px;font-size:17px;font-weight:700;border-bottom:1px solid #334155;padding-bottom:10px;margin-bottom:16px}
+  .tone {font-size:26px;font-weight:700;color:#fff;margin:8px 0 6px}
+  .conflict {color:#94a3b8;margin-bottom:20px;font-size:13px;line-height:1.6}
+  .card {background:#334155;border-radius:8px;padding:15px 18px;margin:12px 0}
+  .card h4 {margin:0 0 10px;color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+  .card ul {margin:0;padding:0 0 0 16px;color:#e2e8f0;font-size:13px;line-height:1.9}
+  .risk-box {background:#450a0a;border-left:4px solid #dc2626;padding:12px 16px;border-radius:0 6px 6px 0;margin:12px 0;font-size:13px;color:#fca5a5;line-height:1.7}
+  .pos-box {background:#14532d;color:#86efac;padding:12px 16px;border-radius:6px;font-weight:700;font-size:15px;text-align:center;margin:14px 0 0;letter-spacing:1px}
+  .footer {background:#f8fafc;padding:18px 24px;text-align:center;font-size:11.5px;color:#9ca3af;border-top:1px solid #e5e7eb}
+  .tag {display:inline-block;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:600;margin-right:4px}
+  .tag-up {background:#fee2e2;color:#dc2626} .tag-dn {background:#dcfce7;color:#16a34a}
+  .tag-hot {background:#fef3c7;color:#d97706} .tag-neutral {background:#f1f5f9;color:#64748b}
+  .badge-up {background:#fee2e2;color:#dc2626;padding:3px 8px;border-radius:12px;font-size:12px;font-weight:700}
+  .badge-dn {background:#dcfce7;color:#16a34a;padding:3px 8px;border-radius:12px;font-size:12px;font-weight:700}
+  .info-bar {background:#f0f9ff;border:1px solid #bae6fd;padding:10px 14px;border-radius:6px;font-size:12px;color:#0369a1;margin-bottom:12px;line-height:1.6}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <div class="hdr">
-  <h1>A股AI板块机构级日报</h1>
-  <div class="sub">2026-05-17 · 开盘前参考 · 数据截至前收盘</div>
-  <div>
-    <span class="badge">自上而下三层决策</span>
-    <span class="badge">多维资金交叉验证</span>
-    <span class="badge">八大模块全景分析</span>
-  </div>
-</div>
-
-<!-- 核心指数速览 -->
-<div class="section">
-  <div class="kv-grid">    <div class="kv">
-      <div class="label">上证指数</div>
-      <div class="value">4135.39</div>
-      <div class="change dn">-1.02%</div>
-    </div>
-    <div class="kv">
-      <div class="label">深证成指</div>
-      <div class="value">15561.37</div>
-      <div class="change dn">-1.17%</div>
-    </div>
-    <div class="kv">
-      <div class="label">创业板指</div>
-      <div class="value">3929.06</div>
-      <div class="change dn">-0.56%</div>
-    </div>
-    <div class="kv">
-      <div class="label">科创50</div>
-      <div class="value">1696.26</div>
-      <div class="change dn">-1.67%</div>
-    </div>
-  </div>
+  <h1>&#127751; A股AI板块机构级日报</h1>
+  <p>数据日期：2026-05-17 &nbsp;·&nbsp; 开盘前参考 &nbsp;·&nbsp; 数据截至前收盘</p>
+  <p style="margin-top:6px;font-size:12px;opacity:.65">分析框架：自上而下三层决策树 | 多维资金交叉验证 | 技术面量化</p>
 </div>
 
 <!-- 模块1：宏观环境 -->
 <div class="section">
-  <div class="sec-title m1"><span class="ico">🌐</span>模块1：宏观环境与市场β</div>
+  <div class="sec-title m1">&#127757; 模块1：宏观环境与市场β</div>
+  <div class="info-bar">全球信号：NVIDIA Q4 FY2026 数据中心营收 $62.3B（同比+93%，环比+21.7%）&nbsp;|&nbsp; 四大云厂2026年CapEx ~$725B（+77%）&nbsp;|&nbsp; 中国智能算力规模 1,037.3 EFLOPS（2025）</div>
   <table>
     <tr><th>指数</th><th>收盘</th><th>涨跌幅</th><th>成交额(亿)</th><th>量比</th><th>均线排列</th><th>布林位置</th></tr>
     <tr>
@@ -104,492 +60,422 @@
       <td>4135.39</td>
       <td class="dn">-1.02%</td>
       <td>15192.4</td>
-      <td>1.0</td>
-      <td>均线缠绕↔</td>
-      <td>上轨内强势</td>
+      <td>1.0x</td>
+      <td>均线缠绕 ↔</td>
+      <td>上轨内，强势</td>
     </tr>
     <tr>
       <td><b>深证成指</b></td>
       <td>15561.37</td>
       <td class="dn">-1.17%</td>
       <td>18252.36</td>
-      <td>0.99</td>
-      <td>均线缠绕↔</td>
-      <td>上轨内强势</td>
+      <td>0.99x</td>
+      <td>均线缠绕 ↔</td>
+      <td>上轨内，强势</td>
     </tr>
     <tr>
       <td><b>创业板指</b></td>
       <td>3929.06</td>
       <td class="dn">-0.56%</td>
       <td>8825.99</td>
-      <td>0.98</td>
-      <td>均线缠绕↔</td>
-      <td>上轨内强势</td>
+      <td>0.98x</td>
+      <td>均线缠绕 ↔</td>
+      <td>上轨内，强势</td>
     </tr>
     <tr>
       <td><b>科创50</b></td>
       <td>1696.26</td>
       <td class="dn">-1.67%</td>
       <td>1911.46</td>
-      <td>1.21</td>
-      <td>均线缠绕↔</td>
-      <td>上轨内强势</td>
+      <td>1.21x</td>
+      <td>均线缠绕 ↔</td>
+      <td>上轨内，强势</td>
     </tr>
   </table>
-  <div style="font-size:12px;color:#64748b;background:#f8fafc;padding:8px 12px;border-radius:6px;margin-bottom:12px">
-    📡 全球信号：NVIDIA数据中心营收$62.3B（Q4 FY2026，同比+93%） ｜ 四大云厂2026年CapEx ~$725B（+77%） ｜ 北向资金：数据待更新 ｜ 全市场60涨/0跌
-  </div>
-  <div class="judge"><strong>【宏观环境独立判断】</strong>市场整体呈震荡整理，方向待定格局。上证指数收4135.39点（-1.02%），成交15192亿元，量比1.00x；深证成指-1.17%，创业板指-0.56%，科创50-1.67%（科技属性最强板块）。北向资金数据暂未更新（非交易时段）。均线均线缠绕↔，大盘β处于偏弱区间。宏观层面：NVIDIA Q4 FY2026数据中心营收$62.3B（同比+93%）、四大云厂2026年CapEx合计~$725B（+77%），全球AI资本开支超预期为A股AI主线提供中期估值支撑，但短期需关注60涨/0跌的市场结构分化。</div>
+  <div class="judge"><strong>【宏观判断】</strong> 市场呈震荡整理，方向待定。上证收盘4135.39点，成交15192亿元，量比1.00x，振幅1.88%。北向资金净流出0.0亿元，外资态度审慎。均线均线缠绕 ↔，创业板均线缠绕 ↔，科创50均线缠绕 ↔。市场β处于偏弱区间。NVIDIA数据中心营收$62.3B（同比+93%）及四大云厂$725B CapEx提供产业链景气度支撑，AI科技风格中期逻辑未变。板块宽度：60涨/0跌（共60板块），多方占优。</div>
 </div>
 
 <!-- 模块2：AI板块景气度 -->
 <div class="section">
-  <div class="sec-title m2"><span class="ico">🤖</span>模块2：AI板块景气度评估</div>
+  <div class="sec-title m2">&#129504; 模块2：AI板块景气度评估</div>
   <table>
-    <tr><th>AI子板块</th><th>代码</th><th>涨跌幅</th><th>主力净流入</th><th>vs大盘超额</th><th>资金状态</th></tr>
+    <tr><th>子板块</th><th>代码</th><th>涨跌幅</th><th>主力净流入</th><th>vs大盘超额</th></tr>
     <tr>
       <td><b>华为汽车</b></td>
-      <td style="color:#94a3b8;font-size:12px">BK0984</td>
+      <td style="color:#6b7280;font-size:12px">BK0984</td>
       <td class="up">+0.80%</td>
       <td class="up">+26.68亿</td>
       <td class="up">+1.82%</td>
-      <td style="font-size:12px;color:#64748b">资金涌入</td>
     </tr>
     <tr>
       <td><b>AI语料</b></td>
-      <td style="color:#94a3b8;font-size:12px">BK1172</td>
+      <td style="color:#6b7280;font-size:12px">BK1172</td>
       <td class="up">+0.44%</td>
       <td class="up">+6.74亿</td>
       <td class="up">+1.46%</td>
-      <td style="font-size:12px;color:#64748b">资金涌入</td>
     </tr>
     <tr>
       <td><b>AIGC概念</b></td>
-      <td style="color:#94a3b8;font-size:12px">BK1111</td>
+      <td style="color:#6b7280;font-size:12px">BK1111</td>
       <td class="up">+0.25%</td>
       <td class="dn">-2.78亿</td>
       <td class="up">+1.27%</td>
-      <td style="font-size:12px;color:#64748b">资金流出</td>
     </tr>
     <tr>
       <td><b>华为海思</b></td>
-      <td style="color:#94a3b8;font-size:12px">BK1180</td>
+      <td style="color:#6b7280;font-size:12px">BK1180</td>
       <td class="up">+0.15%</td>
       <td class="dn">-3.17亿</td>
       <td class="up">+1.17%</td>
-      <td style="font-size:12px;color:#64748b">资金流出</td>
     </tr>
     <tr>
       <td><b>AI应用</b></td>
-      <td style="color:#94a3b8;font-size:12px">BK1629</td>
+      <td style="color:#6b7280;font-size:12px">BK1629</td>
       <td class="dn">-0.14%</td>
       <td class="dn">-19.71亿</td>
       <td class="up">+0.88%</td>
-      <td style="font-size:12px;color:#64748b">资金撤退</td>
     </tr>
     <tr>
       <td><b>半导体概念</b></td>
-      <td style="color:#94a3b8;font-size:12px">BK0917</td>
+      <td style="color:#6b7280;font-size:12px">BK0917</td>
       <td class="dn">-0.22%</td>
       <td class="dn">-331.83亿</td>
       <td class="up">+0.80%</td>
-      <td style="font-size:12px;color:#64748b">资金撤退</td>
     </tr>
   </table>
-  <div class="judge"><strong>【AI板块景气度独立判断】</strong>AI板块今日平均涨幅0.21%，跑赢大盘1.23pct，AI为今日主线题材。领涨子板块：华为汽车（+0.80%，主力流入+26.68亿）；领跌子板块：半导体概念（-0.22%）。资金流入最大：华为汽车（+26.68亿）。产业链景气度：800G光模块2026年预计出货4100万支（同比大幅增长），1.6T光模块预计1100万支，中国智能算力规模1037.3 EFLOPS（2025年）。关注方向：当前资金侧重华为产业链与AI应用端，产业链传导路径：算力→光模块→光纤光缆→AI应用，建议沿资金方向布局。</div>
+  <div class="judge"><strong>【AI板块判断】</strong> AI板块平均涨幅0.21%，跑赢大盘1.23pct，AI为主线题材。领涨：华为汽车（+0.80%，资金+26.68亿）；领跌：半导体概念（-0.22%）。资金流入最大：华为汽车（+26.68亿）。产业链传导逻辑：美股算力端（NVIDIA）→ A股算力/服务器 → 光模块/光纤 → AI应用。当前华为汽车与AI语料板块受资金追捧，半导体概念主力大幅流出，资金呈结构性分化。</div>
 </div>
 
 <!-- 模块3：资金面 -->
 <div class="section">
-  <div class="sec-title m3"><span class="ico">💰</span>模块3：资金面六维透视</div>
+  <div class="sec-title m3">&#128200; 模块3：资金面六维透视</div>
   <table>
-    <tr><th colspan="4" style="background:#fef3c7;color:#92400e">主力资金净流入 Top10（全市场）</th></tr>
+    <tr><th colspan="4" style="background:#fefce8;color:#92400e">主力资金净流入 Top10（全市场）</th></tr>
     <tr><th>个股</th><th>代码</th><th>涨跌幅</th><th>主力净流入</th></tr>
     <tr>
-      <td><b>阳光电源</b></td>
-      <td style="color:#94a3b8;font-size:12px">300274</td>
+      <td><b>阳光电源</b></td><td style="color:#6b7280;font-size:12px">300274</td>
       <td class="up">+13.27%</td>
       <td class="up">+22.26亿</td>
     </tr>
     <tr>
-      <td><b>多氟多</b></td>
-      <td style="color:#94a3b8;font-size:12px">002407</td>
+      <td><b>多氟多</b></td><td style="color:#6b7280;font-size:12px">002407</td>
       <td class="up">+10.02%</td>
       <td class="up">+21.34亿</td>
     </tr>
     <tr>
-      <td><b>N维通利</b></td>
-      <td style="color:#94a3b8;font-size:12px">001393</td>
+      <td><b>N维通利</b></td><td style="color:#6b7280;font-size:12px">001393</td>
       <td class="up">+297.20%</td>
       <td class="up">+17.19亿</td>
     </tr>
     <tr>
-      <td><b>三花智控</b></td>
-      <td style="color:#94a3b8;font-size:12px">002050</td>
+      <td><b>三花智控</b></td><td style="color:#6b7280;font-size:12px">002050</td>
       <td class="up">+5.32%</td>
       <td class="up">+16.12亿</td>
     </tr>
     <tr>
-      <td><b>长电科技</b></td>
-      <td style="color:#94a3b8;font-size:12px">600584</td>
+      <td><b>长电科技</b></td><td style="color:#6b7280;font-size:12px">600584</td>
       <td class="up">+6.89%</td>
       <td class="up">+10.98亿</td>
     </tr>
     <tr>
-      <td><b>巨轮智能</b></td>
-      <td style="color:#94a3b8;font-size:12px">002031</td>
+      <td><b>巨轮智能</b></td><td style="color:#6b7280;font-size:12px">002031</td>
       <td class="up">+9.95%</td>
       <td class="up">+10.19亿</td>
     </tr>
     <tr>
-      <td><b>五洲新春</b></td>
-      <td style="color:#94a3b8;font-size:12px">603667</td>
+      <td><b>五洲新春</b></td><td style="color:#6b7280;font-size:12px">603667</td>
       <td class="up">+9.72%</td>
       <td class="up">+9.17亿</td>
     </tr>
     <tr>
-      <td><b>兆易创新</b></td>
-      <td style="color:#94a3b8;font-size:12px">603986</td>
+      <td><b>兆易创新</b></td><td style="color:#6b7280;font-size:12px">603986</td>
       <td class="up">+5.38%</td>
       <td class="up">+7.23亿</td>
     </tr>
     <tr>
-      <td><b>天孚通信</b></td>
-      <td style="color:#94a3b8;font-size:12px">300394</td>
+      <td><b>天孚通信</b></td><td style="color:#6b7280;font-size:12px">300394</td>
       <td class="up">+2.04%</td>
       <td class="up">+6.56亿</td>
     </tr>
     <tr>
-      <td><b>领益智造</b></td>
-      <td style="color:#94a3b8;font-size:12px">002600</td>
+      <td><b>领益智造</b></td><td style="color:#6b7280;font-size:12px">002600</td>
       <td class="up">+3.29%</td>
       <td class="up">+6.54亿</td>
     </tr>
   </table>
   <table>
-    <tr><th colspan="2" style="background:#fef3c7;color:#92400e">北向资金 / 龙虎榜 / 融资余额</th></tr>
-    <tr><td colspan="2" style="color:#94a3b8;text-align:center;padding:14px">数据待更新（非交易日/盘前）</td></tr>
+    <tr><th colspan="4" style="background:#f0fdf4;color:#166534">北向资金（沪深港通）</th></tr>
+    <tr><th>类型</th><th>净买入额</th><th>买入额</th><th>卖出额</th></tr>
+    <tr><td colspan='4' style='color:#9ca3af;text-align:center'>北向资金数据暂未更新（非交易日或延迟）</td></tr>
   </table>
-  <div class="judge"><strong>【资金面独立判断】</strong>全市场主力净流入Top5：阳光电源、多氟多、N维通利，AI相关占1席，机构配置AI方向明确（AI股在主力净买入榜前列）。北向资金数据待更新，龙虎榜数据暂无（周末/非交易日）。融资数据待更新。资金结构分析：今日全市场板块60涨0跌，成交额合计33445亿元，量比1.00x（>1.1为放量，<0.9为缩量），市场情绪偏空，建议重点追踪主力净流入持续正值且价格站上MA5的AI个股。</div>
+  <table>
+    <tr><th colspan="3" style="background:#fef3c7;color:#92400e">融资余额（AI相关标的）</th></tr>
+    <tr><th>个股</th><th>融资余额(亿)</th><th>净买入(亿)</th></tr>
+    <tr><td colspan='3' style='color:#9ca3af;text-align:center'>融资余额数据暂未更新</td></tr>
+  </table>
+  <div class="judge"><strong>【资金面判断】</strong> 主力资金净流入Top5为：阳光电源、多氟多、N维通利等，AI相关占0席，机构配置AI方向尚不明确。北向资金净流出0.0亿元（暂无详细数据），外资维持观望A股。龙虎榜AI标的0只（暂无数据）。融资余额方面，需持续关注AI板块杠杆水平，防范过热风险。全市场主力资金净流入格局显示风险偏好仍在。</div>
 </div>
 
 <!-- 模块4：个股聚焦 -->
 <div class="section">
-  <div class="sec-title m4"><span class="ico">🔍</span>模块4：个股深度聚焦</div>
+  <div class="sec-title m4">&#128269; 模块4：个股深度聚焦</div>
   <table>
-    <tr><th>个股</th><th>所属板块</th><th>现价</th><th>涨跌幅</th><th>主力流入</th><th>换手率</th><th>成交额(亿)</th></tr>
+    <tr><th>个股</th><th>所属板块</th><th>涨跌幅</th><th>主力流入</th><th>换手率</th><th>成交额(亿)</th></tr>
     <tr>
-      <td><b>中巨芯-U</b></td>
-      <td style="color:#64748b;font-size:12px">半导体概念</td>
-      <td>16.79</td>
+      <td><b>中巨芯-U</b> </td>
+      <td style="color:#6b7280;font-size:12px">半导体概念</td>
       <td class="up">+20.01%</td>
       <td class="up">+3.13亿</td>
-      <td>12.13%</td>
+      <td>0.12%</td>
       <td>11.96</td>
     </tr>
     <tr>
-      <td><b>隆华科技</b><span class="tag tag-hot">量比异动</span></td>
-      <td style="color:#64748b;font-size:12px">半导体概念</td>
-      <td>13.74</td>
+      <td><b>隆华科技</b> <span class="tag tag-hot">高换手</span></td>
+      <td style="color:#6b7280;font-size:12px">半导体概念</td>
       <td class="up">+20.00%</td>
       <td class="up">+3.39亿</td>
-      <td>24.05%</td>
+      <td>0.24%</td>
       <td>31.40</td>
     </tr>
     <tr>
-      <td><b>盛合晶微</b><span class="tag tag-warn">出货信号</span></td>
-      <td style="color:#64748b;font-size:12px">半导体概念</td>
-      <td>183.84</td>
+      <td><b>盛合晶微</b> <span class="tag tag-hot">高换手</span><span class="tag tag-dn">出货信号</span></td>
+      <td style="color:#6b7280;font-size:12px">半导体概念</td>
       <td class="up">+18.76%</td>
       <td class="dn">-3.34亿</td>
-      <td>32.69%</td>
+      <td>0.33%</td>
       <td>94.98</td>
     </tr>
     <tr>
-      <td><b>华海诚科</b></td>
-      <td style="color:#64748b;font-size:12px">半导体概念</td>
-      <td>133.77</td>
+      <td><b>华海诚科</b> <span class="tag tag-hot">高换手</span></td>
+      <td style="color:#6b7280;font-size:12px">半导体概念</td>
       <td class="up">+15.49%</td>
       <td class="up">+1.55亿</td>
-      <td>16.21%</td>
+      <td>0.16%</td>
       <td>24.53</td>
     </tr>
     <tr>
-      <td><b>绿的谐波</b></td>
-      <td style="color:#64748b;font-size:12px">半导体概念</td>
-      <td>305.50</td>
+      <td><b>绿的谐波</b> </td>
+      <td style="color:#6b7280;font-size:12px">半导体概念</td>
       <td class="up">+15.28%</td>
       <td class="up">+2.73亿</td>
-      <td>10.98%</td>
+      <td>0.11%</td>
       <td>58.46</td>
     </tr>
     <tr>
-      <td><b>晶赛科技</b></td>
-      <td style="color:#64748b;font-size:12px">华为海思</td>
-      <td>42.80</td>
+      <td><b>晶赛科技</b> <span class="tag tag-hot">高换手</span></td>
+      <td style="color:#6b7280;font-size:12px">华为海思</td>
       <td class="up">+10.45%</td>
       <td class="up">+0.48亿</td>
-      <td>22.59%</td>
+      <td>0.23%</td>
       <td>3.70</td>
     </tr>
     <tr>
-      <td><b>粤 传 媒</b></td>
-      <td style="color:#64748b;font-size:12px">AIGC概念</td>
-      <td>19.69</td>
+      <td><b>粤 传 媒</b> </td>
+      <td style="color:#6b7280;font-size:12px">AIGC概念</td>
       <td class="up">+10.00%</td>
       <td class="up">+5.50亿</td>
-      <td>8.89%</td>
+      <td>0.09%</td>
       <td>19.45</td>
     </tr>
     <tr>
-      <td><b>粤 传 媒</b></td>
-      <td style="color:#64748b;font-size:12px">AI应用</td>
-      <td>19.69</td>
-      <td class="up">+10.00%</td>
-      <td class="up">+5.50亿</td>
-      <td>8.89%</td>
-      <td>19.45</td>
-    </tr>
-    <tr>
-      <td><b>引力传媒</b></td>
-      <td style="color:#64748b;font-size:12px">AIGC概念</td>
-      <td>25.33</td>
+      <td><b>引力传媒</b> </td>
+      <td style="color:#6b7280;font-size:12px">AIGC概念</td>
       <td class="up">+9.99%</td>
       <td class="up">+2.58亿</td>
-      <td>12.38%</td>
+      <td>0.12%</td>
       <td>8.31</td>
     </tr>
     <tr>
-      <td><b>引力传媒</b></td>
-      <td style="color:#64748b;font-size:12px">AI应用</td>
-      <td>25.33</td>
-      <td class="up">+9.99%</td>
-      <td class="up">+2.58亿</td>
-      <td>12.38%</td>
-      <td>8.31</td>
-    </tr>
-    <tr>
-      <td><b>达实智能</b><span class="tag tag-hot">量比异动</span></td>
-      <td style="color:#64748b;font-size:12px">AI应用</td>
-      <td>3.21</td>
+      <td><b>达实智能</b> </td>
+      <td style="color:#6b7280;font-size:12px">AI应用</td>
       <td class="up">+9.93%</td>
       <td class="up">+2.84亿</td>
-      <td>11.45%</td>
+      <td>0.11%</td>
       <td>7.18</td>
     </tr>
     <tr>
-      <td><b>易点天下</b></td>
-      <td style="color:#64748b;font-size:12px">AIGC概念</td>
-      <td>43.70</td>
+      <td><b>易点天下</b> <span class="tag tag-hot">高换手</span></td>
+      <td style="color:#6b7280;font-size:12px">AIGC概念</td>
       <td class="up">+9.41%</td>
       <td class="up">+2.16亿</td>
-      <td>23.25%</td>
+      <td>0.23%</td>
       <td>50.17</td>
     </tr>
     <tr>
-      <td><b>易点天下</b></td>
-      <td style="color:#64748b;font-size:12px">AI应用</td>
-      <td>43.70</td>
-      <td class="up">+9.41%</td>
-      <td class="up">+2.16亿</td>
-      <td>23.25%</td>
-      <td>50.17</td>
-    </tr>
-    <tr>
-      <td><b>科远智慧</b><span class="tag tag-hot">量比异动</span></td>
-      <td style="color:#64748b;font-size:12px">AI应用</td>
-      <td>42.18</td>
+      <td><b>科远智慧</b> <span class="tag tag-hot">高换手</span></td>
+      <td style="color:#6b7280;font-size:12px">AI应用</td>
       <td class="up">+9.33%</td>
       <td class="up">+0.45亿</td>
-      <td>23.72%</td>
+      <td>0.24%</td>
       <td>14.09</td>
     </tr>
     <tr>
-      <td><b>晶升股份</b><span class="tag tag-hot">量比异动</span><span class="tag tag-warn">出货信号</span></td>
-      <td style="color:#64748b;font-size:12px">华为海思</td>
-      <td>75.00</td>
+      <td><b>晶升股份</b> <span class="tag tag-hot">高换手</span><span class="tag tag-dn">出货信号</span></td>
+      <td style="color:#6b7280;font-size:12px">华为海思</td>
       <td class="up">+9.25%</td>
       <td class="dn">-0.52亿</td>
-      <td>16.12%</td>
+      <td>0.16%</td>
       <td>16.18</td>
     </tr>
     <tr>
-      <td><b>豪恩汽电</b><span class="tag tag-hot">量比异动</span></td>
-      <td style="color:#64748b;font-size:12px">华为汽车</td>
-      <td>146.14</td>
+      <td><b>豪恩汽电</b> <span class="tag tag-hot">高换手</span></td>
+      <td style="color:#6b7280;font-size:12px">华为汽车</td>
       <td class="up">+7.85%</td>
       <td class="up">+0.76亿</td>
-      <td>19.49%</td>
+      <td>0.19%</td>
       <td>6.65</td>
     </tr>
     <tr>
-      <td><b>拓普集团</b><span class="tag tag-hot">量比异动</span></td>
-      <td style="color:#64748b;font-size:12px">华为汽车</td>
-      <td>69.93</td>
+      <td><b>拓普集团</b> </td>
+      <td style="color:#6b7280;font-size:12px">华为汽车</td>
       <td class="up">+7.45%</td>
       <td class="up">+6.44亿</td>
-      <td>5.44%</td>
+      <td>0.05%</td>
       <td>65.48</td>
     </tr>
     <tr>
-      <td><b>上海沿浦</b><span class="tag tag-hot">量比异动</span></td>
-      <td style="color:#64748b;font-size:12px">华为汽车</td>
-      <td>34.87</td>
+      <td><b>上海沿浦</b> </td>
+      <td style="color:#6b7280;font-size:12px">华为汽车</td>
       <td class="up">+7.26%</td>
       <td class="up">+0.24亿</td>
-      <td>4.24%</td>
+      <td>0.04%</td>
       <td>3.06</td>
     </tr>
     <tr>
-      <td><b>长电科技</b></td>
-      <td style="color:#64748b;font-size:12px">华为海思</td>
-      <td>58.05</td>
+      <td><b>长电科技</b> </td>
+      <td style="color:#6b7280;font-size:12px">华为海思</td>
       <td class="up">+6.89%</td>
       <td class="up">+10.98亿</td>
-      <td>14.03%</td>
+      <td>0.14%</td>
       <td>143.51</td>
     </tr>
     <tr>
-      <td><b>圣龙股份</b></td>
-      <td style="color:#64748b;font-size:12px">华为汽车</td>
-      <td>22.23</td>
+      <td><b>圣龙股份</b> <span class="tag tag-hot">高换手</span></td>
+      <td style="color:#6b7280;font-size:12px">华为汽车</td>
       <td class="up">+6.88%</td>
       <td class="up">+0.24亿</td>
-      <td>15.42%</td>
+      <td>0.15%</td>
       <td>7.98</td>
     </tr>
+    <tr>
+      <td><b>兆威机电</b> </td>
+      <td style="color:#6b7280;font-size:12px">华为汽车</td>
+      <td class="up">+6.50%</td>
+      <td class="up">+1.72亿</td>
+      <td>0.07%</td>
+      <td>15.45</td>
+    </tr>
   </table>
-  <div class="divider"></div>
   <table>
-    <tr><th colspan="6">Watchlist核心龙头股技术面</th></tr>
-    <tr><th>个股</th><th>收盘</th><th>涨跌幅</th><th>MA5</th><th>MA20</th><th>均线排列</th></tr>
-    <tr><td><b>中际旭创</b> <span style='color:#94a3b8;font-size:11px'>光模块龙头</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
-    <tr><td><b>新易盛</b> <span style='color:#94a3b8;font-size:11px'>光模块</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
-    <tr><td><b>天孚通信</b> <span style='color:#94a3b8;font-size:11px'>光器件</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
-    <tr><td><b>工业富联</b> <span style='color:#94a3b8;font-size:11px'>算力服务器</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
-    <tr><td><b>中科曙光</b> <span style='color:#94a3b8;font-size:11px'>算力</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
-    <tr><td><b>寒武纪</b> <span style='color:#94a3b8;font-size:11px'>AI芯片</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
-    <tr><td><b>海光信息</b> <span style='color:#94a3b8;font-size:11px'>AI芯片</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
-    <tr><td><b>长飞光纤</b> <span style='color:#94a3b8;font-size:11px'>光纤光缆</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
-    <tr><td><b>亨通光电</b> <span style='color:#94a3b8;font-size:11px'>光纤光缆</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
-    <tr><td><b>科大讯飞</b> <span style='color:#94a3b8;font-size:11px'>AI应用</span></td><td colspan="5" style="color:#94a3b8">K线数据待更新（请盘中查阅）</td></tr>
+    <tr><th colspan="5" style="background:#f0fdf4;color:#166534">Watchlist龙头股技术面</th></tr>
+    <tr><th>个股</th><th>收盘价</th><th>涨跌幅</th><th>量比</th><th>均线排列</th></tr>
+    <tr><td colspan='5' style='color:#9ca3af;text-align:center'>Watchlist K线数据暂未更新（非交易日）</td></tr>
   </table>
-  <div class="judge"><strong>【个股量价独立判断】</strong>量价信号扫描：从6个AI子板块共提取30只标的，量比>2异动股11只（豪恩汽电,拓普集团,上海沿浦）。出货信号（价涨资金流出）：晶升股份、盛合晶微，需警惕高位兑现压力。重点关注watchlist（旭创/新易盛/天孚/工业富联等光模块光纤龙头）量比>1.5且站上MA5的标的作为短线介入窗口，止损设MA10下方。</div>
+  <div class="judge"><strong>【个股判断】</strong> 量价信号扫描：换手率异动股（>15%）11只，出货信号（价涨资金流出）：晶升股份、盛合晶微，需警惕；今日涨幅领先个股：中巨芯-U、隆华科技、盛合晶微，关注成交量持续性。重点关注Watchlist中量比>1.5且站上MA5的标的作为短线介入窗口，止损设MA10下方。</div>
 </div>
 
 <!-- 模块5：技术面 -->
 <div class="section">
-  <div class="sec-title m5"><span class="ico">📊</span>模块5：技术面全景分析</div>
+  <div class="sec-title m5">&#128202; 模块5：技术面全景</div>
   <table>
-    <tr><th>指数</th><th>收盘</th><th>MA5</th><th>MA10</th><th>MA20</th><th>布林上轨</th><th>布林中轨</th><th>布林下轨</th><th>位置</th></tr>
+    <tr><th>指数</th><th>MA5</th><th>MA10</th><th>MA20</th><th>布林上轨</th><th>布林中轨</th><th>布林下轨</th><th>布林位置</th></tr>
     <tr>
       <td><b>上证</b></td>
-      <td class="dn">4135.39</td>
       <td>4199.08</td><td>4173.53</td><td>4124.05</td>
       <td>4244.68</td><td>4124.05</td><td>4003.42</td>
-      <td style="font-size:12px">上轨内强势</td>
+      <td>上轨内，强势</td>
     </tr>
     <tr>
       <td><b>深证</b></td>
-      <td class="dn">15561.37</td>
       <td>15824.22</td><td>15601.49</td><td>15256.56</td>
       <td>16101.8</td><td>15256.56</td><td>14411.32</td>
-      <td style="font-size:12px">上轨内强势</td>
+      <td>上轨内，强势</td>
     </tr>
     <tr>
       <td><b>创业板</b></td>
-      <td class="dn">3929.06</td>
       <td>3956.48</td><td>3855.4</td><td>3756.32</td>
       <td>4026.95</td><td>3756.32</td><td>3485.69</td>
-      <td style="font-size:12px">上轨内强势</td>
+      <td>上轨内，强势</td>
     </tr>
     <tr>
       <td><b>科创50</b></td>
-      <td class="dn">1696.26</td>
       <td>1726.39</td><td>1667.28</td><td>1556.82</td>
       <td>1807.37</td><td>1556.82</td><td>1306.27</td>
-      <td style="font-size:12px">上轨内强势</td>
+      <td>上轨内，强势</td>
     </tr>
   </table>
-  <div class="judge"><strong>【技术面独立判断】</strong>上证指数技术面：均线均线缠绕↔，布林带位置上轨内强势，收盘4135.39距MA5偏离-1.52%，距MA20偏离+0.27%。关键支撑：MA20=4124.05（第一支撑），布林下轨4003.42（强支撑）。关键压力：布林上轨4244.68，MA5=4199.08（短期阻力）。科创50均线均线缠绕↔，科技属性最强指数技术形态较好。操作建议：若上证重回MA20（4124.05）上方则可逢低布局，跌破布林下轨4003.42需大幅降仓。</div>
+  <div class="judge"><strong>【技术面判断】</strong> 上证指数技术面：均线均线缠绕 ↔，布林带上轨内，强势，短期承压。收盘4135.39点，MA5=4199.08，MA10=4173.53，MA20=4124.05。关键支撑位4124.05（MA20），压力位4244.7（布林上轨）。创业板指上轨内，强势，科创50上轨内，强势。若上证站稳MA20（4124.05）则短期延续震荡偏强；跌破MA20需降低仓位至3成以下。科创50量比1.21，放量特征需持续跟踪。
+  <br><span style="color:#4b5563;font-size:12.5px">上证关键价位：支撑 <b>4124.05</b>（MA20）/ <b>4003.42</b>（布林下轨），压力 <b>4244.68</b>（布林上轨）。</span></div>
 </div>
 
 <!-- 模块6：估值 -->
 <div class="section">
-  <div class="sec-title m6"><span class="ico">📐</span>模块6：估值与盈利验证</div>
+  <div class="sec-title m6">&#128181; 模块6：估值与盈利验证</div>
   <table>
-    <tr><th>子板块</th><th>代表个股</th><th>估值水位</th><th>2026盈利预期</th><th>PEG评估</th><th>配置建议</th></tr>
-    <tr><td>光模块</td><td>中际旭创/新易盛</td><td>合理（历史50-60%分位）</td><td>+50-80%</td><td>~1.2x</td><td><span class="tag tag-up">超配</span></td></tr>
-    <tr><td>AI芯片</td><td>寒武纪/海光</td><td>偏高（>90%分位）</td><td>扭亏/高增</td><td>>5x</td><td><span class="tag tag-warn">低配</span></td></tr>
-    <tr><td>算力/服务器</td><td>工业富联/曙光</td><td>合理（历史40-55%分位）</td><td>+20-30%</td><td>~0.8x</td><td><span class="tag tag-up">标配</span></td></tr>
-    <tr><td>光纤光缆</td><td>长飞光纤/亨通光电</td><td>偏低（历史30%分位）</td><td>+15-25%</td><td>~0.7x</td><td><span class="tag tag-up">超配</span></td></tr>
-    <tr><td>AI应用</td><td>科大讯飞</td><td>偏高（历史75%分位）</td><td>+20-30%</td><td>~2.0x</td><td><span class="tag">标配</span></td></tr>
-    <tr><td>华为产业链</td><td>华为汽车/海思相关</td><td>主题溢价（历史80%+分位）</td><td>分化明显</td><td>N/A</td><td><span class="tag tag-warn">谨慎</span></td></tr>
+    <tr><th>子板块</th><th>估值水位</th><th>2026年盈利预期</th><th>PEG评估</th><th>建议</th></tr>
+    <tr><td>光模块（中际旭创/新易盛）</td><td>合理（历史50-60%分位）</td><td>+50-80%</td><td>~1.2x</td><td><span class="tag tag-up">超配</span></td></tr>
+    <tr><td>AI芯片（寒武纪）</td><td>偏高（>90%分位）</td><td>扭亏+</td><td>&gt;10x</td><td><span class="tag tag-dn">低配</span></td></tr>
+    <tr><td>算力/服务器（工业富联）</td><td>合理（历史40-55%分位）</td><td>+20-30%</td><td>~0.8x</td><td><span class="tag tag-neutral">标配</span></td></tr>
+    <tr><td>光纤光缆（长飞/亨通）</td><td>偏低（历史30%分位）</td><td>+15-25%</td><td>~0.7x</td><td><span class="tag tag-up">超配</span></td></tr>
+    <tr><td>AI应用（科大讯飞）</td><td>偏高（历史75%分位）</td><td>+20-30%</td><td>~2.0x</td><td><span class="tag tag-neutral">标配</span></td></tr>
+    <tr><td>华为汽车/AIGC概念</td><td>主题溢价（无明确PE锚）</td><td>主题驱动</td><td>N/A</td><td><span class="tag tag-hot">谨慎</span></td></tr>
   </table>
-  <div class="judge"><strong>【估值与盈利独立判断】</strong>AI板块估值：整体PE(TTM)处历史70-80%分位。光模块（中际旭创/新易盛）：2026年盈利预期+50-80%，PEG约1.0-1.5x，估值合理可超配。AI芯片（寒武纪/海光）：PE>200x，纯主题溢价，盈利兑现周期长，建议低配。算力/服务器（工业富联）：PE约15-20x，盈利增速20-30%，PEG~0.8x，估值安全边际高，标配。光纤光缆（长飞/亨通）：PE处历史30%分位，受益光模块需求传导，受益弹性大，可超配。AI应用（科大讯飞）：PE约50x，增速20-30%，PEG~2x，估值偏贵，标配观察。当前AI行情进入盈利验证期：建议回避无盈利纯概念品种，聚焦业绩确定性高的光模块/算力龙头，季报超预期个股将获资金集中追捧。NVIDIA数据中心营收$62.3B（同比+93%）持续验证上游景气度。</div>
+  <div class="judge"><strong>【估值判断】</strong> AI板块整体PE（TTM）仍处历史较高分位（约70-80%分位）。光模块板块2026年盈利预期增速50-80%，PEG约1.0-1.5x，估值尚合理，为当前最具性价比赛道。AI芯片/寒武纪PE>200x，纯主题溢价，盈利兑现周期长，建议低配。AI应用/科大讯飞PE约50x，盈利增速20-30%，估值偏贵但有成长逻辑。华为汽车/AIGC概念享有主题溢价，基本面支撑有限，波动较大。当前AI行情进入'盈利验证期'，关注季报超预期个股。建议回避纯概念、无盈利品种，聚焦业绩确定性高的光模块龙头及算力基础设施标的。</div>
 </div>
 
 <!-- 模块7：轮动 -->
 <div class="section">
-  <div class="sec-title m7"><span class="ico">🔄</span>模块7：板块轮动与趋势追踪</div>
+  <div class="sec-title m7">&#128260; 模块7：板块轮动与趋势</div>
   <table>
-    <tr><th>AI子板块（按资金净流入排序）</th><th>主力净流入</th><th>涨跌幅</th><th>资金状态</th><th>轮动位置</th></tr>
-    <tr><td><b>华为汽车</b></td><td class="up">+26.68亿</td><td class="up">+0.80%</td><td style='font-size:12px'>强势涌入</td><td style='font-size:12px;color:#64748b'>先锋领头</td></tr>
-    <tr><td><b>AI语料</b></td><td class="up">+6.74亿</td><td class="up">+0.44%</td><td style='font-size:12px'>持续流入</td><td style='font-size:12px;color:#64748b'>跟进第二</td></tr>
-    <tr><td><b>AIGC概念</b></td><td class="dn">-2.78亿</td><td class="up">+0.25%</td><td style='font-size:12px'>轻微流出</td><td style='font-size:12px;color:#64748b'>追涨第三</td></tr>
-    <tr><td><b>华为海思</b></td><td class="dn">-3.17亿</td><td class="up">+0.15%</td><td style='font-size:12px'>轻微流出</td><td style='font-size:12px;color:#64748b'>后排补涨</td></tr>
-    <tr><td><b>AI应用</b></td><td class="dn">-19.71亿</td><td class="dn">-0.14%</td><td style='font-size:12px'>明显撤退</td><td style='font-size:12px;color:#64748b'>资金撤离</td></tr>
-    <tr><td><b>半导体概念</b></td><td class="dn">-331.83亿</td><td class="dn">-0.22%</td><td style='font-size:12px'>明显撤退</td><td style='font-size:12px;color:#64748b'>资金撤离</td></tr>
+    <tr><th>子板块（按资金流排序）</th><th>今日主力资金流</th><th>涨跌幅</th><th>状态</th></tr>
+    <tr><td><b>华为汽车</b></td><td class="up">+26.68亿</td><td class="up">+0.80%</td><td>资金涌入 &#9650;</td></tr>
+    <tr><td><b>AI语料</b></td><td class="up">+6.74亿</td><td class="up">+0.44%</td><td>资金涌入 &#9650;</td></tr>
+    <tr><td><b>AIGC概念</b></td><td class="dn">-2.78亿</td><td class="up">+0.25%</td><td>资金撤退</td></tr>
+    <tr><td><b>华为海思</b></td><td class="dn">-3.17亿</td><td class="up">+0.15%</td><td>资金撤退</td></tr>
+    <tr><td><b>AI应用</b></td><td class="dn">-19.71亿</td><td class="dn">-0.14%</td><td>大幅流出 &#9660;</td></tr>
+    <tr><td><b>半导体概念</b></td><td class="dn">-331.83亿</td><td class="dn">-0.22%</td><td>大幅流出 &#9660;</td></tr>
   </table>
-  <div style="font-size:12px;background:#f8fafc;padding:10px 14px;border-radius:6px;margin-bottom:12px;color:#475569">
-    📋 全市场今日领涨板块TOP3：PLC概念(+5.24%) ｜ 机器人执行器(+4.25%) ｜ 减速器(+3.36%)
-  </div>
-  <div class="judge"><strong>【板块轮动独立判断】</strong>资金轮动：近日资金从半导体概念流出，向华为汽车（+26.68亿）、AI语料集中。板块轮动标准路径：上游算力/芯片→中游光模块/光纤→下游AI应用，当前资金动量集中在华为汽车。轮动信号观察：若华为汽车涨幅超5%且换手率>10%，可能进入过热区，关注向AI语料传导的接力机会；同时留意全市场领涨的机器人/减速器板块（今日+4%+）对AI资金的分流效应。</div>
+  <div class="judge"><strong>【轮动判断】</strong> 资金轮动：今日资金从半导体概念流出（主力净流出最大），向华为汽车、AI语料集中。板块轮动路径：算力→光模块→光纤光缆→AI应用，当前动量集中在华为汽车。若华为汽车连续两日涨幅>5%且换手率>10%，可能进入过热区，关注向下一环节传导。半导体概念大幅流出-331.83亿，资金向细分赛道集中，建议聚焦受益于AI应用落地的细分龙头而非宽泛指数型品种。</div>
 </div>
 
 <!-- 模块8：策略 -->
-<div class="strat-wrap">
-  <div class="sec-title m8" style="margin-bottom:16px"><span class="ico">🎯</span>模块8：今日操作策略</div>
-  <div class="strat-tone">明显调整，注意控仓</div>
-  <div class="strat-sub">核心矛盾：AI板块高估值与盈利验证期之间的张力：产业催化（NVIDIA/云厂CapEx）持续，但个股分化加剧，需精选业绩兑现确定性高的方向</div>
+<div class="strat">
+  <div class="strat-title">&#127919; 模块8：今日操作策略</div>
+  <div class="tone">明显回调</div>
+  <div class="conflict">核心矛盾：宏观不确定性对科技板块的压制，关注超跌优质标的的反弹机会</div>
 
   <div class="card">
-    <h4>⚡ 短线机会（1-3日）</h4>
+    <h4>短线机会（1-3个交易日）</h4>
     <ul>
-      <li>长电科技（600584）：主力净流入+10.98亿，当前价58.05元，建议回调MA5附近分批介入，目标+8-12%，止损MA10下方</li>
-      <li>拓普集团（601689）：主力净流入+6.44亿，当前价69.93元，建议回调MA5附近分批介入，目标+8-12%，止损MA10下方</li>
-      <li>全市场今日领涨机器人/减速器板块（+3-5%），若有AI/算力属性交叉标的可关注联动机会</li>
+      <li>长电科技（600584）：主力净流入+10.98亿，建议回调至MA5（约56.89附近）分批介入，目标+8-12%，止损MA10下方</li>
+      <li>拓普集团（601689）：主力净流入+6.44亿，建议回调至MA5（约68.53附近）分批介入，目标+8-12%，止损MA10下方</li>
     </ul>
   </div>
 
   <div class="card">
-    <h4>📅 中线布局（1-3个月）</h4>
+    <h4>中线布局（1-3个月）</h4>
     <ul>
-      <li>华为汽车板块龙头：资金持续流入，逢调配置，仓位5-8%</li>
-      <li>AI语料板块龙头：资金持续流入，逢调配置，仓位5-8%</li>
-      <li>光纤光缆（长飞/亨通）：估值历史低位，800G光模块放量直接拉动需求，逢调吸筹</li>
-      <li>算力服务器（工业富联）：业绩稳健，AI服务器占比持续提升，PEG~0.8x安全边际高</li>
-      <li>光模块（旭创/新易盛）：1.6T产品切换周期，业绩弹性最大，核心配置方向</li>
+      <li>华为汽车板块龙头：逢调配置，仓位5-8%</li>
+      <li>AI语料板块龙头：逢调配置，仓位5-8%</li>
+      <li>光纤光缆（长飞光纤/亨通光电）：估值安全边际高，受益800G光模块放量，逢调吸筹，目标仓位5%</li>
+      <li>算力服务器（工业富联）：AI服务器占比持续提升，业绩稳健，逢低配置，目标仓位5-8%</li>
+      <li>AIGC/AI应用：关注季报超预期个股，选择业绩驱动型机会而非纯概念</li>
     </ul>
   </div>
 
   <div class="risk-box">
-    ⚠️ <b>风险警示</b><br>
-    中巨芯-U单日涨幅20.01%过大，若出现放量滞涨立即减仓  |  隆华科技单日涨幅20.00%过大，若出现放量滞涨立即减仓<br>
-    若上证跌破MA20（4124.05）→ 科技仓位降至3成以下<br>
-    若上证跌破布林下轨（4003.42）→ 降至1成以下，等待企稳信号
+    <b>&#9888; 风险警示：</b><br>
+    中巨芯-U涨幅20.01%过大，出现放量滞涨立即减仓<br>隆华科技涨幅20.00%过大，出现放量滞涨立即减仓<br>
+    若上证跌破MA20（4124.05），科技仓位降至3成以下；若上证跌破4003.42（布林下轨），切换防御。
   </div>
 
-  <div class="pos-box">
-    💼 仓位建议：<b>3成</b>仓 ｜ 攻守比 6:4 ｜ 单股止损线：-8% ｜ 板块止损：连续跌破MA20
-  </div>
+  <div class="pos-box">仓位建议：3成仓 &nbsp;|&nbsp; 攻守比 6:4 &nbsp;|&nbsp; 单股止损触发点：-8%</div>
 </div>
 
 <div class="footer">
-  数据来源：东方财富API ｜ 分析框架参照顶级券商研报方法论 ｜ Claude独立分析<br>
-  参考数据：NVIDIA Q4 FY2026数据中心营收$62.3B | 四大云厂2026 CapEx~$725B | 中国智能算力1037.3 EFLOPS<br>
-  ⚠️ 本报告仅供参考，不构成任何投资建议，投资需自行判断风险。<br>
-  生成时间：2026-05-17 09:53:56 CST
+  数据来源：东方财富API · EDGAR · 产业研究 &nbsp;|&nbsp; 分析框架参照顶级券商研报方法论 &nbsp;|&nbsp; Claude AI 独立分析<br>
+  <span style="color:#dc2626;font-weight:600">本报告仅供参考，不构成任何投资建议。股市有风险，投资需谨慎。</span><br>
+  生成时间：2026-05-18 00:16:17 CST
 </div>
 
 </div>
