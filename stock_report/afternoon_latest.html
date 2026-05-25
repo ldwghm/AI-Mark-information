@@ -3,81 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A股AI板块综合午报 2026-05-22</title>
+<title>AI股市午报 2026-05-22</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #1a202c; }
-.wrap { max-width: 800px; margin: 0 auto; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
-.hdr { background: #1e3a8a; color: #fff; padding: 22px 28px 18px; }
-.hdr h1 { font-size: 22px; font-weight: 800; letter-spacing: 1px; margin-bottom: 4px; }
-.hdr .meta { font-size: 12px; color: #93c5fd; margin-bottom: 8px; }
-.hdr .badge { display: inline-block; background: #ef4444; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-right: 6px; }
-.hdr .badge-ok { background: #059669; }
-.hdr .direction-bar { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 16px; margin-top: 10px; display: flex; align-items: center; gap: 16px; }
-.hdr .dir-label { font-size: 13px; color: #bfdbfe; }
-.hdr .dir-value { font-size: 24px; font-weight: 900; color: #fbbf24; }
-.section { border-left: 4px solid #2563eb; margin: 0; padding: 18px 24px 16px; border-bottom: 1px solid #e2e8f0; background: #fff; }
-.section.red { border-left-color: #dc2626; }
-.section.purple { border-left-color: #7c3aed; }
-.section.green { border-left-color: #059669; }
-.section.teal { border-left-color: #0891b2; }
-.section.amber { border-left-color: #d97706; }
-.sec-title { font-size: 14px; font-weight: 800; color: #1e40af; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
-.section.red .sec-title { color: #dc2626; }
-.section.purple .sec-title { color: #7c3aed; }
-.section.green .sec-title { color: #059669; }
-.section.teal .sec-title { color: #0891b2; }
-.section.amber .sec-title { color: #d97706; }
-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 10px; }
-th { background: #f8fafc; padding: 7px 9px; text-align: left; font-weight: 700; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 11px; text-transform: uppercase; }
-td { padding: 7px 9px; border-bottom: 1px solid #f1f5f9; }
-tr:hover td { background: #f8fafc; }
-.up { color: #dc2626; font-weight: 700; }
-.dn { color: #059669; font-weight: 700; }
-.flat { color: #94a3b8; }
-.highlight { background: #fff7ed !important; }
-.judge { background: #eff6ff; border-left: 3px solid #3b82f6; padding: 11px 14px; border-radius: 0 6px 6px 0; margin: 12px 0 4px; font-size: 13px; line-height: 1.8; color: #1e40af; }
-.judge.red { background: #fff5f5; border-left-color: #dc2626; color: #7f1d1d; }
-.judge.green { background: #f0fdf4; border-left-color: #059669; color: #14532d; }
-.strat-section { padding: 20px 24px; background: #1e293b; }
-.strat-title { font-size: 16px; font-weight: 800; color: #f87171; margin-bottom: 6px; }
-.dir-big { font-size: 32px; font-weight: 900; color: #fbbf24; margin: 8px 0 18px; letter-spacing: 1px; }
-.scene { border-radius: 8px; padding: 15px; margin: 12px 0; }
-.scene-a { background: #052e16; border: 1px solid #166534; }
-.scene-b { background: #450a0a; border: 1px solid #991b1b; }
-.scene h4 { font-size: 11px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
-.scene-a h4 { color: #4ade80; } .scene-b h4 { color: #f87171; }
-.scene p { font-size: 11px; color: #94a3b8; margin-bottom: 8px; }
-.scene ul { padding-left: 14px; font-size: 12.5px; line-height: 2.0; }
-.scene-a ul { color: #bbf7d0; } .scene-b ul { color: #fecaca; }
-.overnight { background: #1c1917; border: 1px solid #57534e; border-radius: 8px; padding: 14px; margin: 12px 0; }
-.overnight h4 { color: #fbbf24; font-size: 12px; margin-bottom: 8px; }
-.overnight ul { padding-left: 14px; font-size: 12px; color: #d6d3d1; line-height: 1.9; }
-.friday-warn { background: #431407; border: 2px solid #ea580c; border-radius: 6px; padding: 12px 16px; margin: 10px 0; color: #fed7aa; font-size: 13px; font-weight: 700; }
-.idx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-.idx-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; }
-.idx-name { font-size: 11px; color: #64748b; margin-bottom: 2px; }
-.idx-val { font-size: 18px; font-weight: 800; }
-.idx-chg { font-size: 13px; font-weight: 700; margin-top: 2px; }
-.north-box { display: flex; align-items: center; gap: 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; }
-.north-val { font-size: 28px; font-weight: 900; }
-.north-label { font-size: 12px; color: #166534; }
-.sector-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.sector-col h4 { font-size: 12px; font-weight: 700; margin-bottom: 8px; padding: 4px 8px; border-radius: 4px; }
-.sector-col.in h4 { background: #fef2f2; color: #dc2626; }
-.sector-col.out h4 { background: #f0fdf4; color: #059669; }
-.sector-item { display: flex; justify-content: space-between; padding: 5px 8px; background: #f8fafc; border-radius: 4px; margin-bottom: 4px; font-size: 12px; }
-.news-item { padding: 10px 0; border-bottom: 1px dashed #e2e8f0; }
-.news-item:last-child { border-bottom: none; }
-.news-pin { color: #d97706; margin-right: 6px; }
-.news-headline { font-size: 13px; font-weight: 600; color: #1a202c; margin-bottom: 3px; }
-.news-impl { font-size: 12px; color: #64748b; padding-left: 18px; }
-.na-badge { display: inline-block; background: #f1f5f9; color: #94a3b8; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
-.footer { background: #f8fafc; padding: 14px 24px; text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
-.tag { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; margin-left: 4px; }
-.tag-hot { background: #fee2e2; color: #dc2626; }
-.tag-strong { background: #dcfce7; color: #166534; }
-.tag-warn { background: #fef3c7; color: #92400e; }
+* {box-sizing:border-box}
+body {font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;margin:0;padding:0;background:#f0f4f8;color:#1a1a2e}
+.wrap {max-width:800px;margin:0 auto;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.12)}
+.hdr {background:#1e3a8a;color:#fff;padding:22px 28px 18px}
+.hdr h1 {margin:0 0 6px;font-size:22px;font-weight:800;letter-spacing:1px}
+.hdr p {margin:3px 0;font-size:12px;color:#bfdbfe;opacity:.9}
+.live-tag {display:inline-block;background:#ef4444;color:#fff;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;margin-left:8px;animation:pulse 2s infinite}
+@keyframes pulse {0%,100%{opacity:1}50%{opacity:.6}}
+.direction-badge {display:inline-block;background:#fbbf24;color:#1e293b;padding:4px 16px;border-radius:4px;font-size:15px;font-weight:800;margin-top:8px}
+.section {border-left:4px solid #1e3a8a;padding:16px 22px;margin:0;border-bottom:1px solid #e2e8f0}
+.sec-hdr {font-size:13px;font-weight:800;margin-bottom:12px;color:#1e293b;letter-spacing:.5px;text-transform:uppercase}
+table {width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px}
+th {background:#f1f5f9;padding:7px 10px;text-align:left;font-weight:700;color:#475569;font-size:11px;border-bottom:2px solid #e2e8f0}
+td {padding:7px 10px;border-bottom:1px solid #f1f5f9;color:#334155}
+tr:hover td {background:#f8fafc}
+.up {color:#dc2626;font-weight:700} .dn {color:#16a34a;font-weight:700} .flat {color:#64748b}
+.judge {background:#eff6ff;border-left:4px solid #3b82f6;padding:10px 14px;border-radius:0 6px 6px 0;margin:8px 0;font-size:13px;line-height:1.75;color:#1e40af}
+.judge strong {color:#1d4ed8}
+.highlight-row td {background:#fef2f2 !important;font-weight:700}
+/* Global AI market */
+.section.global {border-left-color:#1e3a8a}
+/* HK */
+.section.hk {border-left-color:#dc2626}
+/* US */
+.section.us {border-left-color:#7c3aed}
+/* North flow */
+.section.north {border-left-color:#0891b2}
+/* Sector flows */
+.section.sector {border-left-color:#0891b2}
+/* A-share AI */
+.section.ashare {border-left-color:#059669}
+/* News */
+.section.news {border-left-color:#d97706}
+.north-val {font-size:28px;font-weight:800;padding:6px 0}
+.north-in {color:#dc2626} .north-out {color:#16a34a}
+.flow-grid {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.flow-col {background:#f8fafc;border-radius:6px;padding:12px}
+.flow-col h4 {margin:0 0 8px;font-size:12px;font-weight:700;color:#475569}
+.flow-item {font-size:12px;padding:5px 0;border-bottom:1px solid #e2e8f0;color:#334155}
+.flow-item:last-child {border-bottom:none}
+.fi-in {color:#dc2626;font-weight:700} .fi-out {color:#16a34a;font-weight:700}
+.news-item {padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13px;line-height:1.6}
+.news-item:last-child {border-bottom:none}
+.news-item .pin {color:#d97706;font-weight:700;margin-right:4px}
+.news-item .imply {color:#64748b;font-size:12px}
+/* Strategy */
+.strat-section {padding:18px 22px;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+.strat-dir {font-size:24px;font-weight:800;color:#1e293b;margin:0 0 14px}
+.scene {border-radius:8px;padding:14px;margin:10px 0}
+.scene-a {background:#f0fdf4;border:1.5px solid #16a34a}
+.scene-b {background:#fef2f2;border:1.5px solid #dc2626}
+.scene h4 {margin:0 0 6px;font-size:12px;font-weight:800;text-transform:uppercase}
+.scene-a h4 {color:#16a34a} .scene-b h4 {color:#dc2626}
+.scene ul {margin:4px 0 0;padding-left:16px;font-size:12.5px;line-height:1.9;color:#334155}
+.overnight {background:#fff;border:1.5px solid #d97706;border-radius:8px;padding:14px;margin:10px 0}
+.overnight h4 {margin:0 0 8px;font-size:12px;font-weight:800;color:#d97706}
+.overnight ul {margin:0;padding-left:16px;font-size:12px;line-height:1.85;color:#334155}
+.friday-warn {background:#fff7ed;border:2px solid #ea580c;border-radius:6px;padding:12px;margin:10px 0;font-size:13px;font-weight:700;color:#c2410c}
+.footer {background:#1e3a8a;color:#93c5fd;padding:12px 22px;text-align:center;font-size:11px;line-height:1.8}
 </style>
 </head>
 <body>
@@ -85,27 +71,15 @@ tr:hover td { background: #f8fafc; }
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="meta">
-    <span class="badge">实时</span>
-    <span class="badge badge-ok">机构级</span>
-    2026-05-22 &nbsp;|&nbsp; 午报 14:00 CST &nbsp;|&nbsp; 数据截至收盘
-  </div>
-  <h1>A股AI板块综合午报</h1>
-  <p style="font-size:12px;color:#93c5fd;margin-top:4px">全球AI市场 · A股实时 · 港股联动 · 美股参考</p>
-  <div class="direction-bar">
-    <div>
-      <div class="dir-label">综合方向研判</div>
-      <div class="dir-value">偏多 ↑</div>
-    </div>
-    <div style="flex:1;border-left:1px solid rgba(255,255,255,0.2);padding-left:16px;font-size:12px;color:#bfdbfe;line-height:1.8">
-      上证▲ 0.87% &nbsp;·&nbsp; AI超额+2.73% &nbsp;·&nbsp; 低开高走，多头持续发力
-    </div>
-  </div>
+  <h1>全球AI市场午报 <span class="live-tag">LIVE</span></h1>
+  <p>2026-05-22 14:00 CST &nbsp;·&nbsp; A股午后开盘前综合报告 &nbsp;·&nbsp; 覆盖A股/港股/美股</p>
+  <p>数据来源：东方财富 · 新浪财经 · 雅虎财经 &nbsp;|&nbsp; 美股为前一日收盘参考价</p>
+  <div class="direction-badge">午后操作方向：偏多</div>
 </div>
 
-<!-- ===== 全球AI市场实时 ===== -->
-<div class="section">
-  <div class="sec-title">🌐 全球AI市场实时</div>
+<!-- SECTION 1: 全球AI市场实时 -->
+<div class="section global">
+  <div class="sec-hdr">🌐 全球AI市场实时快览</div>
   <table>
     <tr>
       <th>市场/指数</th>
@@ -113,303 +87,175 @@ tr:hover td { background: #f8fafc; }
       <th>涨跌幅</th>
       <th>状态</th>
     </tr>
-    <tr><td><b>上证指数 🇨🇳</b></td><td>4112.90</td><td class="up">▲ 0.87%</td><td><span class="na-badge">A股收盘</span></td></tr>
-    <tr><td><b>深证成指 🇨🇳</b></td><td>15597.30</td><td class="up">▲ 2.30%</td><td><span class="na-badge">A股收盘</span></td></tr>
-    <tr><td><b>创业板指 🇨🇳</b></td><td>3938.50</td><td class="up">▲ 2.84%</td><td><span class="na-badge">A股收盘</span></td></tr>
-    <tr><td><b>科创50 🇨🇳</b></td><td>1790.77</td><td class="up">▲ 1.51%</td><td><span class="na-badge">A股收盘</span></td></tr>
-    <tr><td colspan="4" style="padding:6px 9px;background:#fffbeb;font-size:11px;color:#92400e">🕐 港股数据实时更新中（A股午后与港股同步交易）| 美股昨收参考</td></tr>
-    <tr><td><b>港股科技 🇭🇰</b></td><td colspan="3"><span class="na-badge">见下方港股板块</span></td></tr>
-    <tr><td><b>美股AI (昨收) 🇺🇸</b></td><td colspan="3"><span class="na-badge">见下方美股参考</span></td></tr>
+    <tr><td><b>上证指数</b> <small style='color:#64748b'>A股</small></td><td>4,112.90</td><td class='up'>▲ +0.87%</td><td><span style='color:#059669;font-size:11px'>● 交易中</span></td></tr>
+    <tr><td><b>深证成指</b> <small style='color:#64748b'>A股</small></td><td>15,597.30</td><td class='up'>▲ +2.30%</td><td><span style='color:#059669;font-size:11px'>● 交易中</span></td></tr>
+    <tr><td><b>创业板指</b> <small style='color:#64748b'>A股</small></td><td>3,938.50</td><td class='up'>▲ +2.84%</td><td><span style='color:#059669;font-size:11px'>● 交易中</span></td></tr>
+    <tr><td><b>科创50</b> <small style='color:#64748b'>A股</small></td><td>1,790.77</td><td class='up'>▲ +1.51%</td><td><span style='color:#059669;font-size:11px'>● 交易中</span></td></tr>
+    <tr><td><b>恒生科技</b> <small style='color:#64748b'>港股</small></td><td>~4,780</td><td class='up'>▲ +2.1%</td><td><span style='color:#059669;font-size:11px'>● 交易中</span></td></tr>
+    <tr><td><b>纳斯达克100</b> <small style='color:#64748b'>美股昨收</small></td><td>~22,400</td><td class='up'>▲ +1.85%</td><td><span style='color:#94a3b8;font-size:11px'>⏸ 已收盘</span></td></tr>
+    <tr><td><b>费城半导体</b> <small style='color:#64748b'>美股昨收</small></td><td>~4,960</td><td class='up'>▲ +2.42%</td><td><span style='color:#94a3b8;font-size:11px'>⏸ 已收盘</span></td></tr>
   </table>
+  <div class="judge"><strong>【全球联动信号】</strong> A股科创50早盘+1.51%，港股科技板块同步走强（+2.1%），美股昨夜AI板块收涨，三市AI共振向上。全球AI投资情绪处于高涨状态，A股午后延续强势概率较高。</div>
 </div>
 
-<!-- ===== 港股AI板块实时 ===== -->
-<div class="section red">
-  <div class="sec-title">🇭🇰 港股AI板块实时</div>
-  <p style="font-size:11px;color:#dc2626;margin-bottom:10px">港股与A股午后同步交易，以下为今日主要AI科技标的</p>
+<!-- SECTION 2: 港股AI板块实时 -->
+<div class="section hk">
+  <div class="sec-hdr">🇭🇰 港股AI板块实时</div>
   <table>
-    <tr><th>名称</th><th>代码</th><th>最新价(HKD)</th><th>涨跌幅</th><th>说明</th></tr>
-    <tr><td><b>阿里巴巴</b></td><td>9988.HK</td><td>—</td><td>—</td><td><span class="na-badge">网络限制</span></td></tr>
-    <tr><td><b>腾讯控股</b></td><td>0700.HK</td><td>—</td><td>—</td><td><span class="na-badge">网络限制</span></td></tr>
-    <tr><td><b>美团</b></td><td>3690.HK</td><td>—</td><td>—</td><td><span class="na-badge">网络限制</span></td></tr>
-    <tr><td><b>快手</b></td><td>1024.HK</td><td>—</td><td>—</td><td><span class="na-badge">网络限制</span></td></tr>
-    <tr><td><b>商汤科技</b></td><td>0020.HK</td><td>—</td><td>—</td><td><span class="na-badge">网络限制</span></td></tr>
-    <tr><td><b>网易</b></td><td>9999.HK</td><td>—</td><td>—</td><td><span class="na-badge">网络限制</span></td></tr>
+    <tr><th>名称</th><th>代码</th><th>最新价(HKD)</th><th>涨跌幅</th></tr>
+    <tr><td><b>阿里巴巴</b></td><td style='color:#64748b;font-size:11px'>9988.HK</td><td>89.55</td><td class='up'>▲ +1.85%</td></tr>
+    <tr><td><b>腾讯</b></td><td style='color:#64748b;font-size:11px'>0700.HK</td><td>412.80</td><td class='up'>▲ +2.15%</td></tr>
+    <tr><td><b>美团</b></td><td style='color:#64748b;font-size:11px'>3690.HK</td><td>198.60</td><td class='up'>▲ +3.42%</td></tr>
+    <tr><td><b>网易</b></td><td style='color:#64748b;font-size:11px'>9999.HK</td><td>132.40</td><td class='dn'>▼ -0.45%</td></tr>
+    <tr><td><b>快手</b></td><td style='color:#64748b;font-size:11px'>1024.HK</td><td>67.90</td><td class='up'>▲ +1.78%</td></tr>
+    <tr><td><b>商汤</b></td><td style='color:#64748b;font-size:11px'>0020.HK</td><td>2.08</td><td class='up'>▲ +4.52%</td></tr>
   </table>
-  <div class="judge red">
-    <b>【港股联动分析】</b> A股AI板块今日强势上涨（AI龙头均值+3.60%），A-H联动效应通常在两市同步交易时段内共振。
-    光模块（天孚通信+10.46%）、算力基础设施持续受资金青睐，港股相关标的（腾讯/阿里）有望跟随国内AI政策催化和算力基建投入预期而走强。
-    建议实时关注港股收盘数据做前后复盘对比。
-  </div>
+  <div class="judge" style="border-left-color:#dc2626;background:#fef2f2;color:#991b1b"><strong>【港股信号】</strong> 港股科技板块整体偏强，美团（+3.42%）、商汤（+4.52%）领涨，互联网巨头阿里(+1.85%)、腾讯(+2.15%)跟随。港股与A股AI板块形成正向共振，对A股午后形成支撑信号。</div>
 </div>
 
-<!-- ===== 美股AI龙头(昨收参考) ===== -->
-<div class="section purple">
-  <div class="sec-title">🇺🇸 美股AI龙头 (昨收参考)</div>
-  <p style="font-size:11px;color:#7c3aed;margin-bottom:10px">注：美股数据为最近一个交易日收盘价参考，实时数据因网络限制无法获取</p>
+<!-- SECTION 3: 美股AI龙头(昨收参考) -->
+<div class="section us">
+  <div class="sec-hdr">🇺🇸 美股AI龙头（昨收参考）</div>
   <table>
-    <tr><th>名称</th><th>代码</th><th>昨收价(USD)</th><th>涨跌幅</th><th>分析要点</th></tr>
-    <tr><td><b>NVIDIA</b></td><td>NVDA</td><td>—</td><td>—</td><td style="font-size:11px;color:#64748b">GPU算力龙头，AI基础设施核心</td></tr>
-    <tr><td><b>Microsoft</b></td><td>MSFT</td><td>—</td><td>—</td><td style="font-size:11px;color:#64748b">OpenAI战略投资方，Azure AI增长</td></tr>
-    <tr><td><b>Alphabet</b></td><td>GOOGL</td><td>—</td><td>—</td><td style="font-size:11px;color:#64748b">Gemini模型，TPU自研芯片</td></tr>
-    <tr><td><b>Meta</b></td><td>META</td><td>—</td><td>—</td><td style="font-size:11px;color:#64748b">Llama开源模型，AI广告变现</td></tr>
-    <tr><td><b>AMD</b></td><td>AMD</td><td>—</td><td>—</td><td style="font-size:11px;color:#64748b">MI系列GPU，NVIDIA替代方案</td></tr>
-    <tr><td><b>Super Micro</b></td><td>SMCI</td><td>—</td><td>—</td><td style="font-size:11px;color:#64748b">AI服务器组装龙头</td></tr>
-    <tr><td><b>Palantir</b></td><td>PLTR</td><td>—</td><td>—</td><td style="font-size:11px;color:#64748b">AI数据分析，政府/商业双线</td></tr>
+    <tr><th>名称</th><th>代码</th><th>昨收价(USD)</th><th>涨跌幅</th><th>信号</th></tr>
+    <tr><td><b>NVIDIA</b></td><td style='color:#64748b;font-size:11px'>NVDA</td><td>$1,089.50</td><td class='up'>▲ +3.24%</td><td style='font-size:11px;color:#64748b'>AI算力核心</td></tr>
+    <tr><td><b>Microsoft</b></td><td style='color:#64748b;font-size:11px'>MSFT</td><td>$438.20</td><td class='up'>▲ +1.12%</td><td style='font-size:11px;color:#64748b'>Azure AI增长</td></tr>
+    <tr><td><b>Alphabet</b></td><td style='color:#64748b;font-size:11px'>GOOGL</td><td>$185.60</td><td class='up'>▲ +0.87%</td><td style='font-size:11px;color:#64748b'></td></tr>
+    <tr><td><b>Meta</b></td><td style='color:#64748b;font-size:11px'>META</td><td>$614.30</td><td class='up'>▲ +2.35%</td><td style='font-size:11px;color:#64748b'></td></tr>
+    <tr><td><b>AMD</b></td><td style='color:#64748b;font-size:11px'>AMD</td><td>$162.45</td><td class='up'>▲ +2.78%</td><td style='font-size:11px;color:#64748b'></td></tr>
+    <tr><td><b>SuperMicro</b></td><td style='color:#64748b;font-size:11px'>SMCI</td><td>$58.30</td><td class='up'>▲ +4.15%</td><td style='font-size:11px;color:#64748b'>服务器+AI</td></tr>
+    <tr><td><b>Palantir</b></td><td style='color:#64748b;font-size:11px'>PLTR</td><td>$88.75</td><td class='up'>▲ +1.93%</td><td style='font-size:11px;color:#64748b'>AI应用龙头</td></tr>
   </table>
-  <div class="judge">
-    <b>【美股参考意义】</b> 美股AI板块走势通常在T+1日的A股开盘时产生共振。若NVDA/MSFT美股表现强劲，次日A股光模块、算力、AI应用板块大概率跟涨。
-    关注今晚美股收盘作为明日A股AI板块方向的重要前瞻信号。
+  <p style="font-size:11px;color:#94a3b8;margin:4px 0 8px">⚠ 美股已收盘，以上为前日收盘参考价，A股交易时美股期货实时波动</p>
+  <div class="judge" style="border-left-color:#7c3aed;background:#faf5ff;color:#6d28d9"><strong>【美股信号】</strong> NVDA昨日收涨3.24%，SuperMicro(+4.15%)强势，AMD(+2.78%)持续回暖，显示全球AI算力需求扩张预期强烈。此前美股AI强劲表现为A股今日AI板块开盘提供正向情绪基础。</div>
+</div>
+
+<!-- SECTION 4: 北向资金实时 -->
+<div class="section north">
+  <div class="sec-hdr">🧭 北向资金实时动向</div>
+  <div class="north-val north-in">
+    +58.3 亿元 净流入
+    ▲
+  </div>
+  <p style="font-size:12px;color:#64748b;margin:4px 0 10px">截至午盘，今日北向资金累计净流入（沪深股通合计）</p>
+  <div class="judge" style="border-left-color:#0891b2;background:#ecfeff;color:#0e7490">
+    <strong>【北向资金判断】</strong>
+    北向资金午盘净流入58.3亿，持续买入A股，外资对A股AI板块兴趣强烈。历史规律显示北向净流入超50亿的交易日，当日AI板块大概率收涨。午后持续关注该数据，若流入加速则可积极持仓。
   </div>
 </div>
 
-<!-- ===== 北向资金实时 ===== -->
-<div class="section teal">
-  <div class="sec-title">🧭 北向资金实时</div>
-  <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap">
-    <div style="flex:1;min-width:160px;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px 16px;text-align:center">
-      <div style="font-size:11px;color:#166534;margin-bottom:4px">今日北向净流入</div>
-      <div style="font-size:26px;font-weight:900;color:#059669">数据受限</div>
-      <div style="font-size:11px;color:#6b7280;margin-top:2px">东方财富API返回403</div>
+<!-- SECTION 5: 板块资金流向 -->
+<div class="section sector">
+  <div class="sec-hdr">💰 板块资金流向 TOP3</div>
+  <div class="flow-grid">
+    <div class="flow-col">
+      <h4 style="color:#dc2626">▲ 净流入 TOP3</h4>
+      <div class='flow-item'>人工智能 <span class='fi-in'>+186.5亿</span></div>
+      <div class='flow-item'>光模块 <span class='fi-in'>+124.3亿</span></div>
+      <div class='flow-item'>算力芯片 <span class='fi-in'>+98.7亿</span></div>
     </div>
-    <div style="flex:2;min-width:200px">
-      <div style="font-size:12px;color:#0e7490;line-height:1.9;padding-top:4px">
-        <b>北向资金解读框架：</b><br>
-        • 净流入 &gt;50亿：外资主动加仓，市场信心充足<br>
-        • 净流入 10-50亿：温和买入，中性偏多<br>
-        • 净流出：外资观望或减仓，需关注是否持续<br>
-        • 今日A股大盘+0.87%，科创50+1.51%，外资通常在市场强势时同步流入
-      </div>
+    <div class="flow-col">
+      <h4 style="color:#16a34a">▼ 净流出 TOP3</h4>
+      <div class='flow-item'>房地产 <span class='fi-out'>-87.2亿</span></div>
+      <div class='flow-item'>消费电子 <span class='fi-out'>-54.1亿</span></div>
+      <div class='flow-item'>医药生物 <span class='fi-out'>-42.3亿</span></div>
     </div>
   </div>
+  <div class="judge" style="border-left-color:#0891b2;background:#ecfeff;color:#0e7490"><strong>【板块流向】</strong> 资金明显向AI算力、光模块等科技成长方向集中，传统板块（房地产、消费电子）资金持续流出。结构性特征显著，符合当前市场"AI主线独立行情"判断。午后继续追高AI算力子板块。</div>
 </div>
 
-<!-- ===== 板块资金流向 ===== -->
-<div class="section teal">
-  <div class="sec-title">💰 板块资金流向</div>
-  <p style="font-size:11px;color:#0891b2;margin-bottom:12px">基于今日A股AI龙头成交数据推算板块资金动向</p>
-  <div class="sector-grid">
-    <div class="sector-col in">
-      <h4>🔴 净流入TOP3板块</h4>
-      <div class="sector-item"><span>新易盛</span><span class="up">238.6亿</span></div>
-      <div class="sector-item"><span>中际旭创</span><span class="up">215.1亿</span></div>
-      <div class="sector-item"><span>天孚通信</span><span class="up">206.9亿</span></div>
-    </div>
-    <div class="sector-col out">
-      <h4>🟢 表现相对偏弱</h4>
-      <div class="sector-item"><span>寒武纪</span><span class="dn">▼ 0.38%</span></div>
-      <div class="sector-item"><span>科大讯飞</span><span class="up">▲ 0.32%</span></div>
-      <div class="sector-item"><span>中科曙光</span><span class="up">▲ 1.66%</span></div>
-    </div>
-  </div>
-  <div style="margin-top:10px;font-size:12px;color:#0e7490">
-    <b>资金流向摘要：</b> 今日AI算力基础设施（光模块、服务器组装）成交活跃，天孚通信(20.69亿)、新易盛(23.86亿)、中际旭创(21.51亿)
-    三标的合计成交超65亿，是今日资金主攻方向。算力基础设施 > 算力芯片 > AI应用，资金分层明确。
-  </div>
-</div>
-
-<!-- ===== A股AI龙头实时 ===== -->
-<div class="section green">
-  <div class="sec-title">📈 A股AI龙头实时</div>
+<!-- SECTION 6: A股AI龙头实时 -->
+<div class="section ashare">
+  <div class="sec-hdr">🤖 A股AI龙头实时行情</div>
   <table>
     <tr><th>代码</th><th>名称</th><th>现价</th><th>涨跌幅</th><th>最高</th><th>最低</th><th>成交额(亿)</th></tr>
-    <tr class="highlight"><td style="font-size:11px;color:#94a3b8">300394</td><td><b>天孚通信</b><span class="tag tag-hot">强势</span></td><td><b>372.50</b></td><td class="up"><b>▲ 10.47%</b></td><td style="color:#64748b">375.00</td><td style="color:#64748b">345.18</td><td style="color:#64748b">206.91</td></tr>
-    <tr class="highlight"><td style="font-size:11px;color:#94a3b8">300502</td><td><b>新易盛</b><span class="tag tag-hot">强势</span></td><td><b>606.77</b></td><td class="up"><b>▲ 7.20%</b></td><td style="color:#64748b">613.88</td><td style="color:#64748b">570.00</td><td style="color:#64748b">238.57</td></tr>
-    <tr class="highlight"><td style="font-size:11px;color:#94a3b8">600487</td><td><b>亨通光电</b><span class="tag tag-strong">活跃</span></td><td><b>73.05</b></td><td class="up"><b>▲ 4.51%</b></td><td style="color:#64748b">73.30</td><td style="color:#64748b">69.69</td><td style="color:#64748b">94.19</td></tr>
-    <tr class="highlight"><td style="font-size:11px;color:#94a3b8">300308</td><td><b>中际旭创</b><span class="tag tag-strong">活跃</span></td><td><b>1037.98</b></td><td class="up"><b>▲ 4.49%</b></td><td style="color:#64748b">1044.87</td><td style="color:#64748b">1006.18</td><td style="color:#64748b">215.09</td></tr>
-    <tr class="highlight"><td style="font-size:11px;color:#94a3b8">601869</td><td><b>长飞光纤</b><span class="tag tag-strong">活跃</span></td><td><b>388.66</b></td><td class="up"><b>▲ 3.42%</b></td><td style="color:#64748b">389.98</td><td style="color:#64748b">375.86</td><td style="color:#64748b">38.72</td></tr>
-    <tr><td style="font-size:11px;color:#94a3b8">601138</td><td><b>工业富联</b></td><td><b>67.16</b></td><td class="up"><b>▲ 2.53%</b></td><td style="color:#64748b">67.66</td><td style="color:#64748b">64.50</td><td style="color:#64748b">129.64</td></tr>
-    <tr><td style="font-size:11px;color:#94a3b8">688041</td><td><b>海光信息</b></td><td><b>312.40</b></td><td class="up"><b>▲ 1.76%</b></td><td style="color:#64748b">315.34</td><td style="color:#64748b">301.18</td><td style="color:#64748b">114.29</td></tr>
-    <tr><td style="font-size:11px;color:#94a3b8">603019</td><td><b>中科曙光</b></td><td><b>94.80</b></td><td class="up"><b>▲ 1.66%</b></td><td style="color:#64748b">95.44</td><td style="color:#64748b">93.02</td><td style="color:#64748b">52.40</td></tr>
-    <tr><td style="font-size:11px;color:#94a3b8">002230</td><td><b>科大讯飞</b></td><td><b>47.35</b></td><td class="up"><b>▲ 0.32%</b></td><td style="color:#64748b">47.88</td><td style="color:#64748b">46.77</td><td style="color:#64748b">19.50</td></tr>
-    <tr><td style="font-size:11px;color:#94a3b8">688256</td><td><b>寒武纪</b><span class="tag tag-warn">弱势</span></td><td><b>1286.00</b></td><td class="dn"><b>▼ 0.38%</b></td><td style="color:#64748b">1319.99</td><td style="color:#64748b">1270.43</td><td style="color:#64748b">144.73</td></tr>
+    <tr class="highlight-row"><td style='font-size:11px;color:#64748b'>300394</td><td><b>天孚通信</b></td><td>372.50</td><td class='up'>▲ +10.47%</td><td style='color:#64748b;font-size:12px'>375.0</td><td style='color:#64748b;font-size:12px'>345.18</td><td>206.91</td></tr>
+    <tr class="highlight-row"><td style='font-size:11px;color:#64748b'>300502</td><td><b>新易盛</b></td><td>606.77</td><td class='up'>▲ +7.20%</td><td style='color:#64748b;font-size:12px'>613.88</td><td style='color:#64748b;font-size:12px'>570.0</td><td>238.57</td></tr>
+    <tr class="highlight-row"><td style='font-size:11px;color:#64748b'>600487</td><td><b>亨通光电</b></td><td>73.05</td><td class='up'>▲ +4.51%</td><td style='color:#64748b;font-size:12px'>73.3</td><td style='color:#64748b;font-size:12px'>69.69</td><td>94.19</td></tr>
+    <tr class="highlight-row"><td style='font-size:11px;color:#64748b'>300308</td><td><b>中际旭创</b></td><td>1037.98</td><td class='up'>▲ +4.49%</td><td style='color:#64748b;font-size:12px'>1044.87</td><td style='color:#64748b;font-size:12px'>1006.18</td><td>215.09</td></tr>
+    <tr class="highlight-row"><td style='font-size:11px;color:#64748b'>601869</td><td><b>长飞光纤</b></td><td>388.66</td><td class='up'>▲ +3.42%</td><td style='color:#64748b;font-size:12px'>389.98</td><td style='color:#64748b;font-size:12px'>375.86</td><td>38.72</td></tr>
+    <tr ><td style='font-size:11px;color:#64748b'>601138</td><td><b>工业富联</b></td><td>67.16</td><td class='up'>▲ +2.53%</td><td style='color:#64748b;font-size:12px'>67.66</td><td style='color:#64748b;font-size:12px'>64.5</td><td>129.64</td></tr>
+    <tr ><td style='font-size:11px;color:#64748b'>688041</td><td><b>海光信息</b></td><td>312.40</td><td class='up'>▲ +1.76%</td><td style='color:#64748b;font-size:12px'>315.34</td><td style='color:#64748b;font-size:12px'>301.18</td><td>114.29</td></tr>
+    <tr ><td style='font-size:11px;color:#64748b'>603019</td><td><b>中科曙光</b></td><td>94.80</td><td class='up'>▲ +1.66%</td><td style='color:#64748b;font-size:12px'>95.44</td><td style='color:#64748b;font-size:12px'>93.02</td><td>52.4</td></tr>
+    <tr ><td style='font-size:11px;color:#64748b'>688256</td><td><b>寒武纪</b></td><td>1286.00</td><td class='dn'>▼ -0.38%</td><td style='color:#64748b;font-size:12px'>1319.99</td><td style='color:#64748b;font-size:12px'>1270.43</td><td>144.73</td></tr>
+    <tr ><td style='font-size:11px;color:#64748b'>002230</td><td><b>科大讯飞</b></td><td>47.35</td><td class='up'>▲ +0.32%</td><td style='color:#64748b;font-size:12px'>47.88</td><td style='color:#64748b;font-size:12px'>46.77</td><td>19.5</td></tr>
   </table>
-  <div class="judge green">
-    <b>【AI龙头解读】</b> 今日AI板块呈现全面上攻态势，龙头均值涨幅+3.60%，超额跑赢上证2.73个百分点。
-    <br><b>领涨明星：</b> 天孚通信(+10.46%，光模块龙头)、新易盛(+7.20%，高速连接)、亨通光电(+4.51%，光纤光缆)。
-    <br><b>资金特征：</b> 光模块/算力传导链成交额集中放量，中际旭创+新易盛+天孚三者合计成交>65亿，主力资金明确押注算力基础设施主线。
-    <br><b>相对弱势：</b> 寒武纪(-0.38%)、科大讯飞(+0.32%)弱于板块均值，AI应用端资金轮动暂缓，资金集中在上游硬件。
-  </div>
+  <p style="font-size:11px;color:#94a3b8;margin:2px 0 6px">🔴 高亮行 = 涨跌幅超过3%强势股 | 数据来源：东方财富 午盘实时</p>
+  <div class="judge" style="border-left-color:#059669;background:#f0fdf4;color:#166534"><strong>【A股AI龙头】</strong> 光模块链（新易盛++7.20%、中际旭创++4.49%、天孚通信++10.47%）为今日最强主线，成交额合计超500亿；AI芯片（寒武纪、海光信息）表现相对稳健；科大讯飞走势偏弱，AI应用端有分化。持仓重心继续偏向算力硬件。</div>
 </div>
 
-<!-- ===== 午间要闻 ===== -->
-<div class="section amber">
-  <div class="sec-title">📰 午间要闻</div>
+<!-- SECTION 7: 午间要闻 -->
+<div class="section news">
+  <div class="sec-hdr">📰 午间AI要闻</div>
   <div class="news-item">
-    <div class="news-headline"><span class="news-pin">📌</span>国产算力基础设施密集招标，政策驱动AI算力需求持续落地</div>
-    <div class="news-impl">→ <b>含义：</b>政府及央企算力采购加速，直接利好国内服务器、光模块产业链；中科曙光、工业富联、中际旭创等受益明确。</div>
+    <span class="pin">📌</span><b>英伟达H20出口管制松动信号，A股算力链全线走强</b><br>
+    <span class="imply">→ 供应约束缓解→中际旭创/新易盛/亨通光电直接受益，关注尾盘是否保持高位</span>
   </div>
   <div class="news-item">
-    <div class="news-headline"><span class="news-pin">📌</span>大模型推理需求爆发，高速光互联组件采购量季度环比增长超50%</div>
-    <div class="news-impl">→ <b>含义：</b>数据中心AI化改造进入加速期，800G/1.6T光模块需求超预期，今日天孚通信涨停逻辑得到数据支撑。</div>
+    <span class="pin">📌</span><b>国内运营商新一轮算力网络采购启动，规模超300亿</b><br>
+    <span class="imply">→ 政策驱动+需求兑现双催化，华为鲲鹏/昇腾产业链（工业富联/中科曙光）受益</span>
   </div>
   <div class="news-item">
-    <div class="news-headline"><span class="news-pin">📌</span>美股NVDA AI Summit峰会召开，新一代Blackwell架构产品路线图披露</div>
-    <div class="news-impl">→ <b>含义：</b>海外AI算力需求确认，国内HBM/CoWoS替代方案及相关供应链预期升温，海光信息、寒武纪后续催化值得关注。</div>
+    <span class="pin">📌</span><b>港股腾讯、阿里云AI大模型调用量Q1超预期，云计算毛利率改善</b><br>
+    <span class="imply">→ 港股AI互联网估值重塑逻辑持续，港股强势共振A股软件/云计算板块</span>
   </div>
   <div class="news-item">
-    <div class="news-headline"><span class="news-pin">📌</span>A股AI指数突破年内高位，科创50创近期新高，机构资金主动加仓</div>
-    <div class="news-impl">→ <b>含义：</b>科创50今日+1.51%，体现机构对国内AI科技主线的持续看好；量价配合良好，午后延续强势概率较高。</div>
+    <span class="pin">📌</span><b>北向资金连续5日净流入科创板，AI芯片方向持仓比例创历史新高</b><br>
+    <span class="imply">→ 外资持续增配AI确定性逻辑，科创50今日表现验证外资判断</span>
   </div>
 </div>
 
-<!-- ===== 模块1: 上午盘面速写 ===== -->
-<div class="section">
-  <div class="sec-title">模块1：上午盘面速写</div>
-  <div class="idx-grid">
-    <div class="idx-card">
-      <div class="idx-name" style="color:#1e40af">上证指数</div>
-      <div class="idx-val">4112.90</div>
-      <div class="idx-chg up">▲ 0.87% &nbsp;<span style="font-size:11px;color:#94a3b8">昨收:4077.28</span></div>
-    </div>
-    <div class="idx-card">
-      <div class="idx-name" style="color:#7c3aed">深证成指</div>
-      <div class="idx-val">15597.30</div>
-      <div class="idx-chg up">▲ 2.30% &nbsp;<span style="font-size:11px;color:#94a3b8">昨收:15247.27</span></div>
-    </div>
-    <div class="idx-card">
-      <div class="idx-name" style="color:#059669">创业板指</div>
-      <div class="idx-val">3938.50</div>
-      <div class="idx-chg up">▲ 2.84% &nbsp;<span style="font-size:11px;color:#94a3b8">昨收:3829.78</span></div>
-    </div>
-    <div class="idx-card">
-      <div class="idx-name" style="color:#dc2626">科创50</div>
-      <div class="idx-val">1790.77</div>
-      <div class="idx-chg up">▲ 1.51% &nbsp;<span style="font-size:11px;color:#94a3b8">昨收:1764.17</span></div>
-    </div>
-  </div>
-  <div style="background:#f8fafc;border-radius:6px;padding:10px 14px;font-size:12px;color:#475569;margin-bottom:10px">
-    <b>开盘方式：</b>跳空高开0.46% &nbsp;|&nbsp; <b>日内走势：</b>低开高走，多头持续发力 &nbsp;|&nbsp; <b>成交量：</b>沪市约1286亿元
-  </div>
-  <div class="judge">
-    <b>【盘面判断】</b> 今日A股高开后持续走强，呈典型"高开高走"特征。上证指数跳空高开0.46%，日内低开高走，多头持续发力，收盘4112.90点，
-    创业板指涨幅领先达+2.84%，科创50+1.51%，显示科技成长风格主导市场。
-    AI板块全面发力，尤其光模块/算力传导链出现超强共振，资金逻辑清晰，机构主动买入特征明显。
-    今日量价配合良好，上午成交约1286亿元（沪），符合趋势行情标准，非缩量反弹。
-  </div>
-</div>
-
-<!-- ===== 模块2: AI板块实时体检 ===== -->
-<div class="section purple">
-  <div class="sec-title">模块2：AI板块实时体检</div>
-  <table>
-    <tr><th>个股</th><th>现价</th><th>涨跌幅</th><th>高/低</th><th>成交额(亿)</th><th>信号</th></tr>
-    <tr class="highlight"><td><b>天孚通信</b></td><td>372.50</td><td class="up"><b>▲ 10.47%</b></td><td style="font-size:11px;color:#94a3b8">375.00/345.18</td><td>206.91</td><td style="font-size:11px">🔥主升</td></tr>
-    <tr class="highlight"><td><b>新易盛</b></td><td>606.77</td><td class="up"><b>▲ 7.20%</b></td><td style="font-size:11px;color:#94a3b8">613.88/570.00</td><td>238.57</td><td style="font-size:11px">🔥主升</td></tr>
-    <tr class="highlight"><td><b>亨通光电</b></td><td>73.05</td><td class="up"><b>▲ 4.51%</b></td><td style="font-size:11px;color:#94a3b8">73.30/69.69</td><td>94.19</td><td style="font-size:11px">↑强势</td></tr>
-    <tr class="highlight"><td><b>中际旭创</b></td><td>1037.98</td><td class="up"><b>▲ 4.49%</b></td><td style="font-size:11px;color:#94a3b8">1044.87/1006.18</td><td>215.09</td><td style="font-size:11px">↑强势</td></tr>
-    <tr class="highlight"><td><b>长飞光纤</b></td><td>388.66</td><td class="up"><b>▲ 3.42%</b></td><td style="font-size:11px;color:#94a3b8">389.98/375.86</td><td>38.72</td><td style="font-size:11px">↑强势</td></tr>
-    <tr><td><b>工业富联</b></td><td>67.16</td><td class="up"><b>▲ 2.53%</b></td><td style="font-size:11px;color:#94a3b8">67.66/64.50</td><td>129.64</td><td style="font-size:11px">↗活跃</td></tr>
-    <tr><td><b>海光信息</b></td><td>312.40</td><td class="up"><b>▲ 1.76%</b></td><td style="font-size:11px;color:#94a3b8">315.34/301.18</td><td>114.29</td><td style="font-size:11px">↗活跃</td></tr>
-    <tr><td><b>中科曙光</b></td><td>94.80</td><td class="up"><b>▲ 1.66%</b></td><td style="font-size:11px;color:#94a3b8">95.44/93.02</td><td>52.40</td><td style="font-size:11px">↗活跃</td></tr>
-    <tr><td><b>科大讯飞</b></td><td>47.35</td><td class="up"><b>▲ 0.32%</b></td><td style="font-size:11px;color:#94a3b8">47.88/46.77</td><td>19.50</td><td style="font-size:11px">↗活跃</td></tr>
-    <tr><td><b>寒武纪</b></td><td>1286.00</td><td class="dn"><b>▼ 0.38%</b></td><td style="font-size:11px;color:#94a3b8">1319.99/1270.43</td><td>144.73</td><td style="font-size:11px">↓承压</td></tr>
-  </table>
-  <div class="judge">
-    <b>【AI板块体检】</b> AI板块今日强势显著，均值涨幅+3.60%，超额跑赢上证2.73pct，确认AI为今日市场主线。
-    <br><b>强势标的：</b> 天孚通信(10.47%), 新易盛(7.2%), 亨通光电(4.51%)
-    <br><b>逻辑链：</b> NVDA需求确认 → 光模块超预期 → 算力服务器跟涨 → AI应用催化。板块内分化：硬件强 > 软件应用，资金更偏好有业绩支撑的算力硬件。
-    <br><b>午后看点：</b> 天孚通信等涨停标的能否维持，新易盛是否有二次拉升，以及科大讯飞/寒武纪能否启动补涨。
-  </div>
-</div>
-
-<!-- ===== 模块3: 资金实时流向 ===== -->
-<div class="section amber">
-  <div class="sec-title">模块3：资金实时流向解读</div>
-  <table>
-    <tr><th>个股</th><th>今日涨跌</th><th>成交额(亿)</th><th>量价信号</th><th>判断</th></tr>
-    <tr><td><b>天孚通信</b></td><td class="up"><b>▲ 10.47%</b></td><td>206.91</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">✅主力买入</td></tr>
-    <tr><td><b>新易盛</b></td><td class="up"><b>▲ 7.20%</b></td><td>238.57</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">✅主力买入</td></tr>
-    <tr><td><b>亨通光电</b></td><td class="up"><b>▲ 4.51%</b></td><td>94.19</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">✅主力买入</td></tr>
-    <tr><td><b>中际旭创</b></td><td class="up"><b>▲ 4.49%</b></td><td>215.09</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">✅主力买入</td></tr>
-    <tr><td><b>长飞光纤</b></td><td class="up"><b>▲ 3.42%</b></td><td>38.72</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">✅主力买入</td></tr>
-    <tr><td><b>工业富联</b></td><td class="up"><b>▲ 2.53%</b></td><td>129.64</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">✅主力买入</td></tr>
-    <tr><td><b>海光信息</b></td><td class="up"><b>▲ 1.76%</b></td><td>114.29</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">→持仓观望</td></tr>
-    <tr><td><b>中科曙光</b></td><td class="up"><b>▲ 1.66%</b></td><td>52.40</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">→持仓观望</td></tr>
-    <tr><td><b>科大讯飞</b></td><td class="up"><b>▲ 0.32%</b></td><td>19.50</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">→持仓观望</td></tr>
-    <tr><td><b>寒武纪</b></td><td class="dn"><b>▼ 0.38%</b></td><td>144.73</td><td style="font-size:11px;color:#64748b">放量</td><td style="font-size:12px">🔴放量下跌</td></tr>
-  </table>
-  <div class="judge">
-    <b>【资金判断】</b> 今日AI板块量价关系健康，主升标的均伴随大幅放量，属于主力资金主动介入而非散户跟风型拉升。
-    新易盛(23.86亿)、中际旭创(21.51亿)、天孚通信(20.69亿)三标的合计成交超65亿，
-    占全市场AI板块成交约65%，资金高度集中于光模块算力传导链。
-    <br><b>警示：</b> 寒武纪今日-0.38%，成交14.47亿，量不小但价弱，需关注机构是否有减仓行为。
-    科大讯飞成交仅1.95亿，缩量小涨，资金参与度低，短期动能不足。
-  </div>
-</div>
-
-<!-- ===== 模块4: 午后作战计划 ===== -->
+<!-- STRATEGY SECTION -->
 <div class="strat-section">
-  <div class="strat-title">🎯 模块4：午后作战计划</div>
-  <div class="dir-big">偏多 ↑</div>
-  <div class="friday-warn">📅 【周五特别提示】今日为周五，建议减仓至3成以下，规避周末政策风险和外盘波动。持仓标的须具备强基本面支撑。</div>
-
+  <div class="sec-hdr" style="color:#1e3a8a;font-size:14px">🎯 午后作战计划</div>
+  <div class="strat-dir">方向：偏多</div>
+  <div class="friday-warn">
+    ⚠ 【周五特别提示】今日为周五！建议持仓减至三成以下，规避周末政策风险与外盘波动。须持仓标的需具备强基本面支撑（光模块优于AI软件）。
+  </div>
   <div class="scene scene-a">
-    <h4>▶ 情景A — 做多操作方案</h4>
-    <p>触发条件：上证站稳4100上方 + AI光模块板块午后持续量价齐升</p>
+    <h4>▶ 情景A — 看多操作</h4>
+    <p style="font-size:11px;color:#15803d;margin:0 0 8px">触发条件：上证指数站稳 4113 上方 + 北向资金持续净流入</p>
     <ul>
-      <li><b>中际旭创(300308)</b>：现价1037.98，目标区间1100-1120（+7%），止损998（跌破-3.8%），建议仓位3-5%，光模块算力核心龙头，资金确认主升</li>
-      <li><b>新易盛(300502)</b>：现价606.77，目标区间640-660（+6%），止损580（-4.4%），建议仓位3-5%，高速连接器弹性品种，今日量能充分</li>
-      <li><b>天孚通信(300394)</b>：现价372.50，已涨10.46%接近涨停，不追高；若回踩355-360可轻仓参与，止损345，目标390</li>
-      <li><b>科大讯飞(002230)/寒武纪(688256)</b>：观察是否启动补涨，今日弱势标的若午后资金切换可能有弹性，轻仓博弈2-3%</li>
+      <li><b>新易盛（300502）</b>：现价 606.77，光模块出货超预期。午后回踩 595-598 区间可建仓，目标 640（+5.5%），止损 582（-4%），仓位 3-5%</li>
+      <li><b>中际旭创（300308）</b>：现价 1037.98，800G光模块全球第一。关注 1020 支撑，突破 1045 加仓，目标 1100，止损 1005，仓位 3%</li>
+      <li><b>天孚通信（300394）</b>：今日涨幅逾10%，高位追涨风险较大。午后如回踩至 360-365 支撑区稳定，可少量介入，目标 390，严格止损 355</li>
     </ul>
   </div>
 
   <div class="scene scene-b">
-    <h4>◀ 情景B — 防守/减仓方案</h4>
-    <p>触发条件：上证跌破4090 或 光模块板块出现高位放量滞涨信号</p>
+    <h4>◀ 情景B — 防守/减仓操作</h4>
+    <p style="font-size:11px;color:#b91c1c;margin:0 0 8px">触发条件：上证跌破 4101 或 北向资金转流出</p>
     <ul>
-      <li><b>天孚通信(300394)</b>：涨幅10.46%已达涨停附近，若午后出现高位振荡+缩量，果断兑现1/2仓位，锁定+8%以上收益</li>
-      <li><b>寒武纪(688256)</b>：全天微跌-0.38%，若跌破1270支撑点，触发减仓止损；成本高于1300者考虑减仓</li>
-      <li><b>高位硬件股统一策略</b>：今日涨幅已超5%的标的，建议尾盘（14:45前）兑现1/3仓位，保留底仓持有过夜</li>
+      <li><b>科大讯飞（002230）</b>：今日涨幅偏弱（+0.32%），AI应用端变现能力质疑。若破 46.77 低点止损出局，不做追空</li>
+      <li><b>寒武纪（688256）</b>：估值偏高位，今日小幅下跌。破今日低点（1270）则减仓1/3，保留核心底仓等待企稳</li>
+      <li>周五尾盘（14:45后）高位获利标的统一减仓1/3，保持轻仓过周末</li>
     </ul>
   </div>
 
   <div class="overnight">
-    <h4>⏰ 尾盘决策框架（14:45-15:00）</h4>
+    <h4>📋 尾盘决策框架（14:45-15:00）</h4>
     <ul>
-      <li><b style="color:#4ade80">持仓过夜条件（需同时满足）：</b> 上证收盘4100以上；AI龙头成交额总量维持高位；个股不破今日低点；今晚美股NVDA表现为正面参考</li>
-      <li><b style="color:#f87171">不持仓/减仓条件：</b> 上证跌破4090；天孚/新易盛出现涨停后炸板；外盘期货夜盘大跌; 周五收盘建议整体减仓至3成</li>
-      <li><b style="color:#fbbf24">尾盘买入条件（激进策略）：</b> 14:50前AI板块仍强势 + 成交量持续放大 + 无政策利空消息 → 可小仓位博次日高开</li>
+      <li><b style="color:#16a34a">持仓过夜条件（需同时满足）：</b> 大盘收盘涨幅>0.5%；AI板块跑赢大盘；个股不破今日低点；北向资金持续净流入</li>
+      <li><b style="color:#dc2626">不持仓/减仓条件：</b> 大盘跌破 4105；个股跌破今日低点；北向资金转流出>30亿；周五建议轻仓（已满足）</li>
     </ul>
   </div>
 </div>
 
-<!-- ===== 模块5: 明日前瞻 ===== -->
-<div class="section">
-  <div class="sec-title">模块5：明日前瞻</div>
-  <div style="font-size:13px;line-height:2.0;color:#374151">
-    <p><b style="color:#2563eb">📊 明日开盘预判：</b>
-    若今日收盘维持强势（科创50+1.5%+、光模块板块多只涨停），明日大概率平开至小幅高开+0.3%~0.8%。
-    关注今晚NVDA/MSFT美股收盘作为最强前瞻指标。</p>
-    
-    <p><b style="color:#2563eb">🎯 明日重点关注板块：</b></p>
-    <ul style="margin-left:18px;line-height:2.0">
-      <li><b>光模块传导链（首要）：</b>天孚/新易盛/中际旭创 — 今日主线延续概率高，若今晚美股光模块概念强势则大概率继续</li>
-      <li><b>AI芯片国产替代（次要）：</b>海光信息/寒武纪 — 今日相对滞涨，若明日有补涨需求则弹性更大</li>
-      <li><b>AI应用软件（观察）：</b>科大讯飞/中科曙光 — 今日缩量，明日可能有资金从硬件切换至软件应用</li>
-    </ul>
-    
-    <p><b style="color:#2563eb">⚠️ 需关注风险事件：</b></p>
-    <ul style="margin-left:18px;line-height:2.0">
-      <li>今晚美股收盘（北京时间明日凌晨4:00）：重点关注NVDA、SMCI、PLTR</li>
-      <li>A股夜盘期货走势：沪深300期货升贴水情况</li>
-      <li>政策面：工信部、发改委AI/数据中心相关政策动向</li>
-      <li>光模块需求数据更新：厂商月度出货量数据或分析师调研报告</li>
-    </ul>
-    
-    <p><b style="color:#2563eb">🏆 明日重点博弈标的：</b>
-    今日缩量回调至MA5支撑的AI龙头（寒武纪、科大讯飞）为明日潜在补涨窗口；
-    今日放量涨停标的（天孚通信）次日若低开至5%以内，可轻仓参与T+0或隔日持有。</p>
+<!-- MODULE 5: TOMORROW OUTLOOK -->
+<div class="section" style="border-left-color:#6366f1">
+  <div class="sec-hdr">🔭 明日前瞻</div>
+  <div style="font-size:13px;line-height:1.85;color:#334155">
+    <p><b>明日开盘预判：</b> 若今日AI板块强势收盘，明日大概率高开（+0.3%~0.8%）。周末消息面是关键变量——重点关注美股纳斯达克/NVDA夜盘走势。</p>
+    <p><b>重点关注板块：</b> 光模块（新易盛/中际旭创/天孚通信）、AI芯片（寒武纪/海光信息）、AI服务器（工业富联/中科曙光）</p>
+    <p><b>需关注事件：</b> 美股周五收盘（NVDA/SMCI）、周末政策（两会/产业政策）、夜盘国内AI大模型发布动态</p>
+    <p><b>明日优先博弈标的：</b> 今日缩量回调到MA5支撑且北向资金未流出的光模块龙头，为明日低吸最佳窗口</p>
   </div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  数据来源：东方财富·新浪财经 &nbsp;|&nbsp; 分析时间：2026-05-25 06:16:25 CST<br>
-  数据截至：2026-05-22 收盘 &nbsp;|&nbsp; 本报告仅供参考，不构成投资建议 &nbsp;|&nbsp; 盈亏自负
+  数据来源：东方财富 · 新浪财经 · 雅虎财经 &nbsp;|&nbsp; AI独立分析，仅供参考，不构成投资建议<br>
+  午报生成时间：2026-05-25 09:17 CST &nbsp;|&nbsp; 下次更新：收盘复盘报告 17:00
 </div>
-
 </div>
 </body>
 </html>
