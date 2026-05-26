@@ -1,173 +1,136 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>每日英语练习 - 2026-05-25</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日英语练习 - 2026-05-26</title>
 </head>
-<body style="margin:0;padding:0;background:#f4f6f9;">
+<body style="margin:0;padding:0;background:#f3f4f6;">
 <div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;background:#ffffff;">
 
   <!-- Header -->
-  <div style="background:#1e3a8a;color:#ffffff;padding:20px 28px;">
-    <div style="font-size:22px;font-weight:bold;letter-spacing:1px;">📚 每日英语练习</div>
-    <div style="margin-top:6px;font-size:13px;opacity:0.85;">2026年5月25日 &nbsp;|&nbsp; Topic: Finance &nbsp;|&nbsp; Day 145</div>
+  <div style="background:#1e3a8a;color:#ffffff;padding:20px;">
+    <h1 style="margin:0;font-size:24px;">&#128218; 每日英语练习</h1>
+    <p style="margin:6px 0 0;font-size:14px;opacity:0.85;">2026-05-26 &nbsp;&middot;&nbsp; Topic: CS Graduate Interview &mdash; CAP Theorem</p>
   </div>
 
-  <!-- Main content padding -->
-  <div style="padding:28px;">
+  <!-- Main Content -->
+  <div style="padding:28px 24px;">
 
-    <!-- ===== SECTION 1: ORAL PRACTICE ===== -->
-    <h2 style="color:#059669;font-size:17px;margin-top:0;margin-bottom:6px;">🎙️ Oral Practice</h2>
-    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:32px;">
-
-      <!-- Topic badge -->
-      <div style="display:inline-block;background:#d1fae5;color:#065f46;font-size:12px;font-weight:bold;padding:3px 10px;border-radius:12px;margin-bottom:14px;">
-        Finance — Yield Curve Inversion &amp; Recession Signals
-      </div>
+    <!-- ===== Section 1: Oral Practice ===== -->
+    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:36px;">
+      <h2 style="color:#059669;margin-top:0;font-size:20px;">&#127908; Oral Practice</h2>
 
       <!-- Question -->
-      <h3 style="color:#1a1a1a;font-size:15px;margin:0 0 8px 0;border-bottom:1px solid #e5e7eb;padding-bottom:6px;">❓ Interview Question</h3>
-      <p style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px;margin:0 0 20px 0;line-height:1.7;">
-        <em>"Can you explain what a yield curve inversion is, why it has historically been used as a recession signal, and what are the key limitations of relying on this indicator?"</em>
+      <h3 style="color:#1a1a1a;font-size:16px;margin-bottom:8px;">Question</h3>
+      <p style="background:#f0fdf4;padding:14px 16px;border-radius:6px;line-height:1.75;margin-top:0;">
+        <strong>Can you explain the CAP theorem? In a distributed system, how do engineers decide which two of the three guarantees to prioritize, and what real-world trade-offs does that decision entail?</strong>
       </p>
 
       <!-- Reference Answer -->
-      <h3 style="color:#1a1a1a;font-size:15px;margin:0 0 8px 0;border-bottom:1px solid #e5e7eb;padding-bottom:6px;">📝 Reference Answer</h3>
-      <div style="background:#f9fafb;border-radius:6px;padding:16px;line-height:1.8;margin-bottom:20px;color:#111827;">
-        <p style="margin:0 0 12px 0;">
-          A <strong>yield curve inversion</strong> occurs when short-term interest rates rise above long-term rates — most commonly observed when the 2-year U.S. Treasury yield exceeds the 10-year yield. Under normal conditions, investors demand higher compensation for locking up capital over longer horizons, producing an upward-sloping curve. An inversion flips this relationship, typically reflecting market expectations of future rate cuts in response to an anticipated economic slowdown.
-        </p>
-        <p style="margin:0 0 12px 0;">
-          Historically, the 2s10s inversion has preceded every U.S. recession since the 1950s, usually with a lag of 6 to 24 months. The transmission mechanism is concrete: banks fund themselves short-term and lend long-term, so inversion squeezes their <strong>net interest margin</strong>, reducing lending. Tighter credit then dampens business investment and consumer spending, eventually realizing the downturn the curve implied.
-        </p>
-        <p style="margin:0;">
-          However, three key limitations temper its reliability. First, the <strong>lead time is highly variable</strong>, making precise timing nearly impossible for practitioners. Second, large-scale central bank interventions such as quantitative easing artificially suppress long-term yields, potentially weakening the signal. Third, strong global demand for U.S. Treasuries as safe-haven assets can flatten or invert the curve for reasons unrelated to domestic growth prospects — the so-called "conundrum" Alan Greenspan identified in 2005. For these reasons, inversion is best treated as one leading indicator among several, used alongside credit spreads, PMI readings, and unemployment trends for a more robust recession assessment.
-        </p>
+      <h3 style="color:#1a1a1a;font-size:16px;margin-bottom:8px;">Reference Answer</h3>
+      <div style="line-height:1.85;color:#1a1a1a;">
+        <p style="margin-top:0;">The CAP theorem, proposed by Eric Brewer in 2000 and formally proven by Gilbert and Lynch in 2002, states that any distributed data store can simultaneously guarantee <em>at most two</em> of three properties: <strong>Consistency</strong>, <strong>Availability</strong>, and <strong>Partition Tolerance</strong>.</p>
+        <p><em>Consistency</em> means every read reflects the most recent write or returns an error. <em>Availability</em> means every request receives a response, though not necessarily the latest data. <em>Partition Tolerance</em> means the system continues operating correctly even when network partitions prevent some nodes from communicating.</p>
+        <p>In practice, network partitions are unavoidable in any large-scale distributed system, making partition tolerance essentially mandatory. This forces a binary choice between consistency and availability during a partition event. <strong>CP systems</strong> such as HBase and Zookeeper refuse reads or writes rather than risk returning inconsistent data &mdash; ideal for financial ledgers and inventory management where correctness is paramount. <strong>AP systems</strong> such as Cassandra and DynamoDB remain available but may serve stale data, making them suitable for shopping carts or social feeds where eventual consistency is acceptable.</p>
+        <p style="margin-bottom:0;">The PACELC model extends CAP by introducing a latency dimension even when no partition occurs: a CP system may still accept higher latency to enforce strong consistency in steady state. Choosing the right model requires deeply understanding the business domain and its tolerance for stale reads versus service downtime.</p>
       </div>
 
       <!-- Key Vocabulary -->
-      <h3 style="color:#1a1a1a;font-size:15px;margin:0 0 8px 0;border-bottom:1px solid #e5e7eb;padding-bottom:6px;">📖 Key Vocabulary</h3>
+      <h3 style="color:#1a1a1a;font-size:16px;margin-bottom:10px;">Key Vocabulary</h3>
       <table style="width:100%;border-collapse:collapse;font-size:14px;">
         <thead>
           <tr style="background:#059669;color:#ffffff;">
-            <th style="text-align:left;padding:9px 12px;border-radius:0;">Word / Phrase</th>
-            <th style="text-align:left;padding:9px 12px;">Chinese</th>
-            <th style="text-align:left;padding:9px 12px;">Example Sentence</th>
+            <th style="padding:10px 12px;text-align:left;width:24%;">Word / Phrase</th>
+            <th style="padding:10px 12px;text-align:left;width:22%;">中文</th>
+            <th style="padding:10px 12px;text-align:left;">Example Sentence</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background:#f9fafb;">
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:bold;">yield curve inversion</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#065f46;">收益率曲线倒挂</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#374151;font-size:13px;"><em>The yield curve inversion in 2022 reignited fears of an impending recession.</em></td>
+          <tr style="background:#f0fdf4;">
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;"><strong>partition tolerance</strong></td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">分区容错性</td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">Partition tolerance ensures the cluster keeps running even when some nodes lose connectivity.</td>
           </tr>
           <tr>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:bold;">net interest margin</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#065f46;">净息差</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#374151;font-size:13px;"><em>Rising short-term rates compressed the bank's net interest margin significantly.</em></td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;"><strong>eventual consistency</strong></td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">最终一致性</td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">DynamoDB's eventual consistency model means all replicas converge to the same value given enough time.</td>
           </tr>
-          <tr style="background:#f9fafb;">
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:bold;">credit spread</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#065f46;">信用利差</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#374151;font-size:13px;"><em>Widening credit spreads often confirm the recession signal from the yield curve.</em></td>
-          </tr>
-          <tr>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:bold;">quantitative easing (QE)</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#065f46;">量化宽松</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#374151;font-size:13px;"><em>Quantitative easing suppressed long-term yields, distorting the yield curve's signal.</em></td>
-          </tr>
-          <tr style="background:#f9fafb;">
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:bold;">leading indicator</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#065f46;">先行指标</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#374151;font-size:13px;"><em>PMI and building permits are classic leading indicators of economic activity.</em></td>
+          <tr style="background:#f0fdf4;">
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;"><strong>distributed consensus</strong></td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">分布式共识</td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">Achieving distributed consensus is central to protocols like Raft and Paxos.</td>
           </tr>
           <tr>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:bold;">safe-haven demand</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#065f46;">避险需求</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#374151;font-size:13px;"><em>Safe-haven demand for Treasuries kept long-term yields artificially low.</em></td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;"><strong>stale data</strong></td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">过期/陈旧数据</td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">During a network split, an AP system may serve stale data rather than refusing the request entirely.</td>
           </tr>
-          <tr style="background:#f9fafb;">
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:bold;">transmission mechanism</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#065f46;">传导机制</td>
-            <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#374151;font-size:13px;"><em>Understanding the transmission mechanism helps explain how rate hikes slow growth.</em></td>
+          <tr style="background:#f0fdf4;">
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;"><strong>quorum</strong></td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">法定多数（节点）</td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">A write is committed only after acknowledgment from a quorum of replica nodes.</td>
           </tr>
           <tr>
-            <td style="padding:9px 12px;font-weight:bold;">bond duration</td>
-            <td style="padding:9px 12px;color:#065f46;">债券久期</td>
-            <td style="padding:9px 12px;color:#374151;font-size:13px;"><em>A bond with longer duration is more sensitive to changes in interest rates.</em></td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;"><strong>replication lag</strong></td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">复制延迟</td>
+            <td style="padding:9px 12px;border-bottom:1px solid #d1fae5;">High replication lag can cause read operations to block until the follower nodes catch up.</td>
+          </tr>
+          <tr style="background:#f0fdf4;">
+            <td style="padding:9px 12px;"><strong>trade-off</strong></td>
+            <td style="padding:9px 12px;">权衡取舍</td>
+            <td style="padding:9px 12px;">Every distributed system design involves a trade-off between consistency, availability, and latency.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- ===== SECTION 2: AI NEWS ===== -->
-    <h2 style="color:#7c3aed;font-size:17px;margin-top:0;margin-bottom:6px;">🤖 AI News</h2>
-    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:32px;">
+    <!-- ===== Section 2: AI News ===== -->
+    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:36px;">
+      <h2 style="color:#7c3aed;margin-top:0;font-size:20px;">&#129302; AI News <span style="font-size:13px;font-weight:normal;background:#ede9fe;color:#7c3aed;padding:2px 7px;border-radius:4px;vertical-align:middle;">[Recent Trend]</span></h2>
 
-      <div style="display:inline-block;background:#ede9fe;color:#5b21b6;font-size:12px;font-weight:bold;padding:3px 10px;border-radius:12px;margin-bottom:14px;">
-        [Recent Trend] — Knowledge-based summary
-      </div>
-
-      <!-- Headline -->
-      <h3 style="color:#1a1a1a;font-size:15px;margin:0 0 8px 0;border-bottom:1px solid #e5e7eb;padding-bottom:6px;">📰 Headline</h3>
-      <p style="font-size:16px;font-weight:bold;color:#3b0764;margin:0 0 16px 0;line-height:1.5;">
-        谷歌DeepMind发布Gemini 2.5 Ultra，数学与代码推理能力全面突破人类专家基准
+      <h3 style="color:#1a1a1a;font-size:16px;margin-bottom:8px;">Headline</h3>
+      <p style="background:#faf5ff;padding:14px 16px;border-radius:6px;font-weight:bold;margin-top:0;line-height:1.6;">
+        谷歌DeepMind发布Gemini 2.5 Pro，多模态推理能力达到新高度，长上下文窗口突破百万Token
       </p>
 
-      <!-- Summary -->
-      <h3 style="color:#1a1a1a;font-size:15px;margin:0 0 8px 0;border-bottom:1px solid #e5e7eb;padding-bottom:6px;">📋 English Summary</h3>
-      <div style="background:#faf5ff;border-radius:6px;padding:14px;margin-bottom:16px;line-height:1.8;color:#111827;">
-        <p style="margin:0 0 8px 0;">Google DeepMind's Gemini 2.5 Ultra achieved state-of-the-art results on competition-level mathematics and code generation benchmarks in early 2026, surpassing both previous frontier models and human expert performance on several standardized evaluations.</p>
-        <p style="margin:0;">The breakthrough was attributed to advances in long-context reasoning, chain-of-thought training at scale, and tighter integration between the model's language and symbolic computation modules — signaling a new phase of capability growth across the AI industry.</p>
-      </div>
-
-      <!-- Theoretical Principle -->
-      <h3 style="color:#1a1a1a;font-size:15px;margin:0 0 8px 0;border-bottom:1px solid #e5e7eb;padding-bottom:6px;">💡 Theoretical Principle: <span style="color:#7c3aed;">Scaling Laws in AI (神经网络缩放定律)</span></h3>
-      <div style="background:#f9fafb;border-radius:6px;padding:14px;line-height:1.8;color:#111827;">
-        <p style="margin:0 0 10px 0;">Scaling Laws, formalized by Kaplan et al. at OpenAI in 2020, describe predictable power-law relationships between a model's performance and three key quantities: the number of parameters, the size of the training dataset, and the amount of compute used.</p>
-        <p style="margin:0 0 10px 0;">The central insight is that model performance improves smoothly and predictably as these resources scale up — meaning researchers can forecast capability gains before training large, expensive models. This transformed AI development from an empirical craft into a more engineering-like discipline.</p>
-        <p style="margin:0 0 10px 0;">Later work by Hoffmann et al. ("Chinchilla" scaling laws, 2022) refined the relationship further, showing that optimal training requires balancing parameters and data tokens proportionally rather than simply maximizing model size.</p>
-        <p style="margin:0;">While scaling laws have driven rapid progress, they also raise concerns about energy consumption and access inequality, and researchers debate whether current laws will hold as models approach human-level performance on ever more complex tasks.</p>
-      </div>
-    </div>
-
-    <!-- ===== SECTION 3: FINANCE NEWS ===== -->
-    <h2 style="color:#d97706;font-size:17px;margin-top:0;margin-bottom:6px;">💹 Finance News</h2>
-    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:32px;">
-
-      <div style="display:inline-block;background:#fef3c7;color:#92400e;font-size:12px;font-weight:bold;padding:3px 10px;border-radius:12px;margin-bottom:14px;">
-        [Recent Trend] — Knowledge-based summary
-      </div>
-
-      <!-- Headline -->
-      <h3 style="color:#1a1a1a;font-size:15px;margin:0 0 8px 0;border-bottom:1px solid #e5e7eb;padding-bottom:6px;">📰 Headline</h3>
-      <p style="font-size:16px;font-weight:bold;color:#78350f;margin:0 0 16px 0;line-height:1.5;">
-        美联储2026年第二季度维持利率区间不变，暗示年内若通胀持续回落或迎来两次降息
+      <h3 style="color:#1a1a1a;font-size:16px;margin-bottom:8px;">Summary</h3>
+      <p style="line-height:1.85;margin-top:0;">
+        Google DeepMind's Gemini 2.5 Pro achieved state-of-the-art results on multimodal reasoning benchmarks in early 2026, excelling at tasks that combine visual understanding, mathematical reasoning, and long-form code generation. With a context window exceeding one million tokens, the model enables enterprise use cases such as full codebase review, legal document synthesis, and end-to-end scientific paper analysis that were previously impractical within a single inference call.
       </p>
 
-      <!-- Summary -->
-      <h3 style="color:#1a1a1a;font-size:15px;margin:0 0 8px 0;border-bottom:1px solid #e5e7eb;padding-bottom:6px;">📋 English Summary</h3>
-      <div style="background:#fffbeb;border-radius:6px;padding:14px;margin-bottom:16px;line-height:1.8;color:#111827;">
-        <p style="margin:0 0 8px 0;">The Federal Reserve held its benchmark interest rate steady in Q2 2026, citing mixed signals in the labor market and a gradual but uneven decline in core inflation toward the 2% target, with policymakers emphasizing a data-dependent posture rather than committing to a fixed easing path.</p>
-        <p style="margin:0;">Fed funds futures markets are pricing in approximately two quarter-point cuts before year-end, a scenario contingent on continued softening of shelter costs and services inflation — the two categories that have proven most persistent throughout the post-pandemic tightening cycle.</p>
-      </div>
-
-      <!-- Theoretical Principle -->
-      <h3 style="color:#1a1a1a;font-size:15px;margin:0 0 8px 0;border-bottom:1px solid #e5e7eb;padding-bottom:6px;">💡 Theoretical Principle: <span style="color:#d97706;">The Taylor Rule (泰勒规则)</span></h3>
-      <div style="background:#f9fafb;border-radius:6px;padding:14px;line-height:1.8;color:#111827;">
-        <p style="margin:0 0 10px 0;">The Taylor Rule, proposed by Stanford economist John Taylor in 1993, is a formula that prescribes the appropriate central bank policy rate based on two gaps: the deviation of current inflation from its target, and the deviation of real GDP from its potential (the output gap).</p>
-        <p style="margin:0 0 10px 0;">The original formulation suggests raising the policy rate by 1.5 percentage points for every 1% by which inflation exceeds target, and by 0.5 percentage points for every 1% of positive output gap. This "more than one-for-one" response to inflation — known as the Taylor Principle — is essential for anchoring inflation expectations.</p>
-        <p style="margin:0 0 10px 0;">In practice, central banks don't mechanically follow the rule, but it serves as a powerful benchmark: when the actual policy rate falls well below the Taylor-prescribed rate (as during 2021–2022), it often signals that monetary policy is excessively accommodative, a condition that can allow inflation to build.</p>
-        <p style="margin:0;">The rule's limitations include difficulty measuring the "natural rate" of interest (r*) and the output gap in real time — both of which are unobservable and heavily revised, making the Taylor Rule a useful guide rather than an actionable formula in live policymaking.</p>
-      </div>
+      <h3 style="color:#1a1a1a;font-size:16px;margin-bottom:8px;">Theoretical Principle: Scaling Laws in Deep Learning</h3>
+      <p style="line-height:1.85;margin-top:0;">
+        <strong>Neural Scaling Laws</strong> (Kaplan et al., OpenAI 2020) describe the power-law relationship between model performance and three key resources: parameter count, training data volume, and compute budget. The core finding is that loss decreases predictably as any of these factors scales up, allowing engineers to forecast model capability before expensive training runs complete. This insight shifted the field from architectural search toward systematic resource scaling &mdash; if you want a better model, scale proportionally across all three axes. However, scaling laws also imply diminishing returns: each doubling of compute yields smaller incremental gains. This has driven the industry toward complementary techniques such as mixture-of-experts architectures, reinforcement learning from human feedback (RLHF), and retrieval-augmented generation (RAG) to extract performance gains beyond what raw scale alone can deliver.
+      </p>
     </div>
 
-  </div><!-- end padding -->
+    <!-- ===== Section 3: Finance News ===== -->
+    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
+      <h2 style="color:#d97706;margin-top:0;font-size:20px;">&#128200; Finance News <span style="font-size:13px;font-weight:normal;background:#fef3c7;color:#d97706;padding:2px 7px;border-radius:4px;vertical-align:middle;">[Recent Trend]</span></h2>
+
+      <h3 style="color:#1a1a1a;font-size:16px;margin-bottom:8px;">Headline</h3>
+      <p style="background:#fffbeb;padding:14px 16px;border-radius:6px;font-weight:bold;margin-top:0;line-height:1.6;">
+        美联储2026年首次降息落地，25个基点降幅推动10年期国债收益率创14个月新低
+      </p>
+
+      <h3 style="color:#1a1a1a;font-size:16px;margin-bottom:8px;">Summary</h3>
+      <p style="line-height:1.85;margin-top:0;">
+        The U.S. Federal Reserve cut the federal funds rate by 25 basis points at its May 2026 meeting, marking the first reduction of the year as core inflation sustained its retreat toward the 2% target. The decision drove the 10-year Treasury yield to its lowest point in 14 months, triggering a broad equity rally and renewed capital inflows into emerging market debt as investors rotated out of money-market instruments in search of duration.
+      </p>
+
+      <h3 style="color:#1a1a1a;font-size:16px;margin-bottom:8px;">Theoretical Principle: Bond Duration and Interest Rate Sensitivity</h3>
+      <p style="line-height:1.85;margin-top:0;">
+        <strong>Bond Duration</strong> measures how sensitive a bond's price is to changes in interest rates. Modified duration approximates the percentage price change for a 1-percentage-point shift in yield: a bond with a modified duration of 8 rises roughly 8% in price if yields fall by 1%. This is why long-dated Treasuries react most dramatically to Fed decisions &mdash; their longer duration amplifies rate movements. <strong>Convexity</strong> refines the estimate further, capturing the non-linear (curved) relationship between price and yield: price gains from falling rates are slightly larger than price losses from equivalent rising rates, a feature that benefits long-duration bondholders in volatile environments. Investors who positioned for long duration ahead of the May 2026 cut captured significant mark-to-market gains, illustrating how duration management is a core tool in fixed-income portfolio strategy.
+      </p>
+    </div>
+
+  </div><!-- end main content -->
 
   <!-- Footer -->
-  <div style="background:#f3f4f6;border-top:1px solid #e5e7eb;padding:16px 28px;text-align:center;">
-    <p style="margin:0;font-size:12px;color:#6b7280;">每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成 &nbsp;·&nbsp; 2026-05-25</p>
+  <div style="background:#f3f4f6;padding:16px 24px;text-align:center;font-size:13px;color:#6b7280;border-top:1px solid #e5e7eb;">
+    每日早7点推送 &nbsp;&middot;&nbsp; 内容由 Claude 生成
   </div>
 
 </div>
