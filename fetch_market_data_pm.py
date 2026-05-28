@@ -7,6 +7,7 @@ Saves to: stock_report/data/afternoon_latest.json
 """
 import requests, json, os, time
 from datetime import datetime, timedelta
+from technical_indicators import compute_stock_technical
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -134,6 +135,17 @@ def fetch_realtime_capital_flow_top30():
     })
     return data["data"]["diff"] if data and data.get("data") and data["data"].get("diff") else []
 
+
+def fetch_stock_kline(secid, name, days=25):
+    data = safe_get("https://push2his.eastmoney.com/api/qt/stock/kline/get", {
+        "secid": secid, "fields1": "f1,f2,f3,f4,f5,f6",
+        "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
+        "klt": "101", "fqt": "1", "end": "20500101", "lmt": days,
+        "ut": "bd1d9ddb04089700cf9c27f6f7426281"
+    })
+    klines = data["data"]["klines"] if data and data.get("data") and data["data"].get("klines") else []
+    return {"name": name, "secid": secid, "klines": klines}
+
 def main():
     print(f"=== Afternoon fetch started {datetime.now().isoformat()} ===")
     result = {
@@ -184,6 +196,40 @@ def main():
     print("8. Real-time capital flow top30...")
     result["capital_flow_top30_rt"] = fetch_realtime_capital_flow_top30()
     print(f"   {len(result['capital_flow_top30_rt'])} stocks")
+
+    # Fetch watchlist K-lines for technicals
+    print("9. Watchlist K-lines (for technicals)...")
+    WATCHLIST_SECIDS = [
+        ("0.300308", "中际旭创"), ("0.300502", "新易盛"), ("0.300394", "天孚通信"),
+        ("1.601138", "工业富联"), ("1.603019", "中科曙光"), ("1.688256", "寒武纪"),
+        ("1.688041", "海光信息"), ("1.601869", "长飞光纤"), ("1.600487", "亨通光电"),
+        ("0.002230", "科大讯飞"),
+    ]
+    result["watchlist_klines"] = []
+    for secid, name in WATCHLIST_SECIDS:
+        kl = fetch_stock_kline(secid, name)
+        result["watchlist_klines"].append(kl)
+        time.sleep(0.25)
+
+    # Compute technical indicators
+    print("10. Watchlist technicals...")
+    flow_lookup = {}
+    for s in result["capital_flow_top30_rt"]:
+        cd = s.get("f12", "")
+        fl = s.get("f62")
+        if cd and fl is not None:
+            flow_lookup[cd] = float(fl) if fl != "-" else 0
+
+    result["watchlist_technicals"] = []
+    for kl in result["watchlist_klines"]:
+        secid = kl.get("secid", "")
+        code = secid.split(".")[-1] if "." in secid else secid
+        net_flow = flow_lookup.get(code)
+        tech = compute_stock_technical(kl["klines"], net_flow)
+        entry = {"name": kl["name"], "secid": secid, "code": code}
+        if tech:
+            entry.update(tech)
+        result["watchlist_technicals"].append(entry)
 
     os.makedirs("stock_report/data", exist_ok=True)
     out = "stock_report/data/afternoon_latest.json"

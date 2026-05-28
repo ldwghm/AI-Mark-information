@@ -7,6 +7,7 @@ Saves to: stock_report/data/morning_latest.json
 """
 import requests, json, os, time
 from datetime import datetime, timedelta
+from technical_indicators import compute_stock_technical
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -127,6 +128,14 @@ def main():
         print(f"   {v['name']}: {len(v['klines'])} bars")
     time.sleep(0.5)
 
+    print("1b. Index technicals...")
+    result["index_technicals"] = {}
+    for k, v in result["indices"].items():
+        tech = compute_stock_technical(v["klines"])
+        if tech:
+            result["index_technicals"][k] = tech
+            print(f"   {v[chr(39)+chr(110)+chr(97)+chr(109)+chr(101)+chr(39)]}: {tech[chr(39)+chr(109)+chr(97)+chr(95)+chr(116)+chr(114)+chr(101)+chr(110)+chr(100)+chr(39)]}")
+
     print("2. Concept boards by change...")
     all_by_change = fetch_concept_boards("f3", 200)
     result["all_boards_by_change"] = all_by_change[:60]
@@ -171,7 +180,27 @@ def main():
         print(f"   {name}: {len(kl['klines'])} bars")
         time.sleep(0.25)
 
-    print("8. Northbound capital...")
+        # Compute technical indicators for watchlist
+        print("7b. Watchlist technicals...")
+        flow_lookup = {}
+        for s in result["capital_flow_top30"]:
+            cd = s.get("f12", "")
+            fl = s.get("f62")
+            if cd and fl is not None:
+                flow_lookup[cd] = float(fl) if fl != "-" else 0
+
+        result["watchlist_technicals"] = []
+        for kl in result["watchlist_klines"]:
+            secid = kl.get("secid", "")
+            code = secid.split(".")[-1] if "." in secid else secid
+            net_flow = flow_lookup.get(code)
+            tech = compute_stock_technical(kl["klines"], net_flow)
+            entry = {"name": kl["name"], "secid": secid, "code": code}
+            if tech:
+                entry.update(tech)
+            result["watchlist_technicals"].append(entry)
+
+        print("8. Northbound capital...")
     result["northbound"] = fetch_northbound()
     print(f"   {len(result['northbound'])} records")
     time.sleep(0.4)
