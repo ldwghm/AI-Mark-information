@@ -1,198 +1,192 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每日英语练习 - 2026-05-28</title>
+<title>每日英语练习 2026-05-29</title>
 </head>
-<body style="margin:0;padding:20px;background:#f5f7fa;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;">
+<body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;">
 
-<div style="max-width:780px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+<div style="max-width:780px;margin:0 auto;background:#ffffff;padding-bottom:32px;">
 
   <!-- Header -->
-  <div style="background:#1e3a8a;color:#ffffff;padding:20px 28px;">
+  <div style="background:#1e3a8a;color:#ffffff;padding:24px 28px;">
     <div style="font-size:22px;font-weight:bold;letter-spacing:0.5px;">📚 每日英语练习</div>
-    <div style="margin-top:6px;font-size:14px;opacity:0.85;">2026年5月28日 · Thursday · Topic: Finance</div>
+    <div style="font-size:14px;margin-top:6px;opacity:0.85;">2026年5月29日 · CS Graduate Interview 专项</div>
   </div>
 
-  <!-- Body -->
-  <div style="padding:28px;">
+  <div style="padding:28px 32px;">
 
-    <!-- ===== SECTION 1: ORAL PRACTICE ===== -->
+    <!-- ============================================================ -->
+    <!-- SECTION 1: ORAL PRACTICE -->
+    <!-- ============================================================ -->
     <div style="margin-bottom:36px;">
-      <h2 style="color:#059669;font-size:18px;margin:0 0 14px 0;padding-bottom:8px;border-bottom:1px solid #e5e7eb;">
-        🎙️ 口语练习 · Oral Practice
+      <h2 style="color:#059669;font-size:18px;margin:0 0 16px 0;padding-bottom:8px;border-bottom:2px solid #d1fae5;">
+        🎤 Oral Practice — CS Graduate Interview
       </h2>
 
+      <!-- Question -->
+      <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
+        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#059669;margin-bottom:8px;letter-spacing:0.8px;">Question</div>
+        <div style="background:#f0fdf4;padding:14px 16px;border-radius:6px;font-style:italic;line-height:1.7;color:#1a1a1a;">
+          Can you explain the CAP theorem and discuss the real-world trade-offs when designing distributed systems? Please give concrete examples of systems that make different choices along the CAP spectrum, and explain why those choices make sense for their use cases.
+        </div>
+      </div>
+
+      <!-- Reference Answer -->
+      <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
+        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#059669;margin-bottom:8px;letter-spacing:0.8px;">Reference Answer</div>
+        <div style="line-height:1.8;color:#2d2d2d;">
+          <p style="margin:0 0 12px 0;">
+            The CAP theorem, formulated by Eric Brewer in 2000 and formally proven by Gilbert and Lynch in 2002, states that a distributed data store can guarantee at most two of three properties simultaneously: <strong>Consistency</strong> (every read returns the most recent write), <strong>Availability</strong> (every request receives a non-error response), and <strong>Partition Tolerance</strong> (the system keeps functioning despite network partitions that drop messages between nodes).
+          </p>
+          <p style="margin:0 0 12px 0;">
+            In practice, network partitions are an unavoidable reality in any distributed system, so partition tolerance is non-negotiable. This forces architects to choose between consistency and availability <em>during</em> a partition event. Systems like HBase and Apache ZooKeeper prioritize <strong>CP</strong> — they refuse requests rather than return stale data. Conversely, systems like Cassandra and Amazon DynamoDB prioritize <strong>AP</strong> — they remain accessible but use eventual consistency, where replicas converge asynchronously over time.
+          </p>
+          <p style="margin:0 0 12px 0;">
+            The <strong>PACELC theorem</strong> extends this thinking by noting that even without partitions, there is a latency–consistency trade-off. Strong consistency requires cross-node coordination, which adds latency, while eventual consistency allows reads from the nearest replica at lower latency.
+          </p>
+          <p style="margin:0 0 0 0;">
+            Practical decisions depend on the domain: banking and payment systems demand CP to prevent double-spending or inconsistent balances, whereas social media timelines and product recommendation feeds can tolerate temporary inconsistency and benefit from AP's higher availability and lower latency.
+          </p>
+        </div>
+      </div>
+
+      <!-- Key Vocabulary -->
       <div style="border-left:4px solid #059669;padding-left:16px;">
-
-        <!-- Question -->
-        <div style="margin-bottom:20px;">
-          <div style="font-weight:bold;color:#059669;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">Question</div>
-          <div style="background:#f0fdf4;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.7;font-style:italic;">
-            "Can you explain the concept of yield curve inversion? Why do economists and analysts treat it as a reliable leading indicator of recession, and what are its limitations?"
-          </div>
-        </div>
-
-        <!-- Reference Answer -->
-        <div style="margin-bottom:20px;">
-          <div style="font-weight:bold;color:#059669;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">Reference Answer</div>
-          <div style="background:#fafafa;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.8;color:#2d2d2d;">
-            <p style="margin:0 0 12px 0;">A yield curve plots the interest rates of bonds with equal credit quality but different maturities — typically U.S. Treasury bonds — ranging from short-term (3-month) to long-term (10-year or 30-year). Under normal economic conditions, long-term bonds carry higher yields than short-term bonds, compensating investors for the additional risk of holding capital over a longer horizon. This produces an upward-sloping curve.</p>
-            <p style="margin:0 0 12px 0;">An inversion occurs when short-term yields rise above long-term yields, most commonly measured by the spread between the 2-year and 10-year Treasury notes going negative. This happens when the Federal Reserve aggressively raises short-term interest rates to combat inflation, while long-term rates remain anchored by weak growth expectations and flight-to-safety demand.</p>
-            <p style="margin:0 0 12px 0;">Economists treat inversion as a recession signal because it reflects the market's collective expectation that future growth will slow significantly. Historically, every U.S. recession since the 1970s was preceded by an inverted yield curve, giving it strong empirical credibility.</p>
-            <p style="margin:0;">However, there are important limitations. First, the lag between inversion and actual recession ranges from 6 to 24 months, making precise timing difficult. Second, modern quantitative easing programs by central banks can artificially suppress long-term yields, potentially creating false inversions. Third, global capital flows and foreign demand for U.S. Treasuries add noise to the signal. Therefore, the yield curve is a useful but not infallible indicator and should be interpreted alongside other macro data.</p>
-          </div>
-        </div>
-
-        <!-- Key Vocabulary -->
-        <div>
-          <div style="font-weight:bold;color:#059669;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;">Key Vocabulary</div>
-          <table style="width:100%;border-collapse:collapse;font-size:14px;">
-            <thead>
-              <tr style="background:#059669;color:#ffffff;">
-                <th style="padding:10px 12px;text-align:left;border-radius:4px 0 0 0;">Word / Phrase</th>
-                <th style="padding:10px 12px;text-align:left;">中文释义</th>
-                <th style="padding:10px 12px;text-align:left;border-radius:0 4px 0 0;">Example Sentence</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">yield curve</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#6b7280;">收益率曲线</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#4b5563;">The yield curve steepened as investors rotated into long-term bonds.</td>
-              </tr>
-              <tr>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">inversion</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#6b7280;">倒挂，反转</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#4b5563;">The inversion of the 2-10 spread alarmed many portfolio managers.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">leading indicator</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#6b7280;">先行指标</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#4b5563;">PMI is widely used as a leading indicator of manufacturing activity.</td>
-              </tr>
-              <tr>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">flight to safety</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#6b7280;">避险情绪/避险需求</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#4b5563;">Market turmoil triggered a flight to safety into U.S. Treasuries.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">quantitative easing (QE)</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#6b7280;">量化宽松</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#4b5563;">The Fed's quantitative easing kept long-term yields artificially low.</td>
-              </tr>
-              <tr>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">maturity</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#6b7280;">到期期限</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#4b5563;">Bonds with longer maturities typically offer higher coupon rates.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">spread</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#6b7280;">利差，价差</td>
-                <td style="padding:9px 12px;border-bottom:1px solid #e5e7eb;color:#4b5563;">The credit spread between junk bonds and Treasuries widened sharply.</td>
-              </tr>
-              <tr>
-                <td style="padding:9px 12px;font-weight:600;">empirical credibility</td>
-                <td style="padding:9px 12px;color:#6b7280;">实证可信度</td>
-                <td style="padding:9px 12px;color:#4b5563;">The model gained empirical credibility after being validated across 40 years of data.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
+        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#059669;margin-bottom:12px;letter-spacing:0.8px;">Key Vocabulary</div>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <thead>
+            <tr style="background:#f0fdf4;">
+              <th style="text-align:left;padding:9px 12px;border:1px solid #d1fae5;color:#059669;font-weight:bold;width:22%;">Word / Phrase</th>
+              <th style="text-align:left;padding:9px 12px;border:1px solid #d1fae5;color:#059669;font-weight:bold;width:20%;">中文释义</th>
+              <th style="text-align:left;padding:9px 12px;border:1px solid #d1fae5;color:#059669;font-weight:bold;">Example Sentence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Partition Tolerance</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">分区容错性</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">Partition tolerance ensures the cluster survives a broken network link between nodes.</td>
+            </tr>
+            <tr style="background:#fafafa;">
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Eventual Consistency</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">最终一致性</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">With eventual consistency, all replicas will converge to the same value given enough time.</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Replication</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">数据复制</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">Asynchronous replication reduces write latency but introduces the risk of stale reads.</td>
+            </tr>
+            <tr style="background:#fafafa;">
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Quorum</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">法定人数 / 多数确认</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">Cassandra's quorum reads require a majority of replicas to respond before returning data.</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Consensus Protocol</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">共识协议</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">Raft is a consensus protocol designed to be easier to understand than Paxos.</td>
+            </tr>
+            <tr style="background:#fafafa;">
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Network Partition</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">网络分区</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">A network partition occurs when nodes in a cluster can no longer communicate with each other.</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Latency–Consistency Trade-off</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">延迟与一致性的权衡</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">The PACELC model formalizes the latency–consistency trade-off even in partition-free scenarios.</td>
+            </tr>
+            <tr style="background:#fafafa;">
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Stale Read</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">读取过期数据</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">In an AP system, a client may experience a stale read if the replica hasn't yet synced the latest write.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- ===== SECTION 2: AI NEWS ===== -->
+    <!-- ============================================================ -->
+    <!-- SECTION 2: AI NEWS -->
+    <!-- ============================================================ -->
     <div style="margin-bottom:36px;">
-      <h2 style="color:#7c3aed;font-size:18px;margin:0 0 14px 0;padding-bottom:8px;border-bottom:1px solid #e5e7eb;">
-        🤖 AI 资讯 · AI News
+      <h2 style="color:#7c3aed;font-size:18px;margin:0 0 16px 0;padding-bottom:8px;border-bottom:2px solid #ede9fe;">
+        🤖 AI News
       </h2>
 
+      <!-- Headline -->
+      <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#7c3aed;margin-bottom:8px;letter-spacing:0.8px;">Headline</div>
+        <div style="background:#faf5ff;padding:12px 16px;border-radius:6px;">
+          <span style="display:inline-block;background:#7c3aed;color:#fff;font-size:11px;padding:2px 8px;border-radius:4px;margin-right:8px;font-weight:bold;">近期动态</span>
+          <strong>大模型推理效率突破临界点，端侧部署进入规模化落地阶段</strong>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#7c3aed;margin-bottom:8px;letter-spacing:0.8px;">English Summary</div>
+        <div style="line-height:1.8;color:#2d2d2d;">
+          Advances in model quantization, pruning, and speculative decoding have reduced the computational cost of running large language models by over 80% compared to two years ago, enabling real-time inference on consumer-grade smartphones and embedded hardware. This breakthrough is accelerating a shift toward on-device AI, where sensitive data such as health records and private communications can be processed locally without ever leaving the user's device.
+        </div>
+      </div>
+
+      <!-- Theoretical Principle -->
       <div style="border-left:4px solid #7c3aed;padding-left:16px;">
-
-        <!-- Headline -->
-        <div style="margin-bottom:16px;">
-          <div style="font-weight:bold;color:#7c3aed;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">Headline <span style="font-weight:normal;color:#9ca3af;font-size:11px;">[Recent Trend]</span></div>
-          <div style="background:#faf5ff;border-radius:6px;padding:12px 16px;font-size:15px;font-weight:600;color:#1a1a1a;">
-            谷歌发布 Gemini 2.5 Ultra，多模态推理能力刷新多项基准测试记录
-          </div>
-          <div style="margin-top:6px;font-size:13px;color:#6b7280;padding-left:4px;">
-            Google releases Gemini 2.5 Ultra, setting new benchmarks across multimodal reasoning tasks
-          </div>
+        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#7c3aed;margin-bottom:8px;letter-spacing:0.8px;">Theoretical Principle</div>
+        <div style="background:#faf5ff;padding:14px 16px;border-radius:6px;line-height:1.8;">
+          <div style="font-weight:bold;color:#7c3aed;margin-bottom:8px;">Wright's Law (Learning Curve Theory)</div>
+          Wright's Law, originally observed in aircraft manufacturing, states that for every cumulative doubling of units produced, costs fall by a constant percentage. Applied to AI compute, it predicts that as the total amount of AI inference workload doubles globally — driven by adoption — the cost per inference continuously declines. This virtuous cycle means that hardware manufacturers, cloud providers, and model optimization researchers all invest more as the market grows, further driving down cost. The dramatic reduction in model inference costs we see today is a textbook manifestation of this learning curve: more usage generates revenue for R&D, producing better chips and algorithms that reduce cost, which in turn enables even broader deployment. Unlike Moore's Law (which describes transistor density doubling), Wright's Law focuses on cumulative production volume as the driver of cost reduction.
         </div>
-
-        <!-- Summary -->
-        <div style="margin-bottom:16px;">
-          <div style="font-weight:bold;color:#7c3aed;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">English Summary</div>
-          <div style="background:#fafafa;border-radius:6px;padding:12px 16px;font-size:15px;line-height:1.8;color:#2d2d2d;">
-            Google's Gemini 2.5 Ultra has achieved state-of-the-art performance on several leading AI evaluation benchmarks, including MMLU, HumanEval, and MATH, demonstrating significantly improved reasoning across text, code, and image modalities. The release intensifies the competitive race between major AI labs and underscores how rapidly frontier model capabilities are advancing on a six-to-twelve month cadence.
-          </div>
-        </div>
-
-        <!-- Theoretical Principle -->
-        <div>
-          <div style="font-weight:bold;color:#7c3aed;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">Theoretical Principle</div>
-          <div style="background:#f5f3ff;border-radius:6px;padding:14px 16px;">
-            <div style="font-weight:600;color:#7c3aed;margin-bottom:8px;">Scaling Laws &amp; Emergent Capabilities</div>
-            <div style="font-size:14px;line-height:1.8;color:#374151;">
-              Scaling laws, formalized by researchers at OpenAI and later extended by DeepMind, describe a predictable power-law relationship between model performance, the amount of training compute, dataset size, and the number of model parameters. As these quantities increase by orders of magnitude, loss on benchmark tasks decreases in a log-linear fashion. Beyond raw scaling, researchers have documented "emergent capabilities" — qualitative abilities (chain-of-thought reasoning, multi-step arithmetic, code synthesis) that appear discontinuously once models surpass certain scale thresholds, suggesting that quantitative increases in compute can trigger qualitative behavioral shifts. This phenomenon is central to understanding why frontier model releases continue to surprise practitioners with unexpected new capabilities, even as the underlying training recipe remains fundamentally similar.
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
-    <!-- ===== SECTION 3: FINANCE NEWS ===== -->
+    <!-- ============================================================ -->
+    <!-- SECTION 3: FINANCE NEWS -->
+    <!-- ============================================================ -->
     <div style="margin-bottom:20px;">
-      <h2 style="color:#d97706;font-size:18px;margin:0 0 14px 0;padding-bottom:8px;border-bottom:1px solid #e5e7eb;">
-        💹 财经资讯 · Finance News
+      <h2 style="color:#d97706;font-size:18px;margin:0 0 16px 0;padding-bottom:8px;border-bottom:2px solid #fef3c7;">
+        💹 Finance News
       </h2>
 
+      <!-- Headline -->
+      <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#d97706;margin-bottom:8px;letter-spacing:0.8px;">Headline</div>
+        <div style="background:#fffbeb;padding:12px 16px;border-radius:6px;">
+          <span style="display:inline-block;background:#d97706;color:#fff;font-size:11px;padding:2px 8px;border-radius:4px;margin-right:8px;font-weight:bold;">近期动态</span>
+          <strong>全球主要央行货币政策持续分化，美元强势压制新兴市场资本流动</strong>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#d97706;margin-bottom:8px;letter-spacing:0.8px;">English Summary</div>
+        <div style="line-height:1.8;color:#2d2d2d;">
+          As the Federal Reserve maintains a higher-for-longer interest rate stance while several emerging market central banks have begun easing cycles to support slowing growth, the resulting interest rate differential has strengthened the U.S. dollar and triggered significant capital outflows from emerging economies. Investors in Southeast Asian and Latin American markets are repricing sovereign risk premiums and adjusting currency hedging strategies as exchange rate volatility rises to multi-year highs.
+        </div>
+      </div>
+
+      <!-- Theoretical Principle -->
       <div style="border-left:4px solid #d97706;padding-left:16px;">
-
-        <!-- Headline -->
-        <div style="margin-bottom:16px;">
-          <div style="font-weight:bold;color:#d97706;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">Headline <span style="font-weight:normal;color:#9ca3af;font-size:11px;">[Recent Trend]</span></div>
-          <div style="background:#fffbeb;border-radius:6px;padding:12px 16px;font-size:15px;font-weight:600;color:#1a1a1a;">
-            美联储官员发出鹰派信号，市场下调2026年降息预期至一次
-          </div>
-          <div style="margin-top:6px;font-size:13px;color:#6b7280;padding-left:4px;">
-            Fed officials signal hawkish stance; markets revise 2026 rate-cut expectations down to a single cut
-          </div>
+        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#d97706;margin-bottom:8px;letter-spacing:0.8px;">Theoretical Principle</div>
+        <div style="background:#fffbeb;padding:14px 16px;border-radius:6px;line-height:1.8;">
+          <div style="font-weight:bold;color:#d97706;margin-bottom:8px;">Uncovered Interest Rate Parity (UIP)</div>
+          Uncovered Interest Rate Parity (UIP) is a foundational concept in international finance stating that the difference in nominal interest rates between two countries should equal the expected change in the exchange rate between their currencies. In theory, when the U.S. offers higher interest rates than Country X, capital should flow into U.S. assets, appreciating the dollar until the expected future depreciation of the dollar exactly offsets the yield advantage — leaving investors indifferent between the two markets. In practice, however, this parity condition often fails to hold in the short run, a phenomenon called the "forward premium puzzle." High-interest-rate currencies tend to appreciate rather than depreciate as UIP predicts, enabling carry trade strategies where investors borrow in low-rate currencies and invest in high-rate ones. The current dollar strength and emerging market outflows represent both the initial UIP-driven capital flow and the carry trade dynamic playing out simultaneously.
         </div>
-
-        <!-- Summary -->
-        <div style="margin-bottom:16px;">
-          <div style="font-weight:bold;color:#d97706;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">English Summary</div>
-          <div style="background:#fafafa;border-radius:6px;padding:12px 16px;font-size:15px;line-height:1.8;color:#2d2d2d;">
-            Several Federal Reserve officials have reiterated that inflation remains above the 2% target and that the central bank is in no rush to cut interest rates, causing futures markets to reduce the anticipated number of rate cuts in 2026 from three to one. Equity markets responded with modest declines, while the U.S. dollar index strengthened against most major currencies, reflecting the divergence in monetary policy expectations between the Fed and other central banks.
-          </div>
-        </div>
-
-        <!-- Theoretical Principle -->
-        <div>
-          <div style="font-weight:bold;color:#d97706;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">Theoretical Principle</div>
-          <div style="background:#fffbeb;border-radius:6px;padding:14px 16px;">
-            <div style="font-weight:600;color:#d97706;margin-bottom:8px;">Taylor Rule &amp; Central Bank Reaction Functions</div>
-            <div style="font-size:14px;line-height:1.8;color:#374151;">
-              The Taylor Rule, proposed by economist John B. Taylor in 1993, offers a prescriptive formula for setting short-term interest rates based on two key gaps: the deviation of actual inflation from the central bank's target, and the output gap (the difference between actual and potential GDP). The formula suggests that a central bank should raise rates more than one-for-one with inflation (the "Taylor principle"), so that real interest rates rise when inflation exceeds target — a condition necessary to actually cool aggregate demand. When the Fed communicates a hawkish stance, it is signaling that current conditions — elevated inflation or a tighter-than-expected labor market — warrant keeping the nominal policy rate above what a purely output-stabilizing path would require. Markets price future rate decisions through Fed Funds futures, meaning a shift in Fed rhetoric directly reprices the entire forward curve, affecting everything from mortgage rates to corporate bond spreads to equity discount rates.
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
-  </div><!-- /body padding -->
+  </div><!-- end padding div -->
 
   <!-- Footer -->
-  <div style="background:#f3f4f6;padding:14px 28px;text-align:center;color:#9ca3af;font-size:12px;border-top:1px solid #e5e7eb;">
-    每日早7点推送 · 内容由 Claude 生成 · 2026-05-28
+  <div style="background:#f1f5f9;border-top:1px solid #e2e8f0;padding:16px 32px;text-align:center;color:#94a3b8;font-size:12px;">
+    每日早7点推送 · 内容由 Claude 生成 · 2026-05-29
   </div>
 
-</div><!-- /container -->
+</div><!-- end max-width div -->
+
 </body>
 </html>
