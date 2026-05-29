@@ -9,23 +9,40 @@ from urllib.parse import quote
 
 # ── Helpers ────────────────────────────────────────────────────────────────
 
+def _num(v, default=0):
+    """Safely convert to float. Handles None, '-', empty strings, etc."""
+    if v is None or v == '' or v == '-':
+        return default
+    try:
+        return float(v)
+    except (ValueError, TypeError):
+        return default
+
 def _clr(p):
     """Color for percentage: red=up (A-share convention), green=down."""
+    p = _num(p)
     return '#dc2626' if p >= 0 else '#16a34a'
 
 def _fp(p):
+    p = _num(p)
     return f'{p:+.2f}%'
 
 def _fmt_amt(a):
-    if a is None: return '-'
-    a = float(a)
+    if a is None or a == '-': return '-'
+    try:
+        a = float(a)
+    except (ValueError, TypeError):
+        return '-'
     if abs(a) >= 1e8: return f'{a/1e8:.1f}亿'
     if abs(a) >= 1e4: return f'{a/1e4:.0f}万'
     return f'{a:.0f}'
 
 def _fmt_flow(v):
-    if v is None: return '-'
-    v = float(v)
+    if v is None or v == '-': return '-'
+    try:
+        v = float(v)
+    except (ValueError, TypeError):
+        return '-'
     sign = '+' if v >= 0 else ''
     if abs(v) >= 1e8: return f'{sign}{v/1e8:.2f}亿'
     if abs(v) >= 1e4: return f'{sign}{v/1e4:.0f}万'
@@ -165,8 +182,8 @@ def _render_index_cards(indices_data, index_names=None):
     for key, data in indices_data.items():
         name = index_names.get(key, key)
         if isinstance(data, dict):
-            price = data.get('price') or data.get('current') or data.get('close', 0)
-            chg = data.get('chg') or data.get('change_pct') or data.get('pct', 0)
+            price = _num(data.get('price') or data.get('current') or data.get('close'))
+            chg = _num(data.get('chg') or data.get('change_pct') or data.get('pct'))
         else:
             continue
         color = _clr(chg)
@@ -189,9 +206,9 @@ def _render_index_table(indices_data, index_names=None):
     rows = ''
     for key, data in indices_data.items():
         name = index_names.get(key, key)
-        price = data.get('price') or data.get('close', 0)
-        chg = data.get('chg') or data.get('change_pct', 0)
-        amt = data.get('amount') or data.get('amt', 0)
+        price = _num(data.get('price') or data.get('close'))
+        chg = _num(data.get('chg') or data.get('change_pct'))
+        amt = data.get('amount') or data.get('amt')
         color = _clr(chg)
         rows += f"""<tr>
         <td><b>{name}</b></td>
@@ -215,8 +232,8 @@ def _render_ai_boards(boards, board_stocks=None):
 
     for b in boards[:8]:
         name = b.get('f14', '-')
-        chg = b.get('f3', 0) or 0
-        amt = b.get('f6', 0) or 0
+        chg = _num(b.get('f3'))
+        amt = b.get('f6')
         flow = b.get('f62', None)
         bk_code = b.get('f12', '')
         color = _clr(chg)
@@ -228,7 +245,7 @@ def _render_ai_boards(boards, board_stocks=None):
             parts = []
             for s in top3:
                 sn = s.get('f14', '?')
-                sc = s.get('f3', 0) or 0
+                sc = _num(s.get('f3'))
                 parts.append(f'{sn}({_fp(sc)})')
             leaders = f'<div class="board-meta">龙头: {" | ".join(parts)}</div>'
 
@@ -254,9 +271,9 @@ def _render_capital_flow(flows):
     for i, s in enumerate(flows[:10]):
         name = s.get('f14', '-')
         code = s.get('f12', '-')
-        chg = s.get('f3', 0) or 0
-        flow = s.get('f62', 0) or 0
-        amt = s.get('f6', 0) or 0
+        chg = _num(s.get('f3'))
+        flow = _num(s.get('f62'))
+        amt = s.get('f6')
         color = _clr(chg)
         fc = '#dc2626' if flow >= 0 else '#16a34a'
         rows += f"""<tr>
@@ -277,12 +294,12 @@ def _render_watchlist_technicals(technicals):
         return '<p style="color:#9ca3af">技术指标数据不可用</p>'
     rows = ''
     # Sort by score descending
-    sorted_t = sorted(technicals, key=lambda x: x.get('score', 0) or 0, reverse=True)
+    sorted_t = sorted(technicals, key=lambda x: _num(x.get('score')), reverse=True)
     for s in sorted_t:
         name = s.get('name', '-')
         code = s.get('code', '-')
-        chg = s.get('chg_pct', 0) or 0
-        price = s.get('close', 0) or 0
+        chg = _num(s.get('chg_pct'))
+        price = _num(s.get('close'))
         score = s.get('score')
         stars = _score_stars(score)
         ma_trend = _safe(s.get('ma_trend'))
@@ -358,7 +375,7 @@ def _render_change_chart(technicals):
     """Bar chart of stock price changes."""
     if not technicals:
         return ''
-    sorted_t = sorted(technicals, key=lambda x: x.get('chg_pct', 0) or 0, reverse=True)
+    sorted_t = sorted(technicals, key=lambda x: _num(x.get('chg_pct')), reverse=True)
     labels = [s.get('name', '?') for s in sorted_t[:15]]
     values = [round(s.get('chg_pct', 0) or 0, 2) for s in sorted_t[:15]]
     if not labels:
@@ -541,8 +558,8 @@ def render_morning_report(market_data, analysis=None, date_str=''):
             <td><b>{name}</b></td>
             <td>{_safe(t.get('ma_trend'))}</td>
             <td>{_safe(t.get('macd_status'))}</td>
-            <td>{t.get('rsi_12', 0):.0f}</td>
-            <td>{t.get('volume_ratio', 0):.1f}x {_safe(t.get('volume_label'))}</td>
+            <td>{_num(t.get('rsi_12')):.0f}</td>
+            <td>{_num(t.get('volume_ratio')):.1f}x {_safe(t.get('volume_label'))}</td>
           </tr>"""
         idx_tech_html = f"""<table style="margin-top:10px">
         <tr><th>指数</th><th>MA趋势</th><th>MACD</th><th>RSI</th><th>量比</th></tr>
@@ -635,14 +652,14 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
     watchlist_rt = market_data.get('watchlist_rt', [])
     wl_rows = ''
     if watchlist_rt:
-        sorted_wl = sorted(watchlist_rt, key=lambda x: x.get('change_pct', 0) or 0, reverse=True)
+        sorted_wl = sorted(watchlist_rt, key=lambda x: _num(x.get('change_pct')), reverse=True)
         for s in sorted_wl:
             name = s.get('name', '-')
-            price = s.get('current', 0) or 0
-            chg = s.get('change_pct', 0) or 0
-            high = s.get('high', 0)
-            low = s.get('low', 0)
-            vol = s.get('volume', 0) or 0
+            price = _num(s.get('current'))
+            chg = _num(s.get('change_pct'))
+            high = _num(s.get('high'))
+            low = _num(s.get('low'))
+            vol = s.get('volume')
             color = _clr(chg)
             flag = ''
             if chg >= 9.9: flag = ' 🚀涨停'
