@@ -134,7 +134,7 @@ def main():
         tech = compute_stock_technical(v["klines"])
         if tech:
             result["index_technicals"][k] = tech
-            print(f"   {v[chr(39)+chr(110)+chr(97)+chr(109)+chr(101)+chr(39)]}: {tech[chr(39)+chr(109)+chr(97)+chr(95)+chr(116)+chr(114)+chr(101)+chr(110)+chr(100)+chr(39)]}")
+            print(f"   {v['name']}: {tech['ma_trend']}")
 
     print("2. Concept boards by change...")
     all_by_change = fetch_concept_boards("f3", 200)
@@ -152,7 +152,10 @@ def main():
         print(f"   {b.get('f14','?')}: {b.get('f3','?')}%  flow={b.get('f62','?')}")
 
     print("5. AI board constituents (top 8)...")
-    top_ai = sorted(ai_boards, key=lambda x: float(x.get("f3", 0) or 0), reverse=True)[:8]
+    def _safe_float(v, default=0):
+        try: return float(v)
+        except (ValueError, TypeError): return default
+    top_ai = sorted(ai_boards, key=lambda x: _safe_float(x.get("f3", 0) or 0), reverse=True)[:8]
     result["board_stocks"] = []
     for b in top_ai:
         bk, nm = b.get("f12", ""), b.get("f14", "")
@@ -180,27 +183,27 @@ def main():
         print(f"   {name}: {len(kl['klines'])} bars")
         time.sleep(0.25)
 
-        # Compute technical indicators for watchlist
-        print("7b. Watchlist technicals...")
-        flow_lookup = {}
-        for s in result["capital_flow_top30"]:
-            cd = s.get("f12", "")
-            fl = s.get("f62")
-            if cd and fl is not None:
-                flow_lookup[cd] = float(fl) if fl != "-" else 0
+    # Compute technical indicators for watchlist
+    print("7b. Watchlist technicals...")
+    flow_lookup = {}
+    for s in result["capital_flow_top30"]:
+        cd = s.get("f12", "")
+        fl = s.get("f62")
+        if cd and fl is not None:
+            flow_lookup[cd] = float(fl) if fl != "-" else 0
 
-        result["watchlist_technicals"] = []
-        for kl in result["watchlist_klines"]:
-            secid = kl.get("secid", "")
-            code = secid.split(".")[-1] if "." in secid else secid
-            net_flow = flow_lookup.get(code)
-            tech = compute_stock_technical(kl["klines"], net_flow)
-            entry = {"name": kl["name"], "secid": secid, "code": code}
-            if tech:
-                entry.update(tech)
-            result["watchlist_technicals"].append(entry)
+    result["watchlist_technicals"] = []
+    for kl in result["watchlist_klines"]:
+        secid = kl.get("secid", "")
+        code = secid.split(".")[-1] if "." in secid else secid
+        net_flow = flow_lookup.get(code)
+        tech = compute_stock_technical(kl["klines"], net_flow)
+        entry = {"name": kl["name"], "secid": secid, "code": code}
+        if tech:
+            entry.update(tech)
+        result["watchlist_technicals"].append(entry)
 
-        print("8. Northbound capital...")
+    print("8. Northbound capital...")
     result["northbound"] = fetch_northbound()
     print(f"   {len(result['northbound'])} records")
     time.sleep(0.4)
