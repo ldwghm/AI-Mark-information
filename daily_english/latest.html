@@ -1,192 +1,150 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每日英语练习 2026-05-29</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日英语练习 - 2026-05-30</title>
 </head>
-<body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;">
-
-<div style="max-width:780px;margin:0 auto;background:#ffffff;padding-bottom:32px;">
+<body style="margin:0;padding:0;background:#f4f6f9;">
+<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
 
   <!-- Header -->
   <div style="background:#1e3a8a;color:#ffffff;padding:24px 28px;">
-    <div style="font-size:22px;font-weight:bold;letter-spacing:0.5px;">📚 每日英语练习</div>
-    <div style="font-size:14px;margin-top:6px;opacity:0.85;">2026年5月29日 · CS Graduate Interview 专项</div>
+    <div style="font-size:26px;font-weight:bold;letter-spacing:1px;">📚 每日英语练习</div>
+    <div style="margin-top:6px;font-size:14px;opacity:0.85;">2026年05月30日 · Economics &amp; Management</div>
   </div>
 
-  <div style="padding:28px 32px;">
+  <div style="padding:28px;">
 
-    <!-- ============================================================ -->
-    <!-- SECTION 1: ORAL PRACTICE -->
-    <!-- ============================================================ -->
-    <div style="margin-bottom:36px;">
-      <h2 style="color:#059669;font-size:18px;margin:0 0 16px 0;padding-bottom:8px;border-bottom:2px solid #d1fae5;">
-        🎤 Oral Practice — CS Graduate Interview
-      </h2>
+    <!-- ===== Section 1: Oral Practice ===== -->
+    <h2 style="color:#059669;font-size:18px;margin-bottom:4px;margin-top:0;">🗣️ Oral Practice</h2>
+    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:32px;">
+
+      <!-- Topic badge -->
+      <div style="display:inline-block;background:#ecfdf5;color:#059669;border-radius:20px;padding:3px 12px;font-size:13px;font-weight:bold;margin-bottom:14px;">Topic: Principal-Agent Problem</div>
 
       <!-- Question -->
-      <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
-        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#059669;margin-bottom:8px;letter-spacing:0.8px;">Question</div>
-        <div style="background:#f0fdf4;padding:14px 16px;border-radius:6px;font-style:italic;line-height:1.7;color:#1a1a1a;">
-          Can you explain the CAP theorem and discuss the real-world trade-offs when designing distributed systems? Please give concrete examples of systems that make different choices along the CAP spectrum, and explain why those choices make sense for their use cases.
-        </div>
+      <h3 style="color:#1a1a1a;font-size:15px;margin-top:0;margin-bottom:8px;">❓ Question</h3>
+      <div style="background:#f0fdf4;border-radius:6px;padding:14px 16px;font-style:italic;color:#166534;line-height:1.7;">
+        "Can you explain the principal-agent problem? How does it arise in real-world settings such as corporate governance and financial services, and what mechanisms are typically used to mitigate it?"
       </div>
 
       <!-- Reference Answer -->
-      <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
-        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#059669;margin-bottom:8px;letter-spacing:0.8px;">Reference Answer</div>
-        <div style="line-height:1.8;color:#2d2d2d;">
-          <p style="margin:0 0 12px 0;">
-            The CAP theorem, formulated by Eric Brewer in 2000 and formally proven by Gilbert and Lynch in 2002, states that a distributed data store can guarantee at most two of three properties simultaneously: <strong>Consistency</strong> (every read returns the most recent write), <strong>Availability</strong> (every request receives a non-error response), and <strong>Partition Tolerance</strong> (the system keeps functioning despite network partitions that drop messages between nodes).
-          </p>
-          <p style="margin:0 0 12px 0;">
-            In practice, network partitions are an unavoidable reality in any distributed system, so partition tolerance is non-negotiable. This forces architects to choose between consistency and availability <em>during</em> a partition event. Systems like HBase and Apache ZooKeeper prioritize <strong>CP</strong> — they refuse requests rather than return stale data. Conversely, systems like Cassandra and Amazon DynamoDB prioritize <strong>AP</strong> — they remain accessible but use eventual consistency, where replicas converge asynchronously over time.
-          </p>
-          <p style="margin:0 0 12px 0;">
-            The <strong>PACELC theorem</strong> extends this thinking by noting that even without partitions, there is a latency–consistency trade-off. Strong consistency requires cross-node coordination, which adds latency, while eventual consistency allows reads from the nearest replica at lower latency.
-          </p>
-          <p style="margin:0 0 0 0;">
-            Practical decisions depend on the domain: banking and payment systems demand CP to prevent double-spending or inconsistent balances, whereas social media timelines and product recommendation feeds can tolerate temporary inconsistency and benefit from AP's higher availability and lower latency.
-          </p>
-        </div>
+      <h3 style="color:#1a1a1a;font-size:15px;margin-top:20px;margin-bottom:8px;">📝 Reference Answer</h3>
+      <div style="line-height:1.8;color:#1a1a1a;">
+        <p style="margin-top:0;">The principal-agent problem arises when one party (the principal) delegates decision-making authority to another (the agent), but the two parties have divergent interests and there is an information asymmetry between them. Because the agent possesses private information about their own actions or the environment, they may pursue personal goals at the expense of the principal's welfare — a behavior known as <strong>moral hazard</strong>.</p>
+        <p>In corporate governance, shareholders (principals) hire managers (agents) to run the firm. Managers may over-invest in empire-building projects that enhance their prestige but destroy shareholder value, or they may shirk effort when not closely monitored. In financial services, fund managers may engage in excessive risk-taking — known as "gambling for resurrection" — to boost short-term performance metrics that affect their bonuses.</p>
+        <p>Several mechanisms help align incentives. <strong>Performance-based compensation</strong> (stock options, bonuses tied to long-run returns) makes the agent share in the consequences of their decisions. <strong>Monitoring</strong> via boards of directors, auditors, and regulatory oversight reduces information asymmetry. <strong>Reputation effects</strong> encourage agents to behave well when they value future employment. <strong>Bonding mechanisms</strong>, such as requiring managers to hold significant equity stakes, create skin-in-the-game. Each mechanism carries trade-offs: high-powered incentives can encourage excessive risk, while intensive monitoring is costly. No single remedy fully resolves the problem; effective governance combines multiple overlapping controls.</p>
       </div>
 
       <!-- Key Vocabulary -->
-      <div style="border-left:4px solid #059669;padding-left:16px;">
-        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#059669;margin-bottom:12px;letter-spacing:0.8px;">Key Vocabulary</div>
-        <table style="width:100%;border-collapse:collapse;font-size:14px;">
-          <thead>
-            <tr style="background:#f0fdf4;">
-              <th style="text-align:left;padding:9px 12px;border:1px solid #d1fae5;color:#059669;font-weight:bold;width:22%;">Word / Phrase</th>
-              <th style="text-align:left;padding:9px 12px;border:1px solid #d1fae5;color:#059669;font-weight:bold;width:20%;">中文释义</th>
-              <th style="text-align:left;padding:9px 12px;border:1px solid #d1fae5;color:#059669;font-weight:bold;">Example Sentence</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Partition Tolerance</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">分区容错性</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">Partition tolerance ensures the cluster survives a broken network link between nodes.</td>
-            </tr>
-            <tr style="background:#fafafa;">
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Eventual Consistency</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">最终一致性</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">With eventual consistency, all replicas will converge to the same value given enough time.</td>
-            </tr>
-            <tr>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Replication</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">数据复制</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">Asynchronous replication reduces write latency but introduces the risk of stale reads.</td>
-            </tr>
-            <tr style="background:#fafafa;">
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Quorum</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">法定人数 / 多数确认</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">Cassandra's quorum reads require a majority of replicas to respond before returning data.</td>
-            </tr>
-            <tr>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Consensus Protocol</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">共识协议</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">Raft is a consensus protocol designed to be easier to understand than Paxos.</td>
-            </tr>
-            <tr style="background:#fafafa;">
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Network Partition</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">网络分区</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">A network partition occurs when nodes in a cluster can no longer communicate with each other.</td>
-            </tr>
-            <tr>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Latency–Consistency Trade-off</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">延迟与一致性的权衡</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">The PACELC model formalizes the latency–consistency trade-off even in partition-free scenarios.</td>
-            </tr>
-            <tr style="background:#fafafa;">
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;">Stale Read</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#555;">读取过期数据</td>
-              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#444;">In an AP system, a client may experience a stale read if the replica hasn't yet synced the latest write.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <h3 style="color:#1a1a1a;font-size:15px;margin-top:20px;margin-bottom:10px;">📖 Key Vocabulary</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <thead>
+          <tr style="background:#059669;color:#ffffff;">
+            <th style="padding:9px 12px;text-align:left;width:30%;">Word / Phrase</th>
+            <th style="padding:9px 12px;text-align:left;width:28%;">中文释义</th>
+            <th style="padding:9px 12px;text-align:left;">Example Sentence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#f9fafb;">
+            <td style="padding:9px 12px;font-weight:bold;">principal-agent problem</td>
+            <td style="padding:9px 12px;color:#374151;">委托-代理问题</td>
+            <td style="padding:9px 12px;color:#374151;">The principal-agent problem is central to why CEO compensation packages are so complex.</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 12px;font-weight:bold;">moral hazard</td>
+            <td style="padding:9px 12px;color:#374151;">道德风险</td>
+            <td style="padding:9px 12px;color:#374151;">Government bailouts can create moral hazard by insulating banks from the full cost of risky bets.</td>
+          </tr>
+          <tr style="background:#f9fafb;">
+            <td style="padding:9px 12px;font-weight:bold;">information asymmetry</td>
+            <td style="padding:9px 12px;color:#374151;">信息不对称</td>
+            <td style="padding:9px 12px;color:#374151;">Information asymmetry between doctors and patients makes healthcare markets prone to inefficiency.</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 12px;font-weight:bold;">incentive alignment</td>
+            <td style="padding:9px 12px;color:#374151;">激励相容</td>
+            <td style="padding:9px 12px;color:#374151;">Equity grants are designed to achieve incentive alignment between managers and shareholders.</td>
+          </tr>
+          <tr style="background:#f9fafb;">
+            <td style="padding:9px 12px;font-weight:bold;">shirking</td>
+            <td style="padding:9px 12px;color:#374151;">偷懒；逃避责任</td>
+            <td style="padding:9px 12px;color:#374151;">Without performance monitoring, shirking by remote employees becomes harder to detect.</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 12px;font-weight:bold;">skin in the game</td>
+            <td style="padding:9px 12px;color:#374151;">利益绑定；切肤之痛</td>
+            <td style="padding:9px 12px;color:#374151;">Requiring loan originators to retain a portion of each mortgage gives them skin in the game.</td>
+          </tr>
+          <tr style="background:#f9fafb;">
+            <td style="padding:9px 12px;font-weight:bold;">corporate governance</td>
+            <td style="padding:9px 12px;color:#374151;">公司治理</td>
+            <td style="padding:9px 12px;color:#374151;">Weak corporate governance was a key factor in several high-profile accounting scandals.</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 12px;font-weight:bold;">empire-building</td>
+            <td style="padding:9px 12px;color:#374151;">扩张主义（管理层私利扩张）</td>
+            <td style="padding:9px 12px;color:#374151;">Analysts worried the acquisition spree reflected empire-building rather than value creation.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- SECTION 2: AI NEWS -->
-    <!-- ============================================================ -->
-    <div style="margin-bottom:36px;">
-      <h2 style="color:#7c3aed;font-size:18px;margin:0 0 16px 0;padding-bottom:8px;border-bottom:2px solid #ede9fe;">
-        🤖 AI News
-      </h2>
+    <!-- ===== Section 2: AI News ===== -->
+    <h2 style="color:#7c3aed;font-size:18px;margin-bottom:4px;margin-top:0;">🤖 AI News</h2>
+    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:32px;">
 
       <!-- Headline -->
-      <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#7c3aed;margin-bottom:8px;letter-spacing:0.8px;">Headline</div>
-        <div style="background:#faf5ff;padding:12px 16px;border-radius:6px;">
-          <span style="display:inline-block;background:#7c3aed;color:#fff;font-size:11px;padding:2px 8px;border-radius:4px;margin-right:8px;font-weight:bold;">近期动态</span>
-          <strong>大模型推理效率突破临界点，端侧部署进入规模化落地阶段</strong>
-        </div>
+      <h3 style="color:#1a1a1a;font-size:15px;margin-top:0;margin-bottom:8px;">📰 Headline <span style="font-size:12px;color:#6b7280;font-weight:normal;">[Recent Trend]</span></h3>
+      <div style="background:#f5f3ff;border-radius:6px;padding:12px 16px;color:#4c1d95;font-weight:bold;font-size:15px;">
+        大型语言模型推理能力持续突破，AI Agent 开始在企业流程中规模化落地
       </div>
 
       <!-- Summary -->
-      <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#7c3aed;margin-bottom:8px;letter-spacing:0.8px;">English Summary</div>
-        <div style="line-height:1.8;color:#2d2d2d;">
-          Advances in model quantization, pruning, and speculative decoding have reduced the computational cost of running large language models by over 80% compared to two years ago, enabling real-time inference on consumer-grade smartphones and embedded hardware. This breakthrough is accelerating a shift toward on-device AI, where sensitive data such as health records and private communications can be processed locally without ever leaving the user's device.
-        </div>
+      <h3 style="color:#1a1a1a;font-size:15px;margin-top:16px;margin-bottom:8px;">📄 English Summary</h3>
+      <div style="line-height:1.8;color:#1a1a1a;">
+        Leading AI labs have released a new generation of reasoning-focused large language models that demonstrate significantly improved performance on multi-step logical tasks, mathematical proofs, and long-horizon planning benchmarks. Enterprises in sectors ranging from legal services to software development have begun deploying AI agents capable of autonomously completing complex, multi-tool workflows, signaling a shift from demonstration projects to production-scale adoption.
       </div>
 
       <!-- Theoretical Principle -->
-      <div style="border-left:4px solid #7c3aed;padding-left:16px;">
-        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#7c3aed;margin-bottom:8px;letter-spacing:0.8px;">Theoretical Principle</div>
-        <div style="background:#faf5ff;padding:14px 16px;border-radius:6px;line-height:1.8;">
-          <div style="font-weight:bold;color:#7c3aed;margin-bottom:8px;">Wright's Law (Learning Curve Theory)</div>
-          Wright's Law, originally observed in aircraft manufacturing, states that for every cumulative doubling of units produced, costs fall by a constant percentage. Applied to AI compute, it predicts that as the total amount of AI inference workload doubles globally — driven by adoption — the cost per inference continuously declines. This virtuous cycle means that hardware manufacturers, cloud providers, and model optimization researchers all invest more as the market grows, further driving down cost. The dramatic reduction in model inference costs we see today is a textbook manifestation of this learning curve: more usage generates revenue for R&D, producing better chips and algorithms that reduce cost, which in turn enables even broader deployment. Unlike Moore's Law (which describes transistor density doubling), Wright's Law focuses on cumulative production volume as the driver of cost reduction.
-        </div>
+      <h3 style="color:#1a1a1a;font-size:15px;margin-top:16px;margin-bottom:8px;">💡 Theoretical Principle: <span style="color:#7c3aed;">General Purpose Technology (GPT) Theory</span></h3>
+      <div style="background:#faf5ff;border-radius:6px;padding:14px 16px;line-height:1.8;color:#3b0764;">
+        General Purpose Technology (GPT) theory, developed by economists Timothy Bresnahan and Manuel Trajtenberg, holds that a small number of technologies — such as the steam engine, electricity, and the internet — are so broadly applicable and continuously improving that they drive economy-wide productivity transformations rather than benefiting a single industry. GPTs exhibit three defining properties: pervasiveness (they can be used across many sectors), improvement over time, and the ability to spawn complementary innovations that amplify their impact. The productivity gains from a GPT often appear only after a significant adoption lag, because firms must reorganize workflows, retrain workers, and build complementary infrastructure before benefits materialize — a pattern economists call the "productivity paradox." Artificial intelligence, especially large language models, is increasingly cited as the latest GPT candidate; if the theory holds, today's enterprise AI deployment wave may represent the beginning of a broad productivity upturn that will reshape labor markets and competitive dynamics across the global economy over the next decade.
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- SECTION 3: FINANCE NEWS -->
-    <!-- ============================================================ -->
-    <div style="margin-bottom:20px;">
-      <h2 style="color:#d97706;font-size:18px;margin:0 0 16px 0;padding-bottom:8px;border-bottom:2px solid #fef3c7;">
-        💹 Finance News
-      </h2>
+    <!-- ===== Section 3: Finance News ===== -->
+    <h2 style="color:#d97706;font-size:18px;margin-bottom:4px;margin-top:0;">📈 Finance News</h2>
+    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
 
       <!-- Headline -->
-      <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#d97706;margin-bottom:8px;letter-spacing:0.8px;">Headline</div>
-        <div style="background:#fffbeb;padding:12px 16px;border-radius:6px;">
-          <span style="display:inline-block;background:#d97706;color:#fff;font-size:11px;padding:2px 8px;border-radius:4px;margin-right:8px;font-weight:bold;">近期动态</span>
-          <strong>全球主要央行货币政策持续分化，美元强势压制新兴市场资本流动</strong>
-        </div>
+      <h3 style="color:#1a1a1a;font-size:15px;margin-top:0;margin-bottom:8px;">📰 Headline <span style="font-size:12px;color:#6b7280;font-weight:normal;">[Recent Trend]</span></h3>
+      <div style="background:#fffbeb;border-radius:6px;padding:12px 16px;color:#92400e;font-weight:bold;font-size:15px;">
+        美国国债收益率曲线趋于平坦化，市场押注美联储年内启动降息周期
       </div>
 
       <!-- Summary -->
-      <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#d97706;margin-bottom:8px;letter-spacing:0.8px;">English Summary</div>
-        <div style="line-height:1.8;color:#2d2d2d;">
-          As the Federal Reserve maintains a higher-for-longer interest rate stance while several emerging market central banks have begun easing cycles to support slowing growth, the resulting interest rate differential has strengthened the U.S. dollar and triggered significant capital outflows from emerging economies. Investors in Southeast Asian and Latin American markets are repricing sovereign risk premiums and adjusting currency hedging strategies as exchange rate volatility rises to multi-year highs.
-        </div>
+      <h3 style="color:#1a1a1a;font-size:15px;margin-top:16px;margin-bottom:8px;">📄 English Summary</h3>
+      <div style="line-height:1.8;color:#1a1a1a;">
+        U.S. Treasury yields have shown a notable flattening pattern as softer-than-expected inflation data and cooling labor market indicators fuel market expectations that the Federal Reserve will begin cutting its benchmark interest rate before year-end. Bond futures markets are pricing in two to three 25-basis-point reductions in 2026, prompting a re-allocation of capital from money-market funds into longer-duration fixed-income assets and equities.
       </div>
 
       <!-- Theoretical Principle -->
-      <div style="border-left:4px solid #d97706;padding-left:16px;">
-        <div style="font-size:13px;font-weight:bold;text-transform:uppercase;color:#d97706;margin-bottom:8px;letter-spacing:0.8px;">Theoretical Principle</div>
-        <div style="background:#fffbeb;padding:14px 16px;border-radius:6px;line-height:1.8;">
-          <div style="font-weight:bold;color:#d97706;margin-bottom:8px;">Uncovered Interest Rate Parity (UIP)</div>
-          Uncovered Interest Rate Parity (UIP) is a foundational concept in international finance stating that the difference in nominal interest rates between two countries should equal the expected change in the exchange rate between their currencies. In theory, when the U.S. offers higher interest rates than Country X, capital should flow into U.S. assets, appreciating the dollar until the expected future depreciation of the dollar exactly offsets the yield advantage — leaving investors indifferent between the two markets. In practice, however, this parity condition often fails to hold in the short run, a phenomenon called the "forward premium puzzle." High-interest-rate currencies tend to appreciate rather than depreciate as UIP predicts, enabling carry trade strategies where investors borrow in low-rate currencies and invest in high-rate ones. The current dollar strength and emerging market outflows represent both the initial UIP-driven capital flow and the carry trade dynamic playing out simultaneously.
-        </div>
+      <h3 style="color:#1a1a1a;font-size:15px;margin-top:16px;margin-bottom:8px;">💡 Theoretical Principle: <span style="color:#d97706;">Yield Curve and Expectations Theory</span></h3>
+      <div style="background:#fefce8;border-radius:6px;padding:14px 16px;line-height:1.8;color:#78350f;">
+        The Expectations Theory of the yield curve posits that long-term interest rates are a geometric average of current and expected future short-term rates, plus a term premium that compensates investors for bearing duration risk. When markets anticipate that a central bank will cut short-term rates, long-end yields fall less than short-end yields (since long-end rates already partially reflect lower future rates), causing the curve to flatten. A yield curve inversion — where short-term rates exceed long-term rates — has historically preceded U.S. recessions by 12–24 months, because it signals that investors expect significantly lower future rates driven by economic weakness. The re-steepening of an inverted curve, sometimes called a "bull steepening" when driven by falling short rates, is often observed just as economic downturns are beginning, making the dynamics of curve shape a closely watched leading indicator for asset allocators and monetary policy analysts alike.
       </div>
     </div>
 
   </div><!-- end padding div -->
 
   <!-- Footer -->
-  <div style="background:#f1f5f9;border-top:1px solid #e2e8f0;padding:16px 32px;text-align:center;color:#94a3b8;font-size:12px;">
-    每日早7点推送 · 内容由 Claude 生成 · 2026-05-29
+  <div style="background:#f3f4f6;padding:14px 28px;text-align:center;font-size:13px;color:#6b7280;border-top:1px solid #e5e7eb;">
+    每日早7点推送 · 内容由 Claude 生成
   </div>
 
-</div><!-- end max-width div -->
-
+</div>
 </body>
 </html>
