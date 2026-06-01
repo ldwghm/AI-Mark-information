@@ -1,173 +1,156 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>每日英语练习 · 2026-05-31</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日英语练习 · 2026-06-01</title>
 </head>
-<body style="margin:0;padding:0;background:#f4f6f9;">
-<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;background:#ffffff;">
+<body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;">
+
+<div style="max-width:780px;margin:0 auto;background:#ffffff;">
 
   <!-- Header -->
-  <div style="background:#1e3a8a;color:#ffffff;padding:24px 28px;">
-    <div style="font-size:22px;font-weight:700;letter-spacing:0.5px;">📚 每日英语练习</div>
-    <div style="margin-top:6px;font-size:13px;opacity:0.85;">2026 年 05 月 31 日 · 星期日 · 今日主题：金融英语</div>
+  <div style="background:#1e3a8a;color:#ffffff;padding:20px 28px;">
+    <div style="font-size:22px;font-weight:bold;letter-spacing:0.5px;">📚 每日英语练习</div>
+    <div style="font-size:13px;margin-top:6px;opacity:0.85;">2026 年 06 月 01 日 &nbsp;|&nbsp; Topic: CS Graduate Interview</div>
   </div>
 
-  <!-- Body padding wrapper -->
-  <div style="padding:28px 32px;">
+  <div style="padding:28px 28px 16px;">
 
     <!-- ===== SECTION 1: ORAL PRACTICE ===== -->
-    <div style="margin-bottom:36px;">
-      <h2 style="color:#059669;font-size:17px;margin:0 0 16px 0;padding-bottom:6px;border-bottom:1px solid #d1fae5;">🎙️ Oral Practice — Finance</h2>
-      <div style="border-left:4px solid #059669;padding-left:16px;">
+    <h2 style="color:#059669;font-size:17px;margin-bottom:6px;margin-top:0;">🎙️ Oral Practice</h2>
+    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:28px;">
 
-        <!-- Question -->
-        <div style="margin-bottom:20px;">
-          <div style="font-weight:700;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">Question</div>
-          <div style="background:#f0fdf4;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.7;color:#1a1a1a;">
-            Can you explain the <strong>yield curve</strong> and what it means for the economy when it inverts? Walk me through the mechanics and why markets and central banks pay close attention to it.
-          </div>
+      <!-- Question -->
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">Question</div>
+        <div style="background:#ecfdf5;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.7;color:#1a1a1a;">
+          Can you explain the <strong>CAP theorem</strong>? What are the fundamental trade-offs it describes, and how does it influence the design decisions engineers make when building distributed systems in practice?
         </div>
+      </div>
 
-        <!-- Reference Answer -->
-        <div style="margin-bottom:20px;">
-          <div style="font-weight:700;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">Reference Answer</div>
-          <div style="background:#f9fafb;border-radius:6px;padding:16px 18px;font-size:15px;line-height:1.85;color:#1a1a1a;">
-            <p style="margin:0 0 12px 0;">The yield curve is a graphical representation of interest rates on bonds of equal credit quality but different maturities, typically plotted from the shortest-term to the longest-term. Under normal economic conditions, the curve slopes upward: investors demand higher yields to compensate for the greater uncertainty and inflation risk of holding longer-term debt.</p>
-            <p style="margin:0 0 12px 0;">An inverted yield curve occurs when short-term yields exceed long-term yields — most commonly watched is the spread between the 2-year and 10-year U.S. Treasury notes. This inversion reflects a market consensus that the central bank will be forced to cut rates in the future, typically because economic growth is expected to slow or a recession is anticipated.</p>
-            <p style="margin:0 0 12px 0;">Historically, every U.S. recession since 1955 has been preceded by a yield curve inversion, usually with a lag of 12 to 24 months. The mechanism is partly self-fulfilling: banks borrow short and lend long, so when the spread compresses or inverts, lending becomes less profitable, credit tightens, and investment falls.</p>
-            <p style="margin:0;">However, the yield curve is not infallible — the 2022–2023 inversion was notably deep, yet a severe recession did not materialize immediately, partly due to resilient labor markets and fiscal stimulus. It is best read as a probabilistic signal rather than a certainty.
-            </p>
-          </div>
+      <!-- Reference Answer -->
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">Reference Answer</div>
+        <div style="line-height:1.8;color:#1a1a1a;">
+          <p style="margin:0 0 10px;">The CAP theorem, proposed by Eric Brewer in 2000 and formally proven by Gilbert and Lynch in 2002, states that a distributed system cannot simultaneously guarantee all three of the following properties: <strong>Consistency</strong> (every read returns the most recent write or an error), <strong>Availability</strong> (every request receives a response, though it may not reflect the latest write), and <strong>Partition Tolerance</strong> (the system continues to function despite network partitions that drop or delay messages between nodes).</p>
+          <p style="margin:0 0 10px;">Because network partitions are unavoidable in any real-world distributed environment, the practical design choice boils down to a trade-off between Consistency and Availability during a partition event. <strong>CP systems</strong>—such as HBase and ZooKeeper—sacrifice availability to maintain strict consistency: when nodes cannot communicate, the system returns an error rather than potentially stale data. <strong>AP systems</strong>—such as Cassandra and DynamoDB—sacrifice strong consistency to remain available, relying on <em>eventual consistency</em> to reconcile diverged state once the partition heals.</p>
+          <p style="margin:0 0 0;">In practice, engineers also consider the <strong>PACELC model</strong>, which extends CAP by acknowledging that even in the absence of a partition, there is a latency–consistency trade-off under normal operation. The right choice depends on business requirements: financial transaction systems demand CP guarantees to prevent data anomalies, while social feed or shopping cart applications can often tolerate AP eventual consistency for lower latency and higher availability.</p>
         </div>
+      </div>
 
-        <!-- Key Vocabulary -->
-        <div>
-          <div style="font-weight:700;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">Key Vocabulary</div>
-          <table style="width:100%;border-collapse:collapse;font-size:14px;">
-            <thead>
-              <tr style="background:#d1fae5;color:#065f46;">
-                <th style="padding:9px 12px;text-align:left;border:1px solid #a7f3d0;font-weight:700;width:22%;">Word / Phrase</th>
-                <th style="padding:9px 12px;text-align:left;border:1px solid #a7f3d0;font-weight:700;width:18%;">中文释义</th>
-                <th style="padding:9px 12px;text-align:left;border:1px solid #a7f3d0;font-weight:700;">Example Sentence</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="background:#ffffff;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:600;">yield curve</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#4b5563;">收益率曲线</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Investors monitor the yield curve daily to gauge economic sentiment.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:600;">inversion</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#4b5563;">倒挂；反转</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">The curve's inversion in 2022 sparked widespread recession fears.</td>
-              </tr>
-              <tr style="background:#ffffff;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:600;">maturity</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#4b5563;">到期日；期限</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Bonds with longer maturities typically carry higher yields.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:600;">credit tightening</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#4b5563;">信贷收紧</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Credit tightening following the inversion slowed mortgage lending significantly.</td>
-              </tr>
-              <tr style="background:#ffffff;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:600;">self-fulfilling</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#4b5563;">自我实现的</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Recessions can become self-fulfilling if enough consumers cut spending.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:600;">spread</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#4b5563;">利差；价差</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">The 2s10s spread narrowed to negative territory last quarter.</td>
-              </tr>
-              <tr style="background:#ffffff;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:600;">probabilistic signal</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#4b5563;">概率性信号</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Economic indicators are probabilistic signals, not guaranteed predictors.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:600;">fiscal stimulus</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#4b5563;">财政刺激</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Massive fiscal stimulus helped delay the anticipated recession.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
+      <!-- Key Vocabulary -->
+      <div>
+        <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">Key Vocabulary</div>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <thead>
+            <tr style="background:#d1fae5;">
+              <th style="text-align:left;padding:8px 12px;border:1px solid #a7f3d0;width:28%;">Word / Phrase</th>
+              <th style="text-align:left;padding:8px 12px;border:1px solid #a7f3d0;width:20%;">中文</th>
+              <th style="text-align:left;padding:8px 12px;border:1px solid #a7f3d0;">Example Sentence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;font-weight:bold;">Partition Tolerance</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">分区容错性</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">Partition tolerance means the system keeps running even when network links between nodes fail.</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;font-weight:bold;">Eventual Consistency</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">最终一致性</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">DynamoDB uses eventual consistency so that all replicas converge to the same value over time.</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;font-weight:bold;">Replication</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">数据复制</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">Replication across multiple data centers increases fault tolerance but introduces consistency challenges.</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;font-weight:bold;">Quorum</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">法定多数 / 仲裁</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">A quorum write requires a majority of nodes to acknowledge the operation before it is confirmed.</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;font-weight:bold;">Failover</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">故障转移</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">Automatic failover redirects traffic to a standby node when the primary becomes unreachable.</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;font-weight:bold;">Linearizability</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">线性一致性</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">Linearizability guarantees that operations appear instantaneous and globally ordered to all observers.</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;font-weight:bold;">Trade-off</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">权衡 / 取舍</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">The trade-off between latency and consistency is central to distributed database design.</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;font-weight:bold;">Consensus Protocol</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">共识协议</td>
+              <td style="padding:8px 12px;border:1px solid #a7f3d0;">Raft is a consensus protocol that ensures all nodes agree on the same sequence of log entries.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
     <!-- ===== SECTION 2: AI NEWS ===== -->
-    <div style="margin-bottom:36px;">
-      <h2 style="color:#7c3aed;font-size:17px;margin:0 0 16px 0;padding-bottom:6px;border-bottom:1px solid #ede9fe;">🤖 AI News</h2>
-      <div style="border-left:4px solid #7c3aed;padding-left:16px;">
+    <h2 style="color:#7c3aed;font-size:17px;margin-bottom:6px;margin-top:0;">🤖 AI News</h2>
+    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:28px;">
 
-        <!-- Headline -->
-        <div style="margin-bottom:14px;">
-          <div style="font-weight:700;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Headline <span style="font-size:11px;color:#9ca3af;font-weight:400;text-transform:none;">[Recent Trend]</span></div>
-          <div style="font-size:16px;font-weight:600;color:#1a1a1a;">多家科技巨头竞相发布新一代多模态大模型，推动 AI 推理能力突破新阶段</div>
+      <div style="margin-bottom:12px;">
+        <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Headline <span style="font-weight:normal;color:#888;font-size:12px;">[Recent Trend]</span></div>
+        <div style="font-size:15px;font-weight:bold;color:#1a1a1a;">大型语言模型"幻觉"问题迎来新突破：可验证推理框架大幅提升事实准确率</div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">English Summary</div>
+        <div style="line-height:1.8;">
+          Leading AI labs are deploying <em>verifiable reasoning</em> frameworks—where models must ground each claim in cited, checkable sources—reducing hallucination rates in enterprise deployments by a significant margin. This shift reflects growing commercial pressure to make large language models reliably factual, particularly in regulated industries such as healthcare, law, and finance.
         </div>
+      </div>
 
-        <!-- Summary -->
-        <div style="margin-bottom:14px;">
-          <div style="font-weight:700;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">English Summary</div>
-          <div style="background:#faf5ff;border-radius:6px;padding:14px 16px;line-height:1.8;color:#1a1a1a;">
-            In mid-2026, leading technology companies including Google, Meta, and Anthropic have released successive generations of multimodal large language models capable of reasoning across text, images, and structured data with unprecedented accuracy. These models have demonstrated strong performance on complex graduate-level benchmarks in mathematics, coding, and scientific reasoning, marking a qualitative leap beyond the previous generation's pattern-matching capabilities.
-          </div>
+      <div>
+        <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Theoretical Principle: <em>Retrieval-Augmented Generation (RAG) &amp; Grounding</em></div>
+        <div style="background:#f5f3ff;border-radius:6px;padding:14px 16px;line-height:1.8;color:#1a1a1a;">
+          Retrieval-Augmented Generation (RAG) addresses a fundamental limitation of parametric language models: the knowledge encoded in model weights is static and can be outdated or simply wrong. By coupling a generative model with a real-time retrieval component—typically a vector database—the system fetches relevant passages from authoritative documents before generating a response. This forces the model to <em>ground</em> its output in retrieved evidence, making factual errors easier to detect and audit. The underlying insight echoes the principle of <strong>Separation of Memory and Reasoning</strong> in cognitive science: reliable intelligence requires both a long-term knowledge store and a working memory that can be updated dynamically. In practice, the quality of the retriever (precision, recall, embedding quality) becomes as critical as the quality of the generator.
         </div>
-
-        <!-- Theoretical Principle -->
-        <div>
-          <div style="font-weight:700;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Theoretical Principle: <em>Scaling Laws &amp; Emergent Capabilities</em></div>
-          <div style="background:#f5f3ff;border-radius:6px;padding:14px 16px;line-height:1.85;color:#1a1a1a;">
-            Scaling Laws, formalized by Kaplan et al. at OpenAI in 2020, describe the predictable power-law relationship between a model's size (parameters), training data volume, and compute budget on one side, and its performance on the other. As these three quantities increase together in an optimal ratio, loss curves decline smoothly and consistently. What makes scaling laws remarkable for AI development is that they allow engineers to forecast model capability before training completes, enabling rational resource allocation. Crucially, researchers have observed "emergent capabilities" — qualitative new skills that appear suddenly once a model crosses a certain scale threshold, such as chain-of-thought reasoning and few-shot arithmetic. These emergent behaviors are not present in smaller models at all, making them difficult to predict from the smooth scaling curves alone, and they partially explain why each new model generation feels like a step change rather than a gradual improvement.
-          </div>
-        </div>
-
       </div>
     </div>
 
     <!-- ===== SECTION 3: FINANCE NEWS ===== -->
-    <div style="margin-bottom:36px;">
-      <h2 style="color:#d97706;font-size:17px;margin:0 0 16px 0;padding-bottom:6px;border-bottom:1px solid #fde68a;">💹 Finance News</h2>
-      <div style="border-left:4px solid #d97706;padding-left:16px;">
+    <h2 style="color:#d97706;font-size:17px;margin-bottom:6px;margin-top:0;">💹 Finance News</h2>
+    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:28px;">
 
-        <!-- Headline -->
-        <div style="margin-bottom:14px;">
-          <div style="font-weight:700;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Headline <span style="font-size:11px;color:#9ca3af;font-weight:400;text-transform:none;">[Recent Trend]</span></div>
-          <div style="font-size:16px;font-weight:600;color:#1a1a1a;">美联储维持高利率立场，市场预期年内仅降息一次，美元指数持续走强</div>
+      <div style="margin-bottom:12px;">
+        <div style="font-weight:bold;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Headline <span style="font-weight:normal;color:#888;font-size:12px;">[Recent Trend]</span></div>
+        <div style="font-size:15px;font-weight:bold;color:#1a1a1a;">美联储维持利率按兵不动，"更高更久"政策路径令债券市场承压</div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <div style="font-weight:bold;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">English Summary</div>
+        <div style="line-height:1.8;">
+          The U.S. Federal Reserve held its benchmark interest rate steady, reiterating a "higher for longer" stance as core inflation remains above the 2% target despite moderating economic growth. Bond markets responded with rising yields on medium-to-long-dated Treasuries, reflecting investor concerns that the rate-cut cycle may begin later and proceed more slowly than previously priced in.
         </div>
+      </div>
 
-        <!-- Summary -->
-        <div style="margin-bottom:14px;">
-          <div style="font-weight:700;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">English Summary</div>
-          <div style="background:#fffbeb;border-radius:6px;padding:14px 16px;line-height:1.8;color:#1a1a1a;">
-            The U.S. Federal Reserve has signaled it will maintain its restrictive monetary policy stance through at least the third quarter of 2026, citing sticky core inflation in services and a resilient labor market that has kept wage growth elevated. Interest rate futures markets have repriced to reflect only one 25-basis-point cut expected for the full calendar year, driving the Dollar Index (DXY) to a five-month high and putting pressure on emerging-market currencies and commodity prices.
-          </div>
+      <div>
+        <div style="font-weight:bold;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Theoretical Principle: <em>Bond Duration &amp; Interest Rate Risk</em></div>
+        <div style="background:#fffbeb;border-radius:6px;padding:14px 16px;line-height:1.8;color:#1a1a1a;">
+          <strong>Duration</strong> measures a bond's price sensitivity to changes in interest rates: specifically, it estimates the percentage change in a bond's price for a 1% parallel shift in the yield curve. A bond with a duration of 7 years will lose approximately 7% in price if yields rise by 1 percentage point. <strong>Convexity</strong> refines this linear approximation by capturing the curvature of the price-yield relationship—longer-duration bonds exhibit higher convexity, which benefits holders when rates fall sharply. When central banks signal a "higher for longer" rate path, investors demand a higher <em>term premium</em> to hold long-dated bonds, pushing yields up and prices down—a dynamic that particularly punishes portfolios concentrated in long-duration fixed income assets. This is why institutional investors actively manage <em>duration risk</em> through interest rate swaps, futures overlays, or liability-driven investment (LDI) strategies.
         </div>
-
-        <!-- Theoretical Principle -->
-        <div>
-          <div style="font-weight:700;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Theoretical Principle: <em>Taylor Rule &amp; Monetary Policy Reaction Functions</em></div>
-          <div style="background:#fef3c7;border-radius:6px;padding:14px 16px;line-height:1.85;color:#1a1a1a;">
-            The Taylor Rule, proposed by economist John Taylor in 1993, provides a systematic formula for setting a central bank's benchmark interest rate. It states that the policy rate should equal the neutral real rate plus the current inflation rate, plus a weighted adjustment for two gaps: the gap between actual inflation and the inflation target, and the gap between actual GDP and potential GDP. When inflation is above target, the formula prescribes raising rates aggressively to cool demand; when output is below potential, it calls for cutting rates to stimulate growth. Central banks like the Fed do not follow the Taylor Rule mechanically, but it serves as a benchmark against which their decisions are evaluated and debated. The current situation — where inflation remains above the 2% target while growth is still positive — places the Fed in the upper-left quadrant of the Taylor Rule's prescriptions: keep rates elevated until the inflation gap closes. This explains the "higher for longer" narrative that has dominated monetary policy communication throughout 2025 and into 2026.
-          </div>
-        </div>
-
       </div>
     </div>
 
-  </div><!-- end body padding wrapper -->
+  </div><!-- end padding div -->
 
   <!-- Footer -->
-  <div style="background:#f3f4f6;border-top:1px solid #e5e7eb;padding:14px 32px;text-align:center;font-size:12px;color:#6b7280;">
-    每日早7点推送 · 内容由 Claude 生成 · 如有问题请回复此邮件
+  <div style="background:#f1f5f9;border-top:1px solid #e2e8f0;padding:14px 28px;text-align:center;color:#64748b;font-size:12px;">
+    每日早 7 点推送 &nbsp;·&nbsp; 内容由 Claude 生成 &nbsp;·&nbsp; 2026-06-01
   </div>
 
-</div>
+</div><!-- end max-width wrapper -->
 </body>
 </html>
