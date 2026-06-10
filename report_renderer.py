@@ -415,11 +415,21 @@ def _render_analysis(analysis):
     if summary:
         parts.append(f'<p style="font-size:14px;line-height:1.8;margin-bottom:12px">{summary}</p>')
 
+    # Review (morning prediction vs intraday reality)
+    review = analysis.get('review', '')
+    if review:
+        parts.append(f'<div style="margin-bottom:10px;padding:8px 12px;background:#fef9c3;border-left:3px solid #ca8a04;border-radius:4px"><b>早报复盘：</b><p style="font-size:13px;line-height:1.7;margin-top:4px">{review}</p></div>')
+
     # Key insights
     insights = analysis.get('key_insights', [])
     if insights:
         items = ''.join(f'<li>{i}</li>' for i in insights)
         parts.append(f'<div class="insight-box"><b>核心观点：</b><ul style="margin-top:6px;padding-left:18px">{items}</ul></div>')
+
+    # Sector rotation
+    rotation_html = _render_sector_rotation(analysis)
+    if rotation_html:
+        parts.append(f'<div style="margin-top:10px"><b>板块轮动判断：</b>{rotation_html}</div>')
 
     # Stock highlights
     highlights = analysis.get('stock_highlights', [])
@@ -458,6 +468,46 @@ def _render_risk_warnings(analysis):
         return ''
     items = ''.join(f'<div class="risk-item">⚠️ {w}</div>' for w in warnings)
     return items
+
+def _render_sectors_summary(sectors):
+    """Render structured sector summary table from sectors array."""
+    if not sectors:
+        return ''
+    rows = ''
+    for s in sectors:
+        avg_chg = _num(s.get('avg_chg'))
+        color = _clr(avg_chg)
+        up = s.get('up', 0)
+        down = s.get('down', 0)
+        total = s.get('total', 0)
+        leader = s.get('leader', {})
+        leader_txt = f"{leader.get('name','')}{_fp(leader.get('chg_pct',0))}" if leader else '-'
+        rows += f"""<tr>
+            <td><b>{s.get('sector','-')}</b></td>
+            <td style="color:{color};font-weight:bold">{_fp(avg_chg)}</td>
+            <td style="color:#6b7280">{up}涨/{down}跌/{total}只</td>
+            <td style="color:{_clr(leader.get('chg_pct',0))}">{leader_txt}</td>
+          </tr>"""
+    return f"""<table>
+    <tr><th>板块</th><th>平均涨跌</th><th>涨跌家数</th><th>领涨股</th></tr>
+    {rows}</table>"""
+
+def _render_sector_rotation(analysis):
+    """Render sector rotation analysis from analysis JSON."""
+    rotations = analysis.get('sector_rotation', []) if analysis else []
+    if not rotations:
+        return ''
+    role_color = {'主线': '#dc2626', '跟随': '#d97706', '退潮': '#6b7280'}
+    items = ''
+    for r in rotations:
+        role = r.get('role', '')
+        color = role_color.get(role, '#374151')
+        items += f"""<div style="margin:6px 0;padding:6px 10px;border-left:3px solid {color};background:#f9fafb">
+          <span style="color:{color};font-weight:bold;margin-right:8px">[{role}]</span>
+          <b>{r.get('sector','')}</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">{r.get('evidence','')}</span>
+        </div>"""
+    return f'<div style="margin-top:8px">{items}</div>'
 
 def _render_prediction(analysis):
     """Render tomorrow prediction box from analysis."""
@@ -707,6 +757,10 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
     plan = analysis.get('afternoon_plan', '')
     plan_html = f'<p style="font-size:13px;line-height:1.7">{plan}</p>' if plan else ''
 
+    # Sector summary (new structured data)
+    sectors = market_data.get('sectors', [])
+    sectors_html = _render_sectors_summary(sectors)
+
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -734,6 +788,8 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
 {_section('sec-capital', '💰', '资金流向 TOP10', capital_html) if capital_html else ''}
 
 {_section('sec-chart', '📈', '涨跌幅图表', change_chart) if change_chart else ''}
+
+{_section('sec-sectors', '📊', '板块强弱总览', sectors_html) if sectors_html else ''}
 
 {_section('sec-watchlist', '🤖', f'关注池个股行情（{len(watchlist_rt)}只）', watchlist_table)}
 
