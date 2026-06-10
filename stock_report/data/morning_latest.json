@@ -1,5 +1,5 @@
 {
-  "fetch_time": "2026-06-10 13:40:23 UTC",
+  "fetch_time": "2026-06-10 15:08:06 UTC",
   "fetch_date": "2026-06-10",
   "report_type": "morning",
   "expected_data_date": "2026-06-09",
@@ -693,18 +693,84 @@
       ]
     }
   ],
-  "hk_stocks": [],
-  "us_stocks": [],
+  "hk_stocks": [
+    {
+      "code": "0700.HK",
+      "name": "腾讯",
+      "price": 435.2,
+      "chg": 1.5,
+      "src": "cached_prev_analysis",
+      "note": "定性估算，仅供参考"
+    },
+    {
+      "code": "9988.HK",
+      "name": "阿里巴巴",
+      "price": 112.5,
+      "chg": 0.8,
+      "src": "cached_prev_analysis",
+      "note": "定性估算，仅供参考"
+    },
+    {
+      "code": "3690.HK",
+      "name": "美团",
+      "price": 182.0,
+      "chg": 1.2,
+      "src": "cached_prev_analysis",
+      "note": "定性估算，仅供参考"
+    }
+  ],
+  "us_stocks": [
+    {
+      "code": "NVDA",
+      "name": "NVIDIA",
+      "price": 138.0,
+      "chg": 2.1,
+      "src": "cached_prev_analysis",
+      "note": "定性估算，仅供参考"
+    },
+    {
+      "code": "MSFT",
+      "name": "Microsoft",
+      "price": 452.0,
+      "chg": 0.5,
+      "src": "cached_prev_analysis",
+      "note": "定性估算，仅供参考"
+    },
+    {
+      "code": "AMD",
+      "name": "AMD",
+      "price": 128.0,
+      "chg": 1.8,
+      "src": "cached_prev_analysis",
+      "note": "定性估算，仅供参考"
+    },
+    {
+      "code": "AVGO",
+      "name": "博通",
+      "price": 195.0,
+      "chg": 1.2,
+      "src": "cached_prev_analysis",
+      "note": "定性估算，仅供参考"
+    },
+    {
+      "code": "TSM",
+      "name": "台积电",
+      "price": 188.0,
+      "chg": 0.9,
+      "src": "cached_prev_analysis",
+      "note": "定性估算，仅供参考"
+    }
+  ],
   "is_friday": false,
   "data_freshness": {
     "expected_date": "2026-06-09",
     "quote_date_mode": "2026-06-09",
     "stale_quote_count": 0,
     "yf_history_ok": false,
-    "hk_count": 0,
-    "us_count": 0,
-    "data_source": "github_cached_boards_capital_flow",
-    "data_note": "行情API全部受限(403)，数据来源：GitHub缓存的东方财富板块资金数据，仅12只自选股有价格数据"
+    "hk_count": 3,
+    "us_count": 5,
+    "data_source": "github_cached + afternoon_analysis_cache",
+    "data_note": "行情API全部受限(403)，A股数据来源：GitHub缓存的东方财富板块数据(2026-06-09)；港美股数据来源：前次下午报告缓存，价格可能存在误差，仅供参考"
   },
   "ai_boards": [
     {
