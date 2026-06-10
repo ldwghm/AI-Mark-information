@@ -46,6 +46,121 @@ WATCHLIST_MAP = {
     "sz002230": "科大讯飞"
 }
 
+# 10-sector / 51-stock universe shared with the CCR afternoon analysis prompt
+SECTOR_UNIVERSE = {
+    "光通信/CPO/光模块": [("300308", "中际旭创"), ("300502", "新易盛"), ("300394", "天孚通信"),
+                          ("002281", "光迅科技"), ("688498", "源杰科技"), ("300620", "光库科技")],
+    "光纤光缆": [("601869", "长飞光纤"), ("600487", "亨通光电"), ("600522", "中天科技"), ("600498", "烽火通信")],
+    "半导体设备/制造/AI芯片": [("002371", "北方华创"), ("688012", "中微公司"), ("688072", "拓荆科技"),
+                               ("688981", "中芯国际"), ("688347", "华虹公司"), ("688256", "寒武纪"), ("688041", "海光信息")],
+    "存储": [("603986", "兆易创新"), ("688008", "澜起科技"), ("301308", "江波龙"),
+             ("688525", "佰维存储"), ("001309", "德明利")],
+    "PCB": [("300476", "胜宏科技"), ("002463", "沪电股份"), ("002916", "深南电路"),
+            ("600183", "生益科技"), ("002938", "鹏鼎控股")],
+    "玻纤/电子布": [("600176", "中国巨石"), ("002080", "中材科技"), ("603256", "宏和科技"),
+                    ("301526", "国际复材"), ("605006", "山东玻纤")],
+    "算力租赁/AIDC": [("300442", "润泽科技"), ("300738", "奥飞数据"), ("300857", "协创数据"),
+                      ("603629", "利通电子"), ("300383", "光环新网")],
+    "液冷": [("002837", "英维克"), ("301018", "申菱环境"), ("300499", "高澜股份"),
+             ("300602", "飞荣达"), ("872808", "曙光数创")],
+    "高速铜连接": [("002130", "沃尔核材"), ("300913", "兆龙互连"), ("300563", "神宇股份"),
+                   ("688800", "瑞可达"), ("605277", "新亚电子")],
+    "AI服务器": [("601138", "工业富联"), ("000977", "浪潮信息"), ("603019", "中科曙光"), ("000938", "紫光股份")],
+}
+
+HK_WATCH = [("00700", "腾讯"), ("09988", "阿里巴巴"), ("03690", "美团"),
+            ("09999", "网易"), ("01024", "快手"), ("00020", "商汤")]
+US_WATCH = [("105.NVDA", "NVIDIA"), ("105.MSFT", "Microsoft"), ("105.GOOGL", "Alphabet"),
+            ("105.META", "Meta"), ("105.AMD", "AMD"), ("105.AVGO", "博通"),
+            ("106.TSM", "台积电"), ("105.SMCI", "SuperMicro"), ("105.PLTR", "Palantir")]
+
+def em_secid(code):
+    """Eastmoney secid: market 1 = SH(6/9*), 0 = SZ/BJ."""
+    return ("1." if code[0] in "69" else "0.") + code
+
+def fetch_quotes_by_secids(secids):
+    """Batch real-time quotes via eastmoney ulist API. Returns {code: fields}."""
+    out = {}
+    for i in range(0, len(secids), 40):
+        data = safe_get("https://push2.eastmoney.com/api/qt/ulist.np/get", {
+            "fltt": 2, "invt": 2, "np": 1,
+            "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+            "secids": ",".join(secids[i:i + 40]),
+            "fields": "f2,f3,f4,f5,f6,f12,f13,f14,f15,f16,f17,f18,f62"
+        })
+        diff = data["data"]["diff"] if data and data.get("data") and data["data"].get("diff") else []
+        for s in diff:
+            code = str(s.get("f12", ""))
+            if code and s.get("f2") not in (None, "-", 0):
+                out[code] = s
+        time.sleep(0.3)
+    return out
+
+def fetch_sector_watchlist(today_str):
+    """Fetch the full 51-stock universe and aggregate per-sector stats."""
+    code_sector = {}
+    code_name = {}
+    secids = []
+    for sec, lst in SECTOR_UNIVERSE.items():
+        for code, name in lst:
+            code_sector[code] = sec
+            code_name[code] = name
+            secids.append(em_secid(code))
+
+    quotes = fetch_quotes_by_secids(secids)
+    watchlist = []
+    for code, sec in code_sector.items():
+        q = quotes.get(code)
+        if not q:
+            continue
+        watchlist.append({
+            "name": code_name[code], "code": code, "sector": sec,
+            "current": q.get("f2"), "change_pct": q.get("f3"),
+            "high": q.get("f15"), "low": q.get("f16"),
+            "open": q.get("f17"), "yesterday_close": q.get("f18"),
+            "volume": q.get("f5"), "amount": q.get("f6"),
+            "main_net_flow": q.get("f62"), "data_date": today_str,
+        })
+
+    sectors = []
+    for sec in SECTOR_UNIVERSE:
+        rows = [w for w in watchlist if w["sector"] == sec and isinstance(w.get("change_pct"), (int, float))]
+        if not rows:
+            continue
+        chgs = [r["change_pct"] for r in rows]
+        leader = max(rows, key=lambda r: r["change_pct"])
+        laggard = min(rows, key=lambda r: r["change_pct"])
+        flows = [r["main_net_flow"] for r in rows if isinstance(r.get("main_net_flow"), (int, float))]
+        sectors.append({
+            "sector": sec,
+            "avg_chg": round(sum(chgs) / len(chgs), 2),
+            "up": len([c for c in chgs if c > 0]),
+            "down": len([c for c in chgs if c < 0]),
+            "total": len(rows),
+            "leader": {"name": leader["name"], "code": leader["code"], "chg_pct": leader["change_pct"]},
+            "laggard": {"name": laggard["name"], "code": laggard["code"], "chg_pct": laggard["change_pct"]},
+            "total_main_flow": round(sum(flows), 0) if flows else None,
+            "stocks": [{"code": r["code"], "name": r["name"], "chg_pct": r["change_pct"]}
+                       for r in sorted(rows, key=lambda x: -x["change_pct"])],
+        })
+    sectors.sort(key=lambda s: -s["avg_chg"])
+    return watchlist, sectors
+
+def fetch_hk_us():
+    """HK + US AI leaders via eastmoney (works on Actions runners)."""
+    hk_secids = ["116." + c for c, n in HK_WATCH]
+    hk_names = {c: n for c, n in HK_WATCH}
+    hk_quotes = fetch_quotes_by_secids(hk_secids)
+    hk = [{"code": c[-4:] + ".HK", "name": hk_names[c],
+           "price": q.get("f2"), "chg": q.get("f3"), "src": "eastmoney"}
+          for c, q in ((c, hk_quotes.get(c)) for c, n in HK_WATCH) if q]
+
+    us_names = {s.split(".")[1]: n for s, n in US_WATCH}
+    us_quotes = fetch_quotes_by_secids([s for s, n in US_WATCH])
+    us = [{"code": t, "name": us_names[t], "price": q.get("f2"), "chg": q.get("f3"), "src": "eastmoney"}
+          for t, q in ((t, us_quotes.get(t)) for t in us_names) if q]
+    return hk, us
+
 def parse_sina_quote(text, code_map):
     result = {}
     for line in (text or "").strip().split("\n"):
@@ -147,16 +262,29 @@ def fetch_stock_kline(secid, name, days=25):
     return {"name": name, "secid": secid, "klines": klines}
 
 def main():
-    print(f"=== Afternoon fetch started {datetime.now().isoformat()} ===")
+    # GitHub Actions runners are UTC; report dates in Beijing time
+    bjt_now = datetime.utcnow() + timedelta(hours=8)
+    today_str = bjt_now.strftime("%Y-%m-%d")
+    print(f"=== Afternoon fetch started {datetime.now().isoformat()} (BJT {bjt_now.isoformat()}) ===")
     result = {
         "fetch_time": datetime.now().isoformat(),
-        "fetch_date": datetime.now().strftime("%Y-%m-%d"),
+        "fetch_date": today_str,
+        "expected_data_date": today_str,
         "report_type": "afternoon",
-        "is_friday": datetime.now().weekday() == 4
+        "is_friday": bjt_now.weekday() == 4
     }
 
     print("1. Real-time index quotes (Sina)...")
     result["realtime_indices"] = fetch_realtime_indices()
+    # Add numeric price/chg fields so the renderer doesn't show +0.00%
+    for code, d in result["realtime_indices"].items():
+        try:
+            cur, prev = float(d["current"]), float(d["yesterday_close"])
+            d["price"] = round(cur, 2)
+            d["chg"] = round((cur - prev) / prev * 100, 2) if prev else 0.0
+            d["change_pct"] = d["chg"]
+        except (ValueError, KeyError, ZeroDivisionError):
+            pass
     print(f"   {len(result['realtime_indices'])} indices")
 
     print("2. 5-day kline (volume basis)...")
@@ -189,22 +317,31 @@ def main():
             result["board_stocks_rt"].append(fetch_realtime_board_stocks(bk, nm))
             time.sleep(0.4)
 
-    print("7. Real-time watchlist (Sina)...")
-    result["watchlist_rt"] = fetch_realtime_watchlist()
-    print(f"   {len(result['watchlist_rt'])} stocks")
+    print("7. Sector watchlist (51 stocks / 10 sectors, eastmoney)...")
+    watchlist, sectors = fetch_sector_watchlist(today_str)
+    result["watchlist_rt"] = watchlist
+    result["sectors"] = sectors
+    print(f"   {len(watchlist)} stocks, {len(sectors)} sectors")
+    for s in sectors:
+        print(f"   {s['sector']}: {s['avg_chg']:+.2f}% 领涨{s['leader']['name']}")
+    if not watchlist:
+        print("   WARN eastmoney watchlist empty, falling back to Sina 10-stock list")
+        result["watchlist_rt"] = fetch_realtime_watchlist()
+        for w in result["watchlist_rt"]:
+            try:
+                cur, prev = float(w["current"]), float(w["yesterday_close"])
+                w["change_pct"] = round((cur - prev) / prev * 100, 2) if prev else 0.0
+            except (ValueError, KeyError):
+                pass
 
     print("8. Real-time capital flow top30...")
     result["capital_flow_top30_rt"] = fetch_realtime_capital_flow_top30()
     print(f"   {len(result['capital_flow_top30_rt'])} stocks")
 
-    # Fetch watchlist K-lines for technicals
+    # Fetch watchlist K-lines for technicals (full sector universe)
     print("9. Watchlist K-lines (for technicals)...")
-    WATCHLIST_SECIDS = [
-        ("0.300308", "中际旭创"), ("0.300502", "新易盛"), ("0.300394", "天孚通信"),
-        ("1.601138", "工业富联"), ("1.603019", "中科曙光"), ("1.688256", "寒武纪"),
-        ("1.688041", "海光信息"), ("1.601869", "长飞光纤"), ("1.600487", "亨通光电"),
-        ("0.002230", "科大讯飞"),
-    ]
+    WATCHLIST_SECIDS = [(em_secid(code), name)
+                        for lst in SECTOR_UNIVERSE.values() for code, name in lst]
     result["watchlist_klines"] = []
     for secid, name in WATCHLIST_SECIDS:
         kl = fetch_stock_kline(secid, name)
@@ -220,6 +357,7 @@ def main():
         if cd and fl is not None:
             flow_lookup[cd] = float(fl) if fl != "-" else 0
 
+    rt_lookup = {w["code"]: w for w in result["watchlist_rt"] if w.get("code")}
     result["watchlist_technicals"] = []
     for kl in result["watchlist_klines"]:
         secid = kl.get("secid", "")
@@ -227,9 +365,31 @@ def main():
         net_flow = flow_lookup.get(code)
         tech = compute_stock_technical(kl["klines"], net_flow)
         entry = {"name": kl["name"], "secid": secid, "code": code}
+        rt = rt_lookup.get(code)
+        if rt:
+            entry["sector"] = rt.get("sector")
         if tech:
             entry.update(tech)
+            entry["close"] = tech.get("price")  # renderer reads 'close'
+            if rt and isinstance(rt.get("current"), (int, float)):
+                entry["close"] = rt["current"]
+                entry["chg_pct"] = rt.get("change_pct", tech.get("chg_pct"))
         result["watchlist_technicals"].append(entry)
+
+    print("11. HK/US AI leaders (eastmoney)...")
+    hk, us = fetch_hk_us()
+    result["hk_stocks"] = hk
+    result["us_stocks"] = us
+    print(f"   hk={len(hk)} us={len(us)}")
+
+    result["data_freshness"] = {
+        "expected_date": today_str,
+        "quote_date_mode": today_str if result["watchlist_rt"] else None,
+        "stale_quote_count": 0,
+        "watchlist_count": len(result["watchlist_rt"]),
+        "sectors_count": len(result.get("sectors", [])),
+        "hk_count": len(hk), "us_count": len(us),
+    }
 
     os.makedirs("stock_report/data", exist_ok=True)
     out = "stock_report/data/afternoon_latest.json"
