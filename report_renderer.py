@@ -183,7 +183,12 @@ def _render_index_cards(indices_data, index_names=None):
         name = index_names.get(key, key)
         if isinstance(data, dict):
             price = _num(data.get('price') or data.get('current') or data.get('close'))
-            chg = _num(data.get('chg') or data.get('change_pct') or data.get('pct'))
+            chg_raw = data.get('chg', data.get('change_pct', data.get('pct')))
+            if chg_raw is None:
+                prev = _num(data.get('yesterday_close'))
+                chg = (price - prev) / prev * 100 if prev else 0
+            else:
+                chg = _num(chg_raw)
         else:
             continue
         color = _clr(chg)
@@ -299,7 +304,7 @@ def _render_watchlist_technicals(technicals):
         name = s.get('name', '-')
         code = s.get('code', '-')
         chg = _num(s.get('chg_pct'))
-        price = _num(s.get('close'))
+        price = _num(s.get('close') if s.get('close') is not None else s.get('price'))
         score = s.get('score')
         stars = _score_stars(score)
         ma_trend = _safe(s.get('ma_trend'))
@@ -706,7 +711,11 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
         for s in sorted_wl:
             name = s.get('name', '-')
             price = _num(s.get('current'))
-            chg = _num(s.get('change_pct'))
+            if s.get('change_pct') is None:
+                prev = _num(s.get('yesterday_close'))
+                chg = (price - prev) / prev * 100 if prev else 0
+            else:
+                chg = _num(s.get('change_pct'))
             high = _num(s.get('high'))
             low = _num(s.get('low'))
             vol = s.get('volume')
