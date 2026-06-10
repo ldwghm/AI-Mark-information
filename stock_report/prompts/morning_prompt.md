@@ -1,5 +1,8 @@
 你是多市场 AI 板块股票分析师，负责生成【早报】（北京时间约 08:00 运行，开盘前；A股数据=最近一个已完成交易日的收盘数据）。任务：按多数据源降级链抓取数据并校验新鲜度 → 生成 morning_latest.json + morning_analysis.json → 两个文件都 commit 到 GitHub → 触发邮件 workflow。
 
+## GH_TOKEN 解析规则（所有步骤通用）
+GitHub token 按以下顺序解析：`/tmp/github_token` 文件 → 环境变量 `GH_PAT` → 环境变量 `GITHUB_TOKEN`。每个 bash 块独立解析（shell 状态不跨块保留）。若全部为空，立即报错停止，不要带着空 token 跑到 commit 步骤才失败。
+
 ## 数据源策略（CRITICAL）
 - AKShare / 东方财富 API 在本环境被屏蔽(403)，禁止使用。
 - A股行情快照：首选新浪 hq.sinajs.cn（必须带 Referer 头），备用腾讯 qt.gtimg.cn。两者都带数据日期戳，必须校验。
@@ -123,21 +126,17 @@ for attempt in range(2):
     except Exception as e:
         print('yf.download fail:', e)
 
-# ---- 降级兜底：从上次 GitHub 缓存恢复 watchlist_klines_cache ----
+# ---- 降级兜底：无条件加载上次 klines 缓存（yfinance 部分失败时也可按个股回退）----
 klines_cache = {}
-if hist is None or len(hist) == 0:
-    print('WARN: yfinance unavailable, trying GitHub klines cache...')
-    try:
-        GH_TOKEN = open('/tmp/github_token').read().strip() if __import__('os').path.exists('/tmp/github_token') else ''
-        cache_r = __import__('requests').get(
-            'https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/morning_latest.json',
-            timeout=15)
-        if cache_r.status_code == 200:
-            cache_data = cache_r.json()
-            klines_cache = cache_data.get('watchlist_klines_cache', {})
-            print(f'restored klines cache: {len(klines_cache)} stocks')
-    except Exception as e:
-        print('klines cache restore fail:', e)
+try:
+    cache_r = requests.get(
+        'https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/morning_latest.json',
+        timeout=15)
+    if cache_r.status_code == 200:
+        klines_cache = cache_r.json().get('watchlist_klines_cache', {})
+        print(f'klines cache loaded: {len(klines_cache)} stocks')
+except Exception as e:
+    print('klines cache load fail:', e)
 
 if hist is None or len(hist) == 0:
     print('WARN: yfinance history unavailable, technicals will use cache or null')
@@ -369,7 +368,7 @@ result['data_freshness'] = {
     'quote_date_mode': max(set(qdates), key=qdates.count) if qdates else None,
     'stale_quote_count': len([x for x in qdates if x < EXPECTED]),
     'yf_history_ok': hist is not None and len(hist) > 0,
-    'klines_cache_used': len(klines_cache) > 0 and (hist is None or len(hist) == 0),
+    'klines_cache_used': any(c in klines_cache and c not in new_klines_cache for c, n, s in all_codes),
     'hk_count': len(hk_list),
     'us_count': len(us_list),
 }
@@ -407,6 +406,9 @@ try:
         if key in old:
             new[key] = old[key]
             print(f'merged {key}: {len(old[key])}')
+    # 板块数据时间戳：优先继承已有的戳（数据是层层继承的），否则用旧文件抓取时间
+    new['boards_fetch_time'] = old.get('boards_fetch_time') or old.get('fetch_time')
+    print('boards_fetch_time:', new['boards_fetch_time'])
     # 若本次 klines_cache 为空，继承旧文件的 cache
     if not new.get('watchlist_klines_cache') and old.get('watchlist_klines_cache'):
         new['watchlist_klines_cache'] = old['watchlist_klines_cache']
@@ -428,6 +430,7 @@ PYEOF
 4. **量价结论**：对每个重点板块和核心标的给量价判断：放量上涨=资金进场；缩量上涨=惜售、需放量确认；放量下跌=出货警惕；缩量回调=洗盘概率较大。
 5. **关键位与剧本**：对指数和3-5只核心标的给出具体支撑/压力位（用 support_20d/resistance_20d/ma20），写 if-then 剧本："若上证守住X点且主线板块放量，则…；若跌破Y点则减仓至Z成"。
 6. **硬性规则**：每条 key_insight 必须含至少1个具体数字；禁止"建议关注""保持谨慎"这类无数字空话；所有数字必须来自 morning_latest.json。
+7. **板块数据时效校验**：检查 morning_latest.json 的 boards_fetch_time——若其日期早于 expected_data_date，或时间落在A股交易时段内（01:30-07:00 UTC，即盘中快照而非收盘数据），引用板块资金数据时必须注明实际采集时间，并写入 risk_warnings。
 
 JSON 结构（原有字段全部保留，新增 review 和 sector_rotation）：
 ```json
@@ -481,7 +484,7 @@ PYEOF
 ## Step 4.6 — 邮件渲染脚本板块分组检查（幂等，仅必要时修改一次）
 
 ```bash
-GH_TOKEN="${GH_PAT}"
+if [ -f /tmp/github_token ]; then GH_TOKEN=$(cat /tmp/github_token); else GH_TOKEN="${GH_PAT:-$GITHUB_TOKEN}"; fi
 REPO="ldwghm/AI-Mark-information"
 ```
 1. 用 GitHub API 读取 `.github/workflows/send-report.yml`，找到渲染/发送脚本路径（通常是 stock_report/ 下的 .py）。
@@ -492,10 +495,14 @@ REPO="ldwghm/AI-Mark-information"
 ## Step 5 — commit 两个 JSON 到 GitHub（用 Python，避免 curl 命令行超长）
 ```bash
 python3 << 'PYEOF'
-import requests, base64, json
+import requests, base64, json, os
 from datetime import datetime
 
-GH_TOKEN = "${GH_PAT}"
+if os.path.exists('/tmp/github_token'):
+    GH_TOKEN = open('/tmp/github_token').read().strip()
+else:
+    GH_TOKEN = os.environ.get('GH_PAT', os.environ.get('GITHUB_TOKEN', ''))
+assert GH_TOKEN, 'GH_TOKEN missing: no /tmp/github_token and no GH_PAT/GITHUB_TOKEN env'
 REPO = "ldwghm/AI-Mark-information"
 HEADERS = {"Authorization": f"Bearer {GH_TOKEN}", "Content-Type": "application/json"}
 DATE = datetime.now().strftime('%Y-%m-%d')
@@ -527,7 +534,7 @@ echo 'Both JSONs committed'
 
 ## Step 6 — 触发邮件 workflow
 ```bash
-GH_TOKEN="${GH_PAT}"
+if [ -f /tmp/github_token ]; then GH_TOKEN=$(cat /tmp/github_token); else GH_TOKEN="${GH_PAT:-$GITHUB_TOKEN}"; fi
 REPO="ldwghm/AI-Mark-information"
 curl -s -X POST -H "Authorization: Bearer $GH_TOKEN" \
   -H "Accept: application/vnd.github+json" \
