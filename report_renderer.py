@@ -158,6 +158,9 @@ tr:last-child td { border-bottom: none; }
 .chart-img { max-width: 100%; border-radius: 6px; margin: 8px 0; }
 .predict-box { border: 2px solid; border-radius: 10px; padding: 18px; margin: 8px 0; background: #fafafa; }
 .predict-label { font-size: 22px; font-weight: bold; }
+.sec-sectors { border-left: 4px solid #0891b2; }
+.sec-sectors .section-header { background: linear-gradient(90deg, #ecfeff, #f0feff); color: #0891b2; }
+.sector-title-row td { background: #f0f9ff; font-weight: 700; color: #0891b2; padding: 5px 10px; font-size: 12px; }
 """
 
 # ── Section builders ──────────────────────────────────────────────────────
@@ -293,14 +296,31 @@ def _render_capital_flow(flows):
     <tr><th>#</th><th>股票</th><th>代码</th><th>涨跌幅</th><th>主力净流入</th><th>成交额</th></tr>
     {rows}</table>"""
 
-def _render_watchlist_technicals(technicals):
+def _render_watchlist_technicals(technicals, group_by_sector=False):
     """Render watchlist stocks with technical indicators and scores."""
     if not technicals:
         return '<p style="color:#9ca3af">技术指标数据不可用</p>'
     rows = ''
-    # Sort by score descending
-    sorted_t = sorted(technicals, key=lambda x: _num(x.get('score')), reverse=True)
-    for s in sorted_t:
+    if group_by_sector and any(s.get('sector') for s in technicals):
+        # Group by sector, preserving sort-by-chg within each group
+        from collections import OrderedDict
+        groups = OrderedDict()
+        for s in sorted(technicals, key=lambda x: _num(x.get('chg_pct')), reverse=True):
+            sec = s.get('sector', '其他')
+            groups.setdefault(sec, []).append(s)
+        ordered = []
+        for sec, items in groups.items():
+            ordered.append(('__sector__', sec))
+            ordered.extend(items)
+        iter_list = ordered
+    else:
+        # Sort by score descending (original behaviour)
+        iter_list = sorted(technicals, key=lambda x: _num(x.get('score')), reverse=True)
+    header = '<tr><th>股票</th><th>代码</th><th>现价</th><th>涨跌幅</th><th>评分</th><th>MA趋势</th><th>MACD</th><th>RSI</th><th>量比</th></tr>'
+    for s in iter_list:
+        if isinstance(s, tuple) and s[0] == '__sector__':
+            rows += f'<tr class="sector-title-row"><td colspan="9">📂 {s[1]}</td></tr>'
+            continue
         name = s.get('name', '-')
         code = s.get('code', '-')
         chg = _num(s.get('chg_pct'))
@@ -330,7 +350,7 @@ def _render_watchlist_technicals(technicals):
         <td>{vr_html} {vl}</td>
       </tr>"""
     return f"""<table>
-    <tr><th>股票</th><th>代码</th><th>现价</th><th>涨跌幅</th><th>评分</th><th>MA趋势</th><th>MACD</th><th>RSI</th><th>量比</th></tr>
+    {header}
     {rows}</table>"""
 
 def _render_score_ranking(technicals):
@@ -631,7 +651,10 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 
     # Watchlist technicals
     wt = market_data.get('watchlist_technicals', [])
-    wt_html = _render_watchlist_technicals(wt)
+    sectors = market_data.get('sectors', [])
+    sectors_summary_html = _render_sectors_summary(sectors)
+    group = bool(sectors) and any(s.get('sector') for s in wt)
+    wt_html = _render_watchlist_technicals(wt, group_by_sector=group)
     score_chart = _render_score_ranking(wt)
     change_chart = _render_change_chart(wt)
 
@@ -669,6 +692,8 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 {_section('sec-board', '🔥', 'AI板块动态', boards_html)}
 
 {_section('sec-chart', '📈', '个股涨跌幅图表', change_chart) if change_chart else ''}
+
+{_section('sec-sectors', '📊', '板块强弱总览', sectors_summary_html) if sectors_summary_html else ''}
 
 {_section('sec-score', '⭐', 'AI龙头综合评分', score_chart + '<br/>' + wt_html) if wt else ''}
 
