@@ -3,149 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每日英语练习 – 2026-06-10</title>
+<title>每日英语练习 - 2026-06-11</title>
 </head>
-<body style="margin:0;padding:0;background:#f4f6f9;">
-
+<body style="margin:0;padding:0;background:#f3f4f6;">
 <div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;background:#ffffff;">
 
   <!-- Header -->
-  <div style="background:#1e3a8a;color:#ffffff;padding:20px 28px;">
+  <div style="background:#1e3a8a;color:#ffffff;padding:20px 24px;">
     <div style="font-size:22px;font-weight:bold;letter-spacing:1px;">📚 每日英语练习</div>
-    <div style="margin-top:6px;font-size:13px;opacity:0.85;">2026-06-10 &nbsp;·&nbsp; CS Graduate Interview Edition</div>
+    <div style="font-size:13px;margin-top:6px;opacity:0.85;">2026年06月11日 &nbsp;|&nbsp; 星期四 &nbsp;|&nbsp; Topic: Economics &amp; Management</div>
   </div>
 
-  <!-- Main content -->
-  <div style="padding:28px 28px 20px;">
+  <!-- ===== SECTION 1: ORAL PRACTICE ===== -->
+  <div style="padding:24px 24px 8px 24px;">
+    <h2 style="color:#059669;font-size:17px;margin:0 0 14px 0;padding-bottom:8px;border-bottom:1px solid #d1fae5;">
+      🗣️ 口语练习 · Oral Practice
+    </h2>
 
-    <!-- ===== SECTION 1: ORAL PRACTICE ===== -->
-    <h2 style="color:#059669;font-size:18px;margin-top:0;margin-bottom:6px;">🎙️ Oral Practice</h2>
-    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:32px;">
+    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
 
       <!-- Question -->
-      <h3 style="font-size:15px;color:#065f46;margin-top:12px;margin-bottom:8px;">Question</h3>
-      <div style="background:#ecfdf5;border-radius:6px;padding:14px 16px;line-height:1.7;font-style:italic;">
-        "Can you explain the CAP theorem? What are its three guarantees, and why can a distributed system only satisfy two of them simultaneously? Please give a real-world example to illustrate your point."
+      <div style="margin-bottom:18px;">
+        <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Question</div>
+        <div style="background:#f0fdf4;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.7;color:#1a1a1a;">
+          Can you explain the <strong>principal-agent problem</strong>? How does it manifest in corporate governance, and what mechanisms have economists and firms designed to align the interests of principals and agents?
+        </div>
       </div>
 
       <!-- Reference Answer -->
-      <h3 style="font-size:15px;color:#065f46;margin-top:20px;margin-bottom:8px;">Reference Answer</h3>
-      <div style="line-height:1.8;color:#1a1a1a;">
-        <p style="margin-top:0;">The CAP theorem, formulated by Eric Brewer in 2000 and later formally proved by Gilbert and Lynch, states that a distributed data store can provide at most two of the following three guarantees simultaneously.</p>
-        <p><strong>Consistency (C)</strong> means every read receives the most recent write or an error — all nodes see the same data at the same time. <strong>Availability (A)</strong> means every request receives a non-error response, though it may not be the latest data. <strong>Partition Tolerance (P)</strong> means the system continues operating even when network partitions cause some nodes to lose communication with others.</p>
-        <p>In any realistic distributed system, network partitions are unavoidable, so partition tolerance is effectively mandatory. This forces engineers to choose between consistency and availability during a partition event. If you choose CP (e.g., HBase, Zookeeper), the system rejects requests when it cannot guarantee consistency. If you choose AP (e.g., Cassandra, DynamoDB), it returns potentially stale data but stays responsive.</p>
-        <p>A concrete example: in a global banking system, choosing CP ensures no two branches can simultaneously deduct the same funds — the system would rather go offline than risk inconsistency. An e-commerce product-availability counter, however, might choose AP and accept occasional overselling in exchange for never showing users an error page.</p>
-        <p>Modern systems increasingly apply the PACELC refinement, which extends CAP to also consider the latency-consistency trade-off even in the absence of partitions.</p>
+      <div style="margin-bottom:18px;">
+        <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Reference Answer</div>
+        <div style="background:#fafafa;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.8;color:#1a1a1a;">
+          <p style="margin:0 0 10px 0;">The principal-agent problem arises whenever one party — the <em>principal</em> — delegates decision-making authority to another party — the <em>agent</em> — but their objectives diverge and information is asymmetric. Because the agent holds private information about their own effort and intentions, they may act in self-interest rather than maximizing the principal's utility, a behavior economists call <em>moral hazard</em>.</p>
+          <p style="margin:0 0 10px 0;">In corporate governance, this dynamic is highly visible: shareholders (principals) hire professional managers (agents) to run the firm. Managers might pursue empire-building, excessive compensation, or short-term earnings manipulation instead of long-term shareholder value. This divergence exists because managerial contracts are inherently incomplete and monitoring is costly.</p>
+          <p style="margin:0 0 10px 0;">Several alignment mechanisms have been developed: <strong>(1) Performance-based compensation</strong> — stock options and bonuses tie managerial rewards to firm outcomes; <strong>(2) Board oversight</strong> — independent directors and audit committees provide monitoring; <strong>(3) Market for corporate control</strong> — the threat of hostile takeovers disciplines underperforming managers; <strong>(4) Debt financing</strong> — leverage constrains free cash flow available for managerial discretion; <strong>(5) Reputation effects</strong> — in repeated interactions, agents value their professional reputation.</p>
+          <p style="margin:0;">Jensen and Meckling (1976) formalized this framework, defining <em>agency costs</em> as the sum of monitoring costs, bonding costs, and residual losses. Optimal contract design seeks to minimize these costs while balancing incentive alignment with efficient risk-sharing between the two parties.</p>
+        </div>
       </div>
 
       <!-- Key Vocabulary -->
-      <h3 style="font-size:15px;color:#065f46;margin-top:20px;margin-bottom:10px;">Key Vocabulary</h3>
-      <table style="width:100%;border-collapse:collapse;font-size:14px;">
-        <thead>
-          <tr style="background:#d1fae5;">
-            <th style="text-align:left;padding:8px 10px;border:1px solid #a7f3d0;width:22%;">Word / Phrase</th>
-            <th style="text-align:left;padding:8px 10px;border:1px solid #a7f3d0;width:20%;">中文</th>
-            <th style="text-align:left;padding:8px 10px;border:1px solid #a7f3d0;">Example Sentence</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">distributed system</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">分布式系统</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">A distributed system spans multiple machines that coordinate to appear as one.</td>
-          </tr>
-          <tr style="background:#f0fdf4;">
-            <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">network partition</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">网络分区</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">A network partition occurs when nodes can no longer communicate due to a link failure.</td>
-          </tr>
-          <tr>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">consistency</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">一致性</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">Strong consistency guarantees that all replicas reflect the latest committed write.</td>
-          </tr>
-          <tr style="background:#f0fdf4;">
-            <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">availability</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">可用性</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">High availability ensures the service responds to every request without timing out.</td>
-          </tr>
-          <tr>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">stale data</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">过时数据</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">An AP system may serve stale data if a replica has not yet synced the latest update.</td>
-          </tr>
-          <tr style="background:#f0fdf4;">
-            <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">eventual consistency</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">最终一致性</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">DynamoDB relies on eventual consistency so that replicas converge given enough time.</td>
-          </tr>
-          <tr>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">replication</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">数据复制</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">Synchronous replication increases consistency but adds write latency.</td>
-          </tr>
-          <tr style="background:#f0fdf4;">
-            <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">trade-off</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">权衡取舍</td>
-            <td style="padding:8px 10px;border:1px solid #d1fae5;">System architects must make explicit trade-offs between latency and data freshness.</td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="margin-bottom:8px;">
+        <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Key Vocabulary</div>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <thead>
+            <tr style="background:#059669;color:#ffffff;">
+              <th style="padding:9px 12px;text-align:left;width:30%;">Word / Phrase</th>
+              <th style="padding:9px 12px;text-align:left;width:25%;">中文释义</th>
+              <th style="padding:9px 12px;text-align:left;">Example Sentence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td style="padding:8px 12px;font-weight:bold;">principal-agent problem</td>
+              <td style="padding:8px 12px;color:#059669;">委托代理问题</td>
+              <td style="padding:8px 12px;">The principal-agent problem is central to understanding why managers do not always act in shareholders' best interests.</td>
+            </tr>
+            <tr style="background:#ffffff;">
+              <td style="padding:8px 12px;font-weight:bold;">moral hazard</td>
+              <td style="padding:8px 12px;color:#059669;">道德风险</td>
+              <td style="padding:8px 12px;">Moral hazard occurs when an insured party takes greater risks because they do not bear the full consequences.</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td style="padding:8px 12px;font-weight:bold;">information asymmetry</td>
+              <td style="padding:8px 12px;color:#059669;">信息不对称</td>
+              <td style="padding:8px 12px;">Information asymmetry between borrowers and lenders can lead to adverse selection in credit markets.</td>
+            </tr>
+            <tr style="background:#ffffff;">
+              <td style="padding:8px 12px;font-weight:bold;">incentive alignment</td>
+              <td style="padding:8px 12px;color:#059669;">激励相容</td>
+              <td style="padding:8px 12px;">Stock options are designed to achieve incentive alignment between executives and shareholders.</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td style="padding:8px 12px;font-weight:bold;">agency costs</td>
+              <td style="padding:8px 12px;color:#059669;">代理成本</td>
+              <td style="padding:8px 12px;">Agency costs include monitoring expenses, bonding costs, and the residual loss from imperfect alignment.</td>
+            </tr>
+            <tr style="background:#ffffff;">
+              <td style="padding:8px 12px;font-weight:bold;">corporate governance</td>
+              <td style="padding:8px 12px;color:#059669;">公司治理</td>
+              <td style="padding:8px 12px;">Strong corporate governance mechanisms protect minority shareholders from managerial self-dealing.</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td style="padding:8px 12px;font-weight:bold;">empire-building</td>
+              <td style="padding:8px 12px;color:#059669;">扩张帝国行为（管理层过度扩张）</td>
+              <td style="padding:8px 12px;">Managers prone to empire-building may pursue acquisitions that destroy shareholder value.</td>
+            </tr>
+            <tr style="background:#ffffff;">
+              <td style="padding:8px 12px;font-weight:bold;">market for corporate control</td>
+              <td style="padding:8px 12px;color:#059669;">公司控制权市场</td>
+              <td style="padding:8px 12px;">The market for corporate control disciplines inefficient management through the threat of hostile takeovers.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
-
-    <!-- ===== SECTION 2: AI NEWS ===== -->
-    <h2 style="color:#7c3aed;font-size:18px;margin-top:0;margin-bottom:6px;">🤖 AI News</h2>
-    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:32px;">
-
-      <div style="display:inline-block;background:#ede9fe;color:#5b21b6;font-size:12px;font-weight:bold;padding:2px 8px;border-radius:4px;margin-bottom:10px;">[Recent Trend]</div>
-
-      <h3 style="font-size:15px;color:#5b21b6;margin-top:8px;margin-bottom:8px;">Headline（标题）</h3>
-      <div style="font-size:16px;font-weight:bold;color:#1a1a1a;margin-bottom:12px;">
-        谷歌DeepMind发布Gemini Ultra 2.0，多步推理与代码生成能力显著超越前代
-      </div>
-
-      <h3 style="font-size:15px;color:#5b21b6;margin-top:16px;margin-bottom:8px;">English Summary</h3>
-      <div style="line-height:1.8;color:#1a1a1a;">
-        Google DeepMind has unveiled Gemini Ultra 2.0, its most advanced multimodal AI model to date, showcasing a substantial leap in multi-step reasoning, long-context understanding, and autonomous code generation across complex software projects. Independent benchmarks indicate the model surpasses its predecessor on scientific reasoning and mathematical problem-solving tasks, intensifying the competition among frontier AI labs to capture enterprise adoption.
-      </div>
-
-      <h3 style="font-size:15px;color:#5b21b6;margin-top:16px;margin-bottom:8px;">Theoretical Principle</h3>
-      <div style="background:#faf5ff;border-radius:6px;padding:14px 16px;line-height:1.8;">
-        <div style="font-weight:bold;color:#6d28d9;margin-bottom:6px;">Scaling Laws for Neural Language Models</div>
-        Scaling laws, first systematically studied by Kaplan et al. at OpenAI in 2020, describe the predictable power-law relationship between model performance and three key resources: model parameter count, training data volume, and compute budget. As any one of these scales up, loss on held-out text decreases smoothly and predictably — a finding that has driven the rapid growth of large language models. The Chinchilla paper (Hoffmann et al., 2022) refined this by showing that many large models were undertrained relative to their size, and that compute-optimal training requires scaling data and parameters together. This theoretical foundation gives AI labs a roadmap: investing more compute reliably yields better models, which explains why frontier labs continue to race to build larger training runs. However, researchers increasingly debate whether scaling alone can reach general intelligence, or whether architectural and data quality innovations are equally critical at the frontier.
-      </div>
-    </div>
-
-    <!-- ===== SECTION 3: FINANCE NEWS ===== -->
-    <h2 style="color:#d97706;font-size:18px;margin-top:0;margin-bottom:6px;">💹 Finance News</h2>
-    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:32px;">
-
-      <div style="display:inline-block;background:#fef3c7;color:#92400e;font-size:12px;font-weight:bold;padding:2px 8px;border-radius:4px;margin-bottom:10px;">[Recent Trend]</div>
-
-      <h3 style="font-size:15px;color:#b45309;margin-top:8px;margin-bottom:8px;">Headline（标题）</h3>
-      <div style="font-size:16px;font-weight:bold;color:#1a1a1a;margin-bottom:12px;">
-        美联储6月议息会议维持利率不变，暗示年内仍有一次降息窗口
-      </div>
-
-      <h3 style="font-size:15px;color:#b45309;margin-top:16px;margin-bottom:8px;">English Summary</h3>
-      <div style="line-height:1.8;color:#1a1a1a;">
-        The U.S. Federal Reserve held its benchmark federal funds rate steady at the June FOMC meeting, citing persistent core services inflation and a still-resilient labor market as reasons for caution. Fed Chair comments in the post-meeting press conference signaled that one 25-basis-point cut remains on the table for late 2026 if inflation continues its gradual descent toward the 2% target, sending equity markets modestly higher.
-      </div>
-
-      <h3 style="font-size:15px;color:#b45309;margin-top:16px;margin-bottom:8px;">Theoretical Principle</h3>
-      <div style="background:#fffbeb;border-radius:6px;padding:14px 16px;line-height:1.8;">
-        <div style="font-weight:bold;color:#d97706;margin-bottom:6px;">Taylor Rule &amp; Monetary Policy Transmission</div>
-        The Taylor Rule, introduced by economist John Taylor in 1993, is a prescriptive formula that guides central banks in setting short-term interest rates based on two gaps: the deviation of actual inflation from its target, and the deviation of real GDP from its potential (the output gap). When inflation is above target or the economy is overheating, the rule prescribes raising rates; when recession risk looms, it prescribes cutting. The Fed does not mechanically follow the rule, but it provides a transparent benchmark against which actual policy can be judged. Once a rate change occurs, monetary transmission works through multiple channels: higher rates raise borrowing costs for firms and households, cooling investment and consumption; they also strengthen the currency, reducing export competitiveness; and they compress asset prices via the discount-rate effect, reducing the wealth effect. Because these channels operate with long and variable lags — typically 12–18 months — central banks must anticipate future economic conditions rather than merely react to present data, making forward guidance a critical complement to rate decisions.
-      </div>
-    </div>
-
-  </div><!-- /padding div -->
-
-  <!-- Footer -->
-  <div style="background:#f3f4f6;padding:14px 28px;text-align:center;color:#6b7280;font-size:12px;border-top:1px solid #e5e7eb;">
-    每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成
   </div>
 
-</div><!-- /max-width wrapper -->
+  <!-- ===== SECTION 2: AI NEWS ===== -->
+  <div style="padding:8px 24px 8px 24px;">
+    <h2 style="color:#7c3aed;font-size:17px;margin:0 0 14px 0;padding-bottom:8px;border-bottom:1px solid #ede9fe;">
+      🤖 AI 新闻 · AI News &nbsp;<span style="font-size:12px;font-weight:normal;color:#9ca3af;">[Recent Trend]</span>
+    </h2>
+
+    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:20px;">
+
+      <div style="margin-bottom:14px;">
+        <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Headline / 标题</div>
+        <div style="font-size:15px;font-weight:bold;color:#1a1a1a;">英伟达发布新一代 Blackwell Ultra GPU，AI训练效率较上一代提升逾3倍</div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">English Summary</div>
+        <div style="background:#f5f3ff;border-radius:6px;padding:12px 16px;font-size:15px;line-height:1.75;">
+          NVIDIA unveiled its next-generation Blackwell Ultra GPU architecture in mid-2026, delivering more than three times the computational throughput of its predecessor for large-scale AI model training. Major hyperscalers including Microsoft Azure and Google Cloud announced accelerated procurement of the new chips, intensifying competition in the AI infrastructure arms race.
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Theoretical Principle: <em>Moore's Law &amp; Semiconductor Scaling Economics</em></div>
+        <div style="background:#fafafa;border-radius:6px;padding:12px 16px;font-size:15px;line-height:1.8;">
+          <strong>Moore's Law</strong>, originally observed by Intel co-founder Gordon Moore in 1965, states that the number of transistors on a microchip doubles approximately every two years, driving exponential gains in computing power at declining unit cost. While classical transistor scaling has slowed at sub-5nm nodes, chipmakers have extended the principle through architectural innovations — such as 3D stacking, chiplets, and specialized tensor cores — rather than pure lithographic shrinkage. In the AI era, this scaling logic has profound economic implications: as GPU performance per dollar rises, the marginal cost of training ever-larger frontier models falls, enabling new entrants to compete and lowering barriers to AI adoption. However, this same dynamic fuels a winner-take-most tendency, as firms with the capital to purchase cutting-edge hardware accumulate disproportionate model-quality advantages, raising antitrust and market-concentration concerns.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: FINANCE NEWS ===== -->
+  <div style="padding:8px 24px 24px 24px;">
+    <h2 style="color:#d97706;font-size:17px;margin:0 0 14px 0;padding-bottom:8px;border-bottom:1px solid #fef3c7;">
+      💹 财经新闻 · Finance News &nbsp;<span style="font-size:12px;font-weight:normal;color:#9ca3af;">[Recent Trend]</span>
+    </h2>
+
+    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:20px;">
+
+      <div style="margin-bottom:14px;">
+        <div style="font-weight:bold;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Headline / 标题</div>
+        <div style="font-size:15px;font-weight:bold;color:#1a1a1a;">美联储6月议息会议维持利率不变，暗示下半年或开启降息窗口</div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <div style="font-weight:bold;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">English Summary</div>
+        <div style="background:#fffbeb;border-radius:6px;padding:12px 16px;font-size:15px;line-height:1.75;">
+          The U.S. Federal Reserve held its benchmark interest rate unchanged at its June 2026 meeting, citing persistent stickiness in services-sector inflation as the primary rationale for caution. Equity and bond markets responded positively to Chairman Powell's forward guidance, which signaled that a rate-cutting cycle could begin as early as the third quarter of 2026 if inflation data continued to moderate.
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <div style="font-weight:bold;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Theoretical Principle: <em>The Taylor Rule &amp; Monetary Policy Transmission</em></div>
+        <div style="background:#fafafa;border-radius:6px;padding:12px 16px;font-size:15px;line-height:1.8;">
+          The <strong>Taylor Rule</strong>, developed by economist John Taylor in 1993, provides a systematic formula for setting the short-term nominal interest rate based on two gaps: the deviation of actual inflation from the central bank's target, and the deviation of real GDP from its potential (the output gap). When inflation exceeds the target or the economy overheats, the rule prescribes a higher policy rate; when inflation falls short or recession looms, it calls for accommodation. Monetary policy transmission then operates through multiple channels: higher rates raise borrowing costs for households and firms (the credit channel), appreciate the domestic currency and dampen exports (the exchange-rate channel), and compress asset valuations by increasing discount rates (the asset-price channel). Central banks today use the Taylor Rule as a benchmark rather than a strict prescription, adjusting for uncertainty and the zero-lower-bound constraint. The Fed's current hold decision reflects a classic Taylor Rule tension: inflation remains above the 2% target, arguing for restraint, while slowing growth data point toward easing.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="background:#f3f4f6;padding:14px 24px;text-align:center;font-size:12px;color:#6b7280;border-top:1px solid #e5e7eb;">
+    每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成 &nbsp;·&nbsp; 2026-06-11
+  </div>
+
+</div>
 </body>
 </html>
