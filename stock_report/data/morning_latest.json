@@ -1,8 +1,8 @@
 {
-  "fetch_time": "2026-06-11T12:00:40",
-  "fetch_date": "2026-06-11",
+  "fetch_time": "2026-06-12 08:11:52 BJT",
+  "fetch_date": "2026-06-12",
   "report_type": "morning",
-  "expected_data_date": "2026-06-10",
+  "expected_data_date": "2026-06-11",
   "indices": {
     "shanghai": {
       "price": 3993.23,
@@ -709,16 +709,15 @@
       "note": "行情接口不可用"
     }
   ],
-  "is_friday": false,
+  "is_friday": true,
   "data_freshness": {
-    "expected_date": "2026-06-10",
+    "expected_date": "2026-06-11",
     "quote_date_mode": "2026-06-10",
-    "stale_quote_count": 0,
-    "yf_history_ok": true,
+    "stale_quote_count": 11,
+    "yf_history_ok": false,
     "hk_count": 3,
-    "us_count": 5,
-    "data_source": "github_klines_cache",
-    "note": "行情API受网络策略限制，数据来自GitHub缓存klines"
+    "us_count": 9,
+    "note": "所有实时行情API被网络策略封锁（sina/tencent/yahoo/stooq均不可访问），行情数据为2026-06-10，较期望日期2026-06-11延迟1个交易日"
   },
   "ai_boards": [
     {
