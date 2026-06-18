@@ -101,6 +101,17 @@ def main():
 
     merge_hk_us(latest, analysis)  # Step 4.5 折叠进来
 
+    # 丢弃 0/空价的港美股占位（agent 偶尔会编"腾讯 0"），宁可诚实留空
+    for fld in ('hk_stocks', 'us_stocks'):
+        orig = analysis.get(fld) or []
+        kept = [s for s in orig if _f(s.get('price')) not in (None, 0)]
+        if len(kept) != len(orig):
+            analysis[fld] = kept
+    if not analysis.get('hk_stocks') and not analysis.get('us_stocks'):
+        summ = str(analysis.get('hk_us_summary', ''))
+        if (not summ) or re.search(r'0\.00|\(0\)|涨跌\s*\+?0(?!\d)', summ):
+            analysis['hk_us_summary'] = '港股/美股实时行情接口在云端不可用，本期不含港美股报价，请以券商行情为准。'
+
     hard = []     # 硬失败
     soft = []     # 软警告（降级但允许发）
     primary, ef_index = build_indices(latest)
@@ -116,6 +127,11 @@ def main():
     expected = latest.get('expected_data_date') or fresh.get('expected_date')
     qmode = fresh.get('quote_date_mode')
     stale = fresh.get('stale_quote_count', 0)
+    # 行情非实时（云端连不上新浪/雅虎、价格来自 efinance 回填）→ 必须降级提示
+    dq = latest.get('data_quality', {})
+    conf = dq.get('index_data_confidence')
+    if conf and conf != 'high':
+        soft.append(f"行情非实时（来源 {dq.get('quote_source', '?')}，置信度 {conf}）：{dq.get('caveat', '')}"[:90])
     if qmode and expected and qmode < expected:
         soft.append(f'行情主日期 {qmode} 早于期望 {expected}（数据延迟）')
     if isinstance(stale, int) and primary and stale > len(primary) * 0.5:

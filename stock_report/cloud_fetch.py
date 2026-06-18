@@ -316,15 +316,28 @@ def aggregate_sectors(tech_rows, sector_names):
     return out
 
 
-def apply_merge(result, merge_from, mode):
-    """合并 efinance 板块/资金流向键（互补双路径）+ 继承 klines 缓存。"""
-    if not merge_from or not os.path.exists(merge_from):
-        print('merge skipped (no --merge-from file)')
-        return
+def _ff(v):
     try:
-        old = json.load(open(merge_from, encoding='utf-8-sig'))
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def load_old(merge_from):
+    """读取 --merge-from（efinance via GitHub Actions）；不存在/失败返回空 dict。"""
+    if not merge_from or not os.path.exists(merge_from):
+        print('no --merge-from file')
+        return {}
+    try:
+        return json.load(open(merge_from, encoding='utf-8-sig'))
     except Exception as e:
         print('merge load fail:', e)
+        return {}
+
+
+def apply_merge(result, old, mode):
+    """合并 efinance 板块/资金流向键（互补双路径）+ 继承 klines 缓存。"""
+    if not old:
         return
     for key in MERGE_KEYS[mode]:
         if key in old:
@@ -338,6 +351,118 @@ def apply_merge(result, merge_from, mode):
     if not result.get('watchlist_klines_cache') and old.get('watchlist_klines_cache'):
         result['watchlist_klines_cache'] = old['watchlist_klines_cache']
         print(f'inherited klines cache: {len(old["watchlist_klines_cache"])} stocks')
+
+
+def _ef_pricemap(old):
+    """从 efinance 板块成分股/资金流向榜建 code -> (price, chg_pct) 映射。"""
+    m = {}
+    for grp in (old.get('board_stocks') or []) + (old.get('board_stocks_rt') or []):
+        for s in grp.get('stocks', []) or []:
+            c = str(s.get('f12', ''))
+            if c and c not in m:
+                m[c] = (_ff(s.get('f2')), _ff(s.get('f3')))
+    for s in (old.get('capital_flow_top30') or []) + (old.get('capital_flow_top30_rt') or []):
+        c = str(s.get('f12', ''))
+        if c and c not in m:
+            m[c] = (_ff(s.get('f2')), _ff(s.get('f3')))
+    for w in old.get('watchlist_technicals', []) or []:
+        c = str(w.get('code', ''))
+        if c and c not in m and w.get('close') is not None:
+            m[c] = (_ff(w.get('close')), _ff(w.get('chg_pct')))
+    return m
+
+
+def backfill_from_efinance(result, old, all_codes, sector_names, mode):
+    """实时源(新浪/雅虎)在云端失败时，用 efinance 数据(GitHub Actions 抓取，IP 可达东财，
+    是云端最可靠来源)回填指数价、个股价，并重算板块聚合。返回补价的个股数。"""
+    if not old:
+        return 0
+    PRE = {'shanghai': 'sh000001', 'shenzhen': 'sz399001', 'chinext': 'sz399006', 'star50': 'sh000688'}
+    NAMES = {'shanghai': '上证指数', 'shenzhen': '深证成指', 'chinext': '创业板指', 'star50': '科创50'}
+    filled_idx = 0
+
+    # 1) 指数：缺价时用 efinance 指数 klines 末根补（东财 klines: 0=date,2=close,6=amount,8=chg_pct）
+    idx_klines = old.get('indices') or {}
+    indices = result.get('indices') or {}
+    realtime = result.get('realtime_indices') or {}
+    for key, src in idx_klines.items():
+        kl = src.get('klines') or []
+        if len(kl) < 2:
+            continue
+        last = kl[-1].split(',')
+        prev = kl[-2].split(',')
+        try:
+            close = round(float(last[2]), 2)
+            chg = round(float(last[8]), 2) if len(last) > 8 and last[8] not in ('', '-') \
+                else round((close - float(prev[2])) / float(prev[2]) * 100, 2)
+            amount = float(last[6]) if len(last) > 6 and last[6] not in ('', '-') else None
+            ddate = last[0]
+        except (ValueError, IndexError):
+            continue
+        name = src.get('name') or NAMES.get(key, key)
+        if mode == 'morning':
+            if not (indices.get(key) or {}).get('price'):
+                indices[key] = {'price': close, 'chg': chg, 'amount': amount, 'name': name, 'data_date': ddate}
+                filled_idx += 1
+        else:
+            pre = PRE.get(key, key)
+            if not (realtime.get(pre) or {}).get('price'):
+                realtime[pre] = {'price': close, 'current': close, 'chg': chg, 'change_pct': chg,
+                                 'name': name, 'data_date': ddate}
+                filled_idx += 1
+    if mode == 'morning' and indices:
+        result['indices'] = indices
+    if mode == 'afternoon' and realtime:
+        result['realtime_indices'] = realtime
+
+    # 1b) 指数技术指标缺失时用 efinance 的（east klines 已算好 MA/MACD/RSI）
+    it = result.get('index_technicals') or {}
+    for k, v in (old.get('index_technicals') or {}).items():
+        if k not in it:
+            it[k] = v
+    if it:
+        result['index_technicals'] = it
+
+    # 2) 个股：补全 universe 里缺价的股票
+    pmap = _ef_pricemap(old)
+    wt = result.get('watchlist_technicals') or []
+    by_code = {str(w.get('code')): w for w in wt}
+    filled_stk = 0
+    ddate = old.get('expected_data_date') or result.get('expected_data_date', '')
+    for code, name, sector in all_codes:
+        price, chg = pmap.get(code, (None, None))
+        row = by_code.get(code)
+        if row is None:
+            if price is not None:
+                nr = {'name': name, 'code': code, 'sector': sector, 'ticker': '', 'close': price,
+                      'chg_pct': chg, 'open': price, 'high': price, 'low': price, 'prev_close': None,
+                      'volume': 0, 'amount': 0, 'data_date': ddate}
+                nr.update(NULL_TECH)
+                wt.append(nr)
+                by_code[code] = nr
+                filled_stk += 1
+        elif (row.get('close') in (None, 0)) and price is not None:
+            row['close'] = price
+            row['chg_pct'] = chg
+            filled_stk += 1
+    result['watchlist_technicals'] = wt
+
+    if mode == 'afternoon':
+        rt = result.get('watchlist_rt') or []
+        rt_codes = {str(r.get('code')) for r in rt}
+        for w in wt:
+            if str(w.get('code')) not in rt_codes and w.get('close'):
+                rt.append({'name': w['name'], 'code': w['code'], 'sector': w.get('sector'),
+                           'current': w['close'], 'change_pct': w.get('chg_pct'), 'high': w.get('high'),
+                           'low': w.get('low'), 'volume': w.get('volume', 0), 'data_date': w.get('data_date', '')})
+        result['watchlist_rt'] = rt
+
+    # 3) 补价后重算板块聚合
+    priced = [w for w in wt if w.get('chg_pct') is not None]
+    if priced:
+        result['sectors'] = aggregate_sectors(priced, sector_names)
+    print(f'efinance backfill: idx+{filled_idx} stk+{filled_stk} watchlist={len(wt)} sectors={len(result.get("sectors", []))}')
+    return filled_stk
 
 
 def main():
@@ -360,15 +485,11 @@ def main():
     EXPECTED = d.strftime('%Y-%m-%d')
     print('mode:', mode, '| expected data date:', EXPECTED)
 
-    # klines 缓存（yfinance 失败时兜底），从 --merge-from 文件预读
-    klines_cache = {}
-    if args.merge_from and os.path.exists(args.merge_from):
-        try:
-            klines_cache = json.load(open(args.merge_from, encoding='utf-8-sig')).get('watchlist_klines_cache', {})
-            if klines_cache:
-                print(f'klines cache preloaded: {len(klines_cache)} stocks')
-        except Exception:
-            pass
+    # efinance 数据（GitHub Actions 产出）：板块合并 + 价格回填 + klines 缓存兜底都用它
+    OLD = load_old(args.merge_from)
+    klines_cache = OLD.get('watchlist_klines_cache', {}) if OLD else {}
+    if klines_cache:
+        print(f'klines cache preloaded: {len(klines_cache)} stocks')
 
     IDX = {'shanghai': ('sh000001', '000001.SS', '上证指数'),
            'shenzhen': ('sz399001', '399001.SZ', '深证成指'),
@@ -511,15 +632,25 @@ def main():
                                 'stale_quote_count': len([x for x in qdates if x < EXPECTED]),
                                 'yf_history_ok': hist is not None and len(hist) > 0,
                                 'hk_count': len(hk_list), 'us_count': len(us_list)}
-    result['data_quality'] = {
-        'index_data_confidence': 'high' if api_ok else ('medium' if index_technicals else 'low'),
-        'watchlist_coverage': f'{len(watchlist_tech)}/{len(all_codes)}',
-        'technicals_source': 'yfinance' if (hist is not None and len(hist) > 0) else ('cache' if klines_cache else 'none'),
-        'quote_source': 'sina/tencent' if api_ok else 'none',
-        'caveat': '' if api_ok else '行情接口受限，数据来自缓存，复盘以本字段为参考而非基准事实'}
 
-    # ---- 合并 efinance 板块数据（互补双路径，必须在写盘前）----
-    apply_merge(result, args.merge_from, mode)
+    # ---- 合并 efinance 板块数据 + 实时源失败时回填指数/个股价（互补双路径，写盘前）----
+    apply_merge(result, OLD, mode)
+    backfilled = backfill_from_efinance(result, OLD, all_codes, list(SECTORS.keys()), mode)
+
+    # data_quality 在回填后统计真实覆盖率
+    priced = [w for w in result.get('watchlist_technicals', []) if w.get('chg_pct') is not None]
+    if api_ok:
+        conf, qsrc = 'high', 'sina/tencent'
+    elif backfilled or result.get('indices') or result.get('realtime_indices'):
+        conf, qsrc = 'medium', 'efinance_backfill'
+    else:
+        conf, qsrc = 'low', 'none'
+    result['data_quality'] = {
+        'index_data_confidence': conf,
+        'watchlist_coverage': f'{len(priced)}/{len(all_codes)}',
+        'technicals_source': 'yfinance' if (hist is not None and len(hist) > 0) else ('cache' if klines_cache else 'none'),
+        'quote_source': qsrc,
+        'caveat': '' if api_ok else '实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时，复盘以此为参考'}
 
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
