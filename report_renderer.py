@@ -602,6 +602,30 @@ def _render_hk_us(analysis):
     return '\n'.join(parts)
 
 
+def _render_degraded_banner(analysis):
+    """数据降级横幅。verify.py 在 analysis 写入 degraded / verify 字段时显示；
+    旧 analysis 无这些字段则返回空串（完全向后兼容）。"""
+    if not analysis:
+        return ''
+    v = analysis.get('verify') or {}
+    degraded = analysis.get('degraded') or v.get('degraded')
+    hard = v.get('hard_fail')
+    if not degraded and not hard:
+        return ''
+    reasons = v.get('reasons') or []
+    if hard:
+        bg, border, icon, title = '#fef2f2', '#dc2626', '⛔', '数据校验未通过（硬失败）——以下数字可信度低，请以券商行情为准'
+    else:
+        bg, border, icon, title = '#fffbeb', '#d97706', '⚠️', '数据降级提示——本期部分数据为盘中快照/缺失源，请谨慎参考'
+    items = ''.join(f'<li>{_safe(r)}</li>' for r in reasons[:6])
+    items_html = (f'<ul style="margin:6px 0 0;padding-left:20px;font-size:12px;color:#6b7280">{items}</ul>'
+                  if items else '')
+    return f"""<div style="background:{bg};border-left:4px solid {border};border-radius:6px;padding:12px 16px;margin:0 0 16px">
+  <div style="font-weight:bold;color:{border};font-size:13px">{icon} {title}</div>
+  {items_html}
+</div>"""
+
+
 # ── Main renderers ────────────────────────────────────────────────────────
 
 def render_morning_report(market_data, analysis=None, date_str=''):
@@ -684,6 +708,8 @@ def render_morning_report(market_data, analysis=None, date_str=''):
     <span>数据+AI分析自动生成</span>
   </div>
 </div>
+
+{_render_degraded_banner(analysis)}
 
 {_section('sec-index', '📊', '大盘指数概览', idx_cards + idx_table + idx_tech_html)}
 
@@ -814,6 +840,8 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
     <span>数据+AI分析自动生成</span>
   </div>
 </div>
+
+{_render_degraded_banner(analysis)}
 
 {_section('sec-index', '📊', '大盘指数', idx_cards)}
 

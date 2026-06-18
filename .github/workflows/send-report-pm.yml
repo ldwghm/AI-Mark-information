@@ -1,6 +1,10 @@
 name: A股AI板块午报
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'stock_report/data/afternoon_analysis.json'
   workflow_dispatch:
     inputs:
       triggered_by:

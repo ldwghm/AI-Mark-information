@@ -1,6 +1,10 @@
 name: A股AI板块早报
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'stock_report/data/morning_analysis.json'
   workflow_dispatch:
     inputs:
       triggered_by:
