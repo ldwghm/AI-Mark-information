@@ -1,150 +1,198 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>每日英语练习 – 2026-06-21</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日英语练习 - 2026-06-22</title>
 </head>
-<body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;">
-
-  <!-- Wrapper -->
-  <div style="max-width:780px;margin:0 auto;background:#ffffff;">
+<body style="margin:0;padding:20px;background:#f0f2f5;">
+  <div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.1);">
 
     <!-- Header -->
-    <div style="background:#1e3a8a;color:#ffffff;padding:24px 28px;">
-      <div style="font-size:24px;font-weight:bold;letter-spacing:1px;">📚 每日英语练习</div>
-      <div style="margin-top:6px;font-size:14px;opacity:0.85;">2026-06-21 &nbsp;·&nbsp; Finance Edition</div>
+    <div style="background:#1e3a8a;color:white;padding:20px 28px;">
+      <h1 style="margin:0;font-size:22px;font-weight:700;">📚 每日英语练习</h1>
+      <p style="margin:6px 0 0;opacity:0.85;font-size:14px;">2026-06-22 &nbsp;|&nbsp; 主题：CS 研究生面试英语</p>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Body -->
     <div style="padding:28px;">
 
-      <!-- ===== SECTION 1: ORAL PRACTICE ===== -->
-      <h2 style="color:#059669;font-size:18px;margin:0 0 6px 0;">🎙️ Oral Practice — Finance</h2>
-      <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:32px;">
+      <!-- ===== SECTION 1: Oral Practice ===== -->
+      <div style="margin-bottom:40px;">
+        <h2 style="color:#059669;font-size:18px;margin:0 0 18px;padding-bottom:8px;border-bottom:2px solid #ecfdf5;">🎤 口语练习 · CAP Theorem Trade-offs</h2>
 
         <!-- Question -->
-        <h3 style="color:#065f46;font-size:15px;margin:14px 0 8px 0;">Question</h3>
-        <div style="background:#ecfdf5;border-radius:6px;padding:14px 16px;font-style:italic;line-height:1.7;">
-          "Can you explain what a yield curve inversion is, why it historically signals an economic recession, and what limitations this signal might have for investors and policymakers today?"
+        <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:22px;background:#f0fdf4;padding:14px 14px 14px 20px;border-radius:0 6px 6px 0;">
+          <h3 style="color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 10px;">Question</h3>
+          <p style="margin:0;line-height:1.8;font-style:italic;color:#1a1a1a;">
+            "Can you explain the CAP theorem and the trade-offs it presents for distributed system design?
+            How would the CAP theorem influence your choice of database or system architecture in a real-world application?"
+          </p>
         </div>
 
         <!-- Reference Answer -->
-        <h3 style="color:#065f46;font-size:15px;margin:18px 0 8px 0;">Reference Answer</h3>
-        <div style="line-height:1.8;color:#1a1a1a;">
-          <p style="margin:0 0 10px 0;">A yield curve plots interest rates of bonds with equal credit quality but different maturities. Under normal conditions, longer-term bonds carry higher yields to compensate investors for time risk and inflation uncertainty, producing an upward-sloping curve. An <strong>inversion</strong> occurs when short-term yields — typically the 2-year Treasury — exceed long-term yields such as the 10-year, creating a downward slope.</p>
-          <p style="margin:0 0 10px 0;">Historically, every U.S. recession since 1955 has been preceded by a 2-10 year inversion, with a lag of roughly 6 to 24 months. The mechanism operates through credit channels: when banks borrow short-term and lend long-term, an inverted curve squeezes their net interest margin, causing them to tighten lending standards. Reduced credit availability slows investment and consumption, eventually contracting GDP.</p>
-          <p style="margin:0 0 10px 0;">However, investors must recognise key limitations. First, the signal suffers from variable lead times, making precise timing impossible. Second, unconventional monetary policies — such as central bank asset purchases compressing long-end yields — may mechanically invert the curve without reflecting genuine recessionary expectations. Third, in an increasingly globalised market, foreign capital flows into safe-haven long bonds can suppress 10-year yields independently of domestic economic conditions. Therefore, yield curve inversion is best used as one indicator within a broader macro framework rather than a standalone predictive tool.</p>
+        <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:22px;">
+          <h3 style="color:#059669;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 10px;">Reference Answer</h3>
+          <p style="margin:0 0 12px;line-height:1.85;">
+            The CAP theorem, formalized by Eric Brewer, states that any distributed data store can simultaneously guarantee at most two of three properties:
+            <strong>Consistency</strong> (every read returns the most recent write or an error),
+            <strong>Availability</strong> (every request receives a non-error response, though the data might not be the most recent), and
+            <strong>Partition Tolerance</strong> (the system continues operating despite arbitrary message loss or node failures between partitions).
+          </p>
+          <p style="margin:0 0 12px;line-height:1.85;">
+            In practice, network partitions are unavoidable in distributed systems, so partition tolerance is effectively mandatory.
+            The real architectural decision therefore reduces to: when a partition occurs, do we sacrifice consistency or availability?
+          </p>
+          <p style="margin:0 0 12px;line-height:1.85;">
+            <strong>CP systems</strong> — such as HBase, ZooKeeper, and etcd — will refuse to respond rather than return stale data during a partition.
+            This is the right choice for financial ledgers, inventory management, or distributed locking, where data correctness has strict requirements.
+            <strong>AP systems</strong> — such as Cassandra, DynamoDB, and CouchDB — remain responsive but may serve divergent or stale data.
+            They suit social media feeds, product recommendations, or analytics workloads where eventual consistency is acceptable.
+          </p>
+          <p style="margin:0;line-height:1.85;">
+            The CAP theorem has since been refined by the PACELC model, which also accounts for latency trade-offs under normal conditions.
+            Systems like Google Spanner challenge traditional CAP limits by using hardware-synchronized clocks (the TrueTime API) to achieve
+            strong global consistency with high availability, demonstrating that careful engineering can significantly narrow the original boundaries
+            CAP imposes. In practice, every architecture decision should map the business's tolerance for stale data against its uptime requirements,
+            rather than defaulting to a one-size-fits-all solution.
+          </p>
         </div>
 
-        <!-- Key Vocabulary -->
-        <h3 style="color:#065f46;font-size:15px;margin:18px 0 8px 0;">Key Vocabulary</h3>
-        <table style="width:100%;border-collapse:collapse;font-size:14px;">
-          <thead>
-            <tr style="background:#d1fae5;">
-              <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;width:28%;">Word / Phrase</th>
-              <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;width:22%;">中文释义</th>
-              <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;">Example Sentence</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">yield curve inversion</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">收益率曲线倒挂</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">The yield curve inversion in late 2022 alarmed many bond traders.</td>
-            </tr>
-            <tr style="background:#f0fdf4;">
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">net interest margin</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">净息差</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">Banks' net interest margins narrowed sharply during the inverted curve period.</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">maturity premium</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">期限溢价</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">A rising maturity premium typically steepens the yield curve.</td>
-            </tr>
-            <tr style="background:#f0fdf4;">
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">credit tightening</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">信贷收紧</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">Credit tightening by commercial banks amplified the economic downturn.</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">quantitative easing (QE)</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">量化宽松</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">Quantitative easing can distort yield curve signals by suppressing long-end rates.</td>
-            </tr>
-            <tr style="background:#f0fdf4;">
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">safe-haven flows</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">避险资金流入</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">Safe-haven flows into U.S. Treasuries depressed 10-year yields artificially.</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">leading indicator</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">领先指标</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">Economists classify the yield spread as a leading indicator of GDP growth.</td>
-            </tr>
-            <tr style="background:#f0fdf4;">
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">variable lead time</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">可变领先期</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;">The variable lead time between inversion and recession makes timing trades difficult.</td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- Key Vocabulary Table -->
+        <div style="border-left:4px solid #059669;padding-left:16px;">
+          <h3 style="color:#059669;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px;">Key Vocabulary</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:14px;">
+            <thead>
+              <tr style="background:#ecfdf5;">
+                <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;color:#065f46;width:22%;">Word / Phrase</th>
+                <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;color:#065f46;width:18%;">中文</th>
+                <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;color:#065f46;">Example Sentence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">Partition Tolerance</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">分区容错性</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">Partition tolerance ensures the cluster keeps running even when nodes cannot communicate across a network split.</td>
+              </tr>
+              <tr style="background:#f0fdf4;">
+                <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">Eventual Consistency</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">最终一致性</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">DynamoDB relies on eventual consistency, meaning all replicas will converge to the same value given enough time without new writes.</td>
+              </tr>
+              <tr>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">Linearizability</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">线性一致性</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">Linearizability guarantees that concurrent operations appear to execute atomically in some global sequential order.</td>
+              </tr>
+              <tr style="background:#f0fdf4;">
+                <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">Network Partition</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">网络分区</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">A network partition occurs when a failure prevents some nodes from communicating, splitting the cluster into isolated groups.</td>
+              </tr>
+              <tr>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">Replication Lag</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">复制延迟</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">Replication lag in AP systems can cause stale reads when the replica has not yet applied the leader's latest writes.</td>
+              </tr>
+              <tr style="background:#f0fdf4;">
+                <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">Quorum</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">法定数量</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">Cassandra requires a write quorum of ⌊N/2⌋+1 nodes to acknowledge before confirming a write as durable.</td>
+              </tr>
+              <tr>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">Idempotency</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">幂等性</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">Designing idempotent endpoints allows clients to safely retry requests without producing duplicate side effects.</td>
+              </tr>
+              <tr style="background:#f0fdf4;">
+                <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">Distributed Consensus</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">分布式共识</td>
+                <td style="padding:8px 12px;border:1px solid #d1fae5;">The Raft algorithm achieves distributed consensus by electing a single leader node to serialize all write operations.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- ===== SECTION 2: AI NEWS ===== -->
-      <h2 style="color:#7c3aed;font-size:18px;margin:0 0 6px 0;">🤖 AI News</h2>
-      <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:32px;">
+      <!-- ===== SECTION 2: AI News ===== -->
+      <div style="margin-bottom:40px;">
+        <h2 style="color:#7c3aed;font-size:18px;margin:0 0 18px;padding-bottom:8px;border-bottom:2px solid #f5f3ff;">🤖 AI 新闻英语</h2>
 
         <!-- Headline -->
-        <h3 style="color:#5b21b6;font-size:15px;margin:14px 0 8px 0;">Headline <span style="font-weight:normal;font-size:13px;color:#6b7280;">[Recent Trend]</span></h3>
-        <div style="background:#f5f3ff;border-radius:6px;padding:12px 16px;font-size:15px;font-weight:bold;">
-          大型AI厂商竞相推出"自主智能体"平台，企业工作流自动化进入加速期
+        <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:20px;background:#faf5ff;padding:14px 14px 14px 20px;border-radius:0 6px 6px 0;">
+          <h3 style="color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 8px;">
+            Headline &nbsp;<span style="font-weight:normal;font-size:12px;color:#9ca3af;background:#f3f4f6;padding:2px 6px;border-radius:4px;">Recent Trend</span>
+          </h3>
+          <p style="margin:0;font-weight:bold;font-size:15px;color:#1a1a1a;">
+            谷歌DeepMind发布Gemini 2.5 Ultra，数学推理与代码生成能力全面刷新行业基准测试记录
+          </p>
         </div>
 
         <!-- Summary -->
-        <h3 style="color:#5b21b6;font-size:15px;margin:16px 0 8px 0;">English Summary</h3>
-        <div style="line-height:1.8;">
-          Major AI companies — including Anthropic, OpenAI, and Google DeepMind — have released enterprise-grade autonomous agent platforms capable of executing multi-step business workflows without continuous human oversight, marking a shift from AI as a copilot to AI as an independent actor. Early adopters in financial services and logistics report 30–50% reductions in routine processing time, though governance and liability frameworks remain under active debate among regulators worldwide.
+        <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:20px;">
+          <h3 style="color:#7c3aed;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 10px;">English Summary</h3>
+          <p style="margin:0;line-height:1.85;">
+            Google DeepMind unveiled Gemini 2.5 Ultra, its most capable multimodal AI model to date, reporting top-tier performance on rigorous academic benchmarks including MATH-500 and HumanEval for code synthesis.
+            The model introduces a significantly expanded context window of up to two million tokens and enhanced agentic tool-use capabilities, positioning it as a direct competitor to frontier models across enterprise, scientific research, and software development applications.
+          </p>
         </div>
 
         <!-- Theoretical Principle -->
-        <h3 style="color:#5b21b6;font-size:15px;margin:16px 0 8px 0;">Theoretical Principle: <em>Principal-Agent Theory</em></h3>
-        <div style="background:#faf5ff;border-radius:6px;padding:14px 16px;line-height:1.8;">
-          Principal-Agent Theory, rooted in information economics, examines how one party (the principal) can design contracts or systems to align the behaviour of another party (the agent) with its own interests when the two have divergent goals and asymmetric information. Classical applications include shareholders (principals) structuring incentive compensation for executives (agents) to discourage empire-building. When AI systems act autonomously, a new layer of principal-agent tension emerges: the deploying firm is the principal, the AI is the agent, and misalignment can manifest as the model pursuing proxy objectives rather than true business goals. Designing robust reward signals, audit trails, and override mechanisms becomes the modern equivalent of contract design — a problem where computer science, economics, and law increasingly converge.
+        <div style="border-left:4px solid #7c3aed;padding-left:16px;background:#faf5ff;padding:16px 16px 16px 20px;border-radius:0 6px 6px 0;">
+          <h3 style="color:#7c3aed;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 10px;">Theoretical Principle: Scaling Laws</h3>
+          <p style="margin:0;line-height:1.85;">
+            <strong>Neural Scaling Laws</strong>, rigorously quantified by Kaplan et al. at OpenAI in 2020, describe the empirical power-law relationship between a language model's performance and three factors: number of parameters, volume of training data, and total compute budget.
+            The central insight is that model loss decreases predictably and smoothly as any of these dimensions is scaled up — a principle that has directly motivated the race to build ever-larger foundation models.
+            The Chinchilla scaling law (DeepMind, 2022) refined this further, showing that compute-optimal training requires scaling model size and dataset size proportionally; simply maximizing parameters while undertraining is inefficient.
+            The practical implication is that practitioners can extrapolate benchmark performance before committing to a full training run, allowing better resource allocation decisions across hardware, data collection, and architecture design.
+            Gemini 2.5 Ultra exemplifies this philosophy: instead of solely enlarging the model, DeepMind invested in higher-quality curated data and improved RLHF alignment methods, showing that data efficiency is increasingly the binding constraint at the frontier.
+          </p>
         </div>
       </div>
 
-      <!-- ===== SECTION 3: FINANCE NEWS ===== -->
-      <h2 style="color:#d97706;font-size:18px;margin:0 0 6px 0;">💹 Finance News</h2>
-      <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
+      <!-- ===== SECTION 3: Finance News ===== -->
+      <div style="margin-bottom:12px;">
+        <h2 style="color:#d97706;font-size:18px;margin:0 0 18px;padding-bottom:8px;border-bottom:2px solid #fffbeb;">💰 财经新闻英语</h2>
 
         <!-- Headline -->
-        <h3 style="color:#92400e;font-size:15px;margin:14px 0 8px 0;">Headline <span style="font-weight:normal;font-size:13px;color:#6b7280;">[Recent Trend]</span></h3>
-        <div style="background:#fffbeb;border-radius:6px;padding:12px 16px;font-size:15px;font-weight:bold;">
-          美联储维持利率不变，暗示下半年或有两次降息；全球股市普涨，美债收益率走低
+        <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:20px;background:#fffbeb;padding:14px 14px 14px 20px;border-radius:0 6px 6px 0;">
+          <h3 style="color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 8px;">
+            Headline &nbsp;<span style="font-weight:normal;font-size:12px;color:#9ca3af;background:#f3f4f6;padding:2px 6px;border-radius:4px;">Recent Trend</span>
+          </h3>
+          <p style="margin:0;font-weight:bold;font-size:15px;color:#1a1a1a;">
+            美联储六月议息会议维持利率不变，暗示年内仍有一次降息空间但需更多通胀回落证据
+          </p>
         </div>
 
         <!-- Summary -->
-        <h3 style="color:#92400e;font-size:15px;margin:16px 0 8px 0;">English Summary</h3>
-        <div style="line-height:1.8;">
-          The Federal Reserve held its benchmark rate steady at the June 2026 FOMC meeting while signalling that two quarter-point cuts remain on the table for the second half of the year if inflation continues its gradual descent toward the 2% target. Global equity indices rallied on the dovish guidance, with the S&amp;P 500 gaining 1.2% and the 10-year Treasury yield falling 8 basis points to reflect revised rate expectations.
+        <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:20px;">
+          <h3 style="color:#d97706;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 10px;">English Summary</h3>
+          <p style="margin:0;line-height:1.85;">
+            The Federal Reserve held its benchmark federal funds rate unchanged at its June FOMC meeting, citing persistent above-target inflation and a resilient labor market as justification for maintaining a cautious, data-dependent stance.
+            Fed Chair Jerome Powell indicated that while one rate reduction remains possible later in 2026, the committee requires further sustained evidence that inflation is converging convincingly toward its 2% target before easing monetary conditions.
+          </p>
         </div>
 
         <!-- Theoretical Principle -->
-        <h3 style="color:#92400e;font-size:15px;margin:16px 0 8px 0;">Theoretical Principle: <em>Monetary Transmission Mechanism</em></h3>
-        <div style="background:#fef3c7;border-radius:6px;padding:14px 16px;line-height:1.8;">
-          The Monetary Transmission Mechanism describes the pathways through which central bank policy rate decisions propagate through the financial system and ultimately affect real economic variables such as output, employment, and inflation. Key channels include the interest rate channel (lower rates reduce borrowing costs for firms and households), the asset price channel (cheaper money inflates equity and property valuations, boosting wealth effects and collateral values), the credit channel (easier conditions widen bank lending), and the exchange rate channel (rate cuts weaken the currency, stimulating net exports). Understanding these channels helps investors anticipate how "dovish pivots" translate into sector rotation — for example, rate-sensitive assets like real estate investment trusts and growth equities typically benefit most from early easing cycles.
+        <div style="border-left:4px solid #d97706;padding-left:16px;background:#fffbeb;padding:16px 16px 16px 20px;border-radius:0 6px 6px 0;">
+          <h3 style="color:#d97706;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 10px;">Theoretical Principle: The Taylor Rule</h3>
+          <p style="margin:0;line-height:1.85;">
+            <strong>The Taylor Rule</strong>, proposed by economist John B. Taylor in 1993, is a monetary policy guideline prescribing how a central bank should set the nominal interest rate based on two macroeconomic deviations: the gap between actual inflation and the target rate, and the output gap (the percentage difference between actual and potential GDP).
+            Specifically, the rule states that the central bank should raise the policy rate by 1.5 percentage points for each percentage point that inflation exceeds its target, and by 0.5 percentage points for each percentage point that output exceeds potential.
+            While the Fed does not mechanically follow the formula, the Taylor Rule serves as a widely used benchmark for evaluating whether policy is appropriately tight or accommodative relative to macroeconomic conditions.
+            The "higher for longer" stance that the Fed has maintained through 2025–2026 is broadly consistent with Taylor Rule prescriptions: with core inflation remaining above 2% and unemployment near historical lows, the formula implies that premature rate cuts risk reigniting inflationary pressures, reinforcing the committee's patient approach.
+          </p>
         </div>
       </div>
 
-    </div><!-- end main content -->
+    </div><!-- /Main Body -->
 
     <!-- Footer -->
-    <div style="background:#f1f5f9;padding:16px 28px;text-align:center;font-size:13px;color:#6b7280;border-top:1px solid #e2e8f0;">
+    <div style="background:#f3f4f6;padding:14px 28px;text-align:center;color:#6b7280;font-size:12px;border-top:1px solid #e5e7eb;">
       每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成
     </div>
 
-  </div><!-- end wrapper -->
+  </div>
 </body>
 </html>
