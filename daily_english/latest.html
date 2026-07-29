@@ -1,167 +1,186 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>每日英语练习 - 2026-07-28</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日英语练习 - 2026-07-29</title>
 </head>
-<body style="margin:0;padding:0;background:#f3f4f6;">
-<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;background:#ffffff;">
+<body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;">
+
+<div style="max-width:780px;margin:0 auto;background:#ffffff;">
 
   <!-- Header -->
   <div style="background:#1e3a8a;color:#ffffff;padding:20px 28px;">
     <div style="font-size:22px;font-weight:bold;letter-spacing:1px;">📚 每日英语练习</div>
-    <div style="margin-top:6px;font-size:14px;opacity:0.85;">2026年7月28日 &nbsp;|&nbsp; Topic: CS Graduate Interview</div>
+    <div style="font-size:13px;margin-top:6px;opacity:0.85;">2026年7月29日 · Economics &amp; Management · Topic: Principal-Agent Problem</div>
   </div>
 
-  <!-- Main content -->
-  <div style="padding:28px 28px 10px 28px;">
+  <div style="padding:24px 28px;">
 
     <!-- ===== SECTION 1: ORAL PRACTICE ===== -->
-    <h2 style="color:#059669;font-size:18px;margin-top:0;margin-bottom:14px;">💬 Oral Practice — CS Graduate Interview</h2>
-    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:28px;">
+    <div style="margin-bottom:36px;">
+      <h2 style="color:#059669;font-size:18px;margin:0 0 14px 0;padding-bottom:6px;border-bottom:2px solid #d1fae5;">🎤 口语练习 · Oral Practice</h2>
 
-      <!-- Question -->
-      <div style="margin-bottom:18px;">
-        <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Question</div>
-        <div style="background:#f0fdf4;border-radius:6px;padding:14px 16px;font-style:italic;color:#1a1a1a;line-height:1.7;">
-          In distributed systems design, the CAP theorem states you can only guarantee two of three properties simultaneously. Can you explain what CAP stands for, walk through the fundamental trade-offs a system designer must make, and give a concrete example of how a real-world database chooses between consistency and availability?
+      <!-- Border-left accent block -->
+      <div style="border-left:4px solid #059669;padding-left:16px;">
+
+        <!-- Question -->
+        <div style="margin-bottom:20px;">
+          <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Question</div>
+          <div style="background:#f0fdf4;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.7;color:#1a1a1a;">
+            Can you explain the <strong>principal-agent problem</strong> and discuss how it manifests in corporate governance? What mechanisms do companies commonly use to mitigate this issue, and what are the trade-offs involved?
+          </div>
         </div>
-      </div>
 
-      <!-- Reference Answer -->
-      <div style="margin-bottom:18px;">
-        <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Reference Answer</div>
-        <div style="line-height:1.8;color:#1a1a1a;">
-          <p style="margin:0 0 10px 0;">The CAP theorem, formulated by Eric Brewer in 2000 and formally proven by Gilbert and Lynch in 2002, states that a distributed data store can simultaneously guarantee only two of three properties: <strong>Consistency</strong>, <strong>Availability</strong>, and <strong>Partition Tolerance</strong>.</p>
-          <p style="margin:0 0 10px 0;"><strong>Consistency</strong> means every read receives the most recent write or an error — all nodes see the same data at the same time. <strong>Availability</strong> guarantees that every request receives a non-error response, though it may not reflect the latest write. <strong>Partition Tolerance</strong> means the system continues operating despite network partitions that prevent some nodes from communicating.</p>
-          <p style="margin:0 0 10px 0;">In practice, network partitions are inevitable in any real distributed system, so the choice effectively reduces to: during a partition, do you prioritize consistency or availability? This divides systems into two families. <strong>CP systems</strong> — such as HBase, ZooKeeper, and etcd — refuse to serve stale data; during a partition they reject requests rather than return potentially incorrect results. This is critical for financial ledgers or distributed locks. <strong>AP systems</strong> — such as Apache Cassandra and CouchDB — continue serving requests but may return stale or divergent data, relying on eventual consistency and conflict-resolution mechanisms afterwards. These suit use cases like social media timelines or shopping carts.</p>
-          <p style="margin:0 0 0 0;">The PACELC theorem extends this by noting that even without partitions, there is always a latency-versus-consistency trade-off. Modern systems like Google Spanner use TrueTime (atomic clocks + GPS) to approach strong consistency at global scale. Understanding CAP enables engineers to match database architecture to application SLA requirements.</p>
+        <!-- Reference Answer -->
+        <div style="margin-bottom:20px;">
+          <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Reference Answer</div>
+          <div style="background:#f8fffe;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.8;color:#1a1a1a;">
+            <p style="margin:0 0 12px 0;">The principal-agent problem arises when one party — the <em>agent</em> — is hired to act on behalf of another — the <em>principal</em> — but their interests diverge. This misalignment is compounded by information asymmetry: the agent typically knows more about their own effort and intentions than the principal can observe. The result is suboptimal outcomes for the principal, ranging from shirking and excessive risk-avoidance to outright self-dealing.</p>
+            <p style="margin:0 0 12px 0;">In corporate governance, the classic manifestation is the relationship between shareholders and professional managers. Shareholders want to maximize long-run firm value, while executives may prioritize empire-building, job security, or short-term earnings manipulation. This separation of ownership and control was famously documented by Berle and Means in 1932 and remains central to modern finance.</p>
+            <p style="margin:0 0 12px 0;">Several mechanisms attempt to realign incentives. Performance-based compensation — stock options, restricted share units, or bonuses tied to long-term metrics — makes the agent's payoff mirror the principal's objective. Independent boards and audit committees provide external monitoring, while institutional investors can exercise activist pressure. Debt financing disciplines managers through the threat of bankruptcy, reducing free cash flow available for wasteful spending. Finally, the market for corporate control — hostile takeovers — punishes poor governance externally.</p>
+            <p style="margin:0 0 0 0;">Each solution carries costs, however. Stock options may incentivize excessive short-term risk-taking or earnings manipulation. Monitoring is expensive and susceptible to board capture. The optimal governance structure depends on firm size, ownership concentration, and industry dynamics — meaning there is no one-size-fits-all solution to the agency problem.</p>
+          </div>
         </div>
-      </div>
 
-      <!-- Key Vocabulary -->
-      <div>
-        <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Key Vocabulary</div>
-        <table style="width:100%;border-collapse:collapse;font-size:14px;">
-          <thead>
-            <tr style="background:#dcfce7;">
-              <th style="text-align:left;padding:8px 10px;border:1px solid #a7f3d0;color:#065f46;">Word / Phrase</th>
-              <th style="text-align:left;padding:8px 10px;border:1px solid #a7f3d0;color:#065f46;">中文释义</th>
-              <th style="text-align:left;padding:8px 10px;border:1px solid #a7f3d0;color:#065f46;">Example Sentence</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">Partition Tolerance</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;">分区容错性</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Partition tolerance is non-negotiable in any geographically distributed cluster.</td>
-            </tr>
-            <tr style="background:#f9fafb;">
-              <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">Eventual Consistency</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;">最终一致性</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Cassandra guarantees eventual consistency; all replicas converge to the same value given enough time.</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">Replication</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;">数据复制</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Replication across multiple data centers improves fault tolerance but complicates consistency.</td>
-            </tr>
-            <tr style="background:#f9fafb;">
-              <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">Quorum</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;">法定人数 / 多数派</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;font-style:italic;">A quorum-based write requires acknowledgment from a majority of replicas before succeeding.</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">Split-brain</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;">脑裂（集群分裂）</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;font-style:italic;">A split-brain scenario occurs when two node groups each believe they are the sole leader.</td>
-            </tr>
-            <tr style="background:#f9fafb;">
-              <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">Linearizability</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;">线性一致性（强一致性）</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Linearizability guarantees that operations appear instantaneous from the perspective of external clients.</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">Conflict Resolution</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;">冲突解决</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Amazon's Dynamo uses vector clocks for conflict resolution when divergent versions are merged.</td>
-            </tr>
-            <tr style="background:#f9fafb;">
-              <td style="padding:8px 10px;border:1px solid #d1fae5;font-weight:bold;">Consensus Protocol</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;">共识协议</td>
-              <td style="padding:8px 10px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Raft is a consensus protocol designed to be more understandable than Paxos.</td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- Key Vocabulary Table -->
+        <div>
+          <div style="font-weight:bold;color:#065f46;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Key Vocabulary</div>
+          <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-size:14px;">
+              <thead>
+                <tr style="background:#d1fae5;color:#065f46;">
+                  <th style="padding:9px 12px;text-align:left;border:1px solid #a7f3d0;font-weight:bold;">Word / Phrase</th>
+                  <th style="padding:9px 12px;text-align:left;border:1px solid #a7f3d0;font-weight:bold;">中文释义</th>
+                  <th style="padding:9px 12px;text-align:left;border:1px solid #a7f3d0;font-weight:bold;">Example Sentence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background:#ffffff;">
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">principal-agent problem</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#065f46;">委托代理问题</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;font-style:italic;">The principal-agent problem intensifies when the board cannot observe CEO effort directly.</td>
+                </tr>
+                <tr style="background:#f9fafb;">
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">information asymmetry</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#065f46;">信息不对称</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Information asymmetry between borrowers and lenders leads to adverse selection in credit markets.</td>
+                </tr>
+                <tr style="background:#ffffff;">
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">moral hazard</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#065f46;">道德风险</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Bailing out failing banks creates moral hazard, encouraging future reckless lending.</td>
+                </tr>
+                <tr style="background:#f9fafb;">
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">incentive alignment</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#065f46;">激励相容</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Equity-based compensation is designed to achieve incentive alignment between managers and shareholders.</td>
+                </tr>
+                <tr style="background:#ffffff;">
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">agency costs</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#065f46;">代理成本</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Jensen and Meckling defined agency costs as the sum of monitoring, bonding, and residual loss.</td>
+                </tr>
+                <tr style="background:#f9fafb;">
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">empire-building</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#065f46;">帝国构建（管理者扩张行为）</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Critics argued the acquisition spree was classic empire-building driven by CEO ego rather than shareholder value.</td>
+                </tr>
+                <tr style="background:#ffffff;">
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">market for corporate control</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#065f46;">公司控制权市场</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;font-style:italic;">Manne's market for corporate control theory holds that hostile takeovers discipline underperforming management.</td>
+                </tr>
+                <tr style="background:#f9fafb;">
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:bold;">residual claimant</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#065f46;">剩余索取权人</td>
+                  <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;font-style:italic;">As residual claimants, shareholders bear the greatest downside risk but also capture the upside.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </div>
 
     <!-- ===== SECTION 2: AI NEWS ===== -->
-    <h2 style="color:#7c3aed;font-size:18px;margin-bottom:14px;">🤖 AI News</h2>
-    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:28px;">
+    <div style="margin-bottom:36px;">
+      <h2 style="color:#7c3aed;font-size:18px;margin:0 0 14px 0;padding-bottom:6px;border-bottom:2px solid #ede9fe;">🤖 AI 资讯 · AI News</h2>
 
-      <div style="display:inline-block;background:#ede9fe;color:#5b21b6;font-size:12px;font-weight:bold;padding:2px 8px;border-radius:4px;margin-bottom:10px;">[Recent Trend]</div>
+      <div style="border-left:4px solid #7c3aed;padding-left:16px;">
 
-      <!-- Headline -->
-      <div style="margin-bottom:14px;">
-        <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Headline</div>
-        <div style="font-size:16px;font-weight:bold;color:#1a1a1a;">OpenAI发布o3系列推理模型，在数学与编程竞赛中超越人类顶级专家水平</div>
-      </div>
-
-      <!-- Summary -->
-      <div style="margin-bottom:14px;">
-        <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">English Summary</div>
-        <div style="line-height:1.8;color:#1a1a1a;">
-          OpenAI's o3 series of reasoning models, released in early 2025, demonstrated unprecedented performance on rigorous benchmarks — achieving near-perfect scores on the American Invitational Mathematics Examination (AIME) and placing within the top percentile of competitive programming contestants. Unlike previous models that generate responses in a single pass, o3 employs extended "chain-of-thought" reasoning at inference time, allocating additional compute to decompose complex multi-step problems before producing a final answer.
+        <!-- Headline -->
+        <div style="margin-bottom:16px;">
+          <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Headline <span style="background:#ede9fe;color:#7c3aed;font-size:11px;padding:2px 6px;border-radius:4px;font-style:normal;font-weight:normal;margin-left:4px;">[Recent Trend]</span></div>
+          <div style="font-size:16px;font-weight:bold;color:#1a1a1a;line-height:1.5;">
+            混合专家架构（MoE）全面突破：主流大模型推理成本降低逾60%，边缘部署时代提前到来
+          </div>
         </div>
-      </div>
 
-      <!-- Theoretical Principle -->
-      <div>
-        <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Theoretical Principle: <span style="font-style:italic;">Scaling Laws for Neural Language Models</span></div>
-        <div style="background:#f5f3ff;border-radius:6px;padding:14px 16px;line-height:1.8;color:#1a1a1a;">
-          Scaling Laws, empirically established by Kaplan et al. at OpenAI in 2020, describe a predictable power-law relationship between a language model's performance and three factors: the number of model parameters, the size of the training dataset, and the amount of compute used in training. As each of these scales up, test loss decreases smoothly and predictably, allowing researchers to forecast a larger model's capability before training it. The o3 series extends this paradigm to <em>inference-time compute scaling</em> — the insight that allowing a model to "think longer" (use more tokens and compute during inference) can yield additional capability gains beyond what training-time scale alone provides. This suggests that intelligence in LLMs is not purely a fixed property of weights but can be dynamically unlocked by structured reasoning processes, opening a new axis of capability improvement.
+        <!-- Summary -->
+        <div style="margin-bottom:16px;">
+          <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">English Summary</div>
+          <div style="background:#faf5ff;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.8;">
+            Next-generation Mixture-of-Experts (MoE) architectures have achieved a breakthrough in inference efficiency, reducing the cost per token by over 60% compared to equivalent dense transformer models, while matching or exceeding their benchmark performance on reasoning and coding tasks. As a result, frontier-level AI capabilities are rapidly becoming deployable on edge devices such as smartphones and industrial sensors, fundamentally lowering the barrier to enterprise AI adoption.
+          </div>
         </div>
+
+        <!-- Theoretical Principle -->
+        <div>
+          <div style="font-weight:bold;color:#5b21b6;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Theoretical Principle</div>
+          <div style="background:#f5f3ff;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.8;">
+            <div style="font-weight:bold;color:#6d28d9;margin-bottom:6px;">Jevons Paradox &amp; Technology Diffusion</div>
+            The Jevons Paradox, originally observed by economist William Stanley Jevons in 19th-century coal markets, states that technological improvements in resource efficiency tend to <em>increase</em> total resource consumption rather than reduce it — because lower costs expand demand far more than efficiency saves. Applied to AI, each order-of-magnitude reduction in inference cost historically triggers several orders of magnitude more inference demand, as new use cases become economically viable. The MoE efficiency breakthrough exemplifies this dynamic: while individual model runs become cheaper, the total compute consumed by the AI industry continues growing exponentially. This has direct implications for energy infrastructure planning, semiconductor supply chains, and climate policy. Understanding Jevons' Paradox helps economists and policymakers recognize that efficiency gains alone are insufficient to reduce total resource use without complementary demand-side interventions.
+          </div>
+        </div>
+
       </div>
     </div>
 
     <!-- ===== SECTION 3: FINANCE NEWS ===== -->
-    <h2 style="color:#d97706;font-size:18px;margin-bottom:14px;">📈 Finance News</h2>
-    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:28px;">
+    <div style="margin-bottom:36px;">
+      <h2 style="color:#d97706;font-size:18px;margin:0 0 14px 0;padding-bottom:6px;border-bottom:2px solid #fef3c7;">💹 财经资讯 · Finance News</h2>
 
-      <div style="display:inline-block;background:#fef3c7;color:#92400e;font-size:12px;font-weight:bold;padding:2px 8px;border-radius:4px;margin-bottom:10px;">[Recent Trend]</div>
+      <div style="border-left:4px solid #d97706;padding-left:16px;">
 
-      <!-- Headline -->
-      <div style="margin-bottom:14px;">
-        <div style="font-weight:bold;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Headline</div>
-        <div style="font-size:16px;font-weight:bold;color:#1a1a1a;">美联储2025年降息路径反复摇摆，美国国债收益率曲线阶段性倒挂引发衰退担忧</div>
-      </div>
-
-      <!-- Summary -->
-      <div style="margin-bottom:14px;">
-        <div style="font-weight:bold;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">English Summary</div>
-        <div style="line-height:1.8;color:#1a1a1a;">
-          Throughout 2025, the U.S. Federal Reserve repeatedly revised its rate-cutting timeline as stubborn services inflation conflicted with signs of a softening labor market, leaving markets oscillating between pricing in one cut and no cuts for the year. This uncertainty triggered periodic inversions of the 2-year/10-year Treasury yield spread — a historically reliable recession indicator — fueling debate among economists about whether the inversion reflects genuine recessionary risk or merely a distorted signal from post-pandemic monetary dynamics.
+        <!-- Headline -->
+        <div style="margin-bottom:16px;">
+          <div style="font-weight:bold;color:#b45309;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Headline <span style="background:#fef3c7;color:#d97706;font-size:11px;padding:2px 6px;border-radius:4px;font-style:normal;font-weight:normal;margin-left:4px;">[Recent Trend]</span></div>
+          <div style="font-size:16px;font-weight:bold;color:#1a1a1a;line-height:1.5;">
+            美联储暗示2026年下半年或暂停降息周期，10年期美债收益率重回4.6%，全球债市承压
+          </div>
         </div>
-      </div>
 
-      <!-- Theoretical Principle -->
-      <div>
-        <div style="font-weight:bold;color:#92400e;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Theoretical Principle: <span style="font-style:italic;">Yield Curve Inversion and Recession Signals</span></div>
-        <div style="background:#fffbeb;border-radius:6px;padding:14px 16px;line-height:1.8;color:#1a1a1a;">
-          Under normal conditions, the yield curve slopes upward: investors demand a higher interest rate to lend money for longer periods, compensating for greater uncertainty and inflation risk over time. A yield curve inversion occurs when short-term interest rates (e.g., the 2-year Treasury yield) rise above long-term rates (e.g., the 10-year Treasury yield), typically signaling that bond markets expect the central bank will be forced to cut rates in the future — often because the economy is expected to weaken. Empirically, an inverted 2s10s spread has preceded every U.S. recession since the 1950s, usually with a lag of 12–18 months, making it one of the most watched leading indicators. The mechanism links to the Expectations Hypothesis of the term structure: long rates represent the market's average expectation of future short rates, so when long rates fall below current short rates, the market is implicitly forecasting monetary easing in response to economic slowdown. However, the predictive reliability of this signal has been debated, as structural factors such as central bank balance sheet expansion (quantitative easing) can suppress long-term yields artificially.
+        <!-- Summary -->
+        <div style="margin-bottom:16px;">
+          <div style="font-weight:bold;color:#b45309;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">English Summary</div>
+          <div style="background:#fffbeb;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.8;">
+            Federal Reserve officials have signaled a potential pause in the rate-cutting cycle launched in late 2025, citing persistently sticky core services inflation and a labor market that continues to add jobs above trend despite tighter financial conditions. In response, the 10-year U.S. Treasury yield climbed back above 4.6%, triggering a broad repricing in global fixed-income markets and putting renewed pressure on equity valuations, particularly in long-duration growth sectors such as technology and real estate.
+          </div>
         </div>
+
+        <!-- Theoretical Principle -->
+        <div>
+          <div style="font-weight:bold;color:#b45309;font-size:14px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Theoretical Principle</div>
+          <div style="background:#fffdf0;border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.8;">
+            <div style="font-weight:bold;color:#92400e;margin-bottom:6px;">Bond Duration &amp; the Fisher Effect</div>
+            Bond duration measures a fixed-income security's price sensitivity to changes in interest rates — specifically, it approximates the percentage price change for a 1% shift in yield. A 10-year Treasury bond with a modified duration of approximately 8.5 years will lose roughly 8.5% of its market value if yields rise by 1 percentage point. This explains why the Fed's hawkish signal caused immediate and severe mark-to-market losses across long-duration bond portfolios. Underlying the rate environment is the <strong>Fisher Effect</strong>, proposed by economist Irving Fisher, which holds that nominal interest rates equal the sum of real interest rates and expected inflation. When markets revise their inflation expectations upward — as appears to be the case now — nominal yields must rise to maintain real returns for investors. The interaction of duration risk and the Fisher Effect creates the mechanism through which monetary policy surprises transmit to asset prices across the entire economy, affecting mortgage rates, corporate borrowing costs, and equity discount rates simultaneously.
+          </div>
+        </div>
+
       </div>
     </div>
 
-  </div><!-- end main content -->
+  </div><!-- end padding div -->
 
   <!-- Footer -->
-  <div style="background:#f3f4f6;padding:16px 28px;text-align:center;font-size:13px;color:#6b7280;border-top:1px solid #e5e7eb;">
-    每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成 &nbsp;·&nbsp; 2026-07-28
+  <div style="background:#f1f5f9;border-top:1px solid #e2e8f0;padding:14px 28px;text-align:center;color:#64748b;font-size:12px;line-height:1.6;">
+    每日早7点推送 · 内容由 Claude 生成<br>
+    <span style="color:#94a3b8;">Topic rotation: Day 210 → Index 0 → Economics &amp; Management</span>
   </div>
 
-</div>
+</div><!-- end max-width container -->
+
 </body>
 </html>
