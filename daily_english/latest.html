@@ -1,225 +1,170 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每日英语练习 - 2026-08-01</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日英语练习 - 2026-08-03</title>
 </head>
-<body style="margin:0;padding:0;background:#f4f6f9;">
-<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;background:#ffffff;">
+<body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;">
 
-  <!-- Header -->
-  <div style="background:#1e3a8a;color:#ffffff;padding:20px 28px;">
-    <div style="font-size:22px;font-weight:bold;letter-spacing:0.5px;">📚 每日英语练习</div>
-    <div style="font-size:13px;margin-top:6px;opacity:0.85;">2026年8月1日 · Economics &amp; Management · Day 213</div>
+  <div style="max-width:780px;margin:0 auto;background:#ffffff;padding-bottom:32px;">
+
+    <!-- Header -->
+    <div style="background:#1e3a8a;color:#ffffff;padding:20px 28px;">
+      <div style="font-size:22px;font-weight:bold;letter-spacing:0.5px;">📚 每日英语练习</div>
+      <div style="font-size:13px;margin-top:6px;opacity:0.85;">2026-08-03 &nbsp;|&nbsp; Topic: CS Graduate Interview &nbsp;|&nbsp; CAP Theorem Trade-offs</div>
+    </div>
+
+    <div style="padding:24px 28px;">
+
+      <!-- ===== SECTION 1: Oral Practice ===== -->
+      <div style="margin-bottom:36px;">
+        <h2 style="color:#059669;font-size:18px;margin:0 0 12px 0;padding-bottom:6px;border-bottom:2px solid #d1fae5;">🎤 Oral Practice</h2>
+
+        <!-- Question -->
+        <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
+          <div style="font-weight:bold;color:#065f46;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Question</div>
+          <div style="background:#f0fdf4;border-radius:6px;padding:14px;font-size:15px;line-height:1.7;">
+            Can you explain the <strong>CAP theorem</strong> and describe a real-world scenario where a system architect must make a trade-off between consistency, availability, and partition tolerance? Which two properties would you prioritize for a payment processing system, and why?
+          </div>
+        </div>
+
+        <!-- Reference Answer -->
+        <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
+          <div style="font-weight:bold;color:#065f46;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Reference Answer</div>
+          <div style="background:#f9fafb;border-radius:6px;padding:16px;line-height:1.8;font-size:15px;">
+            <p style="margin:0 0 12px 0;">The CAP theorem, formulated by Eric Brewer in 2000, states that a distributed system can simultaneously guarantee at most two of three properties: <strong>Consistency</strong> — all nodes see the same data at the same time; <strong>Availability</strong> — every request receives a response; and <strong>Partition Tolerance</strong> — the system continues operating despite network partitions.</p>
+            <p style="margin:0 0 12px 0;">Since network partitions are an unavoidable reality in distributed systems, engineers must effectively choose between consistency and availability when a partition occurs. This leads to two common design philosophies: CP systems (e.g., Apache ZooKeeper, HBase) sacrifice availability during partitions to ensure no stale data is returned, while AP systems (e.g., Cassandra, DynamoDB) continue serving requests and accept temporary data divergence through eventual consistency.</p>
+            <p style="margin:0 0 12px 0;">For a <strong>payment processing system</strong>, I would prioritize <strong>CP</strong> — Consistency and Partition Tolerance. Financial transactions demand strict correctness; serving a stale balance or allowing a double-spend is far more damaging than briefly rejecting a request with an error. Banks prefer downtime over inconsistency.</p>
+            <p style="margin:0;">It is worth noting that the <strong>PACELC theorem</strong> extends CAP by also accounting for latency trade-offs during normal operation, offering a more complete framework for distributed system design decisions.</p>
+          </div>
+        </div>
+
+        <!-- Key Vocabulary -->
+        <div style="border-left:4px solid #059669;padding-left:16px;">
+          <div style="font-weight:bold;color:#065f46;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Key Vocabulary</div>
+          <table style="width:100%;border-collapse:collapse;font-size:14px;">
+            <thead>
+              <tr style="background:#d1fae5;">
+                <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;color:#065f46;font-weight:bold;width:28%;">Word / Phrase</th>
+                <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;color:#065f46;font-weight:bold;width:22%;">中文释义</th>
+                <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;color:#065f46;font-weight:bold;width:50%;">Example Sentence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#ffffff;">
+                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Partition Tolerance</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">分区容错性</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Partition tolerance ensures the system keeps operating even when some nodes cannot communicate.</td>
+              </tr>
+              <tr style="background:#f9fafb;">
+                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Eventual Consistency</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">最终一致性</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">DynamoDB relies on eventual consistency, so reads may temporarily return stale data.</td>
+              </tr>
+              <tr style="background:#ffffff;">
+                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Consensus Protocol</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">共识协议</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Raft is a consensus protocol designed to make distributed agreement easier to understand.</td>
+              </tr>
+              <tr style="background:#f9fafb;">
+                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Quorum</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">法定多数 / 仲裁</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">A quorum-based write requires acknowledgement from the majority of replica nodes.</td>
+              </tr>
+              <tr style="background:#ffffff;">
+                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Replication</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">数据副本复制</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Synchronous replication ensures consistency but adds latency compared to async replication.</td>
+              </tr>
+              <tr style="background:#f9fafb;">
+                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Idempotency</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">幂等性</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Idempotent API endpoints allow clients to safely retry requests without side effects.</td>
+              </tr>
+              <tr style="background:#ffffff;">
+                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Trade-off</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">权衡取舍</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">The trade-off between latency and consistency is central to distributed database design.</td>
+              </tr>
+              <tr style="background:#f9fafb;">
+                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">PACELC Theorem</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">PACELC定理</td>
+                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">PACELC extends CAP by also considering latency versus consistency in the absence of partitions.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 2: AI News ===== -->
+      <div style="margin-bottom:36px;">
+        <h2 style="color:#7c3aed;font-size:18px;margin:0 0 12px 0;padding-bottom:6px;border-bottom:2px solid #ede9fe;">🤖 AI News</h2>
+        <div style="font-size:11px;color:#9ca3af;margin-bottom:12px;">[Recent Trend] — News fetched from training knowledge; live sources unavailable today.</div>
+
+        <!-- Headline -->
+        <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:16px;">
+          <div style="font-weight:bold;color:#5b21b6;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Headline</div>
+          <div style="font-size:16px;font-weight:bold;color:#1a1a1a;line-height:1.5;">
+            全球主要科技公司竞相部署AI智能体（Agent）系统，企业软件正进入"AI自动化"新纪元
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:16px;">
+          <div style="font-weight:bold;color:#5b21b6;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">English Summary</div>
+          <div style="background:#faf5ff;border-radius:6px;padding:14px;line-height:1.8;">
+            Major technology companies — including Google, Microsoft, and Anthropic — are racing to deploy autonomous AI agent systems capable of executing multi-step workflows, browsing the web, writing code, and managing complex enterprise tasks with minimal human supervision. Enterprise adoption is accelerating as businesses report significant productivity gains, while industry analysts warn that workforce displacement in knowledge-intensive roles may outpace retraining capacity in the near term.
+          </div>
+        </div>
+
+        <!-- Theoretical Principle -->
+        <div style="border-left:4px solid #7c3aed;padding-left:16px;">
+          <div style="font-weight:bold;color:#5b21b6;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Theoretical Principle: <span style="color:#7c3aed;">Skill-Biased Technological Change (SBTC)</span></div>
+          <div style="background:#faf5ff;border-radius:6px;padding:14px;line-height:1.8;">
+            Skill-Biased Technological Change is an economic theory explaining that new technologies tend to increase the relative demand for highly skilled workers while reducing demand for those performing routine or codifiable tasks. First formalized in labor economics during the 1990s to explain rising wage inequality, SBTC holds that automation complements high-skill cognitive work but substitutes for repetitive manual and clerical roles. The widespread deployment of AI agents represents a new wave of SBTC: tasks once requiring specialized knowledge workers — legal research, financial analysis, software debugging — are increasingly automated. This creates upward wage pressure for workers who can design, supervise, and interpret AI systems, while compressing demand for mid-skill white-collar roles. Policymakers are grappling with how education and social safety-net systems must adapt when AI compresses the skill-premium cycle from decades to years.
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECTION 3: Finance News ===== -->
+      <div style="margin-bottom:24px;">
+        <h2 style="color:#d97706;font-size:18px;margin:0 0 12px 0;padding-bottom:6px;border-bottom:2px solid #fef3c7;">📈 Finance News</h2>
+        <div style="font-size:11px;color:#9ca3af;margin-bottom:12px;">[Recent Trend] — News fetched from training knowledge; live sources unavailable today.</div>
+
+        <!-- Headline -->
+        <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
+          <div style="font-weight:bold;color:#92400e;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Headline</div>
+          <div style="font-size:16px;font-weight:bold;color:#1a1a1a;line-height:1.5;">
+            美联储维持利率不变，市场押注年内降息窗口收窄，长端美债收益率走高
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
+          <div style="font-weight:bold;color:#92400e;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">English Summary</div>
+          <div style="background:#fffbeb;border-radius:6px;padding:14px;line-height:1.8;">
+            The U.S. Federal Reserve held its benchmark interest rate steady at its latest policy meeting, citing persistent core inflation above the 2% target and resilient labor market conditions, signaling that rate cuts this year are less certain than markets had anticipated. In response, yields on 10-year U.S. Treasury bonds rose sharply, pressuring equity valuations — particularly in high-growth and technology sectors — as investors repriced the duration risk embedded in long-dated assets.
+          </div>
+        </div>
+
+        <!-- Theoretical Principle -->
+        <div style="border-left:4px solid #d97706;padding-left:16px;">
+          <div style="font-weight:bold;color:#92400e;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Theoretical Principle: <span style="color:#d97706;">Bond Duration and the Interest Rate–Price Inverse Relationship</span></div>
+          <div style="background:#fffbeb;border-radius:6px;padding:14px;line-height:1.8;">
+            Duration measures the sensitivity of a bond's price to changes in interest rates — specifically, the weighted average time until a bond's cash flows are received, expressed in years. The core principle is an inverse relationship: when interest rates rise, existing bond prices fall, and vice versa. A bond with higher duration (longer maturity, lower coupon) will experience greater price swings for the same rate move than a short-duration bond. This dynamic extends beyond fixed income: equity valuations rely on discounting future earnings, so rising risk-free rates — proxied by Treasury yields — mechanically compress the present value of distant cash flows, hitting growth stocks hardest. Convexity refines the duration model by capturing the non-linear nature of price-yield curves, showing that price increases from falling rates are larger than price declines from equivalent rate rises, a property that benefits long-duration bondholders in volatile markets.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="background:#f3f4f6;padding:14px 28px;text-align:center;font-size:12px;color:#9ca3af;border-top:1px solid #e5e7eb;">
+      每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成 &nbsp;·&nbsp; 2026-08-03
+    </div>
+
   </div>
 
-  <div style="padding:24px 28px;">
-
-    <!-- ===================== SECTION 1: ORAL PRACTICE ===================== -->
-    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:32px;">
-      <h2 style="color:#059669;margin:0 0 16px 0;font-size:18px;">🎤 口语练习 — Oral Practice</h2>
-      <p style="margin:0 0 4px 0;font-size:13px;color:#6b7280;">Topic: Economics / Management &nbsp;|&nbsp; Concept: <strong>Moral Hazard</strong></p>
-
-      <!-- Question -->
-      <div style="background:#f0fdf4;border-radius:8px;padding:14px 16px;margin:14px 0;">
-        <div style="font-weight:bold;color:#065f46;margin-bottom:6px;font-size:14px;">❓ Interview Question</div>
-        <p style="margin:0;line-height:1.7;">
-          Can you explain the concept of <strong>moral hazard</strong> and how it arises in economic or business relationships?
-          Please illustrate your answer with a concrete real-world example and discuss how institutions or policymakers
-          attempt to mitigate it.
-        </p>
-      </div>
-
-      <!-- Reference Answer -->
-      <div style="margin:14px 0;">
-        <div style="font-weight:bold;color:#065f46;margin-bottom:8px;font-size:14px;">📝 Reference Answer</div>
-        <div style="line-height:1.8;color:#1a1a1a;">
-          <p style="margin:0 0 10px 0;">
-            Moral hazard refers to the tendency of an individual or organization to take on more risk when they are
-            insulated from its consequences — typically because another party bears the cost of that risk. It is a
-            pervasive problem in economics that emerges whenever one party's behavior affects outcomes that are partially
-            borne by others.
-          </p>
-          <p style="margin:0 0 10px 0;">
-            A classic example is the insurance industry. Once a homeowner purchases comprehensive fire insurance, they
-            may become less diligent about fire-safety practices — leaving the stove on, skipping smoke-detector checks —
-            because the financial downside of a fire is largely transferred to the insurer. The insurer cannot perfectly
-            observe the homeowner's behavior, so the information asymmetry enables this risky conduct.
-          </p>
-          <p style="margin:0 0 10px 0;">
-            A second prominent example is the 2008 financial crisis. Large financial institutions took on excessive
-            leverage partly because they assumed governments would bail them out — the "too big to fail" phenomenon.
-            When expected losses are socialized but gains are privatized, the incentive to manage risk prudently is
-            substantially weakened.
-          </p>
-          <p style="margin:0;">
-            Common mitigation strategies include: co-payments and deductibles (making the risk-taker retain a portion of
-            losses), performance-based contracts (aligning agent incentives with principal outcomes), regulatory capital
-            requirements (limiting leverage), and enhanced monitoring and disclosure obligations. The fundamental goal
-            is always to realign the interests of the party taking risks with those bearing the consequences.
-          </p>
-        </div>
-      </div>
-
-      <!-- Key Vocabulary Table -->
-      <div style="margin:14px 0;">
-        <div style="font-weight:bold;color:#065f46;margin-bottom:10px;font-size:14px;">📖 Key Vocabulary</div>
-        <table style="width:100%;border-collapse:collapse;font-size:14px;">
-          <thead>
-            <tr style="background:#d1fae5;text-align:left;">
-              <th style="padding:8px 12px;border:1px solid #a7f3d0;width:22%;">Word / Phrase</th>
-              <th style="padding:8px 12px;border:1px solid #a7f3d0;width:20%;">中文释义</th>
-              <th style="padding:8px 12px;border:1px solid #a7f3d0;">Example Sentence</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:600;">moral hazard</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">道德风险</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">Deposit insurance reduces bank runs but introduces moral hazard if banks take undue risks.</td>
-            </tr>
-            <tr style="background:#f9fafb;">
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:600;">information asymmetry</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">信息不对称</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">Information asymmetry between the borrower and lender often leads to adverse loan pricing.</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:600;">insulated from consequences</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">与后果隔绝</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">Managers insulated from consequences by generous severance packages may pursue reckless strategies.</td>
-            </tr>
-            <tr style="background:#f9fafb;">
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:600;">too big to fail</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">大而不倒</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">Critics argue the "too big to fail" doctrine perpetuates moral hazard in the banking sector.</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:600;">deductible</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">免赔额</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">A higher deductible discourages frivolous claims and partially corrects for moral hazard.</td>
-            </tr>
-            <tr style="background:#f9fafb;">
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:600;">principal-agent problem</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">委托-代理问题</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">The principal-agent problem underlies executive compensation debates in corporate governance.</td>
-            </tr>
-            <tr>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:600;">mitigate</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">缓解；减轻</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">Regulators use disclosure requirements to mitigate information asymmetry in capital markets.</td>
-            </tr>
-            <tr style="background:#f9fafb;">
-              <td style="padding:8px 12px;border:1px solid #d1fae5;font-weight:600;">prudent</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">审慎的；谨慎的</td>
-              <td style="padding:8px 12px;border:1px solid #d1fae5;color:#374151;">Prudent risk management requires stress-testing portfolios against tail scenarios.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ===================== SECTION 2: AI NEWS ===================== -->
-    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:32px;">
-      <h2 style="color:#7c3aed;margin:0 0 16px 0;font-size:18px;">🤖 AI 新闻 — AI News</h2>
-      <p style="margin:0 0 4px 0;font-size:12px;color:#9ca3af;">[Recent Trend] — 基于知识库生成，网络抓取不可用</p>
-
-      <!-- Headline -->
-      <div style="background:#f5f3ff;border-radius:8px;padding:14px 16px;margin:14px 0;">
-        <div style="font-weight:bold;color:#5b21b6;margin-bottom:6px;font-size:14px;">📰 标题 / Headline</div>
-        <p style="margin:0;font-size:15px;font-weight:600;color:#1a1a1a;">
-          谷歌 DeepMind 发布 Gemini 2.5 Pro：多模态推理能力大幅提升，编程与科学任务达到新基准
-        </p>
-      </div>
-
-      <!-- Summary -->
-      <div style="margin:14px 0;">
-        <div style="font-weight:bold;color:#5b21b6;margin-bottom:6px;font-size:14px;">📋 English Summary</div>
-        <p style="margin:0;line-height:1.8;color:#1a1a1a;">
-          Google DeepMind's Gemini 2.5 Pro model has demonstrated state-of-the-art performance on multimodal
-          reasoning benchmarks, excelling at code generation, mathematical problem-solving, and scientific
-          question-answering tasks that require integrating text, images, and structured data simultaneously.
-          The release intensifies competition in the frontier AI model space, with Google emphasizing the model's
-          long-context window of over one million tokens as a key differentiator for enterprise and research workflows.
-        </p>
-      </div>
-
-      <!-- Theoretical Principle -->
-      <div style="background:#faf5ff;border-radius:8px;padding:14px 16px;margin:14px 0;">
-        <div style="font-weight:bold;color:#5b21b6;margin-bottom:8px;font-size:14px;">
-          💡 Theoretical Principle: <span style="font-style:italic;">Scaling Laws in Deep Learning</span>
-        </div>
-        <p style="margin:0;line-height:1.8;color:#1a1a1a;">
-          <strong>Scaling Laws</strong> (Kaplan et al., 2020) describe the empirical relationship between model
-          performance and three key resources: the number of parameters, the volume of training data, and the
-          amount of compute used. The central finding is that performance on language tasks improves predictably
-          and smoothly as these quantities increase — following a power-law relationship. This means doubling
-          the compute budget yields a consistent, quantifiable improvement in loss, allowing researchers to
-          forecast the capabilities of future models before training them. Importantly, scaling laws also reveal
-          optimal compute allocation: for a fixed budget, there is a precise ratio of model size to data tokens
-          that minimizes loss (the "Chinchilla" insight). The implication is that the AI industry's race to
-          build ever-larger models is not arbitrary — it is grounded in a mathematical framework suggesting that
-          intelligence itself may be an emergent property of scale.
-        </p>
-      </div>
-    </div>
-
-    <!-- ===================== SECTION 3: FINANCE NEWS ===================== -->
-    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:32px;">
-      <h2 style="color:#d97706;margin:0 0 16px 0;font-size:18px;">💹 财经新闻 — Finance News</h2>
-      <p style="margin:0 0 4px 0;font-size:12px;color:#9ca3af;">[Recent Trend] — 基于知识库生成，网络抓取不可用</p>
-
-      <!-- Headline -->
-      <div style="background:#fffbeb;border-radius:8px;padding:14px 16px;margin:14px 0;">
-        <div style="font-weight:bold;color:#92400e;margin-bottom:6px;font-size:14px;">📰 标题 / Headline</div>
-        <p style="margin:0;font-size:15px;font-weight:600;color:#1a1a1a;">
-          美联储维持利率不变，暗示年内或有两次降息；美债收益率曲线出现牛市陡峭化信号
-        </p>
-      </div>
-
-      <!-- Summary -->
-      <div style="margin:14px 0;">
-        <div style="font-weight:bold;color:#92400e;margin-bottom:6px;font-size:14px;">📋 English Summary</div>
-        <p style="margin:0;line-height:1.8;color:#1a1a1a;">
-          The Federal Reserve held its benchmark rate steady at its July 2026 meeting but signaled through
-          updated dot-plot projections that two quarter-point cuts remain on the table for the second half of
-          the year, contingent on continued disinflation and a cooling labor market.
-          In response, the U.S. Treasury yield curve steepened in a "bull steepener" pattern — short-dated
-          yields fell sharply on dovish expectations while long-term yields declined more moderately, a
-          configuration that historically precedes an economic soft landing rather than recession.
-        </p>
-      </div>
-
-      <!-- Theoretical Principle -->
-      <div style="background:#fef3c7;border-radius:8px;padding:14px 16px;margin:14px 0;">
-        <div style="font-weight:bold;color:#92400e;margin-bottom:8px;font-size:14px;">
-          💡 Theoretical Principle: <span style="font-style:italic;">Yield Curve Dynamics &amp; Expectations Theory</span>
-        </div>
-        <p style="margin:0;line-height:1.8;color:#1a1a1a;">
-          The <strong>Pure Expectations Theory</strong> of the yield curve holds that long-term interest rates
-          are simply geometric averages of expected future short-term rates. Under this framework, the shape of
-          the yield curve encodes the market's collective forecast for monetary policy: an inverted curve (short
-          rates above long rates) implies the market expects the central bank to cut rates in the future,
-          typically because economic weakness is anticipated. A "bull steepener" — where the curve steepens
-          because short rates fall faster than long rates — occurs when investors price in imminent rate cuts
-          while long-end yields remain anchored by stable long-run inflation expectations. Crucially, the
-          Expectations Theory is supplemented by the <strong>Liquidity Preference Theory</strong>, which adds
-          a term premium: investors demand extra compensation for locking up capital longer, which is why the
-          curve normally slopes upward even when no rate changes are expected. Monitoring yield curve shape
-          remains one of the most reliable leading indicators of economic turning points available to investors.
-        </p>
-      </div>
-    </div>
-
-  </div><!-- end padding div -->
-
-  <!-- Footer -->
-  <div style="background:#f3f4f6;padding:14px 28px;border-top:1px solid #e5e7eb;text-align:center;">
-    <p style="margin:0;font-size:12px;color:#6b7280;">
-      每日早7点推送 · 内容由 Claude 生成 &nbsp;|&nbsp; Topic: Economics / Management (Day 213)
-    </p>
-  </div>
-
-</div>
 </body>
 </html>
