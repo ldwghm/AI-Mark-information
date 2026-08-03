@@ -1,250 +1,794 @@
 {
-  "fetch_time": "2026-08-03 06:25:22 UTC",
+  "fetch_time": "2026-08-03T08:51:18.332412",
   "fetch_date": "2026-08-03",
-  "report_type": "afternoon",
   "expected_data_date": "2026-08-03",
-  "realtime_indices": {},
-  "index_technicals": {},
-  "watchlist_technicals": [
+  "report_type": "afternoon",
+  "is_friday": false,
+  "realtime_indices": {
+    "sh000001": {
+      "name": "上证指数",
+      "yesterday_close": "3832.2624",
+      "open": "3812.6129",
+      "current": "3809.6629",
+      "high": "3827.6359",
+      "low": "3797.6431",
+      "volume": "524516960",
+      "amount": "952256890102",
+      "time": "15:35:29",
+      "price": 3809.66,
+      "chg": -0.59,
+      "change_pct": -0.59
+    },
+    "sz399001": {
+      "name": "深证成指",
+      "yesterday_close": "13578.930",
+      "open": "13497.104",
+      "current": "13448.289",
+      "high": "13570.512",
+      "low": "13407.989",
+      "volume": "61882869562",
+      "amount": "1045128965551.369",
+      "time": "15:00:03",
+      "price": 13448.29,
+      "chg": -0.96,
+      "change_pct": -0.96
+    },
+    "sz399006": {
+      "name": "创业板指",
+      "yesterday_close": "3343.964",
+      "open": "3320.093",
+      "current": "3302.553",
+      "high": "3342.173",
+      "low": "3280.843",
+      "volume": "18772097180",
+      "amount": "486504338862.560",
+      "time": "15:00:03",
+      "price": 3302.55,
+      "chg": -1.24,
+      "change_pct": -1.24
+    },
+    "sh000688": {
+      "name": "科创50",
+      "yesterday_close": "1635.9624",
+      "open": "1619.2940",
+      "current": "1552.8903",
+      "high": "1621.9932",
+      "low": "1549.7394",
+      "volume": "12334986",
+      "amount": "124510595123",
+      "time": "15:35:41",
+      "price": 1552.89,
+      "chg": -5.08,
+      "change_pct": -5.08
+    }
+  },
+  "index_5day_kline": [],
+  "all_boards_rt": [],
+  "board_capital_flows_rt": [],
+  "ai_boards_rt": [],
+  "board_stocks_rt": [],
+  "watchlist_rt": [
+    {
+      "name": "飞荣达",
+      "code": "300602",
+      "sector": "液冷",
+      "current": 30.99,
+      "change_pct": -2.3,
+      "high": 31.97,
+      "low": 30.54,
+      "open": 31.4,
+      "yesterday_close": 31.72,
+      "volume": 150170,
+      "amount": 466548544.72,
+      "main_net_flow": -5353059.0,
+      "data_date": "2026-08-03"
+    },
+    {
+      "name": "沃尔核材",
+      "code": "002130",
+      "sector": "高速铜连接",
+      "current": 17.13,
+      "change_pct": 2.57,
+      "high": 17.18,
+      "low": 16.8,
+      "open": 16.88,
+      "yesterday_close": 16.7,
+      "volume": 443452,
+      "amount": 756471612.72,
+      "main_net_flow": 41241679.0,
+      "data_date": "2026-08-03"
+    },
+    {
+      "name": "兆龙互连",
+      "code": "300913",
+      "sector": "高速铜连接",
+      "current": 34.05,
+      "change_pct": 4.06,
+      "high": 34.06,
+      "low": 32.51,
+      "open": 32.72,
+      "yesterday_close": 32.72,
+      "volume": 73883,
+      "amount": 248196873.44,
+      "main_net_flow": 11129547.0,
+      "data_date": "2026-08-03"
+    },
+    {
+      "name": "神宇股份",
+      "code": "300563",
+      "sector": "高速铜连接",
+      "current": 22.7,
+      "change_pct": 1.61,
+      "high": 22.85,
+      "low": 22.42,
+      "open": 22.42,
+      "yesterday_close": 22.34,
+      "volume": 28825,
+      "amount": 65292706.0,
+      "main_net_flow": -3428663.0,
+      "data_date": "2026-08-03"
+    },
+    {
+      "name": "瑞可达",
+      "code": "688800",
+      "sector": "高速铜连接",
+      "current": 47.0,
+      "change_pct": -3.29,
+      "high": 49.33,
+      "low": 46.48,
+      "open": 48.6,
+      "yesterday_close": 48.6,
+      "volume": 114897,
+      "amount": 545632939.0,
+      "main_net_flow": 17948200.0,
+      "data_date": "2026-08-03"
+    },
+    {
+      "name": "新亚电子",
+      "code": "605277",
+      "sector": "高速铜连接",
+      "current": 14.79,
+      "change_pct": 0.96,
+      "high": 14.83,
+      "low": 14.52,
+      "open": 14.58,
+      "yesterday_close": 14.65,
+      "volume": 47223,
+      "amount": 69584360.0,
+      "main_net_flow": -6802375.0,
+      "data_date": "2026-08-03"
+    },
+    {
+      "name": "工业富联",
+      "code": "601138",
+      "sector": "AI服务器",
+      "current": 55.9,
+      "change_pct": -0.27,
+      "high": 56.8,
+      "low": 54.64,
+      "open": 55.53,
+      "yesterday_close": 56.05,
+      "volume": 948043,
+      "amount": 5277380191.0,
+      "main_net_flow": -132886912.0,
+      "data_date": "2026-08-03"
+    },
+    {
+      "name": "浪潮信息",
+      "code": "000977",
+      "sector": "AI服务器",
+      "current": 71.66,
+      "change_pct": -0.21,
+      "high": 75.8,
+      "low": 71.09,
+      "open": 71.82,
+      "yesterday_close": 71.81,
+      "volume": 754567,
+      "amount": 5507651128.28,
+      "main_net_flow": -140323040.0,
+      "data_date": "2026-08-03"
+    },
+    {
+      "name": "中科曙光",
+      "code": "603019",
+      "sector": "AI服务器",
+      "current": 83.69,
+      "change_pct": 0.28,
+      "high": 85.99,
+      "low": 83.08,
+      "open": 83.54,
+      "yesterday_close": 83.46,
+      "volume": 399523,
+      "amount": 3358565014.0,
+      "main_net_flow": -33116800.0,
+      "data_date": "2026-08-03"
+    },
+    {
+      "name": "紫光股份",
+      "code": "000938",
+      "sector": "AI服务器",
+      "current": 33.1,
+      "change_pct": -5.13,
+      "high": 35.87,
+      "low": 32.69,
+      "open": 34.48,
+      "yesterday_close": 34.89,
+      "volume": 2869903,
+      "amount": 9750741458.54,
+      "main_net_flow": -617866896.0,
+      "data_date": "2026-08-03"
+    }
+  ],
+  "sectors": [
+    {
+      "sector": "高速铜连接",
+      "avg_chg": 1.18,
+      "up": 4,
+      "down": 1,
+      "total": 5,
+      "leader": {
+        "name": "兆龙互连",
+        "code": "300913",
+        "chg_pct": 4.06
+      },
+      "laggard": {
+        "name": "瑞可达",
+        "code": "688800",
+        "chg_pct": -3.29
+      },
+      "total_main_flow": 60088388.0,
+      "stocks": [
+        {
+          "code": "300913",
+          "name": "兆龙互连",
+          "chg_pct": 4.06
+        },
+        {
+          "code": "002130",
+          "name": "沃尔核材",
+          "chg_pct": 2.57
+        },
+        {
+          "code": "300563",
+          "name": "神宇股份",
+          "chg_pct": 1.61
+        },
+        {
+          "code": "605277",
+          "name": "新亚电子",
+          "chg_pct": 0.96
+        },
+        {
+          "code": "688800",
+          "name": "瑞可达",
+          "chg_pct": -3.29
+        }
+      ]
+    },
+    {
+      "sector": "AI服务器",
+      "avg_chg": -1.33,
+      "up": 1,
+      "down": 3,
+      "total": 4,
+      "leader": {
+        "name": "中科曙光",
+        "code": "603019",
+        "chg_pct": 0.28
+      },
+      "laggard": {
+        "name": "紫光股份",
+        "code": "000938",
+        "chg_pct": -5.13
+      },
+      "total_main_flow": -924193648.0,
+      "stocks": [
+        {
+          "code": "603019",
+          "name": "中科曙光",
+          "chg_pct": 0.28
+        },
+        {
+          "code": "000977",
+          "name": "浪潮信息",
+          "chg_pct": -0.21
+        },
+        {
+          "code": "601138",
+          "name": "工业富联",
+          "chg_pct": -0.27
+        },
+        {
+          "code": "000938",
+          "name": "紫光股份",
+          "chg_pct": -5.13
+        }
+      ]
+    },
+    {
+      "sector": "液冷",
+      "avg_chg": -2.3,
+      "up": 0,
+      "down": 1,
+      "total": 1,
+      "leader": {
+        "name": "飞荣达",
+        "code": "300602",
+        "chg_pct": -2.3
+      },
+      "laggard": {
+        "name": "飞荣达",
+        "code": "300602",
+        "chg_pct": -2.3
+      },
+      "total_main_flow": -5353059.0,
+      "stocks": [
+        {
+          "code": "300602",
+          "name": "飞荣达",
+          "chg_pct": -2.3
+        }
+      ]
+    }
+  ],
+  "capital_flow_top30_rt": [],
+  "watchlist_klines": [
     {
       "name": "中际旭创",
       "secid": "0.300308",
-      "code": "300308",
-      "sector": "光通信/CPO/光模块"
+      "klines": []
     },
     {
       "name": "新易盛",
       "secid": "0.300502",
-      "code": "300502",
-      "sector": "光通信/CPO/光模块"
+      "klines": []
     },
     {
       "name": "天孚通信",
       "secid": "0.300394",
-      "code": "300394",
-      "sector": "光通信/CPO/光模块"
+      "klines": []
     },
     {
       "name": "光迅科技",
       "secid": "0.002281",
-      "code": "002281",
-      "sector": "光通信/CPO/光模块"
+      "klines": []
     },
     {
       "name": "源杰科技",
       "secid": "1.688498",
-      "code": "688498",
-      "sector": "光通信/CPO/光模块"
+      "klines": []
     },
     {
       "name": "光库科技",
       "secid": "0.300620",
-      "code": "300620",
-      "sector": "光通信/CPO/光模块"
+      "klines": []
     },
     {
       "name": "长飞光纤",
       "secid": "1.601869",
-      "code": "601869",
-      "sector": "光纤光缆"
+      "klines": []
     },
     {
       "name": "亨通光电",
       "secid": "1.600487",
-      "code": "600487",
-      "sector": "光纤光缆"
+      "klines": []
     },
     {
       "name": "中天科技",
       "secid": "1.600522",
-      "code": "600522",
-      "sector": "光纤光缆"
+      "klines": []
     },
     {
       "name": "烽火通信",
       "secid": "1.600498",
-      "code": "600498",
-      "sector": "光纤光缆"
+      "klines": []
     },
     {
       "name": "北方华创",
       "secid": "0.002371",
-      "code": "002371",
-      "sector": "半导体设备/制造/AI芯片"
+      "klines": []
     },
     {
       "name": "中微公司",
       "secid": "1.688012",
-      "code": "688012",
-      "sector": "半导体设备/制造/AI芯片"
+      "klines": []
     },
     {
       "name": "拓荆科技",
       "secid": "1.688072",
-      "code": "688072",
-      "sector": "半导体设备/制造/AI芯片"
+      "klines": []
     },
     {
       "name": "中芯国际",
       "secid": "1.688981",
-      "code": "688981",
-      "sector": "半导体设备/制造/AI芯片"
+      "klines": []
     },
     {
       "name": "华虹公司",
       "secid": "1.688347",
-      "code": "688347",
-      "sector": "半导体设备/制造/AI芯片"
+      "klines": []
     },
     {
       "name": "寒武纪",
       "secid": "1.688256",
-      "code": "688256",
-      "sector": "半导体设备/制造/AI芯片"
+      "klines": []
     },
     {
       "name": "海光信息",
       "secid": "1.688041",
-      "code": "688041",
-      "sector": "半导体设备/制造/AI芯片"
+      "klines": []
     },
     {
       "name": "兆易创新",
       "secid": "1.603986",
-      "code": "603986",
-      "sector": "存储"
+      "klines": []
     },
     {
       "name": "澜起科技",
       "secid": "1.688008",
-      "code": "688008",
-      "sector": "存储"
+      "klines": []
     },
     {
       "name": "江波龙",
       "secid": "0.301308",
-      "code": "301308",
-      "sector": "存储"
+      "klines": []
     },
     {
       "name": "佰维存储",
       "secid": "1.688525",
-      "code": "688525",
-      "sector": "存储"
+      "klines": []
     },
     {
       "name": "德明利",
       "secid": "0.001309",
-      "code": "001309",
-      "sector": "存储"
+      "klines": []
     },
     {
       "name": "胜宏科技",
       "secid": "0.300476",
-      "code": "300476",
-      "sector": "PCB"
+      "klines": []
     },
     {
       "name": "沪电股份",
       "secid": "0.002463",
-      "code": "002463",
-      "sector": "PCB"
+      "klines": []
     },
     {
       "name": "深南电路",
       "secid": "0.002916",
-      "code": "002916",
-      "sector": "PCB"
+      "klines": []
     },
     {
       "name": "生益科技",
       "secid": "1.600183",
-      "code": "600183",
-      "sector": "PCB"
+      "klines": []
     },
     {
       "name": "鹏鼎控股",
       "secid": "0.002938",
-      "code": "002938",
-      "sector": "PCB"
+      "klines": []
     },
     {
       "name": "中国巨石",
       "secid": "1.600176",
-      "code": "600176",
-      "sector": "玻纤/电子布"
+      "klines": []
     },
     {
       "name": "中材科技",
       "secid": "0.002080",
-      "code": "002080",
-      "sector": "玻纤/电子布"
+      "klines": []
     },
     {
       "name": "宏和科技",
       "secid": "1.603256",
-      "code": "603256",
-      "sector": "玻纤/电子布"
+      "klines": []
     },
     {
       "name": "国际复材",
       "secid": "0.301526",
-      "code": "301526",
-      "sector": "玻纤/电子布"
+      "klines": []
     },
     {
       "name": "山东玻纤",
       "secid": "1.605006",
-      "code": "605006",
-      "sector": "玻纤/电子布"
+      "klines": []
     },
     {
       "name": "润泽科技",
       "secid": "0.300442",
-      "code": "300442",
-      "sector": "算力租赁/AIDC"
+      "klines": []
     },
     {
       "name": "奥飞数据",
       "secid": "0.300738",
-      "code": "300738",
-      "sector": "算力租赁/AIDC"
+      "klines": []
     },
     {
       "name": "协创数据",
       "secid": "0.300857",
-      "code": "300857",
-      "sector": "算力租赁/AIDC"
+      "klines": []
     },
     {
       "name": "利通电子",
       "secid": "1.603629",
-      "code": "603629",
-      "sector": "算力租赁/AIDC"
+      "klines": []
     },
     {
       "name": "光环新网",
       "secid": "0.300383",
-      "code": "300383",
-      "sector": "算力租赁/AIDC"
+      "klines": []
     },
     {
       "name": "英维克",
       "secid": "0.002837",
-      "code": "002837",
-      "sector": "液冷"
+      "klines": []
     },
     {
       "name": "申菱环境",
       "secid": "0.301018",
-      "code": "301018",
-      "sector": "液冷"
+      "klines": []
     },
     {
       "name": "高澜股份",
       "secid": "0.300499",
-      "code": "300499",
-      "sector": "液冷"
+      "klines": []
+    },
+    {
+      "name": "飞荣达",
+      "secid": "0.300602",
+      "klines": []
+    },
+    {
+      "name": "曙光数创",
+      "secid": "0.872808",
+      "klines": []
+    },
+    {
+      "name": "沃尔核材",
+      "secid": "0.002130",
+      "klines": []
+    },
+    {
+      "name": "兆龙互连",
+      "secid": "0.300913",
+      "klines": []
+    },
+    {
+      "name": "神宇股份",
+      "secid": "0.300563",
+      "klines": []
+    },
+    {
+      "name": "瑞可达",
+      "secid": "1.688800",
+      "klines": []
+    },
+    {
+      "name": "新亚电子",
+      "secid": "1.605277",
+      "klines": []
+    },
+    {
+      "name": "工业富联",
+      "secid": "1.601138",
+      "klines": []
+    },
+    {
+      "name": "浪潮信息",
+      "secid": "0.000977",
+      "klines": []
+    },
+    {
+      "name": "中科曙光",
+      "secid": "1.603019",
+      "klines": []
+    },
+    {
+      "name": "紫光股份",
+      "secid": "0.000938",
+      "klines": []
+    }
+  ],
+  "watchlist_technicals": [
+    {
+      "name": "中际旭创",
+      "secid": "0.300308",
+      "code": "300308"
+    },
+    {
+      "name": "新易盛",
+      "secid": "0.300502",
+      "code": "300502"
+    },
+    {
+      "name": "天孚通信",
+      "secid": "0.300394",
+      "code": "300394"
+    },
+    {
+      "name": "光迅科技",
+      "secid": "0.002281",
+      "code": "002281"
+    },
+    {
+      "name": "源杰科技",
+      "secid": "1.688498",
+      "code": "688498"
+    },
+    {
+      "name": "光库科技",
+      "secid": "0.300620",
+      "code": "300620"
+    },
+    {
+      "name": "长飞光纤",
+      "secid": "1.601869",
+      "code": "601869"
+    },
+    {
+      "name": "亨通光电",
+      "secid": "1.600487",
+      "code": "600487"
+    },
+    {
+      "name": "中天科技",
+      "secid": "1.600522",
+      "code": "600522"
+    },
+    {
+      "name": "烽火通信",
+      "secid": "1.600498",
+      "code": "600498"
+    },
+    {
+      "name": "北方华创",
+      "secid": "0.002371",
+      "code": "002371"
+    },
+    {
+      "name": "中微公司",
+      "secid": "1.688012",
+      "code": "688012"
+    },
+    {
+      "name": "拓荆科技",
+      "secid": "1.688072",
+      "code": "688072"
+    },
+    {
+      "name": "中芯国际",
+      "secid": "1.688981",
+      "code": "688981"
+    },
+    {
+      "name": "华虹公司",
+      "secid": "1.688347",
+      "code": "688347"
+    },
+    {
+      "name": "寒武纪",
+      "secid": "1.688256",
+      "code": "688256"
+    },
+    {
+      "name": "海光信息",
+      "secid": "1.688041",
+      "code": "688041"
+    },
+    {
+      "name": "兆易创新",
+      "secid": "1.603986",
+      "code": "603986"
+    },
+    {
+      "name": "澜起科技",
+      "secid": "1.688008",
+      "code": "688008"
+    },
+    {
+      "name": "江波龙",
+      "secid": "0.301308",
+      "code": "301308"
+    },
+    {
+      "name": "佰维存储",
+      "secid": "1.688525",
+      "code": "688525"
+    },
+    {
+      "name": "德明利",
+      "secid": "0.001309",
+      "code": "001309"
+    },
+    {
+      "name": "胜宏科技",
+      "secid": "0.300476",
+      "code": "300476"
+    },
+    {
+      "name": "沪电股份",
+      "secid": "0.002463",
+      "code": "002463"
+    },
+    {
+      "name": "深南电路",
+      "secid": "0.002916",
+      "code": "002916"
+    },
+    {
+      "name": "生益科技",
+      "secid": "1.600183",
+      "code": "600183"
+    },
+    {
+      "name": "鹏鼎控股",
+      "secid": "0.002938",
+      "code": "002938"
+    },
+    {
+      "name": "中国巨石",
+      "secid": "1.600176",
+      "code": "600176"
+    },
+    {
+      "name": "中材科技",
+      "secid": "0.002080",
+      "code": "002080"
+    },
+    {
+      "name": "宏和科技",
+      "secid": "1.603256",
+      "code": "603256"
+    },
+    {
+      "name": "国际复材",
+      "secid": "0.301526",
+      "code": "301526"
+    },
+    {
+      "name": "山东玻纤",
+      "secid": "1.605006",
+      "code": "605006"
+    },
+    {
+      "name": "润泽科技",
+      "secid": "0.300442",
+      "code": "300442"
+    },
+    {
+      "name": "奥飞数据",
+      "secid": "0.300738",
+      "code": "300738"
+    },
+    {
+      "name": "协创数据",
+      "secid": "0.300857",
+      "code": "300857"
+    },
+    {
+      "name": "利通电子",
+      "secid": "1.603629",
+      "code": "603629"
+    },
+    {
+      "name": "光环新网",
+      "secid": "0.300383",
+      "code": "300383"
+    },
+    {
+      "name": "英维克",
+      "secid": "0.002837",
+      "code": "002837"
+    },
+    {
+      "name": "申菱环境",
+      "secid": "0.301018",
+      "code": "301018"
+    },
+    {
+      "name": "高澜股份",
+      "secid": "0.300499",
+      "code": "300499"
     },
     {
       "name": "飞荣达",
@@ -312,1230 +856,15 @@
       "sector": "AI服务器"
     }
   ],
-  "watchlist_rt": [
-    {
-      "name": "中际旭创",
-      "code": "300308",
-      "sector": "光通信/CPO/光模块",
-      "current": 902.01,
-      "change_pct": 4.4,
-      "high": 986.89,
-      "low": 901.0,
-      "open": 960.0,
-      "yesterday_close": 864.0,
-      "volume": 569420,
-      "amount": 54044346509.06,
-      "main_net_flow": 1512633088.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "新易盛",
-      "code": "300502",
-      "sector": "光通信/CPO/光模块",
-      "current": 396.01,
-      "change_pct": 6.71,
-      "high": 430.4,
-      "low": 395.88,
-      "open": 418.01,
-      "yesterday_close": 371.1,
-      "volume": 749477,
-      "amount": 31180609644.71,
-      "main_net_flow": 1564017920.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "天孚通信",
-      "code": "300394",
-      "sector": "光通信/CPO/光模块",
-      "current": 171.01,
-      "change_pct": 6.81,
-      "high": 185.03,
-      "low": 170.93,
-      "open": 180.0,
-      "yesterday_close": 160.1,
-      "volume": 548857,
-      "amount": 9840887548.54,
-      "main_net_flow": 600762544.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "光迅科技",
-      "code": "002281",
-      "sector": "光通信/CPO/光模块",
-      "current": 161.65,
-      "change_pct": 6.12,
-      "high": 167.56,
-      "low": 161.0,
-      "open": 164.32,
-      "yesterday_close": 152.33,
-      "volume": 529198,
-      "amount": 8752695947.03,
-      "main_net_flow": 865191632.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "源杰科技",
-      "code": "688498",
-      "sector": "光通信/CPO/光模块",
-      "current": 1092.1,
-      "change_pct": 7.41,
-      "high": 1190.0,
-      "low": 1090.08,
-      "open": 1188.8,
-      "yesterday_close": 1016.8,
-      "volume": 70886,
-      "amount": 8152098061.0,
-      "main_net_flow": 53876544.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "光库科技",
-      "code": "300620",
-      "sector": "光通信/CPO/光模块",
-      "current": 205.3,
-      "change_pct": 7.38,
-      "high": 224.35,
-      "low": 205.22,
-      "open": 212.73,
-      "yesterday_close": 191.19,
-      "volume": 121746,
-      "amount": 2610630644.83,
-      "main_net_flow": 170428907.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "长飞光纤",
-      "code": "601869",
-      "sector": "光纤光缆",
-      "current": 271.5,
-      "change_pct": 3.37,
-      "high": 287.96,
-      "low": 271.0,
-      "open": 285.0,
-      "yesterday_close": 262.66,
-      "volume": 144329,
-      "amount": 4046343704.0,
-      "main_net_flow": -7895872.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "亨通光电",
-      "code": "600487",
-      "sector": "光纤光缆",
-      "current": 47.61,
-      "change_pct": 0.87,
-      "high": 51.26,
-      "low": 47.58,
-      "open": 50.5,
-      "yesterday_close": 47.2,
-      "volume": 2169257,
-      "amount": 10766686297.0,
-      "main_net_flow": -49121552.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "中天科技",
-      "code": "600522",
-      "sector": "光纤光缆",
-      "current": 28.52,
-      "change_pct": 2.96,
-      "high": 30.1,
-      "low": 28.51,
-      "open": 29.6,
-      "yesterday_close": 27.7,
-      "volume": 2543842,
-      "amount": 7475161201.0,
-      "main_net_flow": 68255936.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "烽火通信",
-      "code": "600498",
-      "sector": "光纤光缆",
-      "current": 33.09,
-      "change_pct": 3.24,
-      "high": 34.99,
-      "low": 33.0,
-      "open": 34.23,
-      "yesterday_close": 32.05,
-      "volume": 748912,
-      "amount": 2552578416.0,
-      "main_net_flow": 44914400.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "北方华创",
-      "code": "002371",
-      "sector": "半导体设备/制造/AI芯片",
-      "current": 687.0,
-      "change_pct": 2.83,
-      "high": 728.0,
-      "low": 686.35,
-      "open": 728.0,
-      "yesterday_close": 668.07,
-      "volume": 138743,
-      "amount": 9817168903.03,
-      "main_net_flow": -61644128.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "中微公司",
-      "code": "688012",
-      "sector": "半导体设备/制造/AI芯片",
-      "current": 344.0,
-      "change_pct": -0.72,
-      "high": 389.0,
-      "low": 344.0,
-      "open": 389.0,
-      "yesterday_close": 346.5,
-      "volume": 327114,
-      "amount": 11944345519.0,
-      "main_net_flow": -371327392.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "拓荆科技",
-      "code": "688072",
-      "sector": "半导体设备/制造/AI芯片",
-      "current": 664.97,
-      "change_pct": 3.58,
-      "high": 727.27,
-      "low": 662.0,
-      "open": 709.0,
-      "yesterday_close": 642.0,
-      "volume": 86265,
-      "amount": 6062274666.0,
-      "main_net_flow": -26255440.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "中芯国际",
-      "code": "688981",
-      "sector": "半导体设备/制造/AI芯片",
-      "current": 123.99,
-      "change_pct": 0.81,
-      "high": 134.99,
-      "low": 123.69,
-      "open": 134.0,
-      "yesterday_close": 122.99,
-      "volume": 773130,
-      "amount": 10060990504.0,
-      "main_net_flow": -216141184.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "华虹公司",
-      "code": "688347",
-      "sector": "半导体设备/制造/AI芯片",
-      "current": 237.9,
-      "change_pct": 3.43,
-      "high": 264.79,
-      "low": 237.21,
-      "open": 259.79,
-      "yesterday_close": 230.0,
-      "volume": 275114,
-      "amount": 6985396584.0,
-      "main_net_flow": -108381776.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "寒武纪",
-      "code": "688256",
-      "sector": "半导体设备/制造/AI芯片",
-      "current": 1106.0,
-      "change_pct": 6.1,
-      "high": 1179.5,
-      "low": 1101.58,
-      "open": 1139.5,
-      "yesterday_close": 1042.43,
-      "volume": 162674,
-      "amount": 18552276984.0,
-      "main_net_flow": 102643456.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "海光信息",
-      "code": "688041",
-      "sector": "半导体设备/制造/AI芯片",
-      "current": 277.0,
-      "change_pct": 1.31,
-      "high": 294.0,
-      "low": 277.0,
-      "open": 292.0,
-      "yesterday_close": 273.42,
-      "volume": 294871,
-      "amount": 8430282441.0,
-      "main_net_flow": 132034976.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "兆易创新",
-      "code": "603986",
-      "sector": "存储",
-      "current": 378.6,
-      "change_pct": 2.02,
-      "high": 408.21,
-      "low": 378.0,
-      "open": 408.21,
-      "yesterday_close": 371.1,
-      "volume": 856922,
-      "amount": 34043468918.0,
-      "main_net_flow": 379653888.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "澜起科技",
-      "code": "688008",
-      "sector": "存储",
-      "current": 204.9,
-      "change_pct": 4.13,
-      "high": 223.0,
-      "low": 204.6,
-      "open": 222.02,
-      "yesterday_close": 196.78,
-      "volume": 656709,
-      "amount": 14138178686.0,
-      "main_net_flow": 236694896.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "江波龙",
-      "code": "301308",
-      "sector": "存储",
-      "current": 346.99,
-      "change_pct": 2.42,
-      "high": 386.88,
-      "low": 346.9,
-      "open": 384.18,
-      "yesterday_close": 338.78,
-      "volume": 309822,
-      "amount": 11450210588.58,
-      "main_net_flow": 770072096.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "佰维存储",
-      "code": "688525",
-      "sector": "存储",
-      "current": 225.99,
-      "change_pct": 2.8,
-      "high": 250.0,
-      "low": 225.5,
-      "open": 248.99,
-      "yesterday_close": 219.84,
-      "volume": 552351,
-      "amount": 13249362609.0,
-      "main_net_flow": 821406544.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "德明利",
-      "code": "001309",
-      "sector": "存储",
-      "current": 385.9,
-      "change_pct": -1.06,
-      "high": 429.04,
-      "low": 385.04,
-      "open": 429.04,
-      "yesterday_close": 390.04,
-      "volume": 422580,
-      "amount": 17354796700.03,
-      "main_net_flow": 503845360.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "胜宏科技",
-      "code": "300476",
-      "sector": "PCB",
-      "current": 190.4,
-      "change_pct": 5.57,
-      "high": 204.75,
-      "low": 190.3,
-      "open": 202.56,
-      "yesterday_close": 180.36,
-      "volume": 416082,
-      "amount": 8243598460.88,
-      "main_net_flow": 67571712.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "沪电股份",
-      "code": "002463",
-      "sector": "PCB",
-      "current": 103.75,
-      "change_pct": 7.46,
-      "high": 106.21,
-      "low": 103.46,
-      "open": 105.3,
-      "yesterday_close": 96.55,
-      "volume": 736313,
-      "amount": 7756690457.71,
-      "main_net_flow": 653347376.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "深南电路",
-      "code": "002916",
-      "sector": "PCB",
-      "current": 308.0,
-      "change_pct": 8.26,
-      "high": 312.95,
-      "low": 304.4,
-      "open": 312.0,
-      "yesterday_close": 284.5,
-      "volume": 150173,
-      "amount": 4661288947.17,
-      "main_net_flow": 398911344.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "生益科技",
-      "code": "600183",
-      "sector": "PCB",
-      "current": 105.64,
-      "change_pct": 5.56,
-      "high": 110.09,
-      "low": 105.44,
-      "open": 110.09,
-      "yesterday_close": 100.08,
-      "volume": 808423,
-      "amount": 8784966808.0,
-      "main_net_flow": 1237565648.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "鹏鼎控股",
-      "code": "002938",
-      "sector": "PCB",
-      "current": 81.5,
-      "change_pct": 7.17,
-      "high": 83.64,
-      "low": 80.82,
-      "open": 82.0,
-      "yesterday_close": 76.05,
-      "volume": 275986,
-      "amount": 2284334763.9,
-      "main_net_flow": 45392378.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "中国巨石",
-      "code": "600176",
-      "sector": "玻纤/电子布",
-      "current": 37.84,
-      "change_pct": 3.3,
-      "high": 40.29,
-      "low": 37.64,
-      "open": 40.23,
-      "yesterday_close": 36.63,
-      "volume": 4029339,
-      "amount": 15803478685.0,
-      "main_net_flow": 1901573344.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "中材科技",
-      "code": "002080",
-      "sector": "玻纤/电子布",
-      "current": 43.14,
-      "change_pct": 1.91,
-      "high": 46.56,
-      "low": 43.06,
-      "open": 46.56,
-      "yesterday_close": 42.33,
-      "volume": 676969,
-      "amount": 3044353811.34,
-      "main_net_flow": 289442912.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "宏和科技",
-      "code": "603256",
-      "sector": "玻纤/电子布",
-      "current": 128.13,
-      "change_pct": 2.37,
-      "high": 137.68,
-      "low": 127.52,
-      "open": 137.5,
-      "yesterday_close": 125.16,
-      "volume": 254006,
-      "amount": 3416008621.0,
-      "main_net_flow": 313063792.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "国际复材",
-      "code": "301526",
-      "sector": "玻纤/电子布",
-      "current": 31.99,
-      "change_pct": -2.85,
-      "high": 36.8,
-      "low": 31.89,
-      "open": 35.88,
-      "yesterday_close": 32.93,
-      "volume": 3216851,
-      "amount": 11116036875.78,
-      "main_net_flow": -542447920.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "山东玻纤",
-      "code": "605006",
-      "sector": "玻纤/电子布",
-      "current": 12.67,
-      "change_pct": 2.18,
-      "high": 13.43,
-      "low": 12.65,
-      "open": 13.19,
-      "yesterday_close": 12.4,
-      "volume": 416333,
-      "amount": 541818901.0,
-      "main_net_flow": 10953136.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "润泽科技",
-      "code": "300442",
-      "sector": "算力租赁/AIDC",
-      "current": 63.25,
-      "change_pct": 9.24,
-      "high": 65.95,
-      "low": 61.08,
-      "open": 61.94,
-      "yesterday_close": 57.9,
-      "volume": 454611,
-      "amount": 2887453590.65,
-      "main_net_flow": 232500140.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "奥飞数据",
-      "code": "300738",
-      "sector": "算力租赁/AIDC",
-      "current": 22.36,
-      "change_pct": 5.92,
-      "high": 23.0,
-      "low": 21.85,
-      "open": 22.18,
-      "yesterday_close": 21.11,
-      "volume": 945665,
-      "amount": 2125183138.97,
-      "main_net_flow": 123544743.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "协创数据",
-      "code": "300857",
-      "sector": "算力租赁/AIDC",
-      "current": 215.85,
-      "change_pct": 15.13,
-      "high": 221.79,
-      "low": 209.0,
-      "open": 214.99,
-      "yesterday_close": 187.49,
-      "volume": 324578,
-      "amount": 7014412236.99,
-      "main_net_flow": 236257232.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "利通电子",
-      "code": "603629",
-      "sector": "算力租赁/AIDC",
-      "current": 96.01,
-      "change_pct": 10.0,
-      "high": 96.01,
-      "low": 94.16,
-      "open": 96.01,
-      "yesterday_close": 87.28,
-      "volume": 189057,
-      "amount": 1812470747.0,
-      "main_net_flow": 740640702.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "光环新网",
-      "code": "300383",
-      "sector": "算力租赁/AIDC",
-      "current": 13.52,
-      "change_pct": 5.13,
-      "high": 14.15,
-      "low": 13.2,
-      "open": 13.5,
-      "yesterday_close": 12.86,
-      "volume": 1353976,
-      "amount": 1851235519.27,
-      "main_net_flow": 227373388.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "英维克",
-      "code": "002837",
-      "sector": "液冷",
-      "current": 47.45,
-      "change_pct": 0.64,
-      "high": 50.35,
-      "low": 47.33,
-      "open": 49.6,
-      "yesterday_close": 47.15,
-      "volume": 556102,
-      "amount": 2725033261.66,
-      "main_net_flow": 16141088.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "申菱环境",
-      "code": "301018",
-      "sector": "液冷",
-      "current": 70.56,
-      "change_pct": 4.15,
-      "high": 76.0,
-      "low": 70.47,
-      "open": 75.01,
-      "yesterday_close": 67.75,
-      "volume": 206940,
-      "amount": 1509066053.64,
-      "main_net_flow": 41668833.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "高澜股份",
-      "code": "300499",
-      "sector": "液冷",
-      "current": 25.04,
-      "change_pct": 5.21,
-      "high": 26.14,
-      "low": 24.93,
-      "open": 25.49,
-      "yesterday_close": 23.8,
-      "volume": 191961,
-      "amount": 489969552.53,
-      "main_net_flow": 14577252.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "飞荣达",
-      "code": "300602",
-      "sector": "液冷",
-      "current": 31.72,
-      "change_pct": 2.79,
-      "high": 33.8,
-      "low": 31.64,
-      "open": 33.5,
-      "yesterday_close": 30.86,
-      "volume": 219677,
-      "amount": 722491131.19,
-      "main_net_flow": 16418321.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "沃尔核材",
-      "code": "002130",
-      "sector": "高速铜连接",
-      "current": 16.7,
-      "change_pct": -2.28,
-      "high": 17.25,
-      "low": 16.65,
-      "open": 17.19,
-      "yesterday_close": 17.09,
-      "volume": 655544,
-      "amount": 1104380716.09,
-      "main_net_flow": -88660660.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "兆龙互连",
-      "code": "300913",
-      "sector": "高速铜连接",
-      "current": 32.72,
-      "change_pct": 5.58,
-      "high": 33.69,
-      "low": 32.5,
-      "open": 32.53,
-      "yesterday_close": 30.99,
-      "volume": 89949,
-      "amount": 298016354.45,
-      "main_net_flow": -3478798.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "神宇股份",
-      "code": "300563",
-      "sector": "高速铜连接",
-      "current": 22.34,
-      "change_pct": 2.76,
-      "high": 22.86,
-      "low": 22.2,
-      "open": 22.49,
-      "yesterday_close": 21.74,
-      "volume": 37401,
-      "amount": 84291635.47,
-      "main_net_flow": -818.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "瑞可达",
-      "code": "688800",
-      "sector": "高速铜连接",
-      "current": 48.6,
-      "change_pct": 2.75,
-      "high": 53.1,
-      "low": 48.38,
-      "open": 51.0,
-      "yesterday_close": 47.3,
-      "volume": 193039,
-      "amount": 982698533.0,
-      "main_net_flow": -93661864.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "新亚电子",
-      "code": "605277",
-      "sector": "高速铜连接",
-      "current": 14.65,
-      "change_pct": 1.1,
-      "high": 14.9,
-      "low": 14.65,
-      "open": 14.87,
-      "yesterday_close": 14.49,
-      "volume": 57259,
-      "amount": 84546924.0,
-      "main_net_flow": 3425478.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "工业富联",
-      "code": "601138",
-      "sector": "AI服务器",
-      "current": 56.7,
-      "change_pct": 5.39,
-      "high": 57.57,
-      "low": 56.3,
-      "open": 57.14,
-      "yesterday_close": 53.8,
-      "volume": 1481833,
-      "amount": 8432426547.0,
-      "main_net_flow": 408836032.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "浪潮信息",
-      "code": "000977",
-      "sector": "AI服务器",
-      "current": 71.81,
-      "change_pct": 3.95,
-      "high": 74.98,
-      "low": 71.26,
-      "open": 73.98,
-      "yesterday_close": 69.08,
-      "volume": 901683,
-      "amount": 6608869069.04,
-      "main_net_flow": -84014704.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "中科曙光",
-      "code": "603019",
-      "sector": "AI服务器",
-      "current": 83.46,
-      "change_pct": 3.04,
-      "high": 86.38,
-      "low": 83.38,
-      "open": 85.86,
-      "yesterday_close": 81.0,
-      "volume": 544824,
-      "amount": 4621758330.0,
-      "main_net_flow": 4837776.0,
-      "data_date": "2026-07-31"
-    },
-    {
-      "name": "紫光股份",
-      "code": "000938",
-      "sector": "AI服务器",
-      "current": 34.89,
-      "change_pct": 3.84,
-      "high": 35.99,
-      "low": 34.07,
-      "open": 34.9,
-      "yesterday_close": 33.6,
-      "volume": 4034086,
-      "amount": 14167134552.55,
-      "main_net_flow": 320765312.0,
-      "data_date": "2026-07-31"
-    }
-  ],
-  "sectors": [
-    {
-      "sector": "算力租赁/AIDC",
-      "avg_chg": 9.08,
-      "up": 5,
-      "down": 0,
-      "total": 5,
-      "leader": {
-        "name": "协创数据",
-        "code": "300857",
-        "chg_pct": 15.13
-      },
-      "laggard": {
-        "name": "光环新网",
-        "code": "300383",
-        "chg_pct": 5.13
-      },
-      "total_main_flow": 1560316205.0,
-      "stocks": [
-        {
-          "code": "300857",
-          "name": "协创数据",
-          "chg_pct": 15.13
-        },
-        {
-          "code": "603629",
-          "name": "利通电子",
-          "chg_pct": 10.0
-        },
-        {
-          "code": "300442",
-          "name": "润泽科技",
-          "chg_pct": 9.24
-        },
-        {
-          "code": "300738",
-          "name": "奥飞数据",
-          "chg_pct": 5.92
-        },
-        {
-          "code": "300383",
-          "name": "光环新网",
-          "chg_pct": 5.13
-        }
-      ]
-    },
-    {
-      "sector": "PCB",
-      "avg_chg": 6.8,
-      "up": 5,
-      "down": 0,
-      "total": 5,
-      "leader": {
-        "name": "深南电路",
-        "code": "002916",
-        "chg_pct": 8.26
-      },
-      "laggard": {
-        "name": "生益科技",
-        "code": "600183",
-        "chg_pct": 5.56
-      },
-      "total_main_flow": 2402788458.0,
-      "stocks": [
-        {
-          "code": "002916",
-          "name": "深南电路",
-          "chg_pct": 8.26
-        },
-        {
-          "code": "002463",
-          "name": "沪电股份",
-          "chg_pct": 7.46
-        },
-        {
-          "code": "002938",
-          "name": "鹏鼎控股",
-          "chg_pct": 7.17
-        },
-        {
-          "code": "300476",
-          "name": "胜宏科技",
-          "chg_pct": 5.57
-        },
-        {
-          "code": "600183",
-          "name": "生益科技",
-          "chg_pct": 5.56
-        }
-      ]
-    },
-    {
-      "sector": "光通信/CPO/光模块",
-      "avg_chg": 6.47,
-      "up": 6,
-      "down": 0,
-      "total": 6,
-      "leader": {
-        "name": "源杰科技",
-        "code": "688498",
-        "chg_pct": 7.41
-      },
-      "laggard": {
-        "name": "中际旭创",
-        "code": "300308",
-        "chg_pct": 4.4
-      },
-      "total_main_flow": 4766910635.0,
-      "stocks": [
-        {
-          "code": "688498",
-          "name": "源杰科技",
-          "chg_pct": 7.41
-        },
-        {
-          "code": "300620",
-          "name": "光库科技",
-          "chg_pct": 7.38
-        },
-        {
-          "code": "300394",
-          "name": "天孚通信",
-          "chg_pct": 6.81
-        },
-        {
-          "code": "300502",
-          "name": "新易盛",
-          "chg_pct": 6.71
-        },
-        {
-          "code": "002281",
-          "name": "光迅科技",
-          "chg_pct": 6.12
-        },
-        {
-          "code": "300308",
-          "name": "中际旭创",
-          "chg_pct": 4.4
-        }
-      ]
-    },
-    {
-      "sector": "AI服务器",
-      "avg_chg": 4.05,
-      "up": 4,
-      "down": 0,
-      "total": 4,
-      "leader": {
-        "name": "工业富联",
-        "code": "601138",
-        "chg_pct": 5.39
-      },
-      "laggard": {
-        "name": "中科曙光",
-        "code": "603019",
-        "chg_pct": 3.04
-      },
-      "total_main_flow": 650424416.0,
-      "stocks": [
-        {
-          "code": "601138",
-          "name": "工业富联",
-          "chg_pct": 5.39
-        },
-        {
-          "code": "000977",
-          "name": "浪潮信息",
-          "chg_pct": 3.95
-        },
-        {
-          "code": "000938",
-          "name": "紫光股份",
-          "chg_pct": 3.84
-        },
-        {
-          "code": "603019",
-          "name": "中科曙光",
-          "chg_pct": 3.04
-        }
-      ]
-    },
-    {
-      "sector": "液冷",
-      "avg_chg": 3.2,
-      "up": 4,
-      "down": 0,
-      "total": 4,
-      "leader": {
-        "name": "高澜股份",
-        "code": "300499",
-        "chg_pct": 5.21
-      },
-      "laggard": {
-        "name": "英维克",
-        "code": "002837",
-        "chg_pct": 0.64
-      },
-      "total_main_flow": 88805494.0,
-      "stocks": [
-        {
-          "code": "300499",
-          "name": "高澜股份",
-          "chg_pct": 5.21
-        },
-        {
-          "code": "301018",
-          "name": "申菱环境",
-          "chg_pct": 4.15
-        },
-        {
-          "code": "300602",
-          "name": "飞荣达",
-          "chg_pct": 2.79
-        },
-        {
-          "code": "002837",
-          "name": "英维克",
-          "chg_pct": 0.64
-        }
-      ]
-    },
-    {
-      "sector": "光纤光缆",
-      "avg_chg": 2.61,
-      "up": 4,
-      "down": 0,
-      "total": 4,
-      "leader": {
-        "name": "长飞光纤",
-        "code": "601869",
-        "chg_pct": 3.37
-      },
-      "laggard": {
-        "name": "亨通光电",
-        "code": "600487",
-        "chg_pct": 0.87
-      },
-      "total_main_flow": 56152912.0,
-      "stocks": [
-        {
-          "code": "601869",
-          "name": "长飞光纤",
-          "chg_pct": 3.37
-        },
-        {
-          "code": "600498",
-          "name": "烽火通信",
-          "chg_pct": 3.24
-        },
-        {
-          "code": "600522",
-          "name": "中天科技",
-          "chg_pct": 2.96
-        },
-        {
-          "code": "600487",
-          "name": "亨通光电",
-          "chg_pct": 0.87
-        }
-      ]
-    },
-    {
-      "sector": "半导体设备/制造/AI芯片",
-      "avg_chg": 2.48,
-      "up": 6,
-      "down": 1,
-      "total": 7,
-      "leader": {
-        "name": "寒武纪",
-        "code": "688256",
-        "chg_pct": 6.1
-      },
-      "laggard": {
-        "name": "中微公司",
-        "code": "688012",
-        "chg_pct": -0.72
-      },
-      "total_main_flow": -549071488.0,
-      "stocks": [
-        {
-          "code": "688256",
-          "name": "寒武纪",
-          "chg_pct": 6.1
-        },
-        {
-          "code": "688072",
-          "name": "拓荆科技",
-          "chg_pct": 3.58
-        },
-        {
-          "code": "688347",
-          "name": "华虹公司",
-          "chg_pct": 3.43
-        },
-        {
-          "code": "002371",
-          "name": "北方华创",
-          "chg_pct": 2.83
-        },
-        {
-          "code": "688041",
-          "name": "海光信息",
-          "chg_pct": 1.31
-        },
-        {
-          "code": "688981",
-          "name": "中芯国际",
-          "chg_pct": 0.81
-        },
-        {
-          "code": "688012",
-          "name": "中微公司",
-          "chg_pct": -0.72
-        }
-      ]
-    },
-    {
-      "sector": "存储",
-      "avg_chg": 2.06,
-      "up": 4,
-      "down": 1,
-      "total": 5,
-      "leader": {
-        "name": "澜起科技",
-        "code": "688008",
-        "chg_pct": 4.13
-      },
-      "laggard": {
-        "name": "德明利",
-        "code": "001309",
-        "chg_pct": -1.06
-      },
-      "total_main_flow": 2711672784.0,
-      "stocks": [
-        {
-          "code": "688008",
-          "name": "澜起科技",
-          "chg_pct": 4.13
-        },
-        {
-          "code": "688525",
-          "name": "佰维存储",
-          "chg_pct": 2.8
-        },
-        {
-          "code": "301308",
-          "name": "江波龙",
-          "chg_pct": 2.42
-        },
-        {
-          "code": "603986",
-          "name": "兆易创新",
-          "chg_pct": 2.02
-        },
-        {
-          "code": "001309",
-          "name": "德明利",
-          "chg_pct": -1.06
-        }
-      ]
-    },
-    {
-      "sector": "高速铜连接",
-      "avg_chg": 1.98,
-      "up": 4,
-      "down": 1,
-      "total": 5,
-      "leader": {
-        "name": "兆龙互连",
-        "code": "300913",
-        "chg_pct": 5.58
-      },
-      "laggard": {
-        "name": "沃尔核材",
-        "code": "002130",
-        "chg_pct": -2.28
-      },
-      "total_main_flow": -182376662.0,
-      "stocks": [
-        {
-          "code": "300913",
-          "name": "兆龙互连",
-          "chg_pct": 5.58
-        },
-        {
-          "code": "300563",
-          "name": "神宇股份",
-          "chg_pct": 2.76
-        },
-        {
-          "code": "688800",
-          "name": "瑞可达",
-          "chg_pct": 2.75
-        },
-        {
-          "code": "605277",
-          "name": "新亚电子",
-          "chg_pct": 1.1
-        },
-        {
-          "code": "002130",
-          "name": "沃尔核材",
-          "chg_pct": -2.28
-        }
-      ]
-    },
-    {
-      "sector": "玻纤/电子布",
-      "avg_chg": 1.38,
-      "up": 4,
-      "down": 1,
-      "total": 5,
-      "leader": {
-        "name": "中国巨石",
-        "code": "600176",
-        "chg_pct": 3.3
-      },
-      "laggard": {
-        "name": "国际复材",
-        "code": "301526",
-        "chg_pct": -2.85
-      },
-      "total_main_flow": 1972585264.0,
-      "stocks": [
-        {
-          "code": "600176",
-          "name": "中国巨石",
-          "chg_pct": 3.3
-        },
-        {
-          "code": "603256",
-          "name": "宏和科技",
-          "chg_pct": 2.37
-        },
-        {
-          "code": "605006",
-          "name": "山东玻纤",
-          "chg_pct": 2.18
-        },
-        {
-          "code": "002080",
-          "name": "中材科技",
-          "chg_pct": 1.91
-        },
-        {
-          "code": "301526",
-          "name": "国际复材",
-          "chg_pct": -2.85
-        }
-      ]
-    }
-  ],
   "hk_stocks": [],
   "us_stocks": [],
-  "is_friday": false,
   "data_freshness": {
     "expected_date": "2026-08-03",
-    "quote_date_mode": "2026-07-31",
-    "stale_quote_count": 50,
-    "yf_history_ok": false,
+    "quote_date_mode": "2026-08-03",
+    "stale_quote_count": 0,
+    "watchlist_count": 10,
+    "sectors_count": 3,
     "hk_count": 0,
     "us_count": 0
-  },
-  "ai_boards_rt": [],
-  "board_stocks_rt": [],
-  "capital_flow_top30_rt": [],
-  "boards_fetch_time": "2026-07-31T08:22:10.154731",
-  "data_quality": {
-    "index_data_confidence": "low",
-    "watchlist_coverage": "50/51",
-    "technicals_source": "old_pm_backfill",
-    "quote_source": "old_pm_2026-07-31",
-    "caveat": "实时行情全部不可达(新浪/腾讯/雅虎均403)，个股价格来自2026-07-31(周五)收盘快照，非今日盘中，复盘以此为参考"
   }
 }
