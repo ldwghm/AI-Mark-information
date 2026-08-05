@@ -1,170 +1,173 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>每日英语练习 - 2026-08-03</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>每日英语练习 · 2026-08-05</title>
 </head>
 <body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;font-size:15px;color:#1a1a1a;">
 
-  <div style="max-width:780px;margin:0 auto;background:#ffffff;padding-bottom:32px;">
+<div style="max-width:780px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.1);">
 
-    <!-- Header -->
-    <div style="background:#1e3a8a;color:#ffffff;padding:20px 28px;">
-      <div style="font-size:22px;font-weight:bold;letter-spacing:0.5px;">📚 每日英语练习</div>
-      <div style="font-size:13px;margin-top:6px;opacity:0.85;">2026-08-03 &nbsp;|&nbsp; Topic: CS Graduate Interview &nbsp;|&nbsp; CAP Theorem Trade-offs</div>
-    </div>
-
-    <div style="padding:24px 28px;">
-
-      <!-- ===== SECTION 1: Oral Practice ===== -->
-      <div style="margin-bottom:36px;">
-        <h2 style="color:#059669;font-size:18px;margin:0 0 12px 0;padding-bottom:6px;border-bottom:2px solid #d1fae5;">🎤 Oral Practice</h2>
-
-        <!-- Question -->
-        <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
-          <div style="font-weight:bold;color:#065f46;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Question</div>
-          <div style="background:#f0fdf4;border-radius:6px;padding:14px;font-size:15px;line-height:1.7;">
-            Can you explain the <strong>CAP theorem</strong> and describe a real-world scenario where a system architect must make a trade-off between consistency, availability, and partition tolerance? Which two properties would you prioritize for a payment processing system, and why?
-          </div>
-        </div>
-
-        <!-- Reference Answer -->
-        <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:20px;">
-          <div style="font-weight:bold;color:#065f46;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Reference Answer</div>
-          <div style="background:#f9fafb;border-radius:6px;padding:16px;line-height:1.8;font-size:15px;">
-            <p style="margin:0 0 12px 0;">The CAP theorem, formulated by Eric Brewer in 2000, states that a distributed system can simultaneously guarantee at most two of three properties: <strong>Consistency</strong> — all nodes see the same data at the same time; <strong>Availability</strong> — every request receives a response; and <strong>Partition Tolerance</strong> — the system continues operating despite network partitions.</p>
-            <p style="margin:0 0 12px 0;">Since network partitions are an unavoidable reality in distributed systems, engineers must effectively choose between consistency and availability when a partition occurs. This leads to two common design philosophies: CP systems (e.g., Apache ZooKeeper, HBase) sacrifice availability during partitions to ensure no stale data is returned, while AP systems (e.g., Cassandra, DynamoDB) continue serving requests and accept temporary data divergence through eventual consistency.</p>
-            <p style="margin:0 0 12px 0;">For a <strong>payment processing system</strong>, I would prioritize <strong>CP</strong> — Consistency and Partition Tolerance. Financial transactions demand strict correctness; serving a stale balance or allowing a double-spend is far more damaging than briefly rejecting a request with an error. Banks prefer downtime over inconsistency.</p>
-            <p style="margin:0;">It is worth noting that the <strong>PACELC theorem</strong> extends CAP by also accounting for latency trade-offs during normal operation, offering a more complete framework for distributed system design decisions.</p>
-          </div>
-        </div>
-
-        <!-- Key Vocabulary -->
-        <div style="border-left:4px solid #059669;padding-left:16px;">
-          <div style="font-weight:bold;color:#065f46;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Key Vocabulary</div>
-          <table style="width:100%;border-collapse:collapse;font-size:14px;">
-            <thead>
-              <tr style="background:#d1fae5;">
-                <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;color:#065f46;font-weight:bold;width:28%;">Word / Phrase</th>
-                <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;color:#065f46;font-weight:bold;width:22%;">中文释义</th>
-                <th style="text-align:left;padding:9px 12px;border:1px solid #a7f3d0;color:#065f46;font-weight:bold;width:50%;">Example Sentence</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="background:#ffffff;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Partition Tolerance</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">分区容错性</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Partition tolerance ensures the system keeps operating even when some nodes cannot communicate.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Eventual Consistency</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">最终一致性</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">DynamoDB relies on eventual consistency, so reads may temporarily return stale data.</td>
-              </tr>
-              <tr style="background:#ffffff;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Consensus Protocol</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">共识协议</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Raft is a consensus protocol designed to make distributed agreement easier to understand.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Quorum</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">法定多数 / 仲裁</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">A quorum-based write requires acknowledgement from the majority of replica nodes.</td>
-              </tr>
-              <tr style="background:#ffffff;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Replication</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">数据副本复制</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Synchronous replication ensures consistency but adds latency compared to async replication.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Idempotency</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">幂等性</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">Idempotent API endpoints allow clients to safely retry requests without side effects.</td>
-              </tr>
-              <tr style="background:#ffffff;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">Trade-off</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">权衡取舍</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">The trade-off between latency and consistency is central to distributed database design.</td>
-              </tr>
-              <tr style="background:#f9fafb;">
-                <td style="padding:9px 12px;border:1px solid #d1fae5;font-weight:bold;">PACELC Theorem</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#6b7280;">PACELC定理</td>
-                <td style="padding:9px 12px;border:1px solid #d1fae5;color:#374151;">PACELC extends CAP by also considering latency versus consistency in the absence of partitions.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- ===== SECTION 2: AI News ===== -->
-      <div style="margin-bottom:36px;">
-        <h2 style="color:#7c3aed;font-size:18px;margin:0 0 12px 0;padding-bottom:6px;border-bottom:2px solid #ede9fe;">🤖 AI News</h2>
-        <div style="font-size:11px;color:#9ca3af;margin-bottom:12px;">[Recent Trend] — News fetched from training knowledge; live sources unavailable today.</div>
-
-        <!-- Headline -->
-        <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:16px;">
-          <div style="font-weight:bold;color:#5b21b6;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Headline</div>
-          <div style="font-size:16px;font-weight:bold;color:#1a1a1a;line-height:1.5;">
-            全球主要科技公司竞相部署AI智能体（Agent）系统，企业软件正进入"AI自动化"新纪元
-          </div>
-        </div>
-
-        <!-- Summary -->
-        <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:16px;">
-          <div style="font-weight:bold;color:#5b21b6;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">English Summary</div>
-          <div style="background:#faf5ff;border-radius:6px;padding:14px;line-height:1.8;">
-            Major technology companies — including Google, Microsoft, and Anthropic — are racing to deploy autonomous AI agent systems capable of executing multi-step workflows, browsing the web, writing code, and managing complex enterprise tasks with minimal human supervision. Enterprise adoption is accelerating as businesses report significant productivity gains, while industry analysts warn that workforce displacement in knowledge-intensive roles may outpace retraining capacity in the near term.
-          </div>
-        </div>
-
-        <!-- Theoretical Principle -->
-        <div style="border-left:4px solid #7c3aed;padding-left:16px;">
-          <div style="font-weight:bold;color:#5b21b6;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Theoretical Principle: <span style="color:#7c3aed;">Skill-Biased Technological Change (SBTC)</span></div>
-          <div style="background:#faf5ff;border-radius:6px;padding:14px;line-height:1.8;">
-            Skill-Biased Technological Change is an economic theory explaining that new technologies tend to increase the relative demand for highly skilled workers while reducing demand for those performing routine or codifiable tasks. First formalized in labor economics during the 1990s to explain rising wage inequality, SBTC holds that automation complements high-skill cognitive work but substitutes for repetitive manual and clerical roles. The widespread deployment of AI agents represents a new wave of SBTC: tasks once requiring specialized knowledge workers — legal research, financial analysis, software debugging — are increasingly automated. This creates upward wage pressure for workers who can design, supervise, and interpret AI systems, while compressing demand for mid-skill white-collar roles. Policymakers are grappling with how education and social safety-net systems must adapt when AI compresses the skill-premium cycle from decades to years.
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== SECTION 3: Finance News ===== -->
-      <div style="margin-bottom:24px;">
-        <h2 style="color:#d97706;font-size:18px;margin:0 0 12px 0;padding-bottom:6px;border-bottom:2px solid #fef3c7;">📈 Finance News</h2>
-        <div style="font-size:11px;color:#9ca3af;margin-bottom:12px;">[Recent Trend] — News fetched from training knowledge; live sources unavailable today.</div>
-
-        <!-- Headline -->
-        <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
-          <div style="font-weight:bold;color:#92400e;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Headline</div>
-          <div style="font-size:16px;font-weight:bold;color:#1a1a1a;line-height:1.5;">
-            美联储维持利率不变，市场押注年内降息窗口收窄，长端美债收益率走高
-          </div>
-        </div>
-
-        <!-- Summary -->
-        <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:16px;">
-          <div style="font-weight:bold;color:#92400e;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">English Summary</div>
-          <div style="background:#fffbeb;border-radius:6px;padding:14px;line-height:1.8;">
-            The U.S. Federal Reserve held its benchmark interest rate steady at its latest policy meeting, citing persistent core inflation above the 2% target and resilient labor market conditions, signaling that rate cuts this year are less certain than markets had anticipated. In response, yields on 10-year U.S. Treasury bonds rose sharply, pressuring equity valuations — particularly in high-growth and technology sectors — as investors repriced the duration risk embedded in long-dated assets.
-          </div>
-        </div>
-
-        <!-- Theoretical Principle -->
-        <div style="border-left:4px solid #d97706;padding-left:16px;">
-          <div style="font-weight:bold;color:#92400e;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Theoretical Principle: <span style="color:#d97706;">Bond Duration and the Interest Rate–Price Inverse Relationship</span></div>
-          <div style="background:#fffbeb;border-radius:6px;padding:14px;line-height:1.8;">
-            Duration measures the sensitivity of a bond's price to changes in interest rates — specifically, the weighted average time until a bond's cash flows are received, expressed in years. The core principle is an inverse relationship: when interest rates rise, existing bond prices fall, and vice versa. A bond with higher duration (longer maturity, lower coupon) will experience greater price swings for the same rate move than a short-duration bond. This dynamic extends beyond fixed income: equity valuations rely on discounting future earnings, so rising risk-free rates — proxied by Treasury yields — mechanically compress the present value of distant cash flows, hitting growth stocks hardest. Convexity refines the duration model by capturing the non-linear nature of price-yield curves, showing that price increases from falling rates are larger than price declines from equivalent rate rises, a property that benefits long-duration bondholders in volatile markets.
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Footer -->
-    <div style="background:#f3f4f6;padding:14px 28px;text-align:center;font-size:12px;color:#9ca3af;border-top:1px solid #e5e7eb;">
-      每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成 &nbsp;·&nbsp; 2026-08-03
-    </div>
-
+  <!-- Header -->
+  <div style="background:#1e3a8a;color:#ffffff;padding:24px 28px;">
+    <div style="font-size:22px;font-weight:bold;margin-bottom:6px;">📚 每日英语练习</div>
+    <div style="font-size:14px;opacity:0.85;">2026年8月5日 · 星期三 &nbsp;|&nbsp; 今日主题：Finance（金融）</div>
   </div>
 
+  <div style="padding:28px;">
+
+    <!-- ==================== SECTION 1: ORAL PRACTICE ==================== -->
+    <div style="border-left:4px solid #059669;padding-left:16px;margin-bottom:36px;">
+      <h2 style="color:#059669;margin-top:0;margin-bottom:4px;font-size:18px;">🎤 Oral Practice</h2>
+      <p style="margin:0 0 18px;color:#6b7280;font-size:13px;">口语练习 · 金融方向</p>
+
+      <!-- Question -->
+      <div style="margin-bottom:20px;">
+        <h3 style="font-size:15px;color:#1a1a1a;margin:0 0 8px;border-bottom:1px dashed #d1fae5;padding-bottom:6px;">❓ Interview Question</h3>
+        <div style="background:#f0fdf4;border-radius:6px;padding:14px 16px;font-style:italic;color:#065f46;font-size:15px;line-height:1.7;">
+          "Can you explain what yield curve inversion means, why economists treat it as a leading indicator of recession, and what its limitations are as a predictive tool?"
+        </div>
+      </div>
+
+      <!-- Reference Answer -->
+      <div style="margin-bottom:22px;">
+        <h3 style="font-size:15px;color:#1a1a1a;margin:0 0 10px;border-bottom:1px dashed #d1fae5;padding-bottom:6px;">📝 Reference Answer</h3>
+        <div style="line-height:1.85;color:#1a1a1a;">
+          <p style="margin:0 0 12px;">A <strong>yield curve</strong> plots interest rates on bonds of equal credit quality but different maturities. Under normal conditions, longer-term bonds offer higher yields to compensate investors for greater uncertainty and opportunity cost — this produces an upward-sloping curve. <strong>Inversion</strong> occurs when short-term rates exceed long-term rates, most commonly measured by the 2-year versus 10-year Treasury spread.</p>
+
+          <p style="margin:0 0 12px;">Economically, inversion signals that investors expect growth to slow and central banks to cut rates in the future. When the market collectively prices in lower future short-term rates, long-term yields fall relative to current short-term rates, flipping the curve. Historically, every U.S. recession since the 1970s has been preceded by an inversion, making it one of the most cited leading indicators.</p>
+
+          <p style="margin:0 0 12px;">However, its limitations are meaningful. First, the <strong>lag</strong> between inversion and recession can range from six to twenty-four months, limiting its precision for timing decisions. Second, <strong>quantitative easing</strong> programs may artificially suppress long-term yields, creating inversions that don't reflect genuine growth pessimism. Third, correlation is not causation — the curve may predict recessions partly because market actors respond to the signal itself, a form of self-fulfilling prophecy. A rigorous analyst should treat it as one input among many, alongside credit spreads, PMI data, and consumer confidence indices.</p>
+        </div>
+      </div>
+
+      <!-- Key Vocabulary -->
+      <div>
+        <h3 style="font-size:15px;color:#1a1a1a;margin:0 0 10px;border-bottom:1px dashed #d1fae5;padding-bottom:6px;">📖 Key Vocabulary</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <thead>
+            <tr style="background:#ecfdf5;">
+              <th style="text-align:left;padding:9px 12px;border:1px solid #d1fae5;color:#065f46;width:28%;">Word / Phrase</th>
+              <th style="text-align:left;padding:9px 12px;border:1px solid #d1fae5;color:#065f46;width:22%;">中文释义</th>
+              <th style="text-align:left;padding:9px 12px;border:1px solid #d1fae5;color:#065f46;">Example Sentence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:bold;">yield curve</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#6b7280;">收益率曲线</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-style:italic;">The yield curve flattened significantly as the Fed raised rates.</td>
+            </tr>
+            <tr style="background:#f9fafb;">
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:bold;">inversion</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#6b7280;">倒挂；反转</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-style:italic;">An inversion of the 2-10 spread often triggers recession alerts.</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:bold;">leading indicator</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#6b7280;">领先指标</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-style:italic;">Yield curve inversion is considered a leading indicator of downturns.</td>
+            </tr>
+            <tr style="background:#f9fafb;">
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:bold;">opportunity cost</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#6b7280;">机会成本</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-style:italic;">Long-term bonds must offer a premium to offset opportunity cost.</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:bold;">quantitative easing (QE)</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#6b7280;">量化宽松</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-style:italic;">QE compressed long-term yields, distorting traditional curve signals.</td>
+            </tr>
+            <tr style="background:#f9fafb;">
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:bold;">credit spread</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#6b7280;">信用利差</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-style:italic;">Widening credit spreads reinforce recession concerns signaled by the curve.</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:bold;">self-fulfilling prophecy</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#6b7280;">自我实现的预言</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-style:italic;">Market reactions to inversion can make it a self-fulfilling prophecy.</td>
+            </tr>
+            <tr style="background:#f9fafb;">
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-weight:bold;">maturity premium</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;color:#6b7280;">期限溢价</td>
+              <td style="padding:9px 12px;border:1px solid #e5e7eb;font-style:italic;">A shrinking maturity premium often precedes curve flattening.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 2: AI NEWS ==================== -->
+    <div style="border-left:4px solid #7c3aed;padding-left:16px;margin-bottom:36px;">
+      <h2 style="color:#7c3aed;margin-top:0;margin-bottom:4px;font-size:18px;">🤖 AI News</h2>
+      <p style="margin:0 0 18px;color:#6b7280;font-size:13px;">AI行业动态 · [Recent Trend] — 基于最新知识生成</p>
+
+      <!-- Headline -->
+      <div style="margin-bottom:16px;">
+        <h3 style="font-size:15px;color:#1a1a1a;margin:0 0 8px;border-bottom:1px dashed #ede9fe;padding-bottom:6px;">📰 Headline</h3>
+        <div style="background:#faf5ff;border-radius:6px;padding:12px 16px;font-weight:bold;color:#5b21b6;font-size:15px;">
+          [Recent Trend] 全球各大科技巨头加速部署AI Agent，企业软件开发效率大幅提升
+        </div>
+        <div style="color:#6b7280;font-size:13px;margin-top:6px;padding:0 4px;">Major tech companies worldwide accelerating AI Agent deployments, dramatically boosting enterprise software development productivity</div>
+      </div>
+
+      <!-- Summary -->
+      <div style="margin-bottom:16px;">
+        <h3 style="font-size:15px;color:#1a1a1a;margin:0 0 8px;border-bottom:1px dashed #ede9fe;padding-bottom:6px;">📋 English Summary</h3>
+        <div style="line-height:1.85;color:#1a1a1a;">
+          Leading technology companies including Microsoft, Google, and Anthropic have intensified their deployment of autonomous AI agents capable of executing multi-step software engineering tasks — from writing and testing code to managing pull requests — with minimal human supervision. Early enterprise adopters report productivity gains of 30–50% in routine development workflows, compressing sprint cycles and reducing time-to-deployment for new features.
+        </div>
+      </div>
+
+      <!-- Theoretical Principle -->
+      <div>
+        <h3 style="font-size:15px;color:#1a1a1a;margin:0 0 8px;border-bottom:1px dashed #ede9fe;padding-bottom:6px;">💡 Theoretical Principle: <em>General Purpose Technology (GPT) Theory</em></h3>
+        <div style="background:#faf5ff;border-radius:6px;padding:14px 16px;line-height:1.85;color:#1a1a1a;">
+          General Purpose Technology theory, developed by economists Bresnahan and Trajtenberg, describes technologies — like electricity, the steam engine, and the internet — that are adopted across many sectors, improve over time, and spawn complementary innovations that amplify their economic impact. AI, and particularly large language model-based agents, exhibits all three characteristics. Unlike narrowly specialized automation, AI agents can be repurposed across industries from healthcare to finance to software, and their capability improves continuously with scale. The theory predicts that GPTs initially show modest productivity gains as firms learn to reorganize workflows around the technology; the transformative economic impact materializes over a longer horizon as complementary skills, business processes, and institutions co-evolve — a pattern we are arguably witnessing now in the enterprise AI adoption cycle.
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 3: FINANCE NEWS ==================== -->
+    <div style="border-left:4px solid #d97706;padding-left:16px;margin-bottom:24px;">
+      <h2 style="color:#d97706;margin-top:0;margin-bottom:4px;font-size:18px;">💹 Finance News</h2>
+      <p style="margin:0 0 18px;color:#6b7280;font-size:13px;">金融市场动态 · [Recent Trend] — 基于最新知识生成</p>
+
+      <!-- Headline -->
+      <div style="margin-bottom:16px;">
+        <h3 style="font-size:15px;color:#1a1a1a;margin:0 0 8px;border-bottom:1px dashed #fef3c7;padding-bottom:6px;">📰 Headline</h3>
+        <div style="background:#fffbeb;border-radius:6px;padding:12px 16px;font-weight:bold;color:#92400e;font-size:15px;">
+          [Recent Trend] 美联储维持审慎立场，全球央行政策分化加剧，新兴市场汇率承压
+        </div>
+        <div style="color:#6b7280;font-size:13px;margin-top:6px;padding:0 4px;">Federal Reserve maintains cautious stance; global central bank policy divergence widens, putting emerging-market currencies under pressure</div>
+      </div>
+
+      <!-- Summary -->
+      <div style="margin-bottom:16px;">
+        <h3 style="font-size:15px;color:#1a1a1a;margin:0 0 8px;border-bottom:1px dashed #fef3c7;padding-bottom:6px;">📋 English Summary</h3>
+        <div style="line-height:1.85;color:#1a1a1a;">
+          The U.S. Federal Reserve has held its benchmark rate steady, signaling that it will only ease policy once inflation data provides sustained confirmation of a return to the 2% target — a posture that contrasts sharply with rate cuts already underway in the Eurozone and several emerging economies. This monetary divergence has strengthened the U.S. dollar against a broad basket of currencies, increasing debt-servicing costs for emerging-market governments with dollar-denominated liabilities and sparking capital outflow concerns across Southeast Asia and Latin America.
+        </div>
+      </div>
+
+      <!-- Theoretical Principle -->
+      <div>
+        <h3 style="font-size:15px;color:#1a1a1a;margin:0 0 8px;border-bottom:1px dashed #fef3c7;padding-bottom:6px;">💡 Theoretical Principle: <em>Mundell-Fleming Trilemma (Impossible Trinity)</em></h3>
+        <div style="background:#fffbeb;border-radius:6px;padding:14px 16px;line-height:1.85;color:#1a1a1a;">
+          The Mundell-Fleming Trilemma, also known as the Impossible Trinity, holds that a country cannot simultaneously maintain a fixed exchange rate, free capital mobility, and an independent monetary policy — only two of the three are achievable at any given time. When the Federal Reserve tightens or holds rates while other central banks ease, interest rate differentials attract capital toward dollar-denominated assets, appreciating the dollar and effectively exporting tighter financial conditions to countries that have open capital accounts. Emerging markets pegged or semi-pegged to the dollar face the sharpest squeeze: defending the peg requires burning foreign exchange reserves or matching U.S. rates, either of which constrains domestic growth objectives. This dynamic, articulated by Robert Mundell and Marcus Fleming in the 1960s, remains one of the most practically consequential frameworks for understanding how monetary divergence ripples through the global financial system.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end padding div -->
+
+  <!-- Footer -->
+  <div style="background:#f3f4f6;padding:16px 28px;border-top:1px solid #e5e7eb;text-align:center;color:#9ca3af;font-size:12px;">
+    每日早7点推送 &nbsp;·&nbsp; 内容由 Claude 生成 &nbsp;·&nbsp; 2026-08-05 &nbsp;|&nbsp; Topic: Finance · Yield Curve Inversion
+  </div>
+
+</div>
 </body>
 </html>
