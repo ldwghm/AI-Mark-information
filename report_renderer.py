@@ -296,10 +296,41 @@ def _render_capital_flow(flows):
     <tr><th>#</th><th>股票</th><th>代码</th><th>涨跌幅</th><th>主力净流入</th><th>成交额</th></tr>
     {rows}</table>"""
 
-def _render_watchlist_technicals(technicals, group_by_sector=False):
+# Fields that carry an actual quote/indicator value. An entry holding only
+# name/code/sector is a placeholder produced by a failed backfill — rendering it
+# yields a row of 0.00 / +0.00% / '-', which reads as real data. Treat as absent.
+_TECH_VALUE_FIELDS = ('close', 'price', 'chg_pct', 'score',
+                      'ma_trend', 'macd_status', 'rsi_12', 'volume_ratio')
+
+def _has_tech_data(s):
+    return isinstance(s, dict) and any(s.get(f) is not None for f in _TECH_VALUE_FIELDS)
+
+def _filter_tech(technicals):
+    """Drop placeholder entries so empty sections can be hidden instead of zero-filled."""
+    return [s for s in (technicals or []) if _has_tech_data(s)]
+
+_INDEX_VALUE_FIELDS = ('price', 'current', 'close', 'chg', 'change_pct', 'pct')
+
+def _has_index_data(indices_data):
+    """_render_index_cards always returns a wrapper div, and entries may carry only
+    name/secid/klines (which the cards cannot read), so test for a quote value."""
+    if not isinstance(indices_data, dict):
+        return False
+    return any(isinstance(v, dict) and any(v.get(f) is not None for f in _INDEX_VALUE_FIELDS)
+               for v in indices_data.values())
+
+def _quote_date_label(market_data):
+    """Return the quote date when it differs from the expected trading day, else None."""
+    fresh = market_data.get('data_freshness') or {}
+    quote_date = fresh.get('quote_date_mode')
+    expected = market_data.get('expected_data_date')
+    return quote_date if (quote_date and expected and quote_date != expected) else None
+
+def _render_watchlist_technicals(technicals, group_by_sector=False, price_date=None):
     """Render watchlist stocks with technical indicators and scores."""
+    technicals = _filter_tech(technicals)
     if not technicals:
-        return '<p style="color:#9ca3af">技术指标数据不可用</p>'
+        return ''
     rows = ''
     if group_by_sector and any(s.get('sector') for s in technicals):
         # Group by sector, preserving sort-by-chg within each group
@@ -316,7 +347,8 @@ def _render_watchlist_technicals(technicals, group_by_sector=False):
     else:
         # Sort by score descending (original behaviour)
         iter_list = sorted(technicals, key=lambda x: _num(x.get('score')), reverse=True)
-    header = '<tr><th>股票</th><th>代码</th><th>现价</th><th>涨跌幅</th><th>评分</th><th>MA趋势</th><th>MACD</th><th>RSI</th><th>量比</th></tr>'
+    price_hdr = f'现价<br/><span style="font-weight:normal;font-size:11px;color:#b45309">{price_date}</span>' if price_date else '现价'
+    header = f'<tr><th>股票</th><th>代码</th><th>{price_hdr}</th><th>涨跌幅</th><th>评分</th><th>MA趋势</th><th>MACD</th><th>RSI</th><th>量比</th></tr>'
     for s in iter_list:
         if isinstance(s, tuple) and s[0] == '__sector__':
             rows += f'<tr class="sector-title-row"><td colspan="9">📂 {s[1]}</td></tr>'
@@ -642,8 +674,12 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 
     # Index section
     indices = market_data.get('indices', {})
-    idx_cards = _render_index_cards(indices)
-    idx_table = _render_index_table(indices)
+    has_idx = _has_index_data(indices)
+    idx_cards = _render_index_cards(indices) if has_idx else ''
+    idx_table = _render_index_table(indices) if has_idx else ''
+
+    # When quotes fall back to an earlier trading day, stamp that date on the tables
+    quote_date = _quote_date_label(market_data)
 
     # Index technicals
     idx_tech = market_data.get('index_technicals', {})
@@ -674,11 +710,11 @@ def render_morning_report(market_data, analysis=None, date_str=''):
     capital_html = _render_capital_flow(capital)
 
     # Watchlist technicals
-    wt = market_data.get('watchlist_technicals', [])
+    wt = _filter_tech(market_data.get('watchlist_technicals', []))
     sectors = market_data.get('sectors', [])
     sectors_summary_html = _render_sectors_summary(sectors)
     group = bool(sectors) and any(s.get('sector') for s in wt)
-    wt_html = _render_watchlist_technicals(wt, group_by_sector=group)
+    wt_html = _render_watchlist_technicals(wt, group_by_sector=group, price_date=quote_date)
     score_chart = _render_score_ranking(wt)
     change_chart = _render_change_chart(wt)
 
@@ -711,7 +747,7 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 
 {_render_degraded_banner(analysis)}
 
-{_section('sec-index', '📊', '大盘指数概览', idx_cards + idx_table + idx_tech_html)}
+{_section('sec-index', '📊', '大盘指数概览', idx_cards + idx_table + idx_tech_html) if (idx_cards or idx_tech_html) else ''}
 
 {_section('sec-capital', '💰', 'AI板块资金流向 TOP10', capital_html) if capital else ''}
 
@@ -721,7 +757,7 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 
 {_section('sec-sectors', '📊', '板块强弱总览', sectors_summary_html) if sectors_summary_html else ''}
 
-{_section('sec-score', '⭐', 'AI龙头综合评分', score_chart + '<br/>' + wt_html) if wt else ''}
+{_section('sec-score', '⭐', 'AI龙头综合评分', score_chart + '<br/>' + wt_html) if wt_html else ''}
 
 {_section('sec-analysis', '🧠', 'AI深度分析', analysis_html + advice_html + risk_html) if analysis_html else ''}
 
@@ -752,7 +788,10 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
 
     # Index section (afternoon uses realtime_indices with different keys)
     rt_indices = market_data.get('realtime_indices', {})
-    idx_cards = _render_index_cards(rt_indices)
+    idx_cards = _render_index_cards(rt_indices) if _has_index_data(rt_indices) else ''
+
+    # When quotes fall back to an earlier trading day, stamp that date on the tables
+    quote_date = _quote_date_label(market_data)
 
     # Watchlist real-time
     watchlist_rt = market_data.get('watchlist_rt', [])
@@ -784,15 +823,16 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
             <td>{_fmt_amt(vol)}</td>
           </tr>"""
 
+    wl_price_hdr = f'现价<br/><span style="font-weight:normal;font-size:11px;color:#b45309">{quote_date}</span>' if quote_date else '现价'
     watchlist_table = f"""<table>
-    <tr><th>股票</th><th>现价</th><th>涨跌幅</th><th>最高</th><th>最低</th><th>成交量</th></tr>
+    <tr><th>股票</th><th>{wl_price_hdr}</th><th>涨跌幅</th><th>最高</th><th>最低</th><th>成交量</th></tr>
     {wl_rows}</table>""" if wl_rows else ''
 
     # Watchlist technicals (from P1)
-    wt = market_data.get('watchlist_technicals', [])
-    wt_html = _render_watchlist_technicals(wt) if wt else ''
-    score_chart = _render_score_ranking(wt) if wt else ''
-    change_chart = _render_change_chart(wt) if wt else ''
+    wt = _filter_tech(market_data.get('watchlist_technicals', []))
+    wt_html = _render_watchlist_technicals(wt, price_date=quote_date)
+    score_chart = _render_score_ranking(wt)
+    change_chart = _render_change_chart(wt)
 
     # AI boards
     ai_boards = market_data.get('ai_boards_rt', [])
@@ -843,9 +883,9 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
 
 {_render_degraded_banner(analysis)}
 
-{_section('sec-index', '📊', '大盘指数', idx_cards)}
+{_section('sec-index', '📊', '大盘指数', idx_cards) if idx_cards else ''}
 
-{_section('sec-board', '🔥', 'AI板块动态', boards_html)}
+{_section('sec-board', '🔥', 'AI板块动态', boards_html) if boards_html else ''}
 
 {_section('sec-capital', '💰', '资金流向 TOP10', capital_html) if capital_html else ''}
 
@@ -853,7 +893,7 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
 
 {_section('sec-sectors', '📊', '板块强弱总览', sectors_html) if sectors_html else ''}
 
-{_section('sec-watchlist', '🤖', f'关注池个股行情（{len(watchlist_rt)}只）', watchlist_table)}
+{_section('sec-watchlist', '🤖', f'关注池个股行情（{len(watchlist_rt)}只）' + (f' · 数据日期 {quote_date}' if quote_date else ''), watchlist_table) if watchlist_table else ''}
 
 {_section('sec-score', '⭐', 'AI龙头综合评分', score_chart + '<br/>' + wt_html) if wt_html else ''}
 
