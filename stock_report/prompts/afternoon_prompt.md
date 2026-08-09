@@ -9,7 +9,52 @@ GitHub token 只从环境变量解析：`GH_PAT` 优先，否则 `GITHUB_TOKEN`�
 - A股60日历史(MA/MACD/RSI)：yfinance，限流重试一次；末根K线非今日则用新浪实时价补一根再算；再失败用 watchlist_klines_cache 兜底；都没有则技术指标 null、价格仍用新浪，绝不中断。
 - 港/美股：新浪 → yfinance → stooq(仅美股) → 新闻定性替代。14:00 港股盘中(可实时)、美股隔夜收盘。绝不空数组+网络借口。
 - 新鲜度：期望日期=今天（周末/假日取最近交易日并在 risk_warnings 注明）。
+- **板块/资金流数据由 Step 0 主动触发 GitHub Actions 现抓**，不再依赖被延迟 1–3 小时的 schedule 触发；CCR 侧全程只访问 api.github.com。
 - 上述逻辑全部封装在共享脚本 `cloud_fetch.py`，本 prompt 不再内联抓取代码。
+
+## Step 0 — 主动触发抓数 workflow 并等它跑完（数据新鲜度的关键，勿跳过）
+
+**为什么有这一步**：GitHub 免费版 `schedule` 事件被系统性延迟——实测最近 8 次延迟 127–188 分钟（cron 定 05:50 UTC，实际 07:57–08:58 UTC 才入队），从无例外。抓数 workflow 每天都在本 routine 之后才产出数据，导致本 routine 只能 merge 到**上一交易日**那份板块/资金流数据。解法：本 routine 启动后主动 dispatch 抓数 workflow（`workflow_dispatch` 是事件驱动，即时触发），等它跑完（历史用时 79–178 秒）再往下走。
+
+dispatch 抓数 workflow 只会提交 `afternoon_latest.json`，**不会触发发信**（`send-report-pm.yml` 只监听 `afternoon_analysis.json`）。
+
+```bash
+GH="${GH_PAT:-$GITHUB_TOKEN}"
+REPO="ldwghm/AI-Mark-information"
+WF="fetch-market-data-pm.yml"
+API="https://api.github.com/repos/$REPO/actions/workflows/$WF"
+if [ -z "$GH" ]; then
+  echo "STEP0_SKIP: 无 token，跳过主动抓数，直接用仓库现有数据（可能滞后，Step 3 须写入 risk_warnings）"
+else
+  T0=$(date -u +%s)
+  CODE=$(curl -s -o /tmp/disp.txt -w "%{http_code}" -X POST -H "Authorization: Bearer $GH" -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" "$API/dispatches" -d '{"ref":"main"}')
+  echo "dispatch HTTP=$CODE"
+  if [ "$CODE" != "204" ]; then
+    echo "STEP0_FAIL: dispatch 未成功，响应如下；继续用仓库现有数据"
+    cat /tmp/disp.txt
+  else
+    for i in $(seq 1 24); do
+      sleep 15
+      curl -s -H "Authorization: Bearer $GH" "$API/runs?event=workflow_dispatch&per_page=1" -o /tmp/runs.json
+      ST=$(python3 -c "
+import json
+try:
+    d = json.load(open('/tmp/runs.json')).get('workflow_runs', [])
+    print('{}|{}|{}'.format(d[0]['status'], d[0]['conclusion'], d[0]['created_at']) if d else 'none|none|none')
+except Exception as e:
+    print('parsefail|{}|none'.format(type(e).__name__))
+")
+      echo "poll $i: $ST"
+      if [ "${ST%%|*}" = "completed" ]; then
+        echo "STEP0_DONE: 抓数完成 $ST，总用时 $(( $(date -u +%s) - T0 ))s"
+        break
+      fi
+    done
+  fi
+fi
+```
+
+**无论 Step 0 成功与否都继续往下做**——失败时只是退回原来的行为（读仓库里已有的数据），不会比现在更差，但 Step 3 必须在 risk_warnings 里写明数据可能滞后。
 
 ## Step 1 — 依赖 + 拉取共享脚本（公开仓库，curl 即可，无需 token）
 ```bash
@@ -24,7 +69,18 @@ wc -c /tmp/sectors.json /tmp/cloud_fetch.py /tmp/verify.py
 ## Step 2 — 抓取 + 合并板块数据 → /tmp/afternoon_latest.json（一条命令，替代原内联脚本）
 ```bash
 # old_pm.json：午盘 GitHub Actions(efinance) 产出的 *_rt 板块/资金流向数据，cloud_fetch 会 merge 进来
-curl -sL --max-time 20 "https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/afternoon_latest.json" -o /tmp/old_pm.json 2>/dev/null || true
+curl -sL --max-time 20 "https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/afternoon_latest.json?t=$(date +%s)" -o /tmp/old_pm.json 2>/dev/null || true
+# 校验新鲜度：fetch_time 距今超过 15 分钟说明 Step 0 没生效，板块数据是旧的
+python3 -c "
+import json, datetime
+try:
+    ft = json.load(open('/tmp/old_pm.json'))['fetch_time']
+    now = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
+    age = (now - datetime.datetime.fromisoformat(ft)).total_seconds()
+    print('board_data_fetch_time={} age={:.0f}s {}'.format(ft, age, 'FRESH' if age < 900 else 'STALE -- Step 3 必须写入 risk_warnings'))
+except Exception as e:
+    print('freshness check failed:', type(e).__name__, e)
+"
 # 今日早报分析，供盘中对比
 curl -sL --max-time 15 "https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/morning_analysis.json" -o /tmp/morning_analysis.json 2>/dev/null || true
 python3 /tmp/cloud_fetch.py --mode afternoon --merge-from /tmp/old_pm.json --out /tmp/afternoon_latest.json
