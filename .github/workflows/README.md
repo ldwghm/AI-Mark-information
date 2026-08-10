@@ -25,3 +25,17 @@
 ## 并发
 
 早报与午报分别使用独立 concurrency group。归档提交前会恢复 workflow 对候选文件的本地校验写回，再执行 `git pull --rebase`，降低与抓数提交并发冲突的概率。
+
+## Codex Connector 触发
+
+- `stock_report/triggers/morning.json` 的 main 分支 push 触发早报抓数。
+- `stock_report/triggers/afternoon.json` 的 main 分支 push 触发午报抓数。
+- push 触发时，`stock_report.connector_trigger` 校验 mode、request ID 和 requested_at，再把请求写入 latest 的 `orchestration_request`。
+- schedule 和 workflow_dispatch 保持原行为；它们不会伪造 Connector request 元数据。
+
+检查一次 Connector 运行时，必须同时核对：
+
+1. trigger 的 `request_id`；
+2. latest 的 `orchestration_request.request_id`；
+3. `fetch_time >= requested_at`；
+4. 影子运行只更新 `stock_report/data/shadow/`，没有触发发信 workflow。

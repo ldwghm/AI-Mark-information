@@ -78,7 +78,11 @@ git diff --check
 
 ## 云端迁移状态
 
-Codex Web Scheduled 可以在电脑关机时执行，但不能访问本地目录；因此只能以 GitHub 仓库和连接器为状态源。当前仓库提供 Codex 影子提示词，建议先连续对比 5 个交易日，再由用户明确决定是否替换 Claude 生产任务。Cloudflare Cron 可作为更准时的 dispatch 触发器，但不是分析执行面。
+Codex Web Scheduled 可以在电脑关机时执行，但不能访问本地目录；因此只能以 GitHub 仓库和连接器为状态源。Codex 通过更新 `stock_report/triggers/{morning|afternoon}.json` 触发抓数，Actions 把同一 `request_id` 写入 latest，模型只接受精确匹配的快照。
+
+当前默认是影子模式：结果写入 `stock_report/data/shadow/`，不触发发信。建议连续对比 5 个交易日，先停用对应 Claude routine，再另行切换正式 candidate，确保同一时段只有一个生产调度器。
+
+Web Scheduled 的创建步骤、可直接粘贴的任务正文、每日验收和切换门禁见 `docs/codex-scheduled-setup.md`。Cloudflare Cron 可作为更准时的触发器，但不是分析执行面。
 
 实现设计与分阶段计划见 `docs/plans/`。
 
