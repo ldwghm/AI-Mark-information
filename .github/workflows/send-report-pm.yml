@@ -42,17 +42,26 @@ jobs:
         shell: bash
         run: |
           set +e
-          python stock_report/verify.py \
+          python -m stock_report.verify \
             --mode "$MODE" \
             --latest "$LATEST_PATH" \
             --analysis "$ANALYSIS_PATH" \
-            --verdict "$VERDICT_PATH"
+            --verdict "$VERDICT_PATH" \
+            --morning-analysis stock_report/data/morning_analysis.json
           code=$?
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          # 0=通过 2=硬失败但降级发出 3=阻断（覆盖率过低/早午报闭环断裂）
+          if [ "$code" -eq 3 ]; then
+            echo "blocked=true" >> "$GITHUB_OUTPUT"
+            echo '::warning::verify 判定 BLOCKED，本次不发送正式午报'
+            exit 0
+          fi
+          echo "blocked=false" >> "$GITHUB_OUTPUT"
           if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then
             exit "$code"
           fi
       - name: Render and send exact verified candidate
+        if: steps.verify.outputs.blocked != 'true'
         run: python stock_report_pm.py
         env:
           MARKET_DATA_PATH: ${{ env.LATEST_PATH }}
@@ -63,6 +72,7 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Archive exact delivery bundle
+        if: steps.verify.outputs.blocked != 'true'
         shell: bash
         run: |
           report_date="$(TZ=Asia/Shanghai date +%F)"
@@ -83,3 +93,22 @@ jobs:
           git checkout -- "$ANALYSIS_PATH"
           git pull --rebase
           git push
+      - name: Record blocked delivery and fail
+        if: steps.verify.outputs.blocked == 'true'
+        shell: bash
+        run: |
+          report_date="$(TZ=Asia/Shanghai date +%F)"
+          blocked_dir="stock_report/data/blocked/$report_date/$MODE"
+          mkdir -p "$blocked_dir"
+          cp "$VERDICT_PATH" "$blocked_dir/verdict.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$blocked_dir"
+          git diff --cached --quiet || git commit -m "report: blocked $MODE delivery $report_date"
+          git checkout -- "$ANALYSIS_PATH" || true
+          git pull --rebase
+          git push
+          echo '--- block reasons ---'
+          python -c "import json;print('\n'.join(json.load(open('$VERDICT_PATH',encoding='utf-8')).get('block_reasons',[])))"
+          # 故意失败：让 pipeline-health 与 Actions 通知看得见，绝不静默跳过
+          exit 1

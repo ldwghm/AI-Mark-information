@@ -23,11 +23,19 @@ import re
 import sys
 from pathlib import Path
 
-HARD_PRICE_PCT = 25.0   # 价格较可靠源偏离超过此比例 → 硬失败（编造）
-HARD_CHG_FLIP_ABS = 5.0  # 涨跌幅符号翻转且绝对差超过此值 → 硬失败
-SOFT_PRICE_PCT = 3.0
-SOFT_CHG_ABS = 1.5
+try:                                  # 作为包导入（GitHub Actions: python -m / import）
+    from . import quality
+except ImportError:                   # 直接执行 verify.py（本地调试、云端 curl 到 /tmp）
+    import quality
+
+# 阈值集中在 quality.py，便于回归测试；这里只做别名
+HARD_PRICE_PCT = quality.HARD_STOCK_PCT        # 个股偏差 > 1% → 硬失败（原为 25%）
+HARD_INDEX_PCT = quality.HARD_INDEX_PCT        # 指数双源偏差 > 0.3% → 硬失败
+HARD_CHG_FLIP_ABS = quality.HARD_CHG_CONFLICT_ABS  # 方向冲突且差 > 1pct → 硬失败（原为软警告）
+SOFT_PRICE_PCT = quality.SOFT_PRICE_PCT
+SOFT_CHG_ABS = quality.SOFT_CHG_ABS
 BANNED_VAGUE = ['建议关注', '保持谨慎', '注意风险', '择机', '逢低', '逢高']
+INDEX_CODES = frozenset({'000001', '399001', '399006', '000688'})
 
 
 def verdict_path_for(analysis_path):
@@ -101,6 +109,11 @@ def main():
     ap.add_argument('--latest')
     ap.add_argument('--analysis')
     ap.add_argument('--verdict')
+    ap.add_argument('--morning-analysis', dest='morning_analysis',
+                    default='stock_report/data/morning_analysis.json',
+                    help='午报闭环校验用的当日早报 final')
+    ap.add_argument('--allow-open-loop', dest='allow_open_loop', action='store_true',
+                    help='影子验证期使用：闭环断裂时降级而不阻断发送')
     args = ap.parse_args()
     mode = args.mode
     lpath = args.latest or f'/tmp/{mode}_latest.json'
@@ -108,6 +121,15 @@ def main():
 
     latest = json.load(open(lpath, encoding='utf-8-sig'))
     analysis = json.load(open(apath, encoding='utf-8-sig'))
+
+    morning_analysis = {}
+    if mode == 'afternoon' and args.morning_analysis:
+        mpath = Path(args.morning_analysis)
+        if mpath.is_file():
+            try:
+                morning_analysis = json.loads(mpath.read_text(encoding='utf-8-sig'))
+            except (ValueError, OSError) as exc:
+                print(f'morning analysis unreadable: {exc}')
 
     merge_hk_us(latest, analysis)  # Step 4.5 折叠进来
 
@@ -168,7 +190,7 @@ def main():
                     soft.append(f'{nm}({code}) price 报 {hp} 实际 {sp}（偏离{dev:.0f}%）')
             if scg is not None and hcg is not None:
                 if (scg > 0) != (hcg > 0) and abs(hcg - scg) > HARD_CHG_FLIP_ABS:
-                    soft.append(f'{nm}({code}) 涨跌方向相反 报{hcg} 实际{scg}（疑似快照不一致或笔误）')
+                    hard.append(f'{nm}({code}) 涨跌方向相反 报{hcg} 实际{scg}（差{abs(hcg - scg):.2f}pct）')
                 elif abs(hcg - scg) > SOFT_CHG_ABS:
                     soft.append(f'{nm}({code}) chg_pct 报 {hcg} 实际 {scg}')
         elif ef_index.get(code) and ef_index[code]['price'] is not None:  # 仅 efinance：软核对（量纲不完全可控）
@@ -197,24 +219,77 @@ def main():
     if not hk and not us and not re.search(r'新闻|来源|接口|不可用|限制|时间|缺失', summ):
         soft.append('港美股为空且 summary 未标注降级来源')
 
-    degraded = bool(soft)
-    hard_fail = bool(hard)
-    ok = not hard_fail
+    # 6) 双源交叉验证冲突（cloud_fetch 产出）：指数 0.3% / 个股 1% 分档
+    blockers = []
+    for conflict in (latest.get('data_quality', {}).get('source_conflicts') or []):
+        code = str(conflict.get('code', ''))
+        diff = conflict.get('diff_pct')
+        if not isinstance(diff, (int, float)):
+            continue
+        limit = HARD_INDEX_PCT if code[-6:] in INDEX_CODES else HARD_PRICE_PCT
+        label = '指数' if code[-6:] in INDEX_CODES else '个股'
+        msg = (f'{label} {code} 双源冲突：{conflict.get("primary_source")} '
+               f'{conflict.get("primary_price")} vs {conflict.get("secondary_source")} '
+               f'{conflict.get("secondary_price")}（差{diff:.2f}%）')
+        (hard if diff > limit else soft).append(msg)
 
-    verdict = {'ok': ok, 'degraded': degraded, 'hard_fail': hard_fail,
-               'hard_reasons': hard, 'soft_reasons': soft,
+    # 7) 关注池覆盖率：<90% 降级，<70% 停止正式发送
+    cov_level, cov_reason = quality.evaluate_coverage(latest)
+    if cov_level == quality.BLOCK:
+        blockers.append(cov_reason)
+    elif cov_level == quality.DEGRADE:
+        soft.append(cov_reason)
+
+    # 8) 早午报闭环：午报必须能对上当日早报，否则复盘结论不成立
+    cont_level, cont_reason, prior_result = quality.evaluate_continuity(
+        mode, latest, morning_analysis)
+    if prior_result == 'pending':
+        reflection = analysis.get('reflection')
+        if not isinstance(reflection, dict):
+            reflection = {}
+        reflection['prior_result'] = 'pending'
+        reflection.setdefault('error_type', 'unverifiable')
+        reflection['lesson'] = f'闭环断裂，本期不结算上一期预测：{cont_reason}'
+        analysis['reflection'] = reflection
+        analysis['review'] = f'[待结算] {cont_reason}。' + str(analysis.get('review', ''))
+    if cont_level == quality.BLOCK:
+        (soft if args.allow_open_loop else blockers).append(cont_reason)
+    elif cont_level == quality.DEGRADE:
+        soft.append(cont_reason)
+
+    # 9) 有过期报价时禁止使用"实时"一类确定性措辞
+    rt_level, rt_reason = quality.evaluate_realtime_claims(latest, analysis)
+    if rt_level != quality.PASS:
+        soft.append(rt_reason)
+
+    blocked = bool(blockers)
+    degraded = bool(soft) or blocked
+    hard_fail = bool(hard)
+    ok = not hard_fail and not blocked
+
+    verdict = {'ok': ok, 'degraded': degraded, 'hard_fail': hard_fail, 'blocked': blocked,
+               'hard_reasons': hard, 'soft_reasons': soft, 'block_reasons': blockers,
                'mode': mode, 'expected_data_date': expected, 'quote_date_mode': qmode,
+               'continuity': {'level': cont_level, 'reason': cont_reason,
+                              'morning_date': (morning_analysis or {}).get('date')},
+               'coverage': {'level': cov_level, 'reason': cov_reason},
                'primary_priced': len([1 for v in primary.values() if v['price'] is not None]),
                'ef_priced': len([1 for v in ef_index.values() if v['price'] is not None])}
 
     analysis['degraded'] = degraded
-    analysis['verify'] = {'ok': ok, 'degraded': degraded, 'hard_fail': hard_fail, 'reasons': hard + soft}
+    analysis['verify'] = {'ok': ok, 'degraded': degraded, 'hard_fail': hard_fail,
+                          'blocked': blocked, 'reasons': hard + blockers + soft}
     json.dump(analysis, open(apath, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
     verdict_path = Path(args.verdict) if args.verdict else verdict_path_for(apath)
     json.dump(verdict, open(verdict_path, 'w', encoding='utf-8'),
               ensure_ascii=False, indent=2)
 
     print(json.dumps(verdict, ensure_ascii=False, indent=2))
+    if blocked:
+        print('VERIFY: BLOCKED -> 停止正式发送（数据不足以支撑一份负责任的报告）')
+        for reason in blockers:
+            print('  -', reason)
+        sys.exit(3)
     if hard_fail:
         print('VERIFY: HARD FAIL ->（调用方：重生成一次；再失败则降级发出 + Gmail 告警）')
         sys.exit(2)

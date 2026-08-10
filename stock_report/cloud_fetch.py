@@ -28,13 +28,21 @@ watchlist_klines_cache 均为新增，用 .get 读取，不影响旧渲染。
 import argparse
 import json
 import os
-import requests
+import sys
 import numpy as np
 import pandas as pd
-from datetime import datetime, timedelta, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-BJT = timezone(timedelta(hours=8))
+if __package__ in (None, ''):        # 云端把本文件 curl 到 /tmp 单独执行
+    sys.path.insert(0, HERE)
+    import crosscheck
+    import http_util
+    import provenance
+    import timeutil
+else:
+    from . import crosscheck, http_util, provenance, timeutil
+
+BJT = timeutil.BJT
 HEAD = {'Referer': 'https://finance.sina.com.cn', 'User-Agent': 'Mozilla/5.0'}
 
 # --merge-from 时按 mode 合并的板块/资金流向键（与线上 routine 行为逐字一致）
@@ -68,45 +76,66 @@ def yft(code):
 
 
 def sina_batch(plist):
+    """新浪批量行情。整批失败不再拖垮其余分片：每片独立重试、独立降级。"""
     out = {}
     for i in range(0, len(plist), 40):
-        try:
-            r = requests.get('https://hq.sinajs.cn/list=' + ','.join(plist[i:i + 40]), headers=HEAD, timeout=10)
-            r.encoding = 'gbk'
-            for line in r.text.strip().split('\n'):
-                if '="' not in line:
-                    continue
+        text = http_util.get_text(
+            'https://hq.sinajs.cn/list=' + ','.join(plist[i:i + 40]),
+            headers=HEAD, timeout=10, encoding='gbk')
+        if not text:
+            continue
+        retrieved = timeutil.utc_iso()
+        for line in text.strip().split('\n'):
+            if '="' not in line:
+                continue
+            try:
                 key = line.split('=')[0].replace('var hq_str_', '').strip()
                 f = line.split('"')[1].split(',')
                 if len(f) > 31 and f[3] not in ('', '0', '0.00', '0.000'):
-                    out[key] = {'name': f[0], 'open': float(f[1]), 'prev_close': float(f[2]), 'price': float(f[3]),
-                                'high': float(f[4]), 'low': float(f[5]), 'volume': float(f[8]), 'amount': float(f[9]),
-                                'date': f[30], 'time': f[31], 'src': 'sina'}
-        except Exception as e:
-            print('sina fail:', e)
+                    row = {'name': f[0], 'open': float(f[1]), 'prev_close': float(f[2]), 'price': float(f[3]),
+                           'high': float(f[4]), 'low': float(f[5]), 'volume': float(f[8]), 'amount': float(f[9]),
+                           'date': f[30], 'time': f[31], 'src': 'sina'}
+                    provenance.stamp(row, 'sina',
+                                     as_of=provenance.market_as_of(f[30], f[31]),
+                                     retrieved_at=retrieved)
+                    out[key] = row
+            except (IndexError, ValueError):
+                continue
     return out
 
 
 def tencent_batch(plist):
+    """腾讯批量行情（新浪的对照源，也是新浪不可用时的备份）。"""
     out = {}
     for i in range(0, len(plist), 40):
-        try:
-            r = requests.get('https://qt.gtimg.cn/q=' + ','.join(plist[i:i + 40]), timeout=10)
-            r.encoding = 'gbk'
-            for seg in r.text.strip().split(';'):
-                if '="' not in seg:
-                    continue
+        text = http_util.get_text(
+            'https://qt.gtimg.cn/q=' + ','.join(plist[i:i + 40]),
+            timeout=10, encoding='gbk')
+        if not text:
+            continue
+        retrieved = timeutil.utc_iso()
+        for seg in text.strip().split(';'):
+            if '="' not in seg:
+                continue
+            try:
                 key = seg.split('=')[0].strip().replace('v_', '')
                 f = seg.split('"')[1].split('~')
                 if len(f) > 38 and f[3] and f[3] != '0.00':
                     dt = f[30]
-                    out[key] = {'name': f[1], 'price': float(f[3]), 'prev_close': float(f[4]), 'open': float(f[5]),
-                                'high': float(f[33]), 'low': float(f[34]), 'volume': float(f[36]) * 100,
-                                'amount': float(f[37]) * 10000,
-                                'date': dt[0:4] + '-' + dt[4:6] + '-' + dt[6:8] if len(dt) >= 8 else '',
-                                'time': dt[8:] if len(dt) > 8 else '', 'src': 'tencent'}
-        except Exception as e:
-            print('tencent fail:', e)
+                    qdate = dt[0:4] + '-' + dt[4:6] + '-' + dt[6:8] if len(dt) >= 8 else ''
+                    qtime = dt[8:] if len(dt) > 8 else ''
+                    if len(qtime) == 6:
+                        qtime = f'{qtime[0:2]}:{qtime[2:4]}:{qtime[4:6]}'
+                    row = {'name': f[1], 'price': float(f[3]), 'prev_close': float(f[4]), 'open': float(f[5]),
+                           'high': float(f[33]), 'low': float(f[34]), 'volume': float(f[36]) * 100,
+                           'amount': float(f[37]) * 10000,
+                           'date': qdate, 'time': qtime, 'src': 'tencent'}
+                    provenance.stamp(row, 'tencent',
+                                     as_of=provenance.market_as_of(qdate, qtime),
+                                     retrieved_at=retrieved)
+                    out[key] = row
+            except (IndexError, ValueError):
+                continue
     return out
 
 
@@ -227,68 +256,85 @@ def fetch_hk_us(uni, yf):
     HK = [tuple(x) for x in uni['hk']]
     US = [tuple(x) for x in uni['us']]
     hk_list, us_list = [], []
-    try:
-        r = requests.get('https://hq.sinajs.cn/list=' + ','.join('rt_hk' + c for c, n in HK), headers=HEAD, timeout=10)
-        r.encoding = 'gbk'
-        print('SINA HK RAW:', r.text.split('\n')[0][:260])
-        for (c, n), line in zip(HK, r.text.strip().split('\n')):
+    hk_text = http_util.get_text(
+        'https://hq.sinajs.cn/list=' + ','.join('rt_hk' + c for c, n in HK),
+        headers=HEAD, timeout=10, encoding='gbk')
+    if hk_text:
+        print('SINA HK RAW:', hk_text.split('\n')[0][:260])
+        retrieved = timeutil.utc_iso()
+        for (c, n), line in zip(HK, hk_text.strip().split('\n')):
             try:
                 f = line.split('"')[1].split(',')
                 price, prev = float(f[6]), float(f[3])
-                hk_list.append({'code': c + '.HK', 'name': n, 'price': round(price, 2),
-                                'chg': round((price - prev) / prev * 100, 2), 'src': 'sina'})
-            except Exception:
+                hk_list.append(provenance.stamp(
+                    {'code': c + '.HK', 'name': n, 'price': round(price, 2),
+                     'chg': round((price - prev) / prev * 100, 2), 'src': 'sina'},
+                    'sina', retrieved_at=retrieved))
+            except (IndexError, ValueError, ZeroDivisionError):
                 pass
-    except Exception as e:
-        print('sina hk fail:', e)
-    try:
-        r = requests.get('https://hq.sinajs.cn/list=' + ','.join('gb_' + t.lower() for t, n in US), headers=HEAD, timeout=10)
-        r.encoding = 'gbk'
-        print('SINA US RAW:', r.text.split('\n')[0][:260])
-        for (t, n), line in zip(US, r.text.strip().split('\n')):
+    us_text = http_util.get_text(
+        'https://hq.sinajs.cn/list=' + ','.join('gb_' + t.lower() for t, n in US),
+        headers=HEAD, timeout=10, encoding='gbk')
+    if us_text:
+        print('SINA US RAW:', us_text.split('\n')[0][:260])
+        retrieved = timeutil.utc_iso()
+        for (t, n), line in zip(US, us_text.strip().split('\n')):
             try:
                 f = line.split('"')[1].split(',')
-                us_list.append({'code': t, 'name': n, 'price': round(float(f[1]), 2),
-                                'chg': round(float(f[2]), 2), 'src': 'sina'})
-            except Exception:
+                us_list.append(provenance.stamp(
+                    {'code': t, 'name': n, 'price': round(float(f[1]), 2),
+                     'chg': round(float(f[2]), 2), 'src': 'sina'},
+                    'sina', retrieved_at=retrieved))
+            except (IndexError, ValueError):
                 pass
-    except Exception as e:
-        print('sina us fail:', e)
     if len(hk_list) < 3:
         hk_list = []
+        retrieved = timeutil.utc_iso()
         for c, n in HK:
             try:
                 h = yf.Ticker(c + '.HK').history(period='5d')
                 if len(h) >= 2:
                     cu, p = float(h['Close'].iloc[-1]), float(h['Close'].iloc[-2])
-                    hk_list.append({'code': c + '.HK', 'name': n, 'price': round(cu, 2),
-                                    'chg': round((cu - p) / p * 100, 2), 'src': 'yf'})
+                    hk_list.append(provenance.stamp(
+                        {'code': c + '.HK', 'name': n, 'price': round(cu, 2),
+                         'chg': round((cu - p) / p * 100, 2), 'src': 'yf'},
+                        'yfinance',
+                        as_of=h.index[-1].strftime('%Y-%m-%d'), retrieved_at=retrieved))
             except Exception:
                 pass
     if len(us_list) < 3:
         us_list = []
+        retrieved = timeutil.utc_iso()
         for t, n in US:
             try:
                 h = yf.Ticker(t).history(period='5d')
                 if len(h) >= 2:
                     cu, p = float(h['Close'].iloc[-1]), float(h['Close'].iloc[-2])
-                    us_list.append({'code': t, 'name': n, 'price': round(cu, 2),
-                                    'chg': round((cu - p) / p * 100, 2), 'src': 'yf'})
+                    us_list.append(provenance.stamp(
+                        {'code': t, 'name': n, 'price': round(cu, 2),
+                         'chg': round((cu - p) / p * 100, 2), 'src': 'yf'},
+                        'yfinance',
+                        as_of=h.index[-1].strftime('%Y-%m-%d'), retrieved_at=retrieved))
             except Exception:
                 pass
     if len(us_list) < 3:
-        try:
-            r = requests.get('https://stooq.com/q/l/?s=' + ','.join(t.lower() + '.us' for t, n in US) + '&f=sd2t2ohlcv&h&e=csv', timeout=15)
-            names = {t.lower() + '.us': n for t, n in US}
-            for line in r.text.strip().split('\n')[1:]:
-                p = line.split(',')
-                if len(p) >= 7 and p[6] not in ('N/D', ''):
+        text = http_util.get_text(
+            'https://stooq.com/q/l/?s=' + ','.join(t.lower() + '.us' for t, n in US)
+            + '&f=sd2t2ohlcv&h&e=csv', timeout=15)
+        names = {t.lower() + '.us': n for t, n in US}
+        retrieved = timeutil.utc_iso()
+        for line in text.strip().split('\n')[1:] if text else []:
+            p = line.split(',')
+            if len(p) >= 7 and p[6] not in ('N/D', ''):
+                try:
                     o, c2 = float(p[3]), float(p[6])
-                    us_list.append({'code': p[0].replace('.US', '').replace('.us', '').upper(),
-                                    'name': names.get(p[0].lower(), p[0]), 'price': round(c2, 2),
-                                    'chg': round((c2 - o) / o * 100, 2), 'src': 'stooq(chg为相对开盘)'})
-        except Exception as e:
-            print('stooq fail:', e)
+                except ValueError:
+                    continue
+                us_list.append(provenance.stamp(
+                    {'code': p[0].replace('.US', '').replace('.us', '').upper(),
+                     'name': names.get(p[0].lower(), p[0]), 'price': round(c2, 2),
+                     'chg': round((c2 - o) / o * 100, 2), 'src': 'stooq(chg为相对开盘)'},
+                    'stooq', as_of=p[1] if len(p) > 1 else None, retrieved_at=retrieved))
     return hk_list, us_list
 
 
@@ -438,12 +484,15 @@ def backfill_from_efinance(result, old, all_codes, sector_names, mode):
                       'chg_pct': chg, 'open': price, 'high': price, 'low': price, 'prev_close': None,
                       'volume': 0, 'amount': 0, 'data_date': ddate}
                 nr.update(NULL_TECH)
+                # 这是收盘/快照回填价，不是本次实时抓取——必须标出来
+                provenance.stamp(nr, 'efinance_backfill', as_of=ddate or None)
                 wt.append(nr)
                 by_code[code] = nr
                 filled_stk += 1
         elif (row.get('close') in (None, 0)) and price is not None:
             row['close'] = price
             row['chg_pct'] = chg
+            provenance.stamp(row, 'efinance_backfill', as_of=ddate or None)
             filled_stk += 1
     result['watchlist_technicals'] = wt
 
@@ -470,6 +519,8 @@ def main():
     ap.add_argument('--mode', required=True, choices=['morning', 'afternoon'])
     ap.add_argument('--merge-from', dest='merge_from', default=None)
     ap.add_argument('--out', default=None)
+    ap.add_argument('--klines-cache', dest='klines_cache', default=None,
+                    help='持久 K 线缓存（收盘后由 update-klines-cache workflow 增量维护）')
     args = ap.parse_args()
     mode = args.mode
     out_path = args.out or f'/tmp/{mode}_latest.json'
@@ -478,18 +529,26 @@ def main():
     SECTORS = {k: [tuple(x) for x in v] for k, v in uni['sectors'].items()}
     all_codes = [(c, n, s) for s, lst in SECTORS.items() for c, n in lst]
 
-    now = datetime.now(BJT)
-    d = (now.date() - timedelta(days=1)) if mode == 'morning' else now.date()
-    while d.weekday() >= 5:
-        d -= timedelta(days=1)
-    EXPECTED = d.strftime('%Y-%m-%d')
+    now = timeutil.now_bjt()
+    EXPECTED = timeutil.trading_date_bjt(mode, now)
     print('mode:', mode, '| expected data date:', EXPECTED)
 
     # efinance 数据（GitHub Actions 产出）：板块合并 + 价格回填 + klines 缓存兜底都用它
     OLD = load_old(args.merge_from)
-    klines_cache = OLD.get('watchlist_klines_cache', {}) if OLD else {}
-    if klines_cache:
-        print(f'klines cache preloaded: {len(klines_cache)} stocks')
+    # 历史序列优先用持久缓存（收盘后独立 workflow 维护），它不在报告生成的
+    # 关键路径上，比每次临时请求 yfinance 稳得多；缺失时才退回 latest 里捎带的旧缓存。
+    klines_cache = {}
+    cache_path = args.klines_cache or (HERE + '/data/klines_cache.json')
+    if os.path.exists(cache_path):
+        try:
+            klines_cache = json.load(open(cache_path, encoding='utf-8-sig'))
+            print(f'persistent klines cache: {len(klines_cache)} stocks from {cache_path}')
+        except (ValueError, OSError) as exc:
+            print(f'persistent klines cache unreadable: {exc}')
+    if not klines_cache and OLD:
+        klines_cache = OLD.get('watchlist_klines_cache', {}) or {}
+        if klines_cache:
+            print(f'fallback klines cache from merge-from: {len(klines_cache)} stocks')
 
     IDX = {'shanghai': ('sh000001', '000001.SS', '上证指数'),
            'shenzhen': ('sz399001', '399001.SZ', '深证成指'),
@@ -498,15 +557,30 @@ def main():
     idx_pre = [v[0] for v in IDX.values()]
     stock_pre = [sprefix(c) for c, n, s in all_codes]
 
-    quotes = sina_batch(idx_pre + stock_pre)
+    all_pre = idx_pre + stock_pre
+    quotes = sina_batch(all_pre)
     fresh_n = len([1 for v in quotes.values() if v['date'] >= EXPECTED])
     print(f'sina: {len(quotes)} quotes / {fresh_n} fresh')
-    if fresh_n < len(idx_pre + stock_pre) * 0.6:
-        tq = tencent_batch(idx_pre + stock_pre)
-        for k, v in tq.items():
+
+    # 腾讯有两个用途：① 新浪大面积失败时兜底 ② 关键标的的对照源。
+    # 即使新浪看起来正常，也要为核对标的取一份腾讯数据——静默相信单一源
+    # 正是过去"数字看着确定、实际来自过期快照"的成因。
+    tencent_quotes = {}
+    if fresh_n < len(all_pre) * 0.6:
+        tencent_quotes = tencent_batch(all_pre)
+        for k, v in tencent_quotes.items():
             if k not in quotes or v.get('date', '') > quotes[k].get('date', ''):
                 quotes[k] = v
         print('after tencent merge:', len(quotes))
+    else:
+        movers = sorted(
+            ((k, v) for k, v in quotes.items() if v.get('prev_close')),
+            key=lambda kv: -abs((kv[1]['price'] - kv[1]['prev_close']) / kv[1]['prev_close']),
+        )[:crosscheck.TOP_MOVERS]
+        check_pre = sorted(set(idx_pre) | {k for k, _ in movers})
+        if check_pre:
+            tencent_quotes = tencent_batch(check_pre)
+            print(f'tencent crosscheck sample: {len(tencent_quotes)}/{len(check_pre)}')
 
     import yfinance as yf
     tickers = [t for t in [yft(c) for c, n, s in all_codes] if t] + [v[1] for v in IDX.values()]
@@ -530,8 +604,10 @@ def main():
         except Exception:
             return None
 
-    result = {'fetch_time': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC'),
-              'fetch_date': datetime.utcnow().strftime('%Y-%m-%d'),
+    fetch_started = timeutil.now_utc()
+    result = {'fetch_time': timeutil.utc_iso(fetch_started),
+              'fetch_date': fetch_started.strftime('%Y-%m-%d'),
+              'fetch_time_bjt': timeutil.bjt_iso(fetch_started),
               'report_type': mode, 'expected_data_date': EXPECTED}
 
     # ---- 指数 ----
@@ -557,11 +633,18 @@ def main():
                 ddate = last_bar
             tech = compute_technicals(closes, vols)
         if price is not None:
+            idx_source = q.get('src') if q else ('klines_cache' if src == 'cache' else src)
+            idx_as_of = (q.get('as_of') or provenance.market_as_of(q.get('date'), q.get('time'))) \
+                if q else (ddate or None)
             tech.update({'price': price, 'chg_pct': chg, 'name': cname})
             index_technicals[key] = tech
-            indices[key] = {'price': price, 'chg': chg, 'amount': amount, 'name': cname, 'data_date': ddate}
-            realtime_indices[pre] = {'price': price, 'current': price, 'chg': chg, 'change_pct': chg,
-                                     'name': cname, 'data_date': ddate}
+            indices[key] = provenance.stamp(
+                {'price': price, 'chg': chg, 'amount': amount, 'name': cname, 'data_date': ddate},
+                idx_source, as_of=idx_as_of, retrieved_at=result['fetch_time'])
+            realtime_indices[pre] = provenance.stamp(
+                {'price': price, 'current': price, 'chg': chg, 'change_pct': chg,
+                 'name': cname, 'data_date': ddate},
+                idx_source, as_of=idx_as_of, retrieved_at=result['fetch_time'])
             print(f'idx {cname}: {price} ({chg:+.2f}%) @{ddate} src={src}')
     if mode == 'morning':
         result['indices'] = indices
@@ -598,12 +681,27 @@ def main():
             vol = float(vols[-1])
             amt = close * vol
             ddate = last_bar
-        watchlist_rt.append({'name': name, 'code': code, 'sector': sector, 'current': close, 'change_pct': chg_pct,
-                             'high': h, 'low': l, 'volume': int(vol), 'data_date': ddate})
+        # 价格来自哪个源、对应哪个市场时点——分析层据此区分实时价与回填价
+        if q:
+            price_source = q.get('src', 'sina')
+            price_as_of = q.get('as_of') or provenance.market_as_of(q.get('date'), q.get('time'))
+        else:
+            price_source = 'klines_cache' if src == 'cache' else src
+            price_as_of = ddate or None
+
+        rt_row = {'name': name, 'code': code, 'sector': sector, 'current': close, 'change_pct': chg_pct,
+                  'high': h, 'low': l, 'volume': int(vol), 'data_date': ddate}
+        provenance.stamp(rt_row, price_source, as_of=price_as_of,
+                         retrieved_at=result['fetch_time'])
+        watchlist_rt.append(rt_row)
+
         row = {'name': name, 'code': code, 'sector': sector, 'ticker': yft(code) or sprefix(code),
                'close': close, 'chg_pct': chg_pct, 'open': o, 'high': h, 'low': l,
-               'prev_close': round(prev, 2), 'volume': int(vol), 'amount': round(amt, 0), 'data_date': ddate}
+               'prev_close': round(prev, 2), 'volume': int(vol), 'amount': round(amt, 0), 'data_date': ddate,
+               'technicals_source': src}
         row.update(tech)
+        provenance.stamp(row, price_source, as_of=price_as_of,
+                         retrieved_at=result['fetch_time'])
         watchlist_tech.append(row)
     result['watchlist_technicals'] = watchlist_tech
     if mode == 'afternoon':
@@ -645,11 +743,24 @@ def main():
         conf, qsrc = 'medium', 'efinance_backfill'
     else:
         conf, qsrc = 'low', 'none'
+    # 关键标的双源交叉验证：冲突不静默择一，交给分析层和 verify 判断
+    conflicts = crosscheck.cross_validate(
+        quotes, tencent_quotes,
+        crosscheck.select_crosscheck_targets(result))
+    if conflicts:
+        print(f'source conflicts: {len(conflicts)} (max {conflicts[0]["diff_pct"]:.2f}%)')
+        for c in conflicts[:5]:
+            print(f'  {c["code"]}: {c["primary_source"]} {c["primary_price"]} '
+                  f'vs {c["secondary_source"]} {c["secondary_price"]}')
+
     result['data_quality'] = {
         'index_data_confidence': conf,
         'watchlist_coverage': f'{len(priced)}/{len(all_codes)}',
         'technicals_source': 'yfinance' if (hist is not None and len(hist) > 0) else ('cache' if klines_cache else 'none'),
         'quote_source': qsrc,
+        'source_conflicts': conflicts,
+        'crosscheck': crosscheck.summarize(conflicts),
+        'provenance': provenance.summarize(result.get('watchlist_technicals')),
         'caveat': '' if api_ok else '实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时，复盘以此为参考'}
 
     with open(out_path, 'w', encoding='utf-8') as f:
