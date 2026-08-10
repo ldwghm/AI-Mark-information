@@ -66,6 +66,8 @@ def summarize(rows):
     counts = {}
     fallback = 0
     worst_stale = None
+    oldest_as_of = None
+    behind_market = None
     for row in rows or []:
         source = row.get('source') or 'unknown'
         counts[source] = counts.get(source, 0) + 1
@@ -74,8 +76,17 @@ def summarize(rows):
         stale = row.get('stale_seconds')
         if isinstance(stale, (int, float)):
             worst_stale = stale if worst_stale is None else max(worst_stale, stale)
+        as_of = row.get('as_of')
+        parsed = timeutil.parse_iso(as_of)
+        if parsed is not None and (oldest_as_of is None or parsed < oldest_as_of):
+            oldest_as_of = parsed
+            behind_market = timeutil.seconds_behind_market(as_of)
     return {
         'by_source': counts,
         'fallback_rows': fallback,
         'max_stale_seconds': worst_stale,
+        # 相对"市场最新可得数据"的落后秒数。收盘后拿收盘价时应接近 0——
+        # 这才是判断能否自称最新的依据，max_stale_seconds（相对此刻）不是。
+        'oldest_as_of': timeutil.bjt_iso(oldest_as_of) if oldest_as_of else None,
+        'seconds_behind_market': round(behind_market, 1) if behind_market is not None else None,
     }

@@ -28,9 +28,9 @@ COVERAGE_BLOCK = 0.70     # < 70% 停止正式发送
 
 # 声称"实时"的措辞
 REALTIME_CLAIMS = ('实时', '此刻', '当前最新价', '正在交易')
-# 盘中报告的"实时"上限：快照超过 15 分钟就不配叫实时。
-# 注意 stale_quote_count 只比日期，盘中拿到 2 小时前的快照它仍是 0——
-# 所以时刻级判断必须走 provenance 的 max_stale_seconds。
+# 允许自称实时的两种情形：① 15 分钟以内；② 市场再没有更新的数据了（收盘价）。
+# 所以判据是"落后于市场最新可得数据多少秒"，而不是"距此刻多少秒"——
+# 收盘后拿当日收盘价，距此刻可能好几个小时，但它确实就是最新的。
 INTRADAY_STALE_LIMIT = 900
 
 PASS, DEGRADE, BLOCK = 'pass', 'degrade', 'block'
@@ -112,11 +112,14 @@ def _realtime_hits(analysis):
 
 
 def evaluate_realtime_claims(latest, analysis, mode=None):
-    """两条独立的"不许自称实时"判据。
+    """"不许自称实时"的两条判据。
 
     ① 日期级：stale_quote_count > 0，说明有报价压根不是当日的。
-    ② 时刻级：盘中报告的快照年龄超过 15 分钟。这条必不可少——日期级检查在
-       盘中永远是 0（今天的日期没错），但一份 2 小时前的快照不叫实时。
+    ② 落后市场：数据比"市场最新可得"旧了 15 分钟以上。
+
+    第二条刻意不用"距此刻多少秒"：收盘后拿当日收盘价，距此刻可能几个小时，
+    但市场再没有更新的数据了，称其为最新完全成立。只有当市场已经走出新价格、
+    而我们手上还是旧快照时，"实时"才是错的。
     """
     hits = _realtime_hits(analysis)
     if not hits:
@@ -126,11 +129,11 @@ def evaluate_realtime_claims(latest, analysis, mode=None):
     if isinstance(stale_count, int) and stale_count > 0:
         return DEGRADE, f'存在 {stale_count} 条非当日报价却使用了确定性措辞 {hits}'
 
-    if mode == 'afternoon':
-        age = ((latest.get('data_quality') or {}).get('provenance') or {}).get('max_stale_seconds')
-        if isinstance(age, (int, float)) and age > INTRADAY_STALE_LIMIT:
-            return DEGRADE, (f'盘中快照已 {age / 60:.0f} 分钟（超过 '
-                             f'{INTRADAY_STALE_LIMIT // 60} 分钟）却使用了确定性措辞 {hits}')
+    behind = ((latest.get('data_quality') or {}).get('provenance') or {}) \
+        .get('seconds_behind_market')
+    if isinstance(behind, (int, float)) and behind > INTRADAY_STALE_LIMIT:
+        return DEGRADE, (f'数据落后市场最新可得 {behind / 60:.0f} 分钟（超过 '
+                         f'{INTRADAY_STALE_LIMIT // 60} 分钟）却使用了确定性措辞 {hits}')
     return PASS, ''
 
 

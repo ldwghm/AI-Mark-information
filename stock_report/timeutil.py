@@ -12,7 +12,7 @@
 两者都带时区，`parse_iso` 可以无歧义读回来。旧格式由 `parse_iso` 兼容读取，
 但**不再产生**。
 """
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, time, timedelta, timezone
 
 BJT = timezone(timedelta(hours=8))
 
@@ -82,6 +82,51 @@ def age_seconds(value, now=None):
     if reference.tzinfo is None:
         reference = reference.replace(tzinfo=timezone.utc)
     return max(0.0, (reference - parsed).total_seconds())
+
+
+# A 股交易时段（北京时间）。用于回答一个具体问题：**此刻市场最新能给出的
+# 数据是什么时候的**——收盘后是当日 15:00，盘中就是此刻。
+TRADING_SESSIONS = ((time(9, 30), time(11, 30)), (time(13, 0), time(15, 0)))
+SESSION_OPEN, SESSION_CLOSE = time(9, 30), time(15, 0)
+
+
+def market_open_at(moment=None):
+    moment = moment or now_bjt()
+    if moment.weekday() >= 5:
+        return False
+    clock = moment.timetz().replace(tzinfo=None)
+    return any(start <= clock <= end for start, end in TRADING_SESSIONS)
+
+
+def last_market_tick(moment=None):
+    """市场此刻最新能给出的数据时点。
+
+    盘中 -> 就是此刻；收盘后 -> 当日 15:00；开盘前或周末 -> 上一交易日 15:00。
+    有了它才能区分"数据旧"和"市场本来就没有更新的数据了"——收盘价属于后者，
+    称其为最新价并不算错。
+    """
+    moment = moment or now_bjt()
+    if market_open_at(moment):
+        return moment
+    day = moment.date()
+    clock = moment.timetz().replace(tzinfo=None)
+    # 午休（11:30–13:00）算作"最新数据 = 上午收盘 11:30"
+    if moment.weekday() < 5 and TRADING_SESSIONS[0][1] < clock < TRADING_SESSIONS[1][0]:
+        return datetime.combine(day, TRADING_SESSIONS[0][1], tzinfo=BJT)
+    if moment.weekday() < 5 and clock > SESSION_CLOSE:
+        return datetime.combine(day, SESSION_CLOSE, tzinfo=BJT)
+    day -= timedelta(days=1)          # 开盘前或周末：回到上一交易日收盘
+    while day.weekday() >= 5:
+        day -= timedelta(days=1)
+    return datetime.combine(day, SESSION_CLOSE, tzinfo=BJT)
+
+
+def seconds_behind_market(as_of, moment=None):
+    """数据落后于"市场最新可得"多少秒。收盘价在收盘后应当接近 0。"""
+    parsed = parse_iso(as_of)
+    if parsed is None:
+        return None
+    return max(0.0, (last_market_tick(moment) - parsed).total_seconds())
 
 
 def trading_date_bjt(mode, moment=None):

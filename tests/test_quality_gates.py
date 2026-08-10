@@ -76,34 +76,37 @@ class RealtimeClaimTests(unittest.TestCase):
             latest_with(50, 50), {'market_summary': '上证指数实时报3956点'})
         self.assertEqual(level, quality.PASS)
 
-    def test_intraday_snapshot_older_than_15min_cannot_claim_realtime(self):
-        # 实测发现：stale_quote_count 只比日期，盘中拿到 1.7 小时前的快照它仍是 0
+    def test_snapshot_behind_live_market_cannot_claim_realtime(self):
+        # 盘中市场已经走出新价，我们手上还是 40 分钟前的快照 -> 不能叫实时
         latest = latest_with(50, 50)
-        latest['data_quality']['provenance'] = {'max_stale_seconds': 6073.2}
+        latest['data_quality']['provenance'] = {'seconds_behind_market': 2400}
         level, reason = quality.evaluate_realtime_claims(
             latest, {'market_summary': '上证指数实时报3966点'}, mode='afternoon')
         self.assertEqual(level, quality.DEGRADE)
-        self.assertIn('101 分钟', reason)
+        self.assertIn('40 分钟', reason)
 
-    def test_fresh_intraday_snapshot_may_claim_realtime(self):
+    def test_closing_price_after_close_may_claim_realtime(self):
+        # 关键区分：收盘价距此刻好几个小时，但市场再没有更新的数据了
         latest = latest_with(50, 50)
-        latest['data_quality']['provenance'] = {'max_stale_seconds': 120}
+        latest['data_quality']['provenance'] = {
+            'max_stale_seconds': 6073.2,       # 距此刻 1.7 小时
+            'seconds_behind_market': 0.0,      # 但就是最新可得
+        }
         level, _ = quality.evaluate_realtime_claims(
             latest, {'market_summary': '上证指数实时报3966点'}, mode='afternoon')
         self.assertEqual(level, quality.PASS)
 
-    def test_morning_report_is_not_held_to_intraday_limit(self):
-        # 早报本来就是昨收，几小时"旧"是正常的
+    def test_fresh_intraday_snapshot_may_claim_realtime(self):
         latest = latest_with(50, 50)
-        latest['data_quality']['provenance'] = {'max_stale_seconds': 60000}
+        latest['data_quality']['provenance'] = {'seconds_behind_market': 120}
         level, _ = quality.evaluate_realtime_claims(
-            latest, {'market_summary': '上证指数实时报3966点'}, mode='morning')
+            latest, {'market_summary': '上证指数实时报3966点'}, mode='afternoon')
         self.assertEqual(level, quality.PASS)
 
     def test_no_realtime_wording_never_trips_the_gate(self):
         latest = latest_with(50, 50)
         latest['data_freshness']['stale_quote_count'] = 9
-        latest['data_quality']['provenance'] = {'max_stale_seconds': 99999}
+        latest['data_quality']['provenance'] = {'seconds_behind_market': 99999}
         level, _ = quality.evaluate_realtime_claims(
             latest, {'market_summary': '上证指数收报3966点（8月10日收盘）'}, mode='afternoon')
         self.assertEqual(level, quality.PASS)
