@@ -1,6 +1,528 @@
 {
   "shadow": true,
   "mode": "afternoon",
-  "status": "not_run",
-  "note": "Codex Scheduled shadow output placeholder; this path does not trigger email delivery."
+  "date": "2026-08-10",
+  "market_summary": "【影子试运行；午间快照】本次新快照抓取于2026-08-10T04:18:40.415546，A股报价时点约11:35。上证指数3947.91、+0.20%，但深证成指14148.85、-1.13%，创业板指3485.44、-2.18%，科创50为1716.69、-1.57%，呈现主板相对抗跌、成长科技显著承压的结构分化。重点AI链8个板块中仅液冷(-0.73%)和半导体设备/制造/AI芯片(-0.88%)跌幅较小，光通信/CPO/光模块(-5.80%)、玻纤/电子布(-4.08%)、PCB(-3.57%)领跌；全市场强势板块偏向鸡肉(+3.83%)、乳业(+3.56%)、猪肉(+3.35%)，风险偏好明显从高估值AI硬件转向消费与防御方向。",
+  "review": "仓库中的今日早报 final 实际日期为2026-08-04，无法作为2026-08-10早报预测进行严格检验；因此本次不虚构当日预测偏差。对上一期午报（2026-08-04）的稳定观点复盘：其“防御为主、回避AI服务器”的风险控制方向与本次成长科技普跌一致，但当时关注的高速铜连接未获得本次数据单列验证。此前AI应用/AIDC延续假设在本次重点池中未兑现：AIDC平均-2.34%，5只样本全跌；光通信/CPO平均-5.80%，6只样本全跌。",
+  "intraday_changes": "从开盘到11:35左右：上证由3943.8160升至3947.9083，盘中高3966.3611；深证由14348.950降至14148.855，接近日内低14139.231；创业板由3567.046降至3485.436，接近日内低3482.115；科创50由1740.1356降至1716.6875，日内低1708.4503。AI链内部出现设备与应用硬件分化：中微公司+3.88%、拓荆科技+3.38%，而寒武纪-6.64%；江波龙+3.97%，但存储板块均值-2.33%；申菱环境+3.56%，但液冷板块均值仍为-0.73%。",
+  "key_insights": [
+    "上证指数3947.91仅+0.20%，而创业板3485.44下跌-2.18%、科创50 1716.69下跌-1.57%，成长风格相对上证分别落后2.38和1.77个百分点",
+    "光通信/CPO/光模块6只样本全跌，板块平均-5.80%，主力资金合计净流出124.29亿元；光迅科技-9.92%、中际旭创-7.59%、新易盛-7.00%",
+    "半导体设备/制造/AI芯片板块平均仅-0.88%且主力净流入2.74亿元，中微公司+3.88%、拓荆科技+3.38%，但寒武纪-6.64%，体现设备强、AI芯片弱的内部背离",
+    "存储板块平均-2.33%、主力净流出35.63亿元；江波龙逆势+3.97%，但兆易创新-5.17%、澜起科技-4.16%，单股强势未扩散",
+    "AIDC 5只样本全跌、平均-2.34%，主力净流出6.07亿元；利通电子-3.41%、润泽科技-3.34%，此前AIDC延续逻辑短线弱化",
+    "全市场板块强势方向偏防御消费：鸡肉+3.83%、乳业+3.56%、猪肉+3.35%；AI制药（医疗）+2.34%，与AI硬件普跌形成风格切换"
+  ],
+  "sector_rotation": [
+    {
+      "sector": "消费农业（鸡肉/乳业/猪肉）",
+      "role": "主线",
+      "evidence": "鸡肉+3.83%、乳业+3.56%、猪肉+3.35%，均处全市场板块涨幅前列，反映资金向防御消费迁移（E7）。"
+    },
+    {
+      "sector": "AI制药（医疗）",
+      "role": "主线/独立强势",
+      "evidence": "板块+2.34%，51涨10跌，主力净流入8.91亿元；但缺少板块成分股明细，持续性需下一次快照验证（E8）。"
+    },
+    {
+      "sector": "半导体设备",
+      "role": "相对强势",
+      "evidence": "中微公司+3.88%、拓荆科技+3.38%、北方华创+0.94%，但同组芯片股下跌使板块均值为-0.88%（E3）。"
+    },
+    {
+      "sector": "液冷",
+      "role": "分化",
+      "evidence": "申菱环境+3.56%，英维克-2.20%、高澜股份-3.54%，板块平均-0.73%，单一强股尚未形成板块确认（E6）。"
+    },
+    {
+      "sector": "光通信/CPO/光模块",
+      "role": "退潮",
+      "evidence": "6只样本全跌，平均-5.80%，主力净流出124.29亿元（E2）。"
+    },
+    {
+      "sector": "PCB/玻纤电子布/AIDC",
+      "role": "退潮",
+      "evidence": "PCB平均-3.57%、玻纤/电子布-4.08%、AIDC-2.34%，三个板块合计样本均呈普跌（E4、E5）。"
+    }
+  ],
+  "sector_analysis": "技术面与资金面在AI硬件方向相互确认：光通信/CPO、PCB、玻纤/电子布和AIDC均为板块普跌，且分别伴随124.29亿元、25.03亿元、17.07亿元和6.07亿元主力净流出。半导体设备是少数反例，中微公司、拓荆科技与北方华创上涨并带来板块2.74亿元净流入，但寒武纪、中芯国际、华虹公司与海光信息下跌，说明资金更偏设备环节而非泛AI芯片。液冷仅申菱环境逆势上涨，尚未构成全面确认。全市场层面消费农业与AI制药走强，支持风险偏好从高弹性硬件向防御/医药切换的判断。",
+  "stock_highlights": [
+    {
+      "code": "688012",
+      "name": "中微公司",
+      "price": 381.9,
+      "chg_pct": 3.88,
+      "sector": "半导体设备/制造/AI芯片",
+      "comment": "盘中381.90元、+3.88%，高388.94、低366.77，主力净流入6.64亿元；在半导体设备组内领涨，但不代表AI芯片板块整体转强。"
+    },
+    {
+      "code": "301308",
+      "name": "江波龙",
+      "price": 401.96,
+      "chg_pct": 3.97,
+      "sector": "存储",
+      "comment": "盘中401.96元、+3.97%，主力净流入5.46亿元；存储板块均值-2.33%，属于逆势个股，需警惕孤立强势。"
+    },
+    {
+      "code": "301018",
+      "name": "申菱环境",
+      "price": 89.77,
+      "chg_pct": 3.56,
+      "sector": "液冷",
+      "comment": "盘中89.77元、+3.56%，主力净流入1.92亿元；但板块其余两只下跌，液冷尚未形成广度确认。"
+    },
+    {
+      "code": "300308",
+      "name": "中际旭创",
+      "price": 850.05,
+      "chg_pct": -7.59,
+      "sector": "光通信/CPO/光模块",
+      "comment": "盘中850.05元、-7.59%，主力净流出59.95亿元，接近日内低850.01，CPO风险释放仍在进行。"
+    },
+    {
+      "code": "002281",
+      "name": "光迅科技",
+      "price": 173.9,
+      "chg_pct": -9.92,
+      "sector": "光通信/CPO/光模块",
+      "comment": "盘中173.90元、-9.92%，主力净流出21.99亿元，为CPO样本最大跌幅，短线接近跌停风险状态。"
+    },
+    {
+      "code": "688256",
+      "name": "寒武纪",
+      "price": 1120.31,
+      "chg_pct": -6.64,
+      "sector": "半导体设备/制造/AI芯片",
+      "comment": "盘中1120.31元、-6.64%，日内低1110.01；虽主力净流入0.74亿元，但价跌与资金流口径冲突，不能据此判断止跌。"
+    }
+  ],
+  "trading_advice": {
+    "style": "影子研究结论：降低高弹性AI硬件暴露，等待板块止跌和资金回流确认；不根据单只逆势股扩大主题仓位。",
+    "position": "研究型情景仓位：总体偏低；CPO/PCB/AIDC不追跌中反弹，半导体设备只在板块广度改善后观察，保留现金等待收盘确认。本字段不是个性化投资建议。",
+    "rationale": "上证与成长指数明显背离；CPO、PCB、玻纤电子布和AIDC均价跌且资金净流出，技术面和情绪面共振偏空。半导体设备、江波龙和申菱环境属于局部逆势，尚不足以推翻整体风险收缩判断。"
+  },
+  "afternoon_plan": "14:00-15:00观察三项确认：①创业板能否重新站上3500且科创50回到1740上方；②CPO板块跌幅能否由-5.80%收窄至-4%以内、主力净流出是否放缓；③半导体设备上涨是否扩散到中芯国际/华虹公司等制造标的。若三项中至少两项改善，风险偏好可视为弱修复；若创业板继续跌破3482.115且CPO无收窄，维持风险收缩。下一交易日优先检查消费防御是否延续、AI硬件是否出现缩量止跌；一周内仅在资金回流与板块广度同步恢复时重启AI硬件主线假设。",
+  "risk_warnings": [
+    "本次为12:17左右触发的试运行，A股行情实际时点约11:35，并非14:00附近快照；不得将其表述为尾盘实时行情",
+    "港股、美股、日股、韩股均无可用数据，无法验证跨市场AI链联动；海外结论全部保持未知",
+    "index_5day_kline与capital_flow_top30_rt为空，多数watchlist技术指标缺失，不能可靠计算MA、MACD、RSI或市场总资金排名",
+    "全市场all_boards_rt仅提供排序样本，不能据此推断全部板块涨跌分布；消费防御切换判断仅代表已返回的强势板块",
+    "fetch_time原字段缺少时区后缀；依据其与UTC requested_at及触发提交的关联，将其按同一UTC语义解释，数据关联有效但时间格式需修复",
+    "所有结论均为shadow候选，不触发邮件、不修改正式candidate或最终analysis"
+  ],
+  "hk_us_summary": "港股和美股数组均为空（hk_count=0、us_count=0），本次不对海外AI链涨跌或跨市场传导作事实判断。",
+  "hk_stocks": [],
+  "us_stocks": [],
+  "news_highlights": [
+    {
+      "headline": "A股成长指数午间弱于上证",
+      "implication": "上证+0.20%，创业板-2.18%、科创50-1.57%，市场风险偏好偏向低波动与防御板块（E1）。"
+    },
+    {
+      "headline": "CPO板块出现普跌与大额资金流出",
+      "implication": "6只样本全跌、板块平均-5.80%、主力净流出124.29亿元，短线主线显著弱化（E2）。"
+    },
+    {
+      "headline": "半导体设备与AI芯片内部背离",
+      "implication": "设备龙头上涨，但寒武纪-6.64%、中芯国际-2.70%，资金更偏设备细分而非泛半导体（E3）。"
+    }
+  ],
+  "prediction": {
+    "label": "主板抗跌、成长承压；AI硬件退潮，设备与防御方向局部占优",
+    "confidence": 55,
+    "color": "#d97706",
+    "reasons": [
+      "上证+0.20%而创业板-2.18%，风格背离明确",
+      "CPO、PCB、玻纤电子布、AIDC板块均普跌并伴随资金净流出",
+      "半导体设备和AI制药局部强势，但尚未扩散到整个AI链",
+      "港美及中长期技术数据缺失，置信度限制在55%"
+    ]
+  },
+  "orchestration_status": {
+    "request_id": "codex-afternoon-20260810T041807Z-tbxu9yrt",
+    "requested_at": "2026-08-10T04:18:07Z",
+    "trigger_commit_sha": "487181a83a32805da28805c8884502d176b5a9bd",
+    "state": "completed",
+    "conclusion": "success",
+    "snapshot": {
+      "fetch_time": "2026-08-10T04:18:40.415546",
+      "freshness": {
+        "expected_date": "2026-08-10",
+        "quote_date_mode": "2026-08-10",
+        "stale_quote_count": 0,
+        "watchlist_count": 40,
+        "sectors_count": 8,
+        "hk_count": 0,
+        "us_count": 0
+      }
+    }
+  },
+  "global_markets": [
+    {
+      "market": "CN",
+      "as_of": "2026-08-10 11:35 Asia/Shanghai",
+      "status": "fresh",
+      "summary": "上证3947.91(+0.20%)，深证14148.85(-1.13%)，创业板3485.44(-2.18%)，科创50 1716.69(-1.57%)。"
+    },
+    {
+      "market": "HK",
+      "as_of": "2026-08-10T04:18:40.415546",
+      "status": "unavailable",
+      "summary": "hk_stocks为空，未生成行情判断。"
+    },
+    {
+      "market": "US",
+      "as_of": "2026-08-10T04:18:40.415546",
+      "status": "unavailable",
+      "summary": "us_stocks为空，未生成行情判断。"
+    },
+    {
+      "market": "JP",
+      "as_of": "2026-08-10T04:18:40.415546",
+      "status": "unavailable",
+      "summary": "快照无日本市场字段。"
+    },
+    {
+      "market": "KR",
+      "as_of": "2026-08-10T04:18:40.415546",
+      "status": "unavailable",
+      "summary": "快照无韩国市场字段。"
+    }
+  ],
+  "evidence_log": [
+    {
+      "id": "E1",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "A股11:35左右：上证3947.91(+0.20%)、深证14148.85(-1.13%)、创业板3485.44(-2.18%)、科创50 1716.69(-1.57%)。"
+    },
+    {
+      "id": "E2",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "光通信/CPO/光模块平均-5.80%，6只样本全跌，主力净流出12428981120元。"
+    },
+    {
+      "id": "E3",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "半导体设备/制造/AI芯片平均-0.88%、主力净流入273865248元；中微+3.88%、拓荆+3.38%、寒武纪-6.64%。"
+    },
+    {
+      "id": "E4",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "PCB平均-3.57%，5只样本全跌，主力净流出2503067264元。"
+    },
+    {
+      "id": "E5",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "AIDC平均-2.34%，5只样本全跌，主力净流出606575258元。"
+    },
+    {
+      "id": "E6",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "液冷平均-0.73%；申菱环境+3.56%，英维克-2.20%，高澜股份-3.54%。"
+    },
+    {
+      "id": "E7",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "已返回的强势板块包括鸡肉+3.83%、乳业+3.56%、猪肉+3.35%。"
+    },
+    {
+      "id": "E8",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "AI制药（医疗）+2.34%，51涨10跌，主力净流入890628128元。"
+    },
+    {
+      "id": "E9",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "存储平均-2.33%，江波龙+3.97%，兆易创新-5.17%，主力净流出3562682128元。"
+    },
+    {
+      "id": "E10",
+      "kind": "hard_fact",
+      "source": "stock_report/data/afternoon_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/afternoon_latest.json",
+      "published_at": "2026-08-10T04:18:40.415546",
+      "fetched_at": "2026-08-10T04:18:40.415546",
+      "claim": "数据新鲜度：quote_date_mode=2026-08-10、stale_quote_count=0、watchlist_count=40、sectors_count=8、hk_count=0、us_count=0。"
+    }
+  ],
+  "technical_analysis": {
+    "short_term": "上证开盘后保持小幅正收益，但深证、创业板与科创50均从开盘走低并接近日内低点；CPO、PCB、玻纤电子布与AIDC价跌且资金流出，短线偏空。半导体设备局部逆势。",
+    "medium_term": "index_5day_kline为空，多数watchlist_technicals无MA/MACD/RSI，无法从本次快照可靠判定中期趋势；上一期技术结论已过期，不直接沿用。",
+    "long_term": "本次快照不含可验证的长期基本面与估值序列，长期趋势保持未判定。"
+  },
+  "fundamental_analysis": {
+    "status": "unavailable",
+    "summary": "严格遵守Connector-only边界，本次未获得带URL和发布时间的新公告、政策或公司基本面事件；不以盘中涨跌反推基本面原因。",
+    "evidence_ids": []
+  },
+  "sentiment_analysis": {
+    "hard_data": "成长指数显著弱于上证；CPO、PCB、玻纤电子布和AIDC样本普跌且资金净流出，风险偏好收缩。消费农业与AI制药相对强势。",
+    "social_signal": "本次快照未提供社交媒体或市场传闻数据，不作补充。",
+    "confidence": 68
+  },
+  "anomaly_investigation": [
+    {
+      "signal": "上证+0.20%但创业板-2.18%、科创50-1.57%",
+      "confirmed_causes": [
+        "盘面结构上消费农业板块居涨幅前列，重点AI硬件板块普遍下跌（E1、E2、E7）"
+      ],
+      "candidate_causes": [
+        "风格从高估值成长向防御消费切换"
+      ],
+      "unresolved": [
+        "缺少全市场完整涨跌家数、北向/机构资金与新闻催化，无法确认切换原因"
+      ]
+    },
+    {
+      "signal": "半导体设备上涨而AI芯片下跌",
+      "confirmed_causes": [
+        "中微+3.88%、拓荆+3.38%、北方华创+0.94%；寒武纪-6.64%、中芯国际-2.70%、海光信息-2.52%（E3）"
+      ],
+      "candidate_causes": [
+        "资金在半导体内部从高估值算力芯片转向设备环节"
+      ],
+      "unresolved": [
+        "无公司公告和行业新闻证据，原因只能列为候选"
+      ]
+    },
+    {
+      "signal": "江波龙+3.97%但存储板块均值-2.33%",
+      "confirmed_causes": [
+        "其余4只样本均下跌且板块主力净流出35.63亿元（E9）"
+      ],
+      "candidate_causes": [
+        "个股独立资金驱动或相对补涨"
+      ],
+      "unresolved": [
+        "缺少公告/成交席位数据，不能确认催化"
+      ]
+    },
+    {
+      "signal": "寒武纪-6.64%但主力净流字段为正",
+      "confirmed_causes": [
+        "价格与资金流口径方向冲突"
+      ],
+      "candidate_causes": [
+        "主力资金统计口径或盘中承接导致背离"
+      ],
+      "unresolved": [
+        "缺少逐笔成交和资金流定义，不能判定抄底有效"
+      ]
+    }
+  ],
+  "thesis_updates": [
+    {
+      "thesis_id": "TH-AI-HARDWARE-MOMENTUM",
+      "status": "weakened",
+      "evidence_ids": [
+        "E2",
+        "E4",
+        "E5"
+      ],
+      "invalidation": "若CPO、PCB、AIDC中至少两个板块转涨且主力资金同步转为净流入，则重新评估弱化状态。"
+    },
+    {
+      "thesis_id": "TH-SEMICON-EQUIPMENT-RELATIVE",
+      "status": "strengthened",
+      "evidence_ids": [
+        "E3"
+      ],
+      "invalidation": "中微、拓荆、北方华创多数转跌且设备组资金流由正转负。"
+    },
+    {
+      "thesis_id": "TH-DEFENSIVE-ROTATION",
+      "status": "strengthened",
+      "evidence_ids": [
+        "E1",
+        "E7",
+        "E8"
+      ],
+      "invalidation": "成长指数相对上证明显修复，且AI硬件板块广度与资金流同步改善。"
+    },
+    {
+      "thesis_id": "TH-AIDC-CONTINUATION",
+      "status": "weakened",
+      "evidence_ids": [
+        "E5"
+      ],
+      "invalidation": "AIDC板块由5只全跌转为多数上涨，并出现持续主力净流入。"
+    }
+  ],
+  "forecast_ledger_entry": {
+    "horizon": "intraday",
+    "scenarios": [
+      {
+        "name": "base",
+        "probability": 45,
+        "conditions": [
+          "创业板在3482-3520区间震荡",
+          "CPO跌幅维持-4%至-7%"
+        ],
+        "invalidation": [
+          "创业板站稳3567开盘位",
+          "CPO板块转正"
+        ]
+      },
+      {
+        "name": "bull",
+        "probability": 20,
+        "conditions": [
+          "创业板重回3500并向3567修复",
+          "半导体设备强势扩散"
+        ],
+        "invalidation": [
+          "创业板跌破3482.115",
+          "CPO净流出继续扩大"
+        ]
+      },
+      {
+        "name": "bear",
+        "probability": 35,
+        "conditions": [
+          "创业板跌破3482.115",
+          "CPO/AIDC继续走弱"
+        ],
+        "invalidation": [
+          "上证站稳3966且成长指数同步翻红"
+        ]
+      }
+    ],
+    "next_check": "2026-08-10 14:30 Asia/Shanghai"
+  },
+  "forecast_horizons": [
+    {
+      "horizon": "1d",
+      "scenarios": [
+        {
+          "name": "base",
+          "probability": 40,
+          "conditions": [
+            "成长板块弱修复但风格仍分化"
+          ],
+          "invalidation": [
+            "AI硬件全面转强"
+          ]
+        },
+        {
+          "name": "bull",
+          "probability": 25,
+          "conditions": [
+            "设备强势扩散且CPO止跌"
+          ],
+          "invalidation": [
+            "成长指数继续创新低"
+          ]
+        },
+        {
+          "name": "bear",
+          "probability": 35,
+          "conditions": [
+            "CPO与AI芯片继续领跌"
+          ],
+          "invalidation": [
+            "资金流同步转正"
+          ]
+        }
+      ]
+    },
+    {
+      "horizon": "1w",
+      "scenarios": [
+        {
+          "name": "base",
+          "probability": 45,
+          "conditions": [
+            "AI链内部轮动、指数区间震荡"
+          ],
+          "invalidation": [
+            "出现系统性突破或破位"
+          ]
+        },
+        {
+          "name": "bull",
+          "probability": 25,
+          "conditions": [
+            "设备、存储、CPO形成资金共振"
+          ],
+          "invalidation": [
+            "仅个股孤立反弹"
+          ]
+        },
+        {
+          "name": "bear",
+          "probability": 30,
+          "conditions": [
+            "高估值AI硬件持续资金流出"
+          ],
+          "invalidation": [
+            "成长指数相对上证连续修复"
+          ]
+        }
+      ]
+    }
+  ],
+  "reflection": {
+    "prior_result": "pending",
+    "error_type": "stale_reference",
+    "lesson": "当日早报final日期为2026-08-04，不能拿过期预测冒充2026-08-10早报进行复盘；试运行时间早于14:00，也不能把午间快照写成尾盘实时。",
+    "rule_update": "下次先校验morning_analysis.date等于本次expected_data_date，并要求A股quote time接近14:00；不满足时只做数据完整性与盘面分析，预测复盘标记pending。"
+  },
+  "data_quality": {
+    "expected_date": "2026-08-10",
+    "quote_date_mode": "2026-08-10",
+    "stale_quote_count": 0,
+    "watchlist_count": 40,
+    "sectors_count": 8,
+    "hk_count": 0,
+    "us_count": 0
+  },
+  "degraded": true,
+  "verify": {
+    "ok": true,
+    "degraded": true,
+    "hard_fail": false,
+    "reasons": [
+      "A股快照与本次request关联成功，数据日期为2026-08-10且stale_quote_count=0",
+      "试运行发生在午间，报价时点约11:35，不是14:00附近",
+      "港美日/韩数据为空",
+      "index_5day_kline、capital_flow_top30_rt与多数技术指标缺失",
+      "fetch_time原字段缺少时区后缀"
+    ]
+  }
 }
