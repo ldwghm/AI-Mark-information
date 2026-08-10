@@ -34,11 +34,18 @@ python3 /tmp/orchestration.py \
 set -e
 pip install yfinance requests pandas numpy -q
 RAW="https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report"
-curl -fsSL --max-time 30 "$RAW/cloud_fetch.py" -o /tmp/cloud_fetch.py
+# cloud_fetch 依赖这几个同目录模块，必须一起拉，缺一个就 ImportError
+for m in cloud_fetch crosscheck http_util provenance timeutil; do
+  curl -fsSL --max-time 30 "$RAW/$m.py" -o "/tmp/$m.py"
+done
 curl -fsSL --max-time 30 "$RAW/sectors.json" -o /tmp/sectors.json
+# 持久 K 线缓存（收盘后由 update-klines-cache.yml 增量维护）；拉不到就空跑，不中断
+curl -fsSL --max-time 60 "$RAW/data/klines_cache.json" -o /tmp/klines_cache.json \
+  || printf '{}\n' > /tmp/klines_cache.json
 python3 /tmp/cloud_fetch.py \
   --mode morning \
   --merge-from /tmp/github_morning_latest.json \
+  --klines-cache /tmp/klines_cache.json \
   --out /tmp/morning_latest.json
 curl -fsSL --max-time 20 \
   "https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/morning_analysis.json?t=$(date +%s)" \

@@ -1,0 +1,47 @@
+name: 更新K线缓存（收盘后）
+
+# 把历史行情从报告生成的关键路径上摘下来：收盘后独立跑一次增量更新，
+# 早报/午报只读缓存。技术指标不再因为生成当下 yfinance 抖一下就整片缺失。
+
+on:
+  schedule:
+    - cron: '40 7 * * 1-5'   # 15:40 CST Mon-Fri（A股收盘后）
+  workflow_dispatch:
+    inputs:
+      codes:
+        description: '逗号分隔的股票代码，留空为全池'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: klines-cache-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install yfinance pandas numpy
+      - name: Incremental cache update
+        run: |
+          python -m stock_report.klines_cache --update \
+            ${{ inputs.codes && format('--codes {0}', inputs.codes) || '' }}
+      - name: Report coverage
+        run: python -m stock_report.klines_cache
+      - name: Commit cache
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add stock_report/data/klines_cache.json
+          git diff --cached --quiet && { echo 'cache unchanged'; exit 0; }
+          git commit -m "data: klines cache $(TZ=Asia/Shanghai date +%F)"
+          git pull --rebase
+          git push
