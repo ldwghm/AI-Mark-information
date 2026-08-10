@@ -26,8 +26,12 @@ SOFT_CHG_ABS = 0.5
 COVERAGE_DEGRADE = 0.90   # < 90% 降级
 COVERAGE_BLOCK = 0.70     # < 70% 停止正式发送
 
-# 声称"实时"的措辞；stale_quote_count > 0 时禁止出现
+# 声称"实时"的措辞
 REALTIME_CLAIMS = ('实时', '此刻', '当前最新价', '正在交易')
+# 盘中报告的"实时"上限：快照超过 15 分钟就不配叫实时。
+# 注意 stale_quote_count 只比日期，盘中拿到 2 小时前的快照它仍是 0——
+# 所以时刻级判断必须走 provenance 的 max_stale_seconds。
+INTRADAY_STALE_LIMIT = 900
 
 PASS, DEGRADE, BLOCK = 'pass', 'degrade', 'block'
 
@@ -100,17 +104,33 @@ def evaluate_continuity(mode, latest, morning_analysis):
     return PASS, f'早午报闭环成立（{expected}）', None
 
 
-def evaluate_realtime_claims(latest, analysis):
-    """stale_quote_count > 0 时禁止写"实时"。"""
-    stale = (latest.get('data_freshness') or {}).get('stale_quote_count', 0)
-    if not isinstance(stale, int) or stale <= 0:
-        return PASS, ''
+def _realtime_hits(analysis):
     haystack = ' '.join(str(analysis.get(k, '')) for k in
                         ('market_summary', 'sector_analysis', 'hk_us_summary', 'review'))
     haystack += ' ' + ' '.join(map(str, analysis.get('key_insights') or []))
-    hits = [w for w in REALTIME_CLAIMS if w in haystack]
-    if hits:
-        return DEGRADE, f'存在 {stale} 条过期报价却使用了确定性措辞 {hits}'
+    return [w for w in REALTIME_CLAIMS if w in haystack]
+
+
+def evaluate_realtime_claims(latest, analysis, mode=None):
+    """两条独立的"不许自称实时"判据。
+
+    ① 日期级：stale_quote_count > 0，说明有报价压根不是当日的。
+    ② 时刻级：盘中报告的快照年龄超过 15 分钟。这条必不可少——日期级检查在
+       盘中永远是 0（今天的日期没错），但一份 2 小时前的快照不叫实时。
+    """
+    hits = _realtime_hits(analysis)
+    if not hits:
+        return PASS, ''
+
+    stale_count = (latest.get('data_freshness') or {}).get('stale_quote_count', 0)
+    if isinstance(stale_count, int) and stale_count > 0:
+        return DEGRADE, f'存在 {stale_count} 条非当日报价却使用了确定性措辞 {hits}'
+
+    if mode == 'afternoon':
+        age = ((latest.get('data_quality') or {}).get('provenance') or {}).get('max_stale_seconds')
+        if isinstance(age, (int, float)) and age > INTRADAY_STALE_LIMIT:
+            return DEGRADE, (f'盘中快照已 {age / 60:.0f} 分钟（超过 '
+                             f'{INTRADAY_STALE_LIMIT // 60} 分钟）却使用了确定性措辞 {hits}')
     return PASS, ''
 
 

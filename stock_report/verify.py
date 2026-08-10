@@ -258,7 +258,7 @@ def main():
         soft.append(cont_reason)
 
     # 9) 有过期报价时禁止使用"实时"一类确定性措辞
-    rt_level, rt_reason = quality.evaluate_realtime_claims(latest, analysis)
+    rt_level, rt_reason = quality.evaluate_realtime_claims(latest, analysis, mode=mode)
     if rt_level != quality.PASS:
         soft.append(rt_reason)
 
