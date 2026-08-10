@@ -9,8 +9,11 @@ New flow (P2):
 Fallback: if JSON not available, fetches real-time data directly (legacy mode).
 """
 import requests, os, json, time
-from datetime import datetime
+from datetime import datetime, timezone
+from pathlib import Path
 from report_renderer import render_afternoon_report
+from stock_report.report_input import load_json_input
+from stock_report.pipeline_state import build_delivery_state
 
 RESEND_API_KEY = os.environ['RESEND_API_KEY']
 GITHUB_TOKEN   = os.environ.get('GITHUB_TOKEN', '')
@@ -138,8 +141,14 @@ def main():
     today = datetime.now().strftime('%Y-%m-%d')
 
     # Try new flow: read pre-fetched JSON + CCR analysis
-    market_data = gh_read_json('stock_report/data/afternoon_latest.json')
-    analysis = gh_read_json('stock_report/data/afternoon_analysis.json')
+    market_data = load_json_input(
+        os.environ.get('MARKET_DATA_PATH'), gh_read_json,
+        'stock_report/data/afternoon_latest.json'
+    )
+    analysis = load_json_input(
+        os.environ.get('ANALYSIS_PATH'), gh_read_json,
+        'stock_report/data/afternoon_analysis.json'
+    )
 
     if market_data:
         print(f'[main] Afternoon market data loaded: {len(market_data)} keys')
@@ -158,6 +167,10 @@ def main():
     html = render_afternoon_report(market_data, analysis, today)
     print(f'[main] Rendered HTML: {len(html)} chars')
 
+    html_path = os.environ.get('REPORT_HTML_PATH')
+    if html_path:
+        Path(html_path).write_text(html, encoding='utf-8')
+
     # Send via Resend
     resp = requests.post(
         'https://api.resend.com/emails',
@@ -173,6 +186,16 @@ def main():
     result = resp.json()
     if 'id' in result:
         print(f'[main] Email sent! ID: {result["id"]}')
+        receipt_path = os.environ.get('DELIVERY_RECEIPT_PATH')
+        if receipt_path:
+            receipt = build_delivery_state(
+                mode='afternoon', report_date=today, email_id=result['id'],
+                sent_at=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
+                verify_exit_code=int(os.environ.get('VERIFY_EXIT_CODE', '0')),
+            )
+            Path(receipt_path).write_text(
+                json.dumps(receipt, ensure_ascii=False, indent=2) + '\n', encoding='utf-8'
+            )
     else:
         print(f'[main] Email failed: {result}')
         exit(1)

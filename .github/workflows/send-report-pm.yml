@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'stock_report/data/afternoon_analysis.json'
+      - 'stock_report/data/afternoon_analysis_candidate.json'
   workflow_dispatch:
     inputs:
       triggered_by:
@@ -13,7 +13,20 @@ on:
         default: 'manual'
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: afternoon-report-delivery
+  cancel-in-progress: false
+
+env:
+  MODE: afternoon
+  LATEST_PATH: stock_report/data/afternoon_latest.json
+  ANALYSIS_PATH: stock_report/data/afternoon_analysis_candidate.json
+  FINAL_ANALYSIS_PATH: stock_report/data/afternoon_analysis.json
+  VERDICT_PATH: /tmp/afternoon_verdict.json
+  HTML_PATH: /tmp/afternoon_report.html
+  DELIVERY_PATH: /tmp/afternoon_delivery.json
 
 jobs:
   send-report-pm:
@@ -24,7 +37,49 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install requests
-      - run: python stock_report_pm.py
+      - name: Verify exact candidate
+        id: verify
+        shell: bash
+        run: |
+          set +e
+          python stock_report/verify.py \
+            --mode "$MODE" \
+            --latest "$LATEST_PATH" \
+            --analysis "$ANALYSIS_PATH" \
+            --verdict "$VERDICT_PATH"
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then
+            exit "$code"
+          fi
+      - name: Render and send exact verified candidate
+        run: python stock_report_pm.py
         env:
+          MARKET_DATA_PATH: ${{ env.LATEST_PATH }}
+          ANALYSIS_PATH: ${{ env.ANALYSIS_PATH }}
+          REPORT_HTML_PATH: ${{ env.HTML_PATH }}
+          DELIVERY_RECEIPT_PATH: ${{ env.DELIVERY_PATH }}
+          VERIFY_EXIT_CODE: ${{ steps.verify.outputs.exit_code }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Archive exact delivery bundle
+        shell: bash
+        run: |
+          report_date="$(TZ=Asia/Shanghai date +%F)"
+          python -m stock_report.pipeline_state \
+            --mode "$MODE" \
+            --date "$report_date" \
+            --latest "$LATEST_PATH" \
+            --analysis "$ANALYSIS_PATH" \
+            --verdict "$VERDICT_PATH" \
+            --html "$HTML_PATH" \
+            --delivery "$DELIVERY_PATH"
+          archive="stock_report/data/archive/$report_date/$MODE"
+          cp "$ANALYSIS_PATH" "$FINAL_ANALYSIS_PATH"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$archive" "$FINAL_ANALYSIS_PATH"
+          git diff --cached --quiet || git commit -m "report: archive $MODE delivery $report_date"
+          git checkout -- "$ANALYSIS_PATH"
+          git pull --rebase
+          git push

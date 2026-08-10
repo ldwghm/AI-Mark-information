@@ -1,9 +1,15 @@
 name: 获取AI板块数据（日报预取）
+run-name: morning fetch ${{ inputs.request_id || github.run_id }}
 
 on:
   schedule:
     - cron: '50 23 * * 0-4'  # 7:50 CST Mon-Fri (Sun-Thu UTC)
   workflow_dispatch:
+    inputs:
+      request_id:
+        description: 'Correlation ID supplied by the report routine'
+        required: false
+        type: string
 
 permissions:
   contents: write

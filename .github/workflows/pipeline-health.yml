@@ -1,0 +1,83 @@
+name: AI report pipeline health
+
+on:
+  schedule:
+    - cron: '30 2 * * 1-5'  # 10:30 Asia/Shanghai: morning delivery check
+    - cron: '30 8 * * 1-5'  # 16:30 Asia/Shanghai: afternoon delivery check
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Report mode to check'
+        required: true
+        type: choice
+        options: [morning, afternoon]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Resolve report context
+        id: context
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            mode="${{ inputs.mode }}"
+          elif [ "${{ github.event.schedule }}" = "30 2 * * 1-5" ]; then
+            mode="morning"
+          else
+            mode="afternoon"
+          fi
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "date=$(TZ=Asia/Shanghai date +%F)" >> "$GITHUB_OUTPUT"
+      - name: Evaluate data and delivery state
+        id: health
+        shell: bash
+        run: |
+          mode="${{ steps.context.outputs.mode }}"
+          report_date="${{ steps.context.outputs.date }}"
+          delivery="stock_report/data/archive/$report_date/$mode/delivery.json"
+          set +e
+          python stock_report/health_check.py \
+            --mode "$mode" \
+            --expected-date "$report_date" \
+            --latest "stock_report/data/${mode}_latest.json" \
+            --delivery "$delivery" \
+            --out /tmp/health.json
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          echo "unhealthy=$([ "$code" -eq 0 ] && echo false || echo true)" >> "$GITHUB_OUTPUT"
+      - name: Send health alert
+        if: steps.health.outputs.unhealthy == 'true'
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          REPORT_MODE: ${{ steps.context.outputs.mode }}
+          REPORT_DATE: ${{ steps.context.outputs.date }}
+        run: |
+          python - <<'PYEOF'
+          import html, json, os, requests
+          state = json.load(open('/tmp/health.json', encoding='utf-8'))
+          body = '<h2>AI report pipeline unhealthy</h2><pre>' + html.escape(json.dumps(state, ensure_ascii=False, indent=2)) + '</pre>'
+          response = requests.post(
+              'https://api.resend.com/emails',
+              headers={'Authorization': f"Bearer {os.environ['RESEND_API_KEY']}"},
+              json={
+                  'from': 'AI Report Monitor <onboarding@resend.dev>',
+                  'to': ['1654155512@qq.com'],
+                  'subject': f"AI report alert: {os.environ['REPORT_MODE']} {os.environ['REPORT_DATE']}",
+                  'html': body,
+              },
+              timeout=30,
+          )
+          response.raise_for_status()
+          PYEOF
+      - name: Mark workflow unhealthy
+        if: steps.health.outputs.unhealthy == 'true'
+        run: exit 1

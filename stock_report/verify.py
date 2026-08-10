@@ -21,12 +21,21 @@ import argparse
 import json
 import re
 import sys
+from pathlib import Path
 
 HARD_PRICE_PCT = 25.0   # 价格较可靠源偏离超过此比例 → 硬失败（编造）
 HARD_CHG_FLIP_ABS = 5.0  # 涨跌幅符号翻转且绝对差超过此值 → 硬失败
 SOFT_PRICE_PCT = 3.0
 SOFT_CHG_ABS = 1.5
 BANNED_VAGUE = ['建议关注', '保持谨慎', '注意风险', '择机', '逢低', '逢高']
+
+
+def verdict_path_for(analysis_path):
+    """Return a verdict path that cannot overwrite the analysis candidate."""
+    path = Path(analysis_path)
+    if path.stem.endswith('_analysis'):
+        return path.with_name(path.stem[:-9] + '_verdict.json')
+    return path.with_name(path.stem + '_verdict.json')
 
 
 def has_digit(s):
@@ -91,6 +100,7 @@ def main():
     ap.add_argument('--mode', required=True, choices=['morning', 'afternoon'])
     ap.add_argument('--latest')
     ap.add_argument('--analysis')
+    ap.add_argument('--verdict')
     args = ap.parse_args()
     mode = args.mode
     lpath = args.latest or f'/tmp/{mode}_latest.json'
@@ -200,7 +210,8 @@ def main():
     analysis['degraded'] = degraded
     analysis['verify'] = {'ok': ok, 'degraded': degraded, 'hard_fail': hard_fail, 'reasons': hard + soft}
     json.dump(analysis, open(apath, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
-    json.dump(verdict, open(apath.replace('_analysis.json', '_verdict.json'), 'w', encoding='utf-8'),
+    verdict_path = Path(args.verdict) if args.verdict else verdict_path_for(apath)
+    json.dump(verdict, open(verdict_path, 'w', encoding='utf-8'),
               ensure_ascii=False, indent=2)
 
     print(json.dumps(verdict, ensure_ascii=False, indent=2))
