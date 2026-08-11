@@ -1,0 +1,28 @@
+{
+  "ok": false,
+  "degraded": true,
+  "hard_fail": false,
+  "blocked": true,
+  "hard_reasons": [],
+  "soft_reasons": [
+    "行情非实时（来源 efinance_intraday_snapshot(GitHub Actions)，置信度 medium）：本次盘中快照为 2026-08-10 14:57-1"
+  ],
+  "block_reasons": [
+    "关注池覆盖率 23/51（45%），低于停发线 70%",
+    "早报 final 日期 2026-08-11 ≠ 本次期望行情日 2026-08-10，复盘链断裂"
+  ],
+  "mode": "afternoon",
+  "expected_data_date": "2026-08-10",
+  "quote_date_mode": "2026-08-10",
+  "continuity": {
+    "level": "block",
+    "reason": "早报 final 日期 2026-08-11 ≠ 本次期望行情日 2026-08-10，复盘链断裂",
+    "morning_date": "2026-08-11"
+  },
+  "coverage": {
+    "level": "block",
+    "reason": "关注池覆盖率 23/51（45%），低于停发线 70%"
+  },
+  "primary_priced": 47,
+  "ef_priced": 0
+}
