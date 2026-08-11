@@ -42,10 +42,15 @@ curl -fsSL --max-time 30 "$RAW/sectors.json" -o /tmp/sectors.json
 # 持久 K 线缓存（收盘后由 update-klines-cache.yml 增量维护）；拉不到就空跑，不中断
 curl -fsSL --max-time 60 "$RAW/data/klines_cache.json" -o /tmp/klines_cache.json \
   || printf '{}\n' > /tmp/klines_cache.json
+# 港/美/日/韩/台快照：由 fetch-global-markets.yml 在 Actions 里抓（CCR 会话
+# 连不上任何行情源，自己抓只会得到空数组），这里只读
+curl -fsSL --max-time 30 "$RAW/data/global_markets.json?t=$(date +%s)" \
+  -o /tmp/global_markets.json || printf '{}\n' > /tmp/global_markets.json
 python3 /tmp/cloud_fetch.py \
   --mode morning \
   --merge-from /tmp/github_morning_latest.json \
   --klines-cache /tmp/klines_cache.json \
+  --global-markets /tmp/global_markets.json \
   --out /tmp/morning_latest.json
 curl -fsSL --max-time 20 \
   "https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/morning_analysis.json?t=$(date +%s)" \

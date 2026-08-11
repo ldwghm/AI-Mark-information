@@ -39,6 +39,9 @@ class FlatLayoutTests(unittest.TestCase):
                 self.assertIn(name, text,
                               msg=f'{prompt} 未拉取 {name}.py，云端会 ImportError')
             self.assertIn('--klines-cache', text)
+            # 全球市场快照必须拉，否则港美日韩台全空（CCR 连不上行情源）
+            self.assertIn('global_markets.json', text)
+            self.assertIn('--global-markets', text)
 
 
 if __name__ == '__main__':

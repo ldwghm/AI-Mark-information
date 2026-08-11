@@ -1,0 +1,47 @@
+name: 抓取A股以外市场
+
+# 为什么在 Actions 里跑：CCR 会话连不上任何行情源（实测港美股常年空数组），
+# 而 Actions 里 yfinance 完全正常。抓取归确定性数据平面，分析归 Claude。
+#
+# 时点安排贴着各市场收盘：
+#   04:30 UTC = 12:30 JST/KST 午间 —— 亚洲盘中参考（午报用）
+#   07:00 UTC = 16:00 JST / 15:00 TW —— 日/韩/台已收盘
+#   09:00 UTC = 17:00 HKT —— 港股已收盘
+#   21:00 UTC = 17:00 EDT —— 美股已收盘（次日早报用）
+
+on:
+  schedule:
+    - cron: '30 4 * * 1-5'
+    - cron: '0 7 * * 1-5'
+    - cron: '0 9 * * 1-5'
+    - cron: '0 21 * * 0-4'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-markets
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install yfinance pandas numpy
+      - name: Fetch global markets
+        run: python -m stock_report.global_markets --update
+      - name: Commit snapshot
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add stock_report/data/global_markets.json
+          git diff --cached --quiet && { echo 'unchanged'; exit 0; }
+          git commit -m "data: global markets $(TZ=Asia/Shanghai date +'%F %H:%M')"
+          git pull --rebase
+          git push

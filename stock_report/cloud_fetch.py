@@ -521,6 +521,8 @@ def main():
     ap.add_argument('--out', default=None)
     ap.add_argument('--klines-cache', dest='klines_cache', default=None,
                     help='持久 K 线缓存（收盘后由 update-klines-cache workflow 增量维护）')
+    ap.add_argument('--global-markets', dest='global_markets', default=None,
+                    help='港/美/日/韩/台快照（由 fetch-global-markets workflow 维护）')
     args = ap.parse_args()
     mode = args.mode
     out_path = args.out or f'/tmp/{mode}_latest.json'
@@ -718,8 +720,29 @@ def main():
     for s in result['sectors']:
         print(f"{s['sector']}: {s['avg_chg']:+.2f}% ({s['up']}up/{s['down']}down) 领涨{s['leader']['name']}")
 
-    # ---- 港美股 ----
-    hk_list, us_list = fetch_hk_us(uni, yf)
+    # ---- 港美股与其余市场 ----
+    # 优先读已提交的全球快照：Actions 里 yfinance 正常，CCR 会话则完全连不上，
+    # 自己抓只会得到空数组。快照缺失时才退回实时抓取（本地调试路径）。
+    hk_list, us_list = [], []
+    gm_path = args.global_markets or (HERE + '/data/global_markets.json')
+    if os.path.exists(gm_path):
+        try:
+            snapshot = json.load(open(gm_path, encoding='utf-8-sig'))
+            result['global_markets'] = snapshot
+            markets = snapshot.get('markets') or {}
+            hk_list = list((markets.get('HK') or {}).get('stocks') or [])
+            us_list = list((markets.get('US') or {}).get('stocks') or [])
+            print('global snapshot: ' + ' '.join(
+                f"{k}={m.get('status')}({m.get('coverage')})@{m.get('market_date')}"
+                for k, m in markets.items()))
+            stale = {k: m['stale_rows'] for k, m in markets.items() if m.get('stale_rows')}
+            if stale:
+                print('  row-level lag:', stale)
+        except (ValueError, OSError) as exc:
+            print(f'global markets snapshot unreadable: {exc}')
+    if not hk_list and not us_list:
+        print('no global snapshot, falling back to live fetch')
+        hk_list, us_list = fetch_hk_us(uni, yf)
     result['hk_stocks'] = hk_list
     result['us_stocks'] = us_list
     result['is_friday'] = now.weekday() == 4

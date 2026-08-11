@@ -1,0 +1,95 @@
+{
+  "_comment": "A股之外的市场。选股逻辑=AI产业链对标，不是市值排名：日/韩/台是A股半导体设备、材料、存储、先进封装的直接上游或对标，它们的隔夜表现是A股AI链开盘的主要外因。yfinance ticker 格式，由 GitHub Actions 抓取（CCR 会话连不上行情源）。",
+
+  "markets": {
+    "US": {
+      "name": "美股",
+      "timezone": "America/New_York",
+      "close": "16:00",
+      "indices": [
+        ["^GSPC", "标普500"],
+        ["^IXIC", "纳斯达克"],
+        ["^SOX", "费城半导体"]
+      ],
+      "stocks": [
+        ["NVDA", "英伟达"],
+        ["MSFT", "微软"],
+        ["GOOGL", "谷歌"],
+        ["META", "Meta"],
+        ["AMD", "AMD"],
+        ["AVGO", "博通"],
+        ["TSM", "台积电ADR"],
+        ["MU", "美光"],
+        ["SMCI", "SuperMicro"],
+        ["PLTR", "Palantir"],
+        ["ANET", "Arista"],
+        ["VRT", "Vertiv"]
+      ]
+    },
+
+    "HK": {
+      "name": "港股",
+      "timezone": "Asia/Hong_Kong",
+      "close": "16:00",
+      "indices": [
+        ["^HSI", "恒生指数"],
+        ["^HSCE", "恒生中国企业"]
+      ],
+      "stocks": [
+        ["0700.HK", "腾讯"],
+        ["9988.HK", "阿里巴巴"],
+        ["3690.HK", "美团"],
+        ["9999.HK", "网易"],
+        ["1024.HK", "快手"],
+        ["0020.HK", "商汤"],
+        ["0981.HK", "中芯国际"],
+        ["1810.HK", "小米"]
+      ]
+    },
+
+    "JP": {
+      "name": "日股",
+      "timezone": "Asia/Tokyo",
+      "close": "15:00",
+      "indices": [
+        ["^N225", "日经225"]
+      ],
+      "stocks": [
+        ["8035.T", "东京电子"],
+        ["6857.T", "爱德万测试"],
+        ["6146.T", "Disco"],
+        ["4063.T", "信越化学"],
+        ["6758.T", "索尼"],
+        ["6981.T", "村田制作所"]
+      ]
+    },
+
+    "KR": {
+      "name": "韩股",
+      "timezone": "Asia/Seoul",
+      "close": "15:30",
+      "indices": [
+        ["^KS11", "韩国综合"]
+      ],
+      "stocks": [
+        ["005930.KS", "三星电子"],
+        ["000660.KS", "SK海力士"]
+      ]
+    },
+
+    "TW": {
+      "name": "台股",
+      "timezone": "Asia/Taipei",
+      "close": "13:30",
+      "indices": [
+        ["^TWII", "台湾加权"]
+      ],
+      "stocks": [
+        ["2330.TW", "台积电"],
+        ["2454.TW", "联发科"],
+        ["3008.TW", "大立光"],
+        ["2317.TW", "鸿海"]
+      ]
+    }
+  }
+}

@@ -7,7 +7,11 @@ on:
     paths:
       - 'stock_report/triggers/afternoon.json'
   schedule:
-    - cron: '50 5 * * 1-5'  # 13:50 CST Mon-Fri
+    # 12:00 CST 午间快照：上午收盘（11:30）后半小时，此时当日半天行情已定。
+    # 作用是给午报一份**保底的当日数据**——13:50 那次万一失败，午报不至于
+    # 退回昨收（云端连不上实时源，退回昨收就是整篇报告错一天）。
+    - cron: '0 4 * * 1-5'   # 12:00 CST Mon-Fri 午间快照
+    - cron: '50 5 * * 1-5'  # 13:50 CST Mon-Fri 盘中预取
   workflow_dispatch:
     inputs:
       request_id:
