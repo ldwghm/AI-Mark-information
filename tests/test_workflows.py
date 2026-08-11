@@ -33,6 +33,23 @@ class WorkflowContractTests(unittest.TestCase):
         self.assertIn('delivery.json', text)
         self.assertIn('RESEND_API_KEY', text)
 
+    def test_tests_run_on_every_pull_request(self):
+        """没有这条，改动就能不经测试直接进 main——在此之前正是如此。"""
+        text = self._read('tests.yml')
+        self.assertIn('pull_request', text)
+        self.assertIn('unittest discover -s tests', text)
+        # 行情数据提交不该触发测试；但 playbook 是 .md 且有契约测试，不能被忽略
+        self.assertIn('stock_report/data/**', text)
+        self.assertNotIn("'**.md'", text)
+
+    def test_delivery_workflows_stop_on_block_exit_code(self):
+        """退出码 3 = 停止正式发送。漏掉这条判断，阻断就变成静默放行。"""
+        for name in ('send-report.yml', 'send-report-pm.yml'):
+            text = self._read(name)
+            self.assertIn('"$code" -eq 3', text)
+            self.assertIn('blocked=true', text)
+            self.assertIn("steps.verify.outputs.blocked != 'true'", text)
+
 
 if __name__ == '__main__':
     unittest.main()
