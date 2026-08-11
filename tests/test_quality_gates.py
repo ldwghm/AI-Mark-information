@@ -44,22 +44,59 @@ class ContinuityGateTests(unittest.TestCase):
 
     def test_matching_dates_close_the_loop(self):
         level, _, prior = quality.evaluate_continuity(
-            'afternoon', latest_with(50, 50), {'date': '2026-08-10'})
+            'afternoon', latest_with(50, 50), {'date': '2026-08-10'},
+            today='2026-08-10')
         self.assertEqual(level, quality.PASS)
         self.assertIsNone(prior)
 
     def test_stale_morning_analysis_blocks_and_marks_pending(self):
         # 实测故障：午报当天早报 final 还停在 8 月 4 日
         level, reason, prior = quality.evaluate_continuity(
-            'afternoon', latest_with(50, 50), {'date': '2026-08-04'})
+            'afternoon', latest_with(50, 50), {'date': '2026-08-04'},
+            today='2026-08-10')
         self.assertEqual(level, quality.BLOCK)
         self.assertEqual(prior, 'pending')
         self.assertIn('2026-08-04', reason)
 
     def test_missing_morning_analysis_blocks(self):
-        level, _, prior = quality.evaluate_continuity('afternoon', latest_with(50, 50), {})
+        level, _, prior = quality.evaluate_continuity(
+            'afternoon', latest_with(50, 50), {}, today='2026-08-10')
         self.assertEqual(level, quality.BLOCK)
         self.assertEqual(prior, 'pending')
+
+
+class DataCurrencyTests(unittest.TestCase):
+    """午报数据必须是当日的——和闭环是两码事。
+
+    线上实测：一次午报提交了 08-10 遗留的 latest（fetch_time 无时区、
+    provenance 为空，说明 cloud_fetch 没重新生成），覆盖率只剩 45%。
+    """
+
+    def test_same_day_data_passes(self):
+        level, _ = quality.evaluate_data_currency(
+            'afternoon', latest_with(50, 50), today='2026-08-10')
+        self.assertEqual(level, quality.PASS)
+
+    def test_yesterday_data_blocks(self):
+        latest = latest_with(50, 50)          # expected_data_date = 2026-08-10
+        level, reason = quality.evaluate_data_currency(
+            'afternoon', latest, today='2026-08-11')
+        self.assertEqual(level, quality.BLOCK)
+        self.assertIn('2026-08-10', reason)
+        self.assertIn('非当日', reason)
+
+    def test_missing_expected_date_degrades(self):
+        latest = latest_with(50, 50)
+        latest.pop('expected_data_date')
+        latest['data_freshness'].pop('expected_date')
+        level, _ = quality.evaluate_data_currency(
+            'afternoon', latest, today='2026-08-10')
+        self.assertEqual(level, quality.DEGRADE)
+
+    def test_morning_mode_is_exempt(self):
+        level, _ = quality.evaluate_data_currency(
+            'morning', latest_with(50, 50), today='2026-08-11')
+        self.assertEqual(level, quality.PASS)
 
 
 class RealtimeClaimTests(unittest.TestCase):

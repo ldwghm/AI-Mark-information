@@ -14,6 +14,10 @@
 阈值取值依据：指数是全市场锚点，0.3% 已经是一根明显的假数字；个股 1% 在
 盘中属于正常波动区间之外的偏差；方向冲突说明两个源看到的不是同一个时点。
 """
+try:
+    from . import timeutil
+except ImportError:      # 平铺执行
+    import timeutil
 
 # ---- 价格核对（收紧前：25% 硬失败、方向冲突仅软警告）----
 HARD_INDEX_PCT = 0.3      # 重点指数偏差 > 0.3% -> 硬失败
@@ -79,8 +83,31 @@ def evaluate_coverage(latest):
     return PASS, detail
 
 
-def evaluate_continuity(mode, latest, morning_analysis):
-    """早午报闭环：午报必须能对上当日早报，否则复盘结论不成立。
+def evaluate_data_currency(mode, latest, today=None):
+    """午报用的必须是**当日**行情。
+
+    和闭环校验分开的理由：线上实测到一次午报提交了 08-10 遗留的 latest 文件
+    （fetch_time 无时区、provenance 为空，说明 cloud_fetch 根本没重新生成）。
+    这属于"数据是昨天的"，不是"复盘链断裂"——两者原因不同、修法不同，
+    混在一条消息里会把人引向错误的方向。
+    """
+    if mode != 'afternoon':
+        return PASS, ''
+    today = today or timeutil.trading_date_bjt('afternoon')
+    expected = latest.get('expected_data_date') or \
+        (latest.get('data_freshness') or {}).get('expected_date')
+    if not expected:
+        return DEGRADE, 'latest 缺 expected_data_date，无法判断数据是否当日'
+    if expected != today:
+        return (BLOCK, f'午报数据非当日：latest 的行情日为 {expected}，'
+                       f'当前交易日为 {today}（cloud_fetch 很可能未重新生成）')
+    return PASS, f'午报数据为当日 {today}'
+
+
+def evaluate_continuity(mode, latest, morning_analysis, today=None):
+    """早午报闭环：今天有没有一份当日早报可供复盘。
+
+    只比"报告日期"这一件事——午报数据是否当日由 evaluate_data_currency 负责。
 
     返回 (level, reason, prior_result)。prior_result 为 'pending' 时，调用方
     必须把 analysis.reflection.prior_result 覆盖成 pending，并禁止出现
@@ -89,19 +116,16 @@ def evaluate_continuity(mode, latest, morning_analysis):
     if mode != 'afternoon':
         return PASS, '早报无需闭环校验', None
 
-    expected = latest.get('expected_data_date') or \
-        (latest.get('data_freshness') or {}).get('expected_date')
+    today = today or timeutil.trading_date_bjt('afternoon')
     morning_date = (morning_analysis or {}).get('date')
 
     if not morning_date:
         return BLOCK, '当日早报 final 缺失，无法验证早报预测—午盘实际', 'pending'
-    if not expected:
-        return DEGRADE, 'latest 缺 expected_data_date，闭环无法判定', 'pending'
-    if morning_date != expected:
+    if morning_date != today:
         return (BLOCK,
-                f'早报 final 日期 {morning_date} ≠ 本次期望行情日 {expected}，'
-                f'复盘链断裂', 'pending')
-    return PASS, f'早午报闭环成立（{expected}）', None
+                f'早报 final 是 {morning_date} 的，不是当日（{today}）'
+                f'，本期无法结算早报预测', 'pending')
+    return PASS, f'早午报闭环成立（{today}）', None
 
 
 def _realtime_hits(analysis):

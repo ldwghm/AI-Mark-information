@@ -114,6 +114,9 @@ def main():
                     help='午报闭环校验用的当日早报 final')
     ap.add_argument('--allow-open-loop', dest='allow_open_loop', action='store_true',
                     help='影子验证期使用：闭环断裂时降级而不阻断发送')
+    ap.add_argument('--today', default=None,
+                    help='覆盖"当前交易日"（YYYY-MM-DD）。回放归档 bundle 或跑测试时用，'
+                         '生产环境不要传——传了就等于把日期校验的基准也一起伪造了')
     args = ap.parse_args()
     mode = args.mode
     lpath = args.latest or f'/tmp/{mode}_latest.json'
@@ -240,9 +243,16 @@ def main():
     elif cov_level == quality.DEGRADE:
         soft.append(cov_reason)
 
-    # 8) 早午报闭环：午报必须能对上当日早报，否则复盘结论不成立
+    # 8a) 午报数据必须是当日的（与闭环分开：原因不同、修法不同）
+    cur_level, cur_reason = quality.evaluate_data_currency(mode, latest, today=args.today)
+    if cur_level == quality.BLOCK:
+        blockers.append(cur_reason)
+    elif cur_level == quality.DEGRADE:
+        soft.append(cur_reason)
+
+    # 8b) 早午报闭环：今天有没有一份当日早报可供复盘
     cont_level, cont_reason, prior_result = quality.evaluate_continuity(
-        mode, latest, morning_analysis)
+        mode, latest, morning_analysis, today=args.today)
     if prior_result == 'pending':
         reflection = analysis.get('reflection')
         if not isinstance(reflection, dict):
@@ -272,6 +282,7 @@ def main():
                'mode': mode, 'expected_data_date': expected, 'quote_date_mode': qmode,
                'continuity': {'level': cont_level, 'reason': cont_reason,
                               'morning_date': (morning_analysis or {}).get('date')},
+               'data_currency': {'level': cur_level, 'reason': cur_reason},
                'coverage': {'level': cov_level, 'reason': cov_reason},
                'primary_priced': len([1 for v in primary.values() if v['price'] is not None]),
                'ef_priced': len([1 for v in ef_index.values() if v['price'] is not None])}

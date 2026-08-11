@@ -71,6 +71,8 @@ class VerifyExitCodeTests(unittest.TestCase):
                 args += ['--morning-analysis', str(mpath)]
             else:
                 args += ['--morning-analysis', str(tmp / 'missing.json')]
+            if not any(a == '--today' for a in extra_args):
+                args += ['--today', '2026-08-10']
             args += list(extra_args)
 
             proc = subprocess.run(args, cwd=REPO, capture_output=True, text=True)
