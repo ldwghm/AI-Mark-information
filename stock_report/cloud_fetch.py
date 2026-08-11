@@ -485,14 +485,14 @@ def backfill_from_efinance(result, old, all_codes, sector_names, mode):
                       'volume': 0, 'amount': 0, 'data_date': ddate}
                 nr.update(NULL_TECH)
                 # 这是收盘/快照回填价，不是本次实时抓取——必须标出来
-                provenance.stamp(nr, 'efinance_backfill', as_of=ddate or None)
+                provenance.stamp(nr, 'efinance_backfill', as_of=provenance.daily_close_as_of(ddate))
                 wt.append(nr)
                 by_code[code] = nr
                 filled_stk += 1
         elif (row.get('close') in (None, 0)) and price is not None:
             row['close'] = price
             row['chg_pct'] = chg
-            provenance.stamp(row, 'efinance_backfill', as_of=ddate or None)
+            provenance.stamp(row, 'efinance_backfill', as_of=provenance.daily_close_as_of(ddate))
             filled_stk += 1
     result['watchlist_technicals'] = wt
 
@@ -686,8 +686,9 @@ def main():
             price_source = q.get('src', 'sina')
             price_as_of = q.get('as_of') or provenance.market_as_of(q.get('date'), q.get('time'))
         else:
+            # 缓存/日线来源只有日期，时点是当日收盘而非零点
             price_source = 'klines_cache' if src == 'cache' else src
-            price_as_of = ddate or None
+            price_as_of = provenance.daily_close_as_of(ddate)
 
         rt_row = {'name': name, 'code': code, 'sector': sector, 'current': close, 'change_pct': chg_pct,
                   'high': h, 'low': l, 'volume': int(vol), 'data_date': ddate}

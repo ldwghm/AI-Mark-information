@@ -50,6 +50,22 @@ def stamp(row, source, as_of=None, retrieved_at=None, now=None):
     return row
 
 
+def daily_close_as_of(quote_date):
+    """把纯日期的日线数据标成**当日收盘时点**，而不是零点。
+
+    实测踩到的坑：`'2026-08-10'` 交给 parse_iso 会按 UTC 午夜解释，换算成北京
+    时间是 08:00——开盘前。于是一根 8-10 的收盘 K 线被算成"落后市场 7 小时"，
+    而它其实就是当日最新。日线数据的时点就是收盘，必须显式写出来。
+    """
+    if not quote_date:
+        return None
+    text = str(quote_date).strip()
+    if len(text) != 10 or text.count('-') != 2:
+        return text if timeutil.parse_iso(text) else None
+    stamped = f'{text}T15:00:00+08:00'
+    return stamped if timeutil.parse_iso(stamped) else None
+
+
 def market_as_of(quote_date, quote_time):
     """把新浪/腾讯返回的 `date` + `time` 拼成带 +08:00 的时点。
 

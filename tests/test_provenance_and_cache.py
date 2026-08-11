@@ -116,3 +116,38 @@ class KlinesCacheTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class DailyCloseAsOfTests(unittest.TestCase):
+    """日线数据的时点是收盘，不是零点。
+
+    线上实测：K 线缓存里 8-10 的收盘价被标成 as_of=2026-08-10T08:00+08:00
+    （纯日期按 UTC 午夜解释再换算），于是当日最新价被算成"落后市场 7 小时"。
+    """
+
+    def test_date_only_becomes_close_time(self):
+        self.assertEqual(provenance.daily_close_as_of('2026-08-10'),
+                         '2026-08-10T15:00:00+08:00')
+
+    def test_closing_price_is_not_behind_market(self):
+        from stock_report import timeutil
+        as_of = provenance.daily_close_as_of('2026-08-10')
+        behind = timeutil.seconds_behind_market(
+            as_of, datetime(2026, 8, 10, 17, 0, tzinfo=timeutil.BJT))
+        self.assertEqual(behind, 0.0)
+
+    def test_previous_close_seen_next_morning_is_not_behind(self):
+        # 早报场景：8-11 08:00 用 8-10 收盘价，市场尚未开盘 -> 就是最新
+        from stock_report import timeutil
+        as_of = provenance.daily_close_as_of('2026-08-10')
+        behind = timeutil.seconds_behind_market(
+            as_of, datetime(2026, 8, 11, 8, 0, tzinfo=timeutil.BJT))
+        self.assertEqual(behind, 0.0)
+
+    def test_full_timestamp_passes_through(self):
+        self.assertEqual(provenance.daily_close_as_of('2026-08-10T14:21:38+08:00'),
+                         '2026-08-10T14:21:38+08:00')
+
+    def test_empty_and_garbage_return_none(self):
+        self.assertIsNone(provenance.daily_close_as_of(''))
+        self.assertIsNone(provenance.daily_close_as_of('not-a-date'))
