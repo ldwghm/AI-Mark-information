@@ -32,7 +32,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: pip
+          # 不开 cache: pip —— 它要求仓库有 requirements.txt / pyproject.toml，
+          # 本仓库两者皆无（各 workflow 各自内联 pip install）。三个包不值得
+          # 为此引入一套依赖清单约定。
       - name: Install runtime deps
         run: pip install requests numpy pandas
       - name: Compile all sources
