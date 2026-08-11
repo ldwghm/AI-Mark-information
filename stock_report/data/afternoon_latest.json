@@ -2630,6 +2630,32 @@
     "watchlist_count": 40,
     "sectors_count": 8,
     "hk_count": 0,
-    "us_count": 0
+    "us_count": 0,
+    "yf_history_ok": false
+  },
+  "cloud_merge_time": "2026-08-10T07:07:53Z",
+  "cloud_merge_status": {
+    "merge_added_fields": [],
+    "cloud_sources_blocked": [
+      "hq.sinajs.cn",
+      "qt.gtimg.cn",
+      "yfinance/query*.yahoo.com",
+      "stooq.com"
+    ],
+    "reason": "agent sandbox egress proxy returned 403 for all realtime quote hosts; cloud_fetch added no new quotes",
+    "base": "GitHub Actions efinance intraday snapshot (fetch-market-data-pm.yml)"
+  },
+  "data_quality": {
+    "index_data_confidence": "medium",
+    "quote_source": "efinance_intraday_snapshot(GitHub Actions)",
+    "quote_time_bj": "14:57-14:58",
+    "fetch_time_utc": "2026-08-10T06:58:06.184894",
+    "watchlist_coverage": "40/51",
+    "technicals_source": "efinance_snapshot",
+    "technicals_coverage": "23/51",
+    "hk_us": "unavailable",
+    "boards": "ai_boards_rt/board_capital_flows_rt/capital_flow_top30_rt 均为空，板块结论仅基于 sectors 成分股均值",
+    "caveat": "本次盘中快照为 2026-08-10 14:57-14:58(北京时间) efinance 抓取，非逐笔实时；云端实时行情源(新浪/腾讯/雅虎/stooq)在本沙箱全部 403 不可达；港美股本期缺失。快照年龄存在时钟争议，见 freshness_dispute，按 stale 处理。",
+    "freshness_dispute": "两个时钟不一致：本容器/本次抓数 run 的时钟为 2026-08-10T07:0x UTC（据此快照年龄约14分钟），但仓库 origin/main 最新提交 265564f 的时间戳为 2026-08-11T00:56Z（北京时间2026-08-11 08:56），据此快照年龄约18小时、且对应的是上一交易日(8/10)收盘前2分钟。本报告不裁定哪个时钟为真，按更保守者处理：将快照视为 stale，并明确本报告描述的是 2026-08-10 这一场交易，不覆盖 2026-08-11 的盘中走势。"
   }
 }
