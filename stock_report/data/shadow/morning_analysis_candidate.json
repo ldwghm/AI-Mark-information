@@ -1,6 +1,334 @@
 {
   "shadow": true,
   "mode": "morning",
-  "status": "not_run",
-  "note": "Codex Scheduled shadow output placeholder; this path does not trigger email delivery."
+  "date": "2026-08-11",
+  "market_summary": "截至本次快照抓取时点 2026-08-11T00:30:51.452765，A股指数与核心观察池 K 线均为空，无法给出指数收盘点位或 MA/RSI/MACD。可核验的板块数据中，AI制药（医疗）上涨2.5%（49涨、12跌），主力净流入223526656元；全市场涨幅靠前方向主要是鸡肉概念+4.49%、乳业+3.95%、猪肉概念+3.86%，显示当前快照所见风险偏好更偏消费与医药扩散，而非纯AI单线主导。",
+  "review": "上一期（2026-08-04）预测AI应用软件与AIDC延续、并以指数均线作为加减仓条件。本次快照仅保留AI制药（医疗）板块及资金流榜，未覆盖上一期Kimi、AIDC和核心观察池的有效K线，因此主线延续判断无法完整验收；可见证据显示AI行情转为半导体/光学个股资金活跃与AI医疗扩散，上一期“AI方向延续”部分成立，但“应用软件为主线”未获本次数据确认。偏差主要归因于数据覆盖不足与板块状态切换，不能用缺失数据判定预测正确。",
+  "key_insights": [
+    "AI制药（医疗）板块+2.5%，49涨12跌，主力净流入223526656元，板块广度约80.3%",
+    "江波龙报412.5、涨6.7%，主力净流入922302080元；中微公司报389.99、涨6.08%，主力净流入891291920元",
+    "仕佳光子报134.01、涨4.94%，主力净流入684156688元；腾景科技报148.5、跌1.09%，但主力净流入458883280元，形成价跌资流入背离",
+    "消费相关板块居涨幅前列：鸡肉概念+4.49%（20涨0跌）、乳业+3.95%（31涨1跌）、猪肉概念+3.86%（35涨1跌）",
+    "指数K线、指数技术指标、10只AI核心观察股K线均为空；北向、龙虎榜和融资融券数据也为空，技术面与流动性判断显著降级"
+  ],
+  "sector_rotation": [
+    {
+      "sector": "AI制药（医疗）",
+      "role": "主线",
+      "evidence": "板块+2.5%，49涨12跌，主力净流入223526656元；百普赛斯+20%、华大智造+14.51%、贝瑞基因+10.02%"
+    },
+    {
+      "sector": "半导体/存储设备",
+      "role": "跟随",
+      "evidence": "江波龙+6.7%、主力净流入922302080元；中微公司+6.08%、主力净流入891291920元；雅克科技+4.34%、主力净流入342871344元"
+    },
+    {
+      "sector": "光通信/光学",
+      "role": "分化",
+      "evidence": "仕佳光子+4.94%、主力净流入684156688元；腾景科技-1.09%、主力净流入458883280元，价格与资金方向背离"
+    },
+    {
+      "sector": "消费/农业",
+      "role": "主线",
+      "evidence": "鸡肉概念+4.49%（20涨0跌）、乳业+3.95%（31涨1跌）、猪肉概念+3.86%（35涨1跌），涨幅领先AI制药"
+    }
+  ],
+  "sector_analysis": "本次快照能确认的AI板块仅AI制药（医疗），板块+2.5%、49涨12跌，属于扩散型上涨；其中百普赛斯+20%但主力净流出26019312元，华大智造+14.51%且主力净流入89788273元，内部量价质量分化。硬件链未提供完整板块涨跌，但资金流榜显示江波龙、中微公司、仕佳光子位列前三，表明存储、设备和光学环节仍有资金关注。消费农业板块涨幅更高且广度更强，说明市场并非AI单一主线。因指数、核心观察池K线和海外行情缺失，不能判断这轮轮动是否获得指数趋势与海外AI链确认。",
+  "stock_highlights": [
+    {
+      "code": "301308",
+      "name": "江波龙",
+      "price": 412.5,
+      "chg_pct": 6.7,
+      "sector": "存储芯片",
+      "comment": "本次latest资金流榜第1，成交额11851094578.28元、主力净流入922302080元。价格与资金同向；K线为空，支撑、压力及持续性无法核验。"
+    },
+    {
+      "code": "688012",
+      "name": "中微公司",
+      "price": 389.99,
+      "chg_pct": 6.08,
+      "sector": "半导体设备",
+      "comment": "本次latest资金流榜第2，成交额10926425501元、主力净流入891291920元。价格与资金同向；无有效K线和基本面新来源，不外推估值或订单。"
+    },
+    {
+      "code": "688313",
+      "name": "仕佳光子",
+      "price": 134.01,
+      "chg_pct": 4.94,
+      "sector": "光通信",
+      "comment": "主力净流入684156688元，价格与资金同向。核心观察池K线为空，关键位与趋势强度不可判定。"
+    },
+    {
+      "code": "688195",
+      "name": "腾景科技",
+      "price": 148.5,
+      "chg_pct": -1.09,
+      "sector": "光通信",
+      "comment": "主力净流入458883280元但价格下跌1.09%，构成价跌资流入背离；候选原因包括盘中承接或统计口径差异，均待后续K线与成交明细核验。"
+    },
+    {
+      "code": "301080",
+      "name": "百普赛斯",
+      "price": 77.7,
+      "chg_pct": 20,
+      "sector": "AI制药（医疗）",
+      "comment": "板块内涨幅居首，成交额2264869005.48元；主力净流出26019312元，与涨停表现不完全一致。无公司事件来源，不能把上涨归因于基本面催化。"
+    }
+  ],
+  "trading_advice": {
+    "style": "观察优先，等待指数与核心观察池K线恢复后再确认AI主线",
+    "position": "影子分析不提供确定仓位指令；若用于研究复盘，仅在价格与资金同向且后续K线确认时提高关注度",
+    "rationale": "AI制药+2.5%与半导体个股资金流显示AI链仍活跃，但消费板块涨幅更强；指数、海外市场、核心观察池K线及关键流动性数据缺失，无法验证风险偏好和趋势。"
+  },
+  "risk_warnings": [
+    "数据降级：本次latest不含data_quality对象，指数和核心观察股K线为空，index_technicals为空",
+    "海外市场完全缺失，无法核验美股、港股、日股和韩股AI链的隔夜确认",
+    "北向、龙虎榜和融资融券均为空，资金判断仅基于板块及个股主力资金字段",
+    "板块与资金流字段未提供明确交易日，只能标注快照抓取时点2026-08-11T00:30:51.452765，不将其冒充实时盘中数据",
+    "未补充外部新闻或社交信号，因此不对异常涨跌强行归因"
+  ],
+  "hk_us_summary": "unavailable：本次latest未提供港股、美股、日股或韩股行情及时间戳，无法判断海外AI链对A股的方向确认。",
+  "hk_stocks": [],
+  "us_stocks": [],
+  "news_highlights": [
+    {
+      "headline": "AI制药（医疗）板块在本次快照中上涨2.5%",
+      "implication": "AI主题出现医疗方向扩散，但其涨幅低于鸡肉、乳业和猪肉等消费板块，尚不足以证明AI重回全市场唯一主线。"
+    },
+    {
+      "headline": "半导体与光学个股占据主力资金流入榜前列",
+      "implication": "江波龙、中微公司、仕佳光子资金与价格同向，硬件链仍受关注；腾景科技价跌资流入提示内部出现分化。"
+    }
+  ],
+  "prediction": {
+    "label": "AI链维持结构性活跃，但消费轮动与数据缺口压低置信度",
+    "confidence": 48,
+    "color": "#d97706",
+    "reasons": [
+      "AI制药（医疗）+2.5%，49涨12跌，主题内部广度较强",
+      "江波龙+6.7%、中微公司+6.08%、仕佳光子+4.94%，且主力净流入均超过6亿元",
+      "鸡肉、乳业和猪肉板块分别+4.49%、+3.95%、+3.86%，市场热点并非集中于AI",
+      "指数、海外市场和核心观察池K线缺失，无法形成跨市场与技术面确认"
+    ]
+  },
+  "orchestration_status": {
+    "request_id": "codex-morning-20260811T003018Z-zfv8oqx3",
+    "requested_at": "2026-08-11T00:30:18Z",
+    "trigger_commit_sha": "bc22c1712ea5155369421ec0bea431c08fc0943e",
+    "state": "completed",
+    "conclusion": "success",
+    "snapshot": {
+      "fresh": true,
+      "fetch_time": "2026-08-11T00:30:51.452765",
+      "age_seconds": 33.452765,
+      "content_sha": "17b257d017f387dfba5bdc27d50b271861988520"
+    }
+  },
+  "global_markets": [
+    {
+      "market": "US",
+      "as_of": "unavailable",
+      "status": "unavailable",
+      "summary": "本次latest未提供美股行情"
+    },
+    {
+      "market": "HK",
+      "as_of": "unavailable",
+      "status": "unavailable",
+      "summary": "本次latest未提供港股行情"
+    },
+    {
+      "market": "JP",
+      "as_of": "unavailable",
+      "status": "unavailable",
+      "summary": "本次latest未提供日股行情"
+    },
+    {
+      "market": "KR",
+      "as_of": "unavailable",
+      "status": "unavailable",
+      "summary": "本次latest未提供韩股行情"
+    },
+    {
+      "market": "CN",
+      "as_of": "2026-08-11T00:30:51.452765",
+      "status": "partial",
+      "summary": "板块和个股资金数据可用；指数K线与技术指标缺失"
+    }
+  ],
+  "evidence_log": [
+    {
+      "id": "E1",
+      "kind": "hard_fact",
+      "source": "morning_latest.json/ai_boards",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
+      "published_at": "unavailable",
+      "fetched_at": "2026-08-11T00:30:51.452765",
+      "claim": "AI制药（医疗）+2.5%，49涨12跌，主力净流入223526656元"
+    },
+    {
+      "id": "E2",
+      "kind": "hard_fact",
+      "source": "morning_latest.json/capital_flow_top30",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
+      "published_at": "unavailable",
+      "fetched_at": "2026-08-11T00:30:51.452765",
+      "claim": "江波龙412.5、+6.7%、主力净流入922302080元；中微公司389.99、+6.08%、主力净流入891291920元"
+    },
+    {
+      "id": "E3",
+      "kind": "hard_fact",
+      "source": "morning_latest.json/all_boards_by_change",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
+      "published_at": "unavailable",
+      "fetched_at": "2026-08-11T00:30:51.452765",
+      "claim": "鸡肉概念+4.49%、乳业+3.95%、猪肉概念+3.86%"
+    },
+    {
+      "id": "E4",
+      "kind": "hard_fact",
+      "source": "morning_latest.json/capital_flow_top30",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
+      "published_at": "unavailable",
+      "fetched_at": "2026-08-11T00:30:51.452765",
+      "claim": "仕佳光子134.01、+4.94%、主力净流入684156688元；腾景科技148.5、-1.09%、主力净流入458883280元"
+    },
+    {
+      "id": "E5",
+      "kind": "hard_fact",
+      "source": "morning_latest.json/board_stocks",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
+      "published_at": "unavailable",
+      "fetched_at": "2026-08-11T00:30:51.452765",
+      "claim": "百普赛斯77.7、+20%、成交额2264869005.48元、主力净流出26019312元"
+    },
+    {
+      "id": "E6",
+      "kind": "hard_fact",
+      "source": "morning_latest.json",
+      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
+      "published_at": "unavailable",
+      "fetched_at": "2026-08-11T00:30:51.452765",
+      "claim": "指数与核心观察池K线为空，index_technicals为空，northbound/dragon_tiger/margin_trading为空"
+    }
+  ],
+  "technical_analysis": {
+    "short_term": "unavailable：指数与10只核心观察股K线为空，无法计算或复核MA、RSI、MACD、量比、支撑和压力。",
+    "medium_term": "上一期技术判断已超过可直接沿用窗口；本次没有连续K线，不能判断趋势延续或反转。",
+    "long_term": "长期AI产业逻辑未被本次单一快照证伪，但缺乏基本面与估值证据，维持观察。"
+  },
+  "fundamental_analysis": {
+    "status": "unavailable",
+    "summary": "本次latest不含业绩、指引、订单、资本开支、估值或监管事件；未引入外部已核验来源，因此不从价格变化推断基本面。",
+    "evidence_ids": []
+  },
+  "sentiment_analysis": {
+    "hard_data": "AI制药49涨12跌，板块+2.5%；鸡肉20涨0跌、乳业31涨1跌、猪肉35涨1跌。江波龙、中微公司、仕佳光子主力净流入分别为922302080、891291920、684156688元。",
+    "social_signal": "unavailable：未采集或核验社交信号。",
+    "confidence": 55
+  },
+  "anomaly_investigation": [
+    {
+      "signal": "腾景科技-1.09%但主力净流入458883280元",
+      "confirmed_causes": [],
+      "candidate_causes": [
+        "盘中承接与收盘价格方向不一致",
+        "资金流统计口径与净涨跌口径存在差异"
+      ],
+      "unresolved": [
+        "逐笔成交与日内K线缺失",
+        "是否存在公司事件催化未核验"
+      ]
+    },
+    {
+      "signal": "百普赛斯+20%但主力净流出26019312元",
+      "confirmed_causes": [],
+      "candidate_causes": [
+        "高位换手导致主力口径净流出",
+        "涨停期间不同资金层级方向分化"
+      ],
+      "unresolved": [
+        "涨停结构和封单数据缺失",
+        "公司层面催化未核验"
+      ]
+    }
+  ],
+  "thesis_updates": [
+    {
+      "thesis_id": "TH-AI-APPLICATION",
+      "status": "weakened",
+      "evidence_ids": [
+        "E1",
+        "E3"
+      ],
+      "invalidation": "若后续Kimi/AI应用板块重新进入涨幅与资金流前列并获指数放量确认，则恢复；当前快照未覆盖该板块。"
+    },
+    {
+      "thesis_id": "TH-AI-HARDWARE",
+      "status": "carried_forward",
+      "evidence_ids": [
+        "E2",
+        "E4"
+      ],
+      "invalidation": "若半导体/光通信核心股连续资金净流出且板块相对收益转负，则关闭。"
+    },
+    {
+      "thesis_id": "TH-AI-MEDICAL",
+      "status": "strengthened",
+      "evidence_ids": [
+        "E1",
+        "E5"
+      ],
+      "invalidation": "若AI制药板块涨跌家数转弱且主力资金转为持续净流出，则降级。"
+    }
+  ],
+  "forecast_ledger_entry": {
+    "horizon": "1d/1w",
+    "scenarios": [
+      {
+        "name": "base",
+        "probability": 50,
+        "conditions": [
+          "AI制药与半导体资金保持活跃",
+          "消费与AI并行轮动"
+        ],
+        "invalidation": [
+          "AI相关资金流榜明显退位",
+          "主要AI板块广度转弱"
+        ]
+      },
+      {
+        "name": "bull",
+        "probability": 25,
+        "conditions": [
+          "指数与核心观察池K线恢复并确认放量上涨",
+          "AI硬件与AI医疗同时增强"
+        ],
+        "invalidation": [
+          "价格上涨但资金持续流出",
+          "海外AI链显著转弱"
+        ]
+      },
+      {
+        "name": "bear",
+        "probability": 25,
+        "conditions": [
+          "消费轮动挤压AI相对收益",
+          "高位AI个股出现资金与价格双弱"
+        ],
+        "invalidation": [
+          "AI板块重新占据涨幅榜和资金榜前列"
+        ]
+      }
+    ],
+    "next_check": "下一交易日核验指数K线是否恢复、AI制药涨跌家数与资金流、江波龙/中微公司/仕佳光子资金持续性，以及海外AI链数据是否补齐。"
+  },
+  "reflection": {
+    "prior_result": "partial",
+    "error_type": "数据滞后",
+    "lesson": "上一期对AI方向的宽泛判断部分被本次硬件与AI医疗活跃印证，但应用软件/AIDC缺乏可比数据，不能据此宣称命中。",
+    "rule_update": "复盘必须先检查同一板块与同一标的的可比覆盖；覆盖缺失时结果标为partial或pending，不以相邻AI子行业替代验证。"
+  },
+  "data_quality": {}
 }
