@@ -62,8 +62,27 @@ class RiskClassificationTests(unittest.TestCase):
         for title in self.CAVEATS:
             self.assertTrue(R._is_caveat(title, ''), msg=f'{title} 被误判为市场风险')
 
+    # 早报不写【】小标题，说法与午报不同，分类器更依赖这几个词
+    MORNING_CAVEATS = ('数据编排状态·逐字说明', 'A股指数原始数据缺失·重要',
+                       '个股行情为收盘回补，非实时', '港美股个股数据完全不可得',
+                       '一条已知的来源冲突', '上一期归档缺口', '日股今日无有效时点')
+    MORNING_RISKS = ('事件风险·美国7月CPI', '事件风险·美方审查境外算力租赁', '高位风险')
+    # 这些是行情用语，长得像数据词但必须留在显眼处
+    MARKET_TERMS = ('跳空缺口未回补', '缺口回补压力', '量能萎缩', '换手率异动')
+
     def test_real_risks_stay_prominent(self):
         for title in self.RISKS:
+            self.assertFalse(R._is_caveat(title, ''), msg=f'{title} 被误判为数据口径')
+
+    def test_morning_report_wording_also_classified(self):
+        for title in self.MORNING_CAVEATS:
+            self.assertTrue(R._is_caveat(title, ''), msg=f'{title} 被误判为市场风险')
+        for title in self.MORNING_RISKS:
+            self.assertFalse(R._is_caveat(title, ''), msg=f'{title} 被误判为数据口径')
+
+    def test_market_vocabulary_is_never_swallowed_as_a_caveat(self):
+        """「归档缺口」是数据问题，「跳空缺口」是市场风险——不能因为都有"缺口"就一起埋掉。"""
+        for title in self.MARKET_TERMS:
             self.assertFalse(R._is_caveat(title, ''), msg=f'{title} 被误判为数据口径')
 
     def test_renderer_splits_into_two_blocks(self):

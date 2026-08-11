@@ -1,0 +1,24 @@
+# 运行时依赖，按用途分组。
+#
+# 收敛的起因：五个 workflow 各自内联 pip install，列表已经在漂移。
+# send-report*.yml 只装 requests，而 verify.py 现在 import 了 quality -> timeutil，
+# 恰好都是标准库所以没炸；哪天有人在 quality 里用了 numpy，发信链路就会在生产
+# 环境挂掉，而 CI（装了 numpy）完全看不出来。
+#
+# 各 workflow 按用途选一个清单，不要再手写包名：
+#   pip install -r requirements.txt          # 抓数与缓存（需要行情源）
+#   pip install -r requirements-report.txt   # 校验/渲染/发信/测试（无需行情源）
+#
+# 用于：fetch-market-data.yml、fetch-market-data-pm.yml、
+#       fetch-global-markets.yml、update-klines-cache.yml
+
+# --- 核心：所有入口都要 ---
+requests>=2.31
+
+# --- 数值与技术指标：cloud_fetch / klines_cache 的顶层导入 ---
+numpy>=1.24
+pandas>=2.0
+
+# --- 行情源：仅在函数体内惰性导入，测试与发信链路用不到 ---
+yfinance>=0.2.40
+efinance>=0.5.0

@@ -3,8 +3,8 @@ name: tests
 # 仓库里有 180 个单元测试，但在此之前没有任何 workflow 在 PR 上跑它们——
 # 现有 workflow 全是定时/push 触发的业务任务，改动合进 main 之前没有安全网。
 #
-# 只装 requests / numpy / pandas：yfinance 与 efinance 都是函数体内惰性导入，
-# 测试不会走到那里，也不应该联网。
+# 装 requirements-report.txt（不含 yfinance / efinance）：两者都是函数体内惰性
+# 导入，测试走不到，也不该联网。装上反而会掩盖"发信环境其实没有它们"这件事。
 
 on:
   pull_request:
@@ -32,11 +32,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          # 不开 cache: pip —— 它要求仓库有 requirements.txt / pyproject.toml，
-          # 本仓库两者皆无（各 workflow 各自内联 pip install）。三个包不值得
-          # 为此引入一套依赖清单约定。
-      - name: Install runtime deps
-        run: pip install requests numpy pandas
+          cache: pip
+          cache-dependency-path: requirements-report.txt
+      - name: Install deps
+        run: pip install -r requirements-report.txt
       - name: Compile all sources
         run: python -m compileall -q stock_report *.py
       - name: Run unit tests
