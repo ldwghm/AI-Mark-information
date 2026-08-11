@@ -103,6 +103,37 @@ def build_indices(latest):
     return primary, ef_index
 
 
+def build_provenance_index(latest):
+    """code -> {as_of, is_fallback, source}，来自观察池两个数组。"""
+    index = {}
+    for row in (latest.get('watchlist_rt', []) or []) + \
+               (latest.get('watchlist_technicals', []) or []):
+        code = str(row.get('code', ''))
+        if code and code not in index and row.get('source'):
+            index[code] = {'as_of': row.get('as_of'),
+                           'is_fallback': bool(row.get('is_fallback')),
+                           'source': row.get('source')}
+    return index
+
+
+def build_intraday_index(latest):
+    """code -> 当日盘中价，仅取 *_rt 实时榜（efinance 今日数据）。
+
+    用来发现"highlight 写的是昨收，但这只股票今天明明有盘中价"这种情况。
+    """
+    index = {}
+    for grp in latest.get('board_stocks_rt', []) or []:
+        for s in grp.get('stocks', []) or []:
+            code = str(s.get('f12', ''))
+            if code and code not in index:
+                index[code] = (_f(s.get('f2')), _f(s.get('f3')))
+    for s in latest.get('capital_flow_top30_rt', []) or []:
+        code = str(s.get('f12', ''))
+        if code and code not in index:
+            index[code] = (_f(s.get('f2')), _f(s.get('f3')))
+    return index
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--mode', required=True, choices=['morning', 'afternoon'])
@@ -178,10 +209,29 @@ def main():
 
     # 3) 数字核对（核心）
     weak = 0
+    prov_index = build_provenance_index(latest)
+    intraday_index = build_intraday_index(latest)
+    stale_highlights = []
     for h in analysis.get('stock_highlights', []) or []:
         code = str(h.get('code', ''))
         nm = h.get('name', '?')
         hp, hcg = _f(h.get('price')), _f(h.get('chg_pct'))
+
+        # 给 price 字段本身打上时点标识——邮件表格渲染的就是这个数字，
+        # 把口径写在 comment 散文里不够：扫表格的读者看不到。
+        prov = prov_index.get(code)
+        if prov:
+            h['price_as_of'] = prov['as_of']
+            h['price_is_fallback'] = prov['is_fallback']
+            h['price_source'] = prov['source']
+        # 这只股票今天明明有盘中价，highlight 却写了回填价 -> 表格会显示反向行情
+        today_px = intraday_index.get(code, (None, None))[0]
+        if prov and prov['is_fallback'] and today_px and hp and \
+                abs(today_px - hp) / hp * 100 > SOFT_PRICE_PCT:
+            h['intraday_price'] = today_px
+            stale_highlights.append(f'{nm}({code}) 表格价 {hp}（{prov["source"]}回填）'
+                                    f'但今日盘中为 {today_px}')
+
         ref = primary.get(code)
         if ref and ref['price'] is not None:   # 可靠源：硬核对
             sp, scg = ref['price'], ref['chg_pct']
@@ -236,12 +286,30 @@ def main():
                f'{conflict.get("secondary_price")}（差{diff:.2f}%）')
         (hard if diff > limit else soft).append(msg)
 
+    # 6b) 交叉验证是否真的做过——0 冲突可能意味着"没得比"而非"两源一致"
+    cc = (latest.get('data_quality', {}).get('crosscheck') or {})
+    if cc.get('status') == 'unchecked' or cc.get('checked_pairs') == 0:
+        soft.append('本期未做双源交叉验证（无第二数据源），价格未经互相印证')
+
     # 7) 关注池覆盖率：<90% 降级，<70% 停止正式发送
     cov_level, cov_reason = quality.evaluate_coverage(latest)
     if cov_level == quality.BLOCK:
         blockers.append(cov_reason)
     elif cov_level == quality.DEGRADE:
         soft.append(cov_reason)
+
+    # 7b) 数据活性：覆盖率回答"有没有数字"，活性回答"是不是今天的数字"
+    live_level, live_reason = quality.evaluate_liveness(mode, latest)
+    if live_level == quality.BLOCK:
+        blockers.append(live_reason)
+    elif live_level == quality.DEGRADE:
+        soft.append(live_reason)
+
+    # 7c) highlight 的 price 是回填价，而该股今日明明有盘中价。
+    # 目前渲染端只输出 comment 文字、不输出 price，所以这不是收件人可见的误导；
+    # 但 verify 的偏差核对、归档 bundle 与预测台账存的都是这个数字，写错就是错。
+    # 故记软警告并把正确的今日价写进 intraday_price 字段，不硬失败。
+    soft.extend(stale_highlights)
 
     # 8a) 午报数据必须是当日的（与闭环分开：原因不同、修法不同）
     cur_level, cur_reason = quality.evaluate_data_currency(mode, latest, today=args.today)
@@ -284,6 +352,10 @@ def main():
                               'morning_date': (morning_analysis or {}).get('date')},
                'data_currency': {'level': cur_level, 'reason': cur_reason},
                'coverage': {'level': cov_level, 'reason': cov_reason},
+               'liveness': {'level': live_level, 'reason': live_reason,
+                            'live_rows': quality.count_live_rows(latest)[0],
+                            'total_rows': quality.count_live_rows(latest)[1]},
+               'stale_highlights': stale_highlights,
                'primary_priced': len([1 for v in primary.values() if v['price'] is not None]),
                'ef_priced': len([1 for v in ef_index.values() if v['price'] is not None])}
 

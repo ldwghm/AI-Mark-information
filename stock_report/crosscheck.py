@@ -99,10 +99,39 @@ def cross_validate(primary_map, secondary_map, targets,
     return conflicts
 
 
-def summarize(conflicts):
-    """给 data_quality 用的紧凑摘要。"""
-    return {
+def count_checked_pairs(primary_map, secondary_map, targets):
+    """实际完成双源比对的标的数（两个源都有价才算）。"""
+    def bare(quote_map):
+        return {str(k)[-6:]: v for k, v in reversed(list((quote_map or {}).items()))}
+
+    primary_bare, secondary_bare = bare(primary_map), bare(secondary_map)
+    checked = 0
+    for code in targets:
+        key = str(code)[-6:]
+        if _f((primary_bare.get(key) or {}).get('price')) and \
+           _f((secondary_bare.get(key) or {}).get('price')):
+            checked += 1
+    return checked
+
+
+def summarize(conflicts, checked_pairs=None):
+    """给 data_quality 用的紧凑摘要。
+
+    **必须区分「未检查」与「已检查且一致」。** 旧版在没有第二个数据源时同样
+    输出 `checked_conflicts: 0, max_diff_pct: 0.0`，读起来像"两个源完全一致"，
+    实际含义是"压根没比过"——比没有这个字段更容易误导。2026-08-11 午报实测
+    到的就是这种假安慰。
+    """
+    summary = {
+        'checked_pairs': checked_pairs,
         'checked_conflicts': len(conflicts),
-        'max_diff_pct': conflicts[0]['diff_pct'] if conflicts else 0.0,
         'codes': [c['code'] for c in conflicts[:10]],
     }
+    if checked_pairs == 0:
+        summary['status'] = 'unchecked'
+        summary['max_diff_pct'] = None      # 不是 0.0——没有比过就没有"最大差异"
+        summary['note'] = '无第二数据源可比对，本期未做交叉验证'
+    else:
+        summary['status'] = 'conflict' if conflicts else 'agreed'
+        summary['max_diff_pct'] = conflicts[0]['diff_pct'] if conflicts else 0.0
+    return summary

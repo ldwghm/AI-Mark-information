@@ -768,9 +768,11 @@ def main():
     else:
         conf, qsrc = 'low', 'none'
     # 关键标的双源交叉验证：冲突不静默择一，交给分析层和 verify 判断
-    conflicts = crosscheck.cross_validate(
-        quotes, tencent_quotes,
-        crosscheck.select_crosscheck_targets(result))
+    check_targets = crosscheck.select_crosscheck_targets(result)
+    conflicts = crosscheck.cross_validate(quotes, tencent_quotes, check_targets)
+    checked_pairs = crosscheck.count_checked_pairs(quotes, tencent_quotes, check_targets)
+    if not checked_pairs:
+        print('crosscheck: 无第二数据源，本次未做交叉验证')
     if conflicts:
         print(f'source conflicts: {len(conflicts)} (max {conflicts[0]["diff_pct"]:.2f}%)')
         for c in conflicts[:5]:
@@ -783,7 +785,7 @@ def main():
         'technicals_source': 'yfinance' if (hist is not None and len(hist) > 0) else ('cache' if klines_cache else 'none'),
         'quote_source': qsrc,
         'source_conflicts': conflicts,
-        'crosscheck': crosscheck.summarize(conflicts),
+        'crosscheck': crosscheck.summarize(conflicts, checked_pairs),
         'provenance': provenance.summarize(result.get('watchlist_technicals')),
         'caveat': '' if api_ok else '实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时，复盘以此为参考'}
 
