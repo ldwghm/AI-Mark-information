@@ -1,0 +1,30 @@
+{
+  "ok": true,
+  "degraded": true,
+  "hard_fail": false,
+  "blocked": false,
+  "hard_reasons": [],
+  "soft_reasons": [
+    "行情非实时（来源 efinance_backfill，置信度 medium）：实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时，复盘以此为参考",
+    "4 只 highlight 数字仅来自板块汇总，未在个股池二次核对"
+  ],
+  "block_reasons": [],
+  "mode": "afternoon",
+  "expected_data_date": "2026-08-11",
+  "quote_date_mode": null,
+  "continuity": {
+    "level": "pass",
+    "reason": "早午报闭环成立（2026-08-11）",
+    "morning_date": "2026-08-11"
+  },
+  "data_currency": {
+    "level": "pass",
+    "reason": "午报数据为当日 2026-08-11"
+  },
+  "coverage": {
+    "level": "pass",
+    "reason": "关注池覆盖率 51/51（100%）"
+  },
+  "primary_priced": 51,
+  "ef_priced": 127
+}
