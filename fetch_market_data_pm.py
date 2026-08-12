@@ -8,6 +8,7 @@ Saves to: stock_report/data/afternoon_latest.json
 import requests, json, os, time
 from datetime import datetime, timedelta
 from technical_indicators import compute_stock_technical
+from stock_report import second_source
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -390,6 +391,11 @@ def main():
         "sectors_count": len(result.get("sectors", [])),
         "hk_count": len(hk), "us_count": len(us),
     }
+
+    # 双源交叉验证只能在这里做：CCR 会话连不上新浪/腾讯，那边的 crosscheck
+    # 每期都是 checked_pairs=0。runner 上新浪 718ms、腾讯 957ms，都通。
+    print("12. Cross-check against second source (sina/tencent)...")
+    second_source.attach_crosscheck(result)
 
     os.makedirs("stock_report/data", exist_ok=True)
     out = "stock_report/data/afternoon_latest.json"
