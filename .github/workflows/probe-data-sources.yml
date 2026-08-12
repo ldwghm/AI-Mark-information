@@ -1,0 +1,28 @@
+name: 探测行情源可达性（一次性诊断）
+
+# 为什么需要这个：CCR 会话和 GitHub Actions runner 的网络完全不同。
+# CCR 里新浪/腾讯/yfinance 全部不可达（出口代理拦截），于是 crosscheck
+# 每期都是 checked_pairs=0；而 Actions 里东方财富 push2 一直好用。
+# 加第二数据源之前必须先知道：在 **Actions 上** 到底哪些源能通。
+# 只手动触发，不提交任何东西。
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      # 候选源，装不上不算失败——探测脚本会把它记成不可用
+      - run: pip install mootdx || true
+      - name: Probe quote providers
+        shell: bash
+        run: python .github/scripts/probe_sources.py | tee -a "$GITHUB_STEP_SUMMARY"
