@@ -1,5 +1,5 @@
 {
-  "fetch_time": "2026-08-12T00:30:06.418536",
+  "fetch_time": "2026-08-12T00:43:38.494823",
   "fetch_date": "2026-08-12",
   "report_type": "morning",
   "indices": {
@@ -6826,7 +6826,7 @@
       "f7": 204.17,
       "f8": 85.73,
       "f12": "301717",
-      "f14": "N超纯",
+      "f14": "C超纯",
       "f62": 2354620927.0,
       "f66": 2932777007.0,
       "f69": 41.66,
@@ -6921,7 +6921,7 @@
       "f7": 95.24,
       "f8": 83.74,
       "f12": "688828",
-      "f14": "N国仪-U",
+      "f14": "C国仪-U",
       "f62": 1340621061.0,
       "f66": 665046191.0,
       "f69": 28.62,
@@ -7496,13 +7496,5 @@
   ],
   "northbound": [],
   "dragon_tiger": [],
-  "margin_trading": [],
-  "orchestration_request": {
-    "schema_version": 1,
-    "request_id": "codex-morning-20260812T002936Z-9eatsej5",
-    "requested_at": "2026-08-12T00:29:36Z",
-    "requested_by": "codex-scheduled",
-    "source": "github_connector_push",
-    "trigger_commit_sha": "6026549969a14a6c100513f43ada2cea4025af04"
-  }
+  "margin_trading": []
 }
