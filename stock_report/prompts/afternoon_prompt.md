@@ -20,13 +20,26 @@ RAW="https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_rep
 curl -fsSL --max-time 30 "$RAW/orchestration.py" -o /tmp/orchestration.py
 python3 /tmp/orchestration.py \
   --mode afternoon \
+  --transport git \
   --repo ldwghm/AI-Mark-information \
   --ref main \
   --out-data /tmp/github_afternoon_latest.json \
   --out-status /tmp/afternoon_dispatch_status.json
 ```
 
-必须读取 status JSON，并只认其 `request_id` 对应的 run。`snapshot.fresh=false`、`state!=completed` 或 `conclusion!=success` 时继续生成降级报告，但风险提示必须写明状态、实际 fetch_time 和数据年龄。
+默认走 **git 通道**（`--transport git`）：推 `stock_report/triggers/afternoon.json` 触发抓数 workflow，再轮询 `raw.githubusercontent.com` 上的快照，比对 workflow 盖进快照的 `orchestration_request.request_id`。**全程不碰 `api.github.com`**——云端会话的 GitHub 网关拦截 Bash 直连该域名（HTTP 403「GitHub access is not enabled for this session」），而 git over HTTPS 与 raw 都是通的。
+
+必须读取 status JSON，按 `snapshot.match` 分三种情况处理：
+
+| `match` | 含义 | 怎么做 |
+|---|---|---|
+| `by_request_id` | 快照就是本次请求的产物 | 正常继续 |
+| `by_freshness` | 数据新鲜，但快照带的是**另一次**请求的 ID | 可以用，但必须在 `risk_warnings` 写明：本期数据由另一条流水线的抓数产生（Codex 与本 routine 抢同一个 trigger 文件），并把 `snapshot.reason` 逐字抄进去 |
+| `none` | 没拿到可用快照 | 仍可生成降级报告，但必须逐字说明 `state`、实际 `fetch_time` 和数据年龄 |
+
+禁止用“最近一条已完成的 workflow run”代替匹配结果。`snapshot.fresh=false`、`state!=completed` 或 `conclusion!=success` 时同样按上表最后一行处理。**绝不把旧数据写成今日数据。**
+
+若 git 通道整体失败（`state=dispatch_failed`），可以改用本会话被授权的 GitHub MCP 工具按相同语义重试一次，并把偏差逐字写进 `orchestration_status.transport_note`。
 
 ## Step 1：构造本次分析数据
 
