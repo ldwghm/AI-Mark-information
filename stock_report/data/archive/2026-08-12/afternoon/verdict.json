@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "degraded": true,
+  "hard_fail": false,
+  "blocked": false,
+  "hard_reasons": [],
+  "soft_reasons": [
+    "行情非实时（来源 efinance@github_actions (盘中快照)，置信度 medium）：A 股报价为 2026-08-12T13:42:23+08:00 的盘中快照",
+    "本期未做双源交叉验证（无第二数据源），价格未经互相印证",
+    "外围指数行滞后一个交易日，不可用于描述当日行情：恒生指数(^HSI) 数据日 2026-08-10、同市场其余行为 2026-08-11、恒生中国企业(^HSCE) 数据日 2026-08-10、同市场其余行为 2026-08-11、韩国综合(^KS11) 数据日 2026-08-10、同市场其余行为 2026-08-11、台湾加权(^TWII) 数据日 2026-08-10、同市场其余行为 2026-08-11"
+  ],
+  "block_reasons": [],
+  "mode": "afternoon",
+  "expected_data_date": "2026-08-12",
+  "quote_date_mode": "2026-08-12",
+  "continuity": {
+    "level": "pass",
+    "reason": "早午报闭环成立（2026-08-12）",
+    "morning_date": "2026-08-12"
+  },
+  "data_currency": {
+    "level": "pass",
+    "reason": "午报数据为当日 2026-08-12"
+  },
+  "coverage": {
+    "level": "pass",
+    "reason": "关注池覆盖率 50/51（98%）"
+  },
+  "liveness": {
+    "level": "pass",
+    "reason": "当日实时报价 50/50（100%）",
+    "live_rows": 50,
+    "total_rows": 50
+  },
+  "stale_highlights": [],
+  "global_index_staleness": {
+    "level": "degrade",
+    "reason": "外围指数行滞后一个交易日，不可用于描述当日行情：恒生指数(^HSI) 数据日 2026-08-10、同市场其余行为 2026-08-11、恒生中国企业(^HSCE) 数据日 2026-08-10、同市场其余行为 2026-08-11、韩国综合(^KS11) 数据日 2026-08-10、同市场其余行为 2026-08-11、台湾加权(^TWII) 数据日 2026-08-10、同市场其余行为 2026-08-11",
+    "stale_rows": [
+      "^HSI@2026-08-10",
+      "^HSCE@2026-08-10",
+      "^KS11@2026-08-10",
+      "^TWII@2026-08-10"
+    ],
+    "misattributed": []
+  },
+  "primary_priced": 50,
+  "ef_priced": 0
+}
