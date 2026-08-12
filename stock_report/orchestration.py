@@ -4,17 +4,17 @@
 两条传输通道，默认 git：
 
   git（默认）  推 stock_report/triggers/{mode}.json 触发 workflow，
-               轮询 raw.githubusercontent.com 上的快照，比对 workflow 盖进
-               快照的 orchestration_request.request_id。**完全不碰
-               api.github.com。**
+               用 git 协议（ls-remote + fetch + show）轮询快照，比对
+               workflow 盖进快照的 orchestration_request.request_id。
+               **全程不碰 api.github.com，也不走 CDN。**
   api          原来的 workflow_dispatch + actions API 轮询。
 
 改默认值的原因：云端 routine 会话的 GitHub 网关拦截 Bash 直连
 api.github.com（HTTP 403「GitHub access is not enabled for this session」），
-而同一个会话里 git over HTTPS、raw.githubusercontent 都是通的。2026-08-12
-早报实测：API 通道 dispatch_failed，靠人工绕行才跑完。git 通道是这个仓库
-里已经在生产运行的路径（Codex 流水线每天在走），且 request_id 关联比
-API 通道更硬——它绑的是快照内容，不是 run 的显示名。
+而同一个会话里 git over HTTPS 是通的。2026-08-12 早报实测：API 通道
+dispatch_failed，靠人工绕行才跑完。git 通道是这个仓库里已经在生产运行的
+路径（Codex 流水线每天在走），且 request_id 关联比 API 通道更硬——
+它绑的是快照内容，不是 run 的显示名。
 """
 
 from __future__ import annotations
@@ -23,10 +23,10 @@ import argparse
 import base64
 import json
 import os
+import shutil
 import subprocess
 import tempfile
 import time
-import urllib.request
 import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -41,7 +41,6 @@ MODE_CONFIG = {
     "afternoon": ("fetch-market-data-pm.yml", "stock_report/data/afternoon_latest.json"),
 }
 TRIGGER_PATH = "stock_report/triggers/{mode}.json"
-RAW_URL = "https://raw.githubusercontent.com/{repo}/{ref}/{path}?t={nonce}"
 
 
 def _parse_time(value):
@@ -143,14 +142,22 @@ def match_snapshot(snapshot, request_id, mode, dispatched_at, now=None):
 
 
 class GitTriggerTransport:
-    """推 trigger 文件触发、读 raw.githubusercontent 取结果。不碰 GitHub API。"""
+    """推 trigger 文件触发、用 git 协议读结果。不碰 GitHub API，也不走 CDN。
 
-    def __init__(self, repo, ref, token, runner=None, fetcher=None):
+    读取刻意不用 raw.githubusercontent：2026-08-12 午报实测，抓数
+    workflow 在 05:38:45 提交了带本次 request_id 的快照，poller 在随后
+    三分半里每 10 秒拉一次 raw 却一次都没看到它——`?t=<uuid>` nonce 没能
+    绕过 CDN 缓存，直到 13:50 的定时抓数把那份覆盖掉。结果本该
+    by_request_id 的匹配退成了 by_freshness。git 协议没有这一层。
+    """
+
+    def __init__(self, repo, ref, token, runner=None):
         self.repo = repo
         self.ref = ref
         self.token = token
         self._run = runner or self._run_git
-        self._fetch = fetcher or self._http_get
+        self._workdir = None
+        self._last_head = None
 
     @staticmethod
     def _run_git(args, cwd=None):
@@ -161,14 +168,27 @@ class GitTriggerTransport:
             raise RuntimeError(f"git {args[1] if len(args) > 1 else ''} failed: {stderr[-400:]}")
         return result.stdout
 
-    @staticmethod
-    def _http_get(url):
-        with urllib.request.urlopen(url, timeout=30) as response:
-            return response.read().decode("utf-8-sig")
-
     @property
     def _remote(self):
         return f"https://x-access-token:{self.token}@github.com/{self.repo}"
+
+    def _ensure_workdir(self):
+        if self._workdir:
+            return self._workdir
+        workdir = tempfile.mkdtemp(prefix="orch-")
+        # blobless + sparse：把 stock_report/data/ 的归档挡在外面。
+        # cone 模式仍会带上各级父目录的直接子文件（根目录 .py、
+        # stock_report/*.py），实测 34 个文件 / 约 300KB / 7 秒，可以接受。
+        self._run(["git", "clone", "--depth", "1", "--filter=blob:none", "--sparse",
+                   "--branch", self.ref, self._remote, workdir])
+        self._run(["git", "sparse-checkout", "set", "stock_report/triggers"], cwd=workdir)
+        self._workdir = workdir
+        return workdir
+
+    def close(self):
+        if self._workdir:
+            shutil.rmtree(self._workdir, ignore_errors=True)
+            self._workdir = None
 
     def dispatch(self, mode, request_id, requested_at):
         """写 trigger 文件并推上去。返回 trigger 提交的 SHA。"""
@@ -180,29 +200,34 @@ class GitTriggerTransport:
             "requested_by": "claude-scheduled",
         }
         rel = TRIGGER_PATH.format(mode=mode)
-        with tempfile.TemporaryDirectory() as workdir:
-            # blobless + sparse：把 stock_report/data/ 的归档挡在外面。
-            # cone 模式仍会带上各级父目录的直接子文件（根目录 .py、
-            # stock_report/*.py），实测 34 个文件 / 约 300KB / 7 秒，可以接受。
-            self._run(["git", "clone", "--depth", "1", "--filter=blob:none", "--sparse",
-                       "--branch", self.ref, self._remote, workdir])
-            self._run(["git", "sparse-checkout", "set", "stock_report/triggers"], cwd=workdir)
-            target = Path(workdir) / rel
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-                              encoding="utf-8")
-            self._run(["git", "add", "--", rel], cwd=workdir)
-            self._run(["git", "-c", "user.name=github-actions[bot]",
-                       "-c", "user.email=github-actions[bot]@users.noreply.github.com",
-                       "commit", "-m", f"trigger: claude {mode} {request_id}"],
-                      cwd=workdir)
-            self._run(["git", "push", self._remote, f"HEAD:{self.ref}"], cwd=workdir)
-            return self._run(["git", "rev-parse", "HEAD"], cwd=workdir).strip()
+        workdir = self._ensure_workdir()
+        target = Path(workdir) / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                          encoding="utf-8")
+        self._run(["git", "add", "--", rel], cwd=workdir)
+        self._run(["git", "-c", "user.name=github-actions[bot]",
+                   "-c", "user.email=github-actions[bot]@users.noreply.github.com",
+                   "commit", "-m", f"trigger: claude {mode} {request_id}"],
+                  cwd=workdir)
+        self._run(["git", "push", self._remote, f"HEAD:{self.ref}"], cwd=workdir)
+        return self._run(["git", "rev-parse", "HEAD"], cwd=workdir).strip()
+
+    def head_sha(self):
+        """远端分支当前指向哪个提交。几百字节，可以高频问。"""
+        out = self._run(["git", "ls-remote", self._remote, f"refs/heads/{self.ref}"])
+        line = (out or "").strip().split("\n")[0]
+        return line.split()[0] if line else None
 
     def read_snapshot(self, path):
-        url = RAW_URL.format(repo=self.repo, ref=self.ref, path=path,
-                             nonce=uuid.uuid4().hex)
-        return json.loads(self._fetch(url))
+        """取远端 ref 上该文件的当前内容。HEAD 没动就不必重新取 blob。"""
+        workdir = self._ensure_workdir()
+        head = self.head_sha()
+        if head and head != self._last_head:
+            self._run(["git", "fetch", "--depth", "1", self._remote, self.ref], cwd=workdir)
+            self._last_head = head
+        # partial clone：blob 按需从 promisor remote 拉，不受 sparse 范围限制
+        return json.loads(self._run(["git", "show", f"FETCH_HEAD:{path}"], cwd=workdir))
 
 
 class GitHubWorkflowClient:
@@ -264,6 +289,15 @@ class GitHubWorkflowClient:
         return json.loads(raw.decode("utf-8-sig"))
 
 
+_MATCH_RANK = {"none": 0, "by_freshness": 1, "by_request_id": 2}
+
+
+def _better(new, old):
+    """新一轮的判定是否比手上这份更值得留。"""
+    return (_MATCH_RANK.get(new.get("match"), 0), bool(new.get("fresh"))) >= \
+           (_MATCH_RANK.get(old.get("match"), 0), bool(old.get("fresh")))
+
+
 def run_orchestration_git(mode, repo, ref, token, timeout_seconds=420, poll_seconds=10,
                           transport=None, sleeper=time.sleep, now_fn=None):
     """git 通道：推 trigger 文件 -> 轮询快照 -> 比对 request_id。"""
@@ -295,24 +329,36 @@ def run_orchestration_git(mode, repo, ref, token, timeout_seconds=420, poll_seco
     snapshot, verdict = None, {"fresh": False, "age_seconds": None,
                                "reason": "never polled", "match": "none"}
     deadline = time.monotonic() + timeout_seconds
-    while True:
-        try:
-            candidate = transport.read_snapshot(data_path)
-            check = match_snapshot(candidate, request_id, mode, dispatched_at, now=now_fn())
-            snapshot, verdict = candidate, check
-            if check.get("match") == "by_request_id" and check.get("fresh"):
-                status["state"] = "completed"
-                status["conclusion"] = "success"
+    try:
+        while True:
+            try:
+                candidate = transport.read_snapshot(data_path)
+                check = match_snapshot(candidate, request_id, mode, dispatched_at,
+                                       now=now_fn())
+                # 只在更好的匹配上替换：抓数 workflow 提交带本次 ID 的快照后，
+                # 同一条 workflow 的定时任务可能几分钟内再覆盖一次（08-12 午报
+                # 就是 13:50 的 cron 盖掉了 push 那次）。已经拿到 by_request_id
+                # 就不该被随后那份无名快照顶掉。
+                if _better(check, verdict):
+                    snapshot, verdict = candidate, check
+                if verdict.get("match") == "by_request_id" and verdict.get("fresh"):
+                    status["state"] = "completed"
+                    status["conclusion"] = "success"
+                    break
+            except Exception as exc:
+                if snapshot is None:
+                    verdict = {"fresh": False, "age_seconds": None, "reason": str(exc),
+                               "match": "none"}
+            if time.monotonic() >= deadline:
+                # 拿到了新鲜数据但 ID 不是本次的，仍算可用，只是要如实标出来
+                status["state"] = "completed" if verdict.get("fresh") else "timeout"
+                status["conclusion"] = "success" if verdict.get("fresh") else None
                 break
-        except Exception as exc:
-            verdict = {"fresh": False, "age_seconds": None, "reason": str(exc),
-                       "match": "none"}
-        if time.monotonic() >= deadline:
-            # 拿到了新鲜数据但 ID 不是本次的，仍算可用，只是要如实标出来
-            status["state"] = "completed" if verdict.get("fresh") else "timeout"
-            status["conclusion"] = "success" if verdict.get("fresh") else None
-            break
-        sleeper(poll_seconds)
+            sleeper(poll_seconds)
+    finally:
+        closer = getattr(transport, "close", None)
+        if callable(closer):
+            closer()
 
     status["snapshot"] = verdict
     return snapshot, status

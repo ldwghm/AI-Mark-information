@@ -8,6 +8,7 @@
 import json
 import unittest
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 from stock_report import orchestration
 
@@ -159,6 +160,46 @@ class GitDriverTests(unittest.TestCase):
         self.assertEqual(status['state'], 'completed')
         self.assertEqual(status['snapshot']['match'], 'by_freshness')
 
+    def test_a_later_unstamped_snapshot_never_downgrades_a_confirmed_match(self):
+        """08-12 午报的第二个坑：push 触发的抓数提交了带本次 ID 的快照，
+        三分钟后同一条 workflow 的 13:50 定时任务又提交了一份无名快照，
+        把它覆盖。已经确认过的匹配不该被后来那份顶掉。"""
+        captured = {}
+        transport = FakeTransport([])
+
+        def dispatch(mode, request_id, requested_at):
+            captured['rid'] = request_id
+            return 'c0ffee' + '0' * 34
+        transport.dispatch = dispatch
+
+        def read(path):
+            transport.reads += 1
+            if transport.reads == 1:
+                return _snapshot(request_id=captured['rid'])   # 本次的产物
+            return _snapshot(fetch_time=BASE + timedelta(seconds=200))  # 被覆盖
+        transport.read_snapshot = read
+
+        snap, status = orchestration.run_orchestration_git(
+            'morning', 'r', 'main', 'tok', transport=transport,
+            sleeper=lambda s: None, now_fn=lambda: BASE + timedelta(seconds=90))
+        self.assertEqual(status['snapshot']['match'], 'by_request_id')
+        self.assertEqual(snap['orchestration_request']['request_id'], captured['rid'])
+
+    def test_transport_is_closed_even_when_polling_throws(self):
+        class Tracking(FakeTransport):
+            closed = False
+
+            def read_snapshot(self, path):
+                raise OSError('boom')
+
+            def close(self):
+                Tracking.closed = True
+
+        orchestration.run_orchestration_git(
+            'morning', 'r', 'main', 'tok', transport=Tracking([]),
+            timeout_seconds=0, sleeper=lambda s: None)
+        self.assertTrue(Tracking.closed)
+
     def test_network_error_while_polling_does_not_crash_the_run(self):
         snap, status, _ = self._run([OSError('raw.githubusercontent unreachable')],
                                     timeout_seconds=0)
@@ -237,17 +278,74 @@ class TransportPlumbingTests(unittest.TestCase):
             sp.run = original
         self.assertNotIn('x-access-token:', str(ctx.exception))
 
-    def test_raw_url_is_cache_busted_and_never_hits_the_api_host(self):
-        seen = {}
+    def test_reads_over_git_never_over_the_cdn_or_the_api(self):
+        """读取刻意不走 raw.githubusercontent。
 
-        def fetcher(url):
-            seen['url'] = url
-            return json.dumps(_snapshot())
-        t = orchestration.GitTriggerTransport('o/r', 'main', 'tok', fetcher=fetcher)
-        t.read_snapshot('stock_report/data/morning_latest.json')
-        self.assertTrue(seen['url'].startswith('https://raw.githubusercontent.com/o/r/main/'))
-        self.assertIn('?t=', seen['url'])
-        self.assertNotIn('api.github.com', seen['url'])
+        2026-08-12 午报实测：抓数 workflow 05:38:45 提交了带本次 request_id
+        的快照，poller 在随后三分半里每 10 秒拉一次 raw 却一次都没看到它
+        ——`?t=<uuid>` nonce 没能绕过 CDN 缓存，直到 13:50 的定时抓数把那份
+        覆盖掉，本该 by_request_id 的匹配退成了 by_freshness。
+        """
+        calls = []
+
+        def runner(args, cwd=None):
+            calls.append(args)
+            if 'ls-remote' in args:
+                return 'deadbeef' + '0' * 32 + '\trefs/heads/main\n'
+            if 'show' in args:
+                return json.dumps(_snapshot())
+            return ''
+
+        t = orchestration.GitTriggerTransport('o/r', 'main', 'tok', runner=runner)
+        snap = t.read_snapshot('stock_report/data/morning_latest.json')
+
+        self.assertEqual(snap['report_type'], 'morning')
+        flat = ' '.join(' '.join(a) for a in calls)
+        self.assertNotIn('raw.githubusercontent.com', flat)
+        self.assertNotIn('api.github.com', flat)
+        self.assertIn('ls-remote', flat)
+        self.assertIn('FETCH_HEAD:stock_report/data/morning_latest.json', flat)
+
+    def test_unchanged_head_skips_the_refetch(self):
+        """HEAD 没动就不必重新拉 blob——550KB 一次，轮询期间会拉几十次。"""
+        calls = []
+
+        def runner(args, cwd=None):
+            calls.append(args)
+            if 'ls-remote' in args:
+                return 'same' + '0' * 36 + '\trefs/heads/main\n'
+            if 'show' in args:
+                return json.dumps(_snapshot())
+            return ''
+
+        t = orchestration.GitTriggerTransport('o/r', 'main', 'tok', runner=runner)
+        t.read_snapshot('p.json')
+        t.read_snapshot('p.json')
+        fetches = [a for a in calls if 'fetch' in a]
+        self.assertEqual(len(fetches), 1)
+
+    def test_workdir_is_cloned_once_and_cleaned_up(self):
+        calls = []
+
+        def runner(args, cwd=None):
+            calls.append(args)
+            if 'ls-remote' in args:
+                return 'a' * 40 + '\trefs/heads/main\n'
+            if 'show' in args:
+                return json.dumps(_snapshot())
+            if 'rev-parse' in args:
+                return 'a' * 40 + '\n'
+            return ''
+
+        t = orchestration.GitTriggerTransport('o/r', 'main', 'tok', runner=runner)
+        t.dispatch('morning', 'morning-abc', '2026-08-12T00:00:00Z')
+        t.read_snapshot('p.json')
+        workdir = t._workdir
+        self.assertEqual(len([a for a in calls if 'clone' in a]), 1)
+        self.assertTrue(Path(workdir).exists())
+        t.close()
+        self.assertFalse(Path(workdir).exists())
+        self.assertIsNone(t._workdir)
 
 
 class DefaultTransportTests(unittest.TestCase):
