@@ -5,6 +5,7 @@ Takes structured JSON data (from fetch scripts) + CCR analysis JSON → produces
 complete HTML email body. Charts via quickchart.io image URLs.
 """
 import json
+import re
 from urllib.parse import quote
 
 # ── Helpers ────────────────────────────────────────────────────────────────
@@ -161,7 +162,104 @@ tr:last-child td { border-bottom: none; }
 .sec-sectors { border-left: 4px solid #0891b2; }
 .sec-sectors .section-header { background: linear-gradient(90deg, #ecfeff, #f0feff); color: #0891b2; }
 .sector-title-row td { background: #f0f9ff; font-weight: 700; color: #0891b2; padding: 5px 10px; font-size: 12px; }
+
+/* ── 可读性层 ─────────────────────────────────────────────────
+   分析正文常年一万六千字以上，平铺会让"当天最重要的结论"和"第 9 条
+   数据口径声明"拥有同样的视觉权重。以下三组样式只做一件事：把已经
+   写在文本里的结构（【小标题】、①②③、数据口径 vs 市场风险）翻译成
+   看得见的层级。 */
+.tldr { background: #fff; border: 2px solid #1e3a8a; border-radius: 10px; padding: 16px 18px; margin-top: 10px; }
+.tldr .tldr-tag { display: inline-block; font-size: 11px; font-weight: 700; color: #1e3a8a; background: #eff6ff; padding: 2px 8px; border-radius: 4px; letter-spacing: .5px; }
+.tldr .tldr-line { font-size: 16px; font-weight: 700; line-height: 1.6; margin-top: 8px; color: #111827; }
+.tldr .tldr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.tldr .tldr-cell { background: #f8faff; border-radius: 6px; padding: 8px 10px; }
+.tldr .tldr-k { font-size: 11px; color: #6b7280; }
+.tldr .tldr-v { font-size: 14px; font-weight: 700; color: #1f2937; margin-top: 2px; }
+.badges { margin-top: 10px; }
+.badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; margin: 2px 4px 2px 0; }
+.badge-ok { background: #dcfce7; color: #15803d; }
+.badge-warn { background: #fef3c7; color: #b45309; }
+.badge-bad { background: #fee2e2; color: #b91c1c; }
+.badge-mute { background: #f1f5f9; color: #64748b; }
+
+.subhead { font-size: 13px; font-weight: 700; color: #1e3a8a; margin: 12px 0 4px; padding-left: 8px; border-left: 3px solid #93c5fd; }
+.para { font-size: 13px; line-height: 1.85; margin: 4px 0; color: #374151; }
+.insight-num { display: inline-block; min-width: 18px; height: 18px; line-height: 18px; text-align: center; background: #1e3a8a; color: #fff; font-size: 11px; font-weight: 700; border-radius: 50%; margin-right: 6px; }
+
+.hl-card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; margin: 8px 0; background: #fff; }
+.hl-head { font-size: 14px; font-weight: 700; color: #111827; }
+.hl-code { font-size: 12px; color: #9ca3af; font-weight: 400; margin-left: 4px; }
+.hl-asof { font-size: 11px; color: #b45309; background: #fffbeb; border: 1px solid #fde68a; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+.hl-body { font-size: 12.5px; line-height: 1.75; color: #4b5563; margin-top: 6px; }
+
+.caveat-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+.caveat-title { font-size: 12px; font-weight: 700; color: #64748b; }
+.caveat-item { font-size: 11.5px; line-height: 1.7; color: #64748b; margin-top: 6px; padding-left: 10px; border-left: 2px solid #cbd5e1; }
+.caveat-item b { color: #475569; }
 """
+
+# ── 文本结构化 ────────────────────────────────────────────────────────────
+# 分析层已经把结构写进了文本：【小标题】分段、①②③列点。以前这些都当纯文字
+# 渲染，读者要自己在一堵墙里找层级。下面把它们提成真的 HTML 结构。
+
+_LEAD_MARK = re.compile(r'^【([^】]{1,40})】')
+# 数据/方法类口径 vs 真正的市场风险。分类依据就是分析层自己写的【】标题——
+# 它已经准确地把两类分开了，不需要再猜。
+_CAVEAT_WORDS = ('数据', '口径', '缺失', '快照', '基准', '核验', '闭环', '重复计算',
+                 '状态', '证据不足', '不可得', 'unavailable', '时点', '替换', '分层',
+                 # 「X 为 A 而非 B」「无今日…」这类纯粹描述取数口径的说法
+                 '观察池', '无今日', '而非', '未采集', '非当日', '未能',
+                 # 早报侧的说法（早报不写【】小标题，更依赖这些词）
+                 '非实时', '来源冲突', '归档', '有效时点')
+# 「缺口」「回补」都不能进这张表：归档缺口是数据问题，但跳空缺口、缺口回补
+# 是真正的市场风险。「个股行情为收盘回补，非实时」靠'非实时'已能命中。
+
+
+_MD_BOLD = re.compile(r'\*\*(.+?)\*\*', re.S)
+
+
+def _md_inline(text):
+    """分析层习惯在 JSON 字符串里写 markdown 强调，邮件里会原样露出 `**`。
+
+    实测："①**今日盘中层（北京时间14:23:20抓取）**——AI板块行情…"
+    这些星号是模型在标注重点，本来就该是加粗，翻译过来即可。
+    """
+    return _MD_BOLD.sub(r'<b>\1</b>', str(text or ''))
+
+
+def _rich_text(text, para_cls='para'):
+    """把 `【小标题】` 提成小标题，按换行分段。纯展示，不改动任何文字。"""
+    if not text:
+        return ''
+    out = []
+    for chunk in str(text).split('\n'):
+        chunk = chunk.strip()
+        if not chunk:
+            continue
+        m = _LEAD_MARK.match(chunk)
+        if m:
+            out.append(f'<div class="subhead">{m.group(1)}</div>')
+            chunk = chunk[m.end():].strip()
+            if not chunk:
+                continue
+        out.append(f'<p class="{para_cls}">{_md_inline(chunk)}</p>')
+    return ''.join(out)
+
+
+def _split_lead(text):
+    """拆出开头的 `【标题】`，返回 (标题 or None, 余文)。"""
+    text = str(text or '').strip()
+    m = _LEAD_MARK.match(text)
+    if not m:
+        return None, text
+    return m.group(1), text[m.end():].strip()
+
+
+def _is_caveat(title, body):
+    """这条 risk_warning 是数据口径说明，还是真正的市场风险？"""
+    probe = title or body[:30]
+    return any(w in probe for w in _CAVEAT_WORDS)
+
 
 # ── Section builders ──────────────────────────────────────────────────────
 
@@ -470,38 +568,192 @@ def _render_analysis(analysis):
     # Market summary
     summary = analysis.get('market_summary', '')
     if summary:
-        parts.append(f'<p style="font-size:14px;line-height:1.8;margin-bottom:12px">{summary}</p>')
+        parts.append(_rich_text(summary))
 
     # Review (morning prediction vs intraday reality)
     review = analysis.get('review', '')
     if review:
-        parts.append(f'<div style="margin-bottom:10px;padding:8px 12px;background:#fef9c3;border-left:3px solid #ca8a04;border-radius:4px"><b>早报复盘：</b><p style="font-size:13px;line-height:1.7;margin-top:4px">{review}</p></div>')
+        parts.append(
+            '<div style="margin:12px 0;padding:10px 14px;background:#fefce8;'
+            'border-left:3px solid #ca8a04;border-radius:4px">'
+            '<div style="font-size:13px;font-weight:700;color:#854d0e">早报复盘</div>'
+            f'{_rich_text(review)}</div>')
 
-    # Key insights
+    # Key insights —— 编号，让"十条要点"变成可数、可跳读的清单
     insights = analysis.get('key_insights', [])
     if insights:
-        items = ''.join(f'<li>{i}</li>' for i in insights)
-        parts.append(f'<div class="insight-box"><b>核心观点：</b><ul style="margin-top:6px;padding-left:18px">{items}</ul></div>')
+        items = ''.join(
+            f'<div style="margin:8px 0;font-size:13px;line-height:1.75">'
+            f'<span class="insight-num">{n}</span>{_md_inline(text)}</div>'
+            for n, text in enumerate(insights, 1))
+        parts.append(
+            '<div class="insight-box"><b>核心观点</b>'
+            f'<div style="margin-top:6px">{items}</div></div>')
 
     # Sector rotation
     rotation_html = _render_sector_rotation(analysis)
     if rotation_html:
         parts.append(f'<div style="margin-top:10px"><b>板块轮动判断：</b>{rotation_html}</div>')
 
-    # Stock highlights
+    # Stock highlights —— 卡片化。每条 comment 常有 400 字，挤在 <li> 里读不动；
+    # 开头的【价格字段口径…】提成徽章，读者一眼知道这个价是哪天的。
     highlights = analysis.get('stock_highlights', [])
     if highlights:
-        hl_items = ''
+        cards = ''
         for h in highlights:
-            hl_items += f'<li><b>{h.get("name", "")}</b>({h.get("code", "")}): {h.get("comment", "")}</li>'
-        parts.append(f'<div style="margin-top:10px"><b>个股点评：</b><ul style="margin-top:4px;padding-left:18px;font-size:13px;line-height:1.7">{hl_items}</ul></div>')
+            lead, body = _split_lead(h.get('comment', ''))
+            asof = h.get('price_as_of') or ''
+            badge = ''
+            if h.get('price_is_fallback') and asof:
+                badge = f'<span class="hl-asof">价格截至 {str(asof)[:10]}</span>'
+            elif lead:
+                badge = f'<span class="hl-asof">{lead[:18]}</span>'
+            cards += (
+                '<div class="hl-card">'
+                f'<div class="hl-head">{h.get("name", "")}'
+                f'<span class="hl-code">{h.get("code", "")}</span>{badge}</div>'
+                f'<div class="hl-body">{_md_inline(body or h.get("comment", ""))}</div>'
+                '</div>')
+        parts.append(f'<div style="margin-top:12px"><b>个股点评</b>{cards}</div>')
 
     # Sector analysis
     sector = analysis.get('sector_analysis', '')
     if sector:
-        parts.append(f'<div style="margin-top:10px"><b>板块解读：</b><p style="font-size:13px;line-height:1.7;margin-top:4px">{sector}</p></div>')
+        parts.append(f'<div style="margin-top:12px"><b>板块解读</b>{_rich_text(sector)}</div>')
 
     return '\n'.join(parts)
+
+
+_RISK_WORDS = ('事件', '政策', '风险', '波动', '传闻', '不确定', '监管')
+_POS_RANGE = re.compile(r'(\d{1,3}\s*[-–~至]\s*\d{1,3}\s*%)')
+_POS_SINGLE = re.compile(r'(\d{1,3}\s*%)')
+
+
+def _position_range(position):
+    """从一段仓位说明里抽出数字区间。
+
+    `trading_advice.position` 实测常是 300 字的整段论述（"总仓位建议35-50%（较
+    今日早报的40-55%下调…"），截前 40 字只会得到一句半截话。摘要卡要的是
+    "35-50%" 这四个字符，理由留在下面的正文里。
+    """
+    text = str(position or '').strip()
+    if not text:
+        return ''
+    m = _POS_RANGE.search(text) or _POS_SINGLE.search(text)
+    if m:
+        return m.group(1).replace(' ', '')
+    return text if len(text) <= 24 else text[:24] + '…'
+
+
+def _first_sentence(text, limit=90):
+    """取第一句作摘要；带【标题】的先剥掉标题。"""
+    _lead, body = _split_lead(text)
+    body = (body or '').replace('\n', ' ').strip()
+    for sep in ('。', '；', '. '):
+        if sep in body[:limit + 30]:
+            return body.split(sep)[0] + sep
+    return body[:limit] + ('…' if len(body) > limit else '')
+
+
+def _data_badges(analysis, market_data):
+    """数据状态徽章：把 verify/data_quality 里的判定摆到最显眼处。
+
+    这些信息以前只存在于 JSON 和风险提示的第 1、2 条里，读者要读到一千字
+    之后才知道"今天的个股价格其实是昨天的"。
+    """
+    dq = (market_data or {}).get('data_quality') or {}
+    verify = (analysis or {}).get('verify') or {}
+    prov = dq.get('provenance') or {}
+    cc = dq.get('crosscheck') or {}
+    out = []
+
+    total = prov.get('fallback_rows')
+    by_src = prov.get('by_source') or {}
+    live = sum(v for k, v in by_src.items() if k in ('sina', 'tencent', 'yfinance'))
+    if isinstance(total, int) and (live or total):
+        n = live + total if live else total
+        if live == 0:
+            out.append(f'<span class="badge badge-bad">个股价格 0/{n} 为当日实时</span>')
+        elif live < n:
+            out.append(f'<span class="badge badge-warn">当日实时 {live}/{n}</span>')
+        else:
+            out.append(f'<span class="badge badge-ok">当日实时 {live}/{n}</span>')
+
+    behind = prov.get('seconds_behind_market')
+    if isinstance(behind, (int, float)) and behind > 900:
+        hours = behind / 3600
+        label = f'{hours:.1f} 小时' if hours >= 1 else f'{behind / 60:.0f} 分钟'
+        out.append(f'<span class="badge badge-warn">数据落后市场 {label}</span>')
+
+    if cc.get('status') == 'unchecked' or cc.get('checked_pairs') == 0:
+        out.append('<span class="badge badge-mute">未做双源交叉验证</span>')
+    elif cc.get('checked_conflicts'):
+        out.append(f'<span class="badge badge-warn">双源冲突 {cc["checked_conflicts"]} 处</span>')
+    elif cc.get('checked_pairs'):
+        out.append(f'<span class="badge badge-ok">双源已核对 {cc["checked_pairs"]} 只</span>')
+
+    if not (market_data or {}).get('realtime_indices') and \
+            not (market_data or {}).get('indices'):
+        out.append('<span class="badge badge-bad">大盘指数本期缺失</span>')
+
+    if verify.get('blocked'):
+        out.append('<span class="badge badge-bad">未通过发送门槛</span>')
+    elif verify.get('hard_fail'):
+        out.append('<span class="badge badge-bad">存在硬性核对失败</span>')
+
+    return f'<div class="badges">{"".join(out)}</div>' if out else ''
+
+
+def _render_tldr(analysis, market_data):
+    """顶部结论卡：先给结论、仓位、最大风险和数据状态，再让人决定要不要往下读。"""
+    if not analysis:
+        return ''
+    pred = analysis.get('prediction') or {}
+    advice = analysis.get('trading_advice') or {}
+
+    line = pred.get('label') or _first_sentence(analysis.get('market_summary', ''))
+    if not line:
+        return ''
+
+    conf = pred.get('confidence')
+    position_short = _position_range(advice.get('position', ''))
+
+    # 最重要的一条风险：先找标题里明写"事件/政策/风险"的，再退回第一条非口径类。
+    # 不能简单取第一条——分析层习惯把数据口径说明排在最前面。
+    top_risk = ''
+    fallback_risk = ''
+    for w in analysis.get('risk_warnings') or []:
+        title, body = _split_lead(w)
+        text = f'{title}：{_first_sentence(body, 70)}' if title else _first_sentence(body, 70)
+        if title and any(k in title for k in _RISK_WORDS):
+            top_risk = text
+            break
+        if not fallback_risk and not _is_caveat(title, body):
+            fallback_risk = text
+    top_risk = top_risk or fallback_risk
+
+    cells = ''
+    if position_short and position_short != '-':
+        cells += ('<div class="tldr-cell"><div class="tldr-k">建议仓位</div>'
+                  f'<div class="tldr-v">{position_short}</div></div>')
+    if isinstance(conf, (int, float)):
+        cells += ('<div class="tldr-cell"><div class="tldr-k">判断置信度</div>'
+                  f'<div class="tldr-v">{conf}%</div></div>')
+    grid = f'<div class="tldr-grid">{cells}</div>' if cells else ''
+
+    risk_html = ''
+    if top_risk:
+        risk_html = ('<div style="margin-top:10px;font-size:12.5px;line-height:1.7;'
+                     f'color:#9a3412"><b>主要风险：</b>{top_risk}</div>')
+
+    return f"""
+<div class="tldr">
+  <span class="tldr-tag">先看这里</span>
+  <div class="tldr-line">{line}</div>
+  {grid}
+  {risk_html}
+  {_data_badges(analysis, market_data)}
+</div>"""
 
 def _render_trading_advice(analysis):
     """Render trading advice box."""
@@ -519,12 +771,38 @@ def _render_trading_advice(analysis):
 </div>"""
 
 def _render_risk_warnings(analysis):
-    """Render risk warnings."""
+    """风险提示分两级渲染。
+
+    实测一期午报有 12 条 risk_warnings、平均 275 字，其中 11 条是数据口径与
+    方法说明（【数据分层】【指数层缺失】【量比口径替换声明】…），只有 1 条
+    是真正的市场风险（【事件风险】：CPI）。全部用同一个橙色警告框平铺，
+    等于把唯一重要的那条埋掉了。
+    分类依据就用分析层自己写的【】标题——它已经把两类分得很清楚。
+    """
     warnings = analysis.get('risk_warnings', []) if analysis else []
     if not warnings:
         return ''
-    items = ''.join(f'<div class="risk-item">⚠️ {w}</div>' for w in warnings)
-    return items
+
+    risks, caveats = [], []
+    for w in warnings:
+        title, body = _split_lead(w)
+        (caveats if _is_caveat(title, body) else risks).append((title, body))
+
+    parts = []
+    for title, body in risks:
+        head = f'<b>{title}</b><br>' if title else ''
+        parts.append(f'<div class="risk-item">⚠️ {head}{_md_inline(body)}</div>')
+
+    if caveats:
+        items = ''.join(
+            f'<div class="caveat-item">{f"<b>{t}</b> " if t else ""}{_md_inline(b)}</div>'
+            for t, b in caveats)
+        parts.append(
+            '<div class="caveat-box">'
+            f'<div class="caveat-title">数据口径与方法说明（{len(caveats)} 条）'
+            '　—— 影响结论的可信度，但不是市场风险</div>'
+            f'{items}</div>')
+    return ''.join(parts)
 
 def _render_sectors_summary(sectors):
     """Render structured sector summary table from sectors array."""
@@ -747,6 +1025,8 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 
 {_render_degraded_banner(analysis)}
 
+{_render_tldr(analysis, market_data)}
+
 {_section('sec-index', '📊', '大盘指数概览', idx_cards + idx_table + idx_tech_html) if (idx_cards or idx_tech_html) else ''}
 
 {_section('sec-capital', '💰', 'AI板块资金流向 TOP10', capital_html) if capital else ''}
@@ -851,7 +1131,8 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
 
     # Afternoon-specific: intraday changes
     intraday = analysis.get('intraday_changes', '')
-    intraday_html = f'<p style="font-size:13px;line-height:1.7">{intraday}</p>' if intraday else ''
+    intraday_html = (f'<div style="margin-bottom:12px"><b>盘中变化</b>{_rich_text(intraday)}</div>'
+                     if intraday else '')
 
     # Afternoon plan
     plan = analysis.get('afternoon_plan', '')
@@ -882,6 +1163,8 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
 </div>
 
 {_render_degraded_banner(analysis)}
+
+{_render_tldr(analysis, market_data)}
 
 {_section('sec-index', '📊', '大盘指数', idx_cards) if idx_cards else ''}
 

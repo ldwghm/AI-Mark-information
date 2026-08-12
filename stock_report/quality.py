@@ -30,6 +30,12 @@ SOFT_CHG_ABS = 0.5
 COVERAGE_DEGRADE = 0.90   # < 90% 降级
 COVERAGE_BLOCK = 0.70     # < 70% 停止正式发送
 
+# ---- 数据活性 ----
+# 覆盖率只回答"有没有数字"，回答不了"是不是今天的数字"。2026-08-11 午报实测：
+# watchlist_coverage=51/51（100%），而 51 行全部来自 klines_cache/efinance 回填，
+# 0 行是当日实时报价——覆盖率门槛判了满分。活性必须单独判。
+LIVE_RATIO_DEGRADE = 0.50   # 当日实时报价占比 < 50% 降级
+
 # 声称"实时"的措辞
 REALTIME_CLAIMS = ('实时', '此刻', '当前最新价', '正在交易')
 # 允许自称实时的两种情形：① 15 分钟以内；② 市场再没有更新的数据了（收盘价）。
@@ -81,6 +87,62 @@ def evaluate_coverage(latest):
     if ratio < COVERAGE_DEGRADE:
         return DEGRADE, f'{detail}，低于降级线 {COVERAGE_DEGRADE:.0%}'
     return PASS, detail
+
+
+INTRADAY_KEYS = ('ai_boards_rt', 'board_stocks_rt', 'capital_flow_top30_rt')
+
+
+def count_live_rows(latest):
+    """返回 (live, total)。live = 当次实时抓取、非回填的行数。
+
+    `is_fallback` 由 provenance 打标：sina/tencent/yfinance 为实时，
+    efinance_backfill / klines_cache / stooq 为回填。
+    """
+    rows = latest.get('watchlist_technicals') or []
+    if not rows:
+        return 0, 0
+    return len([r for r in rows if not r.get('is_fallback')]), len(rows)
+
+
+def has_intraday_layer(latest):
+    """当日盘中层是否存在（板块/成分股/资金流实时榜）。
+
+    观察池全是昨收、但板块与资金流是今日的，这种情况报告仍有实质内容，
+    应当降级而不是阻断——2026-08-11 午报就是这样。
+    """
+    return any(latest.get(key) for key in INTRADAY_KEYS)
+
+
+def evaluate_liveness(mode, latest):
+    """数据活性：这份午报里到底有没有今天的数字。
+
+    刻意与 `evaluate_realtime_claims` 分开——那道门槛只在分析层写了"实时"
+    二字时才触发，是措辞检查；这道只看数据本身，不管报告怎么措辞。
+    一份 100% 回填的报告，即使小心避开"实时"字样，也必须被标出来。
+
+    早报不适用：早报的基准本来就是最近一个已完成交易日的收盘价。
+    """
+    if mode != 'afternoon':
+        return PASS, '早报以收盘价为基准，不适用活性判定'
+
+    live, total = count_live_rows(latest)
+    if total == 0:
+        return BLOCK, '观察池为空'
+
+    intraday = has_intraday_layer(latest)
+    if live == 0 and not intraday:
+        return BLOCK, '午报无任何当日数据：观察池 0 条实时报价，且无板块/资金流盘中层'
+    if live == 0:
+        return (DEGRADE,
+                f'观察池 {total} 只全部为回填数据（0 条当日实时报价），'
+                f'仅板块与资金流为当日盘中；个股价格与技术指标均非今日')
+
+    ratio = live / total
+    if ratio < LIVE_RATIO_DEGRADE:
+        return (DEGRADE,
+                f'当日实时报价仅 {live}/{total}（{ratio:.0%}），'
+                f'低于 {LIVE_RATIO_DEGRADE:.0%}，多数个股为回填价')
+    return PASS, f'当日实时报价 {live}/{total}（{ratio:.0%}）'
 
 
 def evaluate_data_currency(mode, latest, today=None):

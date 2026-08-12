@@ -1,0 +1,12 @@
+# 校验 / 渲染 / 发信 / 测试链路的依赖。
+#
+# 刻意**不含** yfinance 与 efinance：两者只在 cloud_fetch、klines_cache、
+# global_markets 的函数体内惰性导入，这条链路走不到，也不该联网。装上反而会
+# 掩盖"发信环境其实没有它们"这个事实——那样一旦有人把行情抓取写进 verify，
+# 生产环境要到线上才会炸。
+#
+# 用于：tests.yml、send-report.yml、send-report-pm.yml、
+#       pipeline-health.yml、send-english-practice.yml
+requests>=2.31
+numpy>=1.24
+pandas>=2.0

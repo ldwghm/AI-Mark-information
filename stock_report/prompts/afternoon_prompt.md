@@ -93,7 +93,9 @@ curl -fsSL --max-time 20 \
 }
 ```
 
-每条 `key_insight` 含数字；`stock_highlights.price/chg_pct` 逐字取自本次 latest；`orchestration_status` 和 `data_quality` 原样复制；证据 ID 可追溯；概率合计 100。JSON 写完后解析检查。
+每条 `key_insight` 含数字；`orchestration_status` 和 `data_quality` 原样复制；证据 ID 可追溯；概率合计 100。JSON 写完后解析检查。
+
+`stock_highlights.price/chg_pct` 逐字取自本次 latest，且**优先取当日盘中值**：若该股同时出现在 `capital_flow_top30_rt` 或 `board_stocks_rt`（今日盘中层）与 `watchlist_technicals`（回填层）中，必须用盘中层的 `f2`/`f3`，不得写回填的昨收价。理由：这两个字段是机器读的——verify 用它做偏差核对，归档 bundle 与预测台账存的也是它，写成昨收会让"今日预测 vs 实际"的结算全部错位。昨收价请写进 `comment` 作为对照，并在 comment 里注明两个时点。若该股今日盘中确实无价，则 price 用回填值并在 comment 开头声明口径。
 
 ## Step 3：提交 latest 与候选分析
 
