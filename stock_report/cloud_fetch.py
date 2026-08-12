@@ -480,9 +480,11 @@ def backfill_from_efinance(result, old, all_codes, sector_names, mode):
         row = by_code.get(code)
         if row is None:
             if price is not None:
+                # open/high/low/volume/amount 一律 None：efinance 回填只给到收盘价，
+                # 填 price 会造出一根假十字星，填 0 会渲染成 0.00——两者都比缺失更糟。
                 nr = {'name': name, 'code': code, 'sector': sector, 'ticker': '', 'close': price,
-                      'chg_pct': chg, 'open': price, 'high': price, 'low': price, 'prev_close': None,
-                      'volume': 0, 'amount': 0, 'data_date': ddate}
+                      'chg_pct': chg, 'open': None, 'high': None, 'low': None, 'prev_close': None,
+                      'volume': None, 'amount': None, 'data_date': ddate}
                 nr.update(NULL_TECH)
                 # 这是收盘/快照回填价，不是本次实时抓取——必须标出来
                 provenance.stamp(nr, 'efinance_backfill', as_of=provenance.daily_close_as_of(ddate))
@@ -679,9 +681,12 @@ def main():
             close = round(float(closes[-1]), 2)
             prev = round(float(closes[-2]), 2)
             chg_pct = round((close - prev) / prev * 100, 2)
-            o = h = l = close
+            # 缓存里只有 closes 和 volumes，没有 OHLC。这里曾把三个字段全部
+            # 赋成收盘价，结果 08-11 午报邮件印出 51 行「最高＝最低＝现价」
+            # ——涨 6.7% 却零振幅。缺失必须长得像缺失，不能长得像一根十字星。
+            o = h = l = None
             vol = float(vols[-1])
-            amt = close * vol
+            amt = None            # 成交额未知；close*vol 是拿收盘价冒充 VWAP
             ddate = last_bar
         # 价格来自哪个源、对应哪个市场时点——分析层据此区分实时价与回填价
         if q:
@@ -693,14 +698,15 @@ def main():
             price_as_of = provenance.daily_close_as_of(ddate)
 
         rt_row = {'name': name, 'code': code, 'sector': sector, 'current': close, 'change_pct': chg_pct,
-                  'high': h, 'low': l, 'volume': int(vol), 'data_date': ddate}
+                  'high': h, 'low': l, 'volume': None if vol is None else int(vol), 'data_date': ddate}
         provenance.stamp(rt_row, price_source, as_of=price_as_of,
                          retrieved_at=result['fetch_time'])
         watchlist_rt.append(rt_row)
 
         row = {'name': name, 'code': code, 'sector': sector, 'ticker': yft(code) or sprefix(code),
                'close': close, 'chg_pct': chg_pct, 'open': o, 'high': h, 'low': l,
-               'prev_close': round(prev, 2), 'volume': int(vol), 'amount': round(amt, 0), 'data_date': ddate,
+               'prev_close': round(prev, 2), 'volume': None if vol is None else int(vol),
+               'amount': None if amt is None else round(amt, 0), 'data_date': ddate,
                'technicals_source': src}
         row.update(tech)
         provenance.stamp(row, price_source, as_of=price_as_of,

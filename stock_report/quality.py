@@ -14,6 +14,8 @@
 阈值取值依据：指数是全市场锚点，0.3% 已经是一根明显的假数字；个股 1% 在
 盘中属于正常波动区间之外的偏差；方向冲突说明两个源看到的不是同一个时点。
 """
+import re
+
 try:
     from . import timeutil
 except ImportError:      # 平铺执行
@@ -221,6 +223,93 @@ def evaluate_realtime_claims(latest, analysis, mode=None):
         return DEGRADE, (f'数据落后市场最新可得 {behind / 60:.0f} 分钟（超过 '
                          f'{INTRADAY_STALE_LIMIT // 60} 分钟）却使用了确定性措辞 {hits}')
     return PASS, ''
+
+
+def _analysis_haystack(analysis):
+    haystack = ' '.join(str((analysis or {}).get(k, '')) for k in
+                        ('market_summary', 'sector_analysis', 'hk_us_summary',
+                         'review', 'trading_advice'))
+    haystack += ' ' + ' '.join(map(str, (analysis or {}).get('key_insights') or []))
+    haystack += ' ' + ' '.join(str(r) for r in ((analysis or {}).get('risk_warnings') or []))
+    return haystack
+
+
+def stale_index_rows(latest):
+    """外围市场里日期落后于同市场其余行的指数行。
+
+    抓数端（global_markets.py）早就逐行算好了 row_stale 与 stale_rows，
+    但一直只是打进日志——verify 从不读，渲染端也不读。也就是说唯一挡在
+    陈旧指数和邮件之间的，是模型愿不愿意逐行去看 market_date。
+    2026-08-12 实测：^HSI/^HSCE/^KS11/^TWII 四行落后整整一个交易日。
+    """
+    out = []
+    markets = ((latest.get('global_markets') or {}).get('markets') or {})
+    for region, block in markets.items():
+        if not isinstance(block, dict):
+            continue
+        for row in (block.get('indices') or []):
+            if not isinstance(row, dict) or not row.get('row_stale'):
+                continue
+            out.append({'region': region, 'code': row.get('code'),
+                        'name': row.get('name') or row.get('code'),
+                        'chg': row.get('chg'),
+                        'row_date': row.get('market_date'),
+                        'market_date': block.get('market_date')})
+    return out
+
+
+def _cites_without_dating(haystack, row, window=120):
+    """报告是否在没有标注旧日期的情况下引用了这行陈旧指数的涨跌幅。
+
+    在指数名出现的每个 ±window 字窗口里找它的涨跌幅数值；找到了，
+    而窗口里既没有该行的真实日期（多种写法）也没有"最近有效时点"这类
+    限定语，就判为把旧数据当成了今日数据。
+    """
+    name, chg, row_date = row.get('name'), row.get('chg'), row.get('row_date') or ''
+    if not name or chg is None or not row_date:
+        return False
+    try:
+        figure = f'{abs(float(chg)):.2f}'
+    except (TypeError, ValueError):
+        return False
+    parts = row_date.split('-')
+    date_forms = {row_date}
+    if len(parts) == 3:
+        mm, dd = parts[1], parts[2]
+        date_forms |= {f'{mm}-{dd}', f'{int(mm)}/{int(dd)}', f'{mm}/{dd}',
+                       f'{int(mm)}月{int(dd)}日', f'{int(mm)}-{int(dd)}'}
+    qualifiers = ('最近有效', 'unavailable', '滞后', '非当日', '上一个交易日')
+    for m in re.finditer(re.escape(name), haystack):
+        w = haystack[max(0, m.start() - window):m.end() + window]
+        if figure not in w:
+            continue
+        if any(d in w for d in date_forms) or any(q in w for q in qualifiers):
+            continue
+        return True
+    return False
+
+
+def evaluate_global_index_staleness(latest, analysis=None):
+    """外围指数行滞后一个交易日时的两级判定。
+
+    返回 (level, reason, detail)。detail['misattributed'] 非空时，verify 记
+    **硬失败**（逼一次重生成）；否则 DEGRADE 只记软警告。不设 BLOCK：
+    港股指数陈旧不足以让整份 A 股报告不发。
+    """
+    rows = stale_index_rows(latest)
+    detail = {'stale_rows': rows, 'misattributed': []}
+    if not rows:
+        return PASS, '', detail
+    haystack = _analysis_haystack(analysis) if analysis else ''
+    bad = [r for r in rows if _cites_without_dating(haystack, r)]
+    detail['misattributed'] = bad
+    if bad:
+        names = '、'.join(f"{r['name']} {float(r['chg']):+.2f}%（实为 {r['row_date']} 的数据）"
+                          for r in bad)
+        return DEGRADE, f'报告把落后一个交易日的指数当作当日数据引用：{names}', detail
+    listed = '、'.join(f"{r['name']}({r['code']}) 数据日 {r['row_date']}"
+                       f"、同市场其余行为 {r['market_date']}" for r in rows)
+    return DEGRADE, f'外围指数行滞后一个交易日，不可用于描述当日行情：{listed}', detail
 
 
 def combine(*levels):
