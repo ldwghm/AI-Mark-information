@@ -311,6 +311,16 @@ def main():
     # 故记软警告并把正确的今日价写进 intraday_price 字段，不硬失败。
     soft.extend(stale_highlights)
 
+    # 7d) 外围指数行滞后一个交易日。抓数端一直算着 row_stale 却没人读，
+    # 挡在陈旧指数和邮件之间的只有模型的自觉。引用了旧数字记硬失败，
+    # 只是存在陈旧行则记软警告。
+    gidx_level, gidx_reason, gidx_detail = quality.evaluate_global_index_staleness(
+        latest, analysis)
+    if gidx_detail['misattributed']:
+        hard.append(gidx_reason)
+    elif gidx_level != quality.PASS:
+        soft.append(gidx_reason)
+
     # 8a) 午报数据必须是当日的（与闭环分开：原因不同、修法不同）
     cur_level, cur_reason = quality.evaluate_data_currency(mode, latest, today=args.today)
     if cur_level == quality.BLOCK:
@@ -356,6 +366,11 @@ def main():
                             'live_rows': quality.count_live_rows(latest)[0],
                             'total_rows': quality.count_live_rows(latest)[1]},
                'stale_highlights': stale_highlights,
+               'global_index_staleness': {
+                   'level': gidx_level, 'reason': gidx_reason,
+                   'stale_rows': [f"{r['code']}@{r['row_date']}"
+                                  for r in gidx_detail['stale_rows']],
+                   'misattributed': [r['code'] for r in gidx_detail['misattributed']]},
                'primary_priced': len([1 for v in primary.values() if v['price'] is not None]),
                'ef_priced': len([1 for v in ef_index.values() if v['price'] is not None])}
 

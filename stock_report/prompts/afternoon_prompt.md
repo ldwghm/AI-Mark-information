@@ -97,6 +97,11 @@ curl -fsSL --max-time 20 \
 
 `stock_highlights.price/chg_pct` 逐字取自本次 latest，且**优先取当日盘中值**：若该股同时出现在 `capital_flow_top30_rt` 或 `board_stocks_rt`（今日盘中层）与 `watchlist_technicals`（回填层）中，必须用盘中层的 `f2`/`f3`，不得写回填的昨收价。理由：这两个字段是机器读的——verify 用它做偏差核对，归档 bundle 与预测台账存的也是它，写成昨收会让"今日预测 vs 实际"的结算全部错位。昨收价请写进 `comment` 作为对照，并在 comment 里注明两个时点。若该股今日盘中确实无价，则 price 用回填值并在 comment 开头声明口径。
 
+另有两条数据口径硬规则：
+
+1. **`open/high/low/amount` 为 null 时不得推断。** 回填价来自 klines_cache，缓存只存收盘价与成交量，没有 OHLC。null 表示"日内振幅本期不可得"，不是零振幅。（这三个字段曾被赋成收盘价，导致 08-11 午报邮件印出 51 行「最高＝最低＝现价」——江波龙涨 6.70% 却零振幅。）
+2. **引用外围指数前先看 `row_stale`。** `global_markets.markets.<区域>.indices[]` 逐行带 `market_date` 与 `row_stale`；`row_stale=true` 说明该行落后于同市场其余行（08-12 实测 ^HSI/^HSCE/^KS11/^TWII 均落后一个交易日）。这类数字**不得用于描述当日**：要么标注真实时点，要么写 unavailable，方向以同市场个股为准。verify 会核对——引用了陈旧涨跌幅而附近未标日期，判硬失败。
+
 ## Step 3：提交 latest 与候选分析
 
 ```bash

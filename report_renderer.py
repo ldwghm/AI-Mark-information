@@ -28,6 +28,46 @@ def _fp(p):
     p = _num(p)
     return f'{p:+.2f}%'
 
+def _price_cell(v):
+    """缺失的价格必须显示为「—」。
+
+    不能走 _num()——它把 None 折成 0，会印出 0.00，读者无法与真实的
+    0 元区分；更不能拿收盘价顶替，那会造出一根不存在的十字星。
+    """
+    if v is None or v == '' or v == '-':
+        return '—'
+    try:
+        return f'{float(v):.2f}'
+    except (ValueError, TypeError):
+        return '—'
+
+def _stale_index_names(market_data):
+    """外围指数里日期落后于同市场其余行的那些（抓数端已逐行标 row_stale）。"""
+    names = []
+    markets = (((market_data or {}).get('global_markets') or {}).get('markets') or {})
+    for block in markets.values():
+        if not isinstance(block, dict):
+            continue
+        for row in (block.get('indices') or []):
+            if isinstance(row, dict) and row.get('row_stale'):
+                names.append(row.get('name') or row.get('code'))
+    return names
+
+def _has_intraday_range(rows):
+    """整池是否至少有一行拿到了真实的日内高低。
+
+    第二个条件是防伪：整池每一行都 high==low==现价，说明上游拿收盘价
+    顶替了 OHLC（历史归档里就是这样），不是 51 只股票真的全天零振幅。
+    单只涨停股确实可能零振幅，但那时整池也只会丢两列，代价可以接受。
+    """
+    rows = rows or []
+    if not any((r.get('high') is not None) or (r.get('low') is not None)
+               for r in rows):
+        return False
+    return any(_num(r.get('high')) != _num(r.get('low'))
+               or _num(r.get('high')) != _num(r.get('current'))
+               for r in rows)
+
 def _fmt_amt(a):
     if a is None or a == '-': return '-'
     try:
@@ -696,6 +736,13 @@ def _data_badges(analysis, market_data):
             not (market_data or {}).get('indices'):
         out.append('<span class="badge badge-bad">大盘指数本期缺失</span>')
 
+    # 抓数端逐行标了 row_stale，此前只进日志。落后一个交易日的外围指数
+    # 与当日个股混在一张快照里，最容易被当成今日数据引用。
+    stale_idx = _stale_index_names(market_data)
+    if stale_idx:
+        out.append(f'<span class="badge badge-warn">'
+                   f'{"、".join(stale_idx)} 滞后 1 个交易日</span>')
+
     if verify.get('blocked'):
         out.append('<span class="badge badge-bad">未通过发送门槛</span>')
     elif verify.get('hard_fail'):
@@ -1076,6 +1123,9 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
     # Watchlist real-time
     watchlist_rt = market_data.get('watchlist_rt', [])
     wl_rows = ''
+    # 回填价没有日内高低（缓存只存收盘价）。整池都没有时把两列摘掉，
+    # 好过印 51 行「最高＝最低＝现价」——那读起来像全池零振幅。
+    show_range = _has_intraday_range(watchlist_rt)
     if watchlist_rt:
         sorted_wl = sorted(watchlist_rt, key=lambda x: _num(x.get('change_pct')), reverse=True)
         for s in sorted_wl:
@@ -1086,26 +1136,30 @@ def render_afternoon_report(market_data, analysis=None, date_str=''):
                 chg = (price - prev) / prev * 100 if prev else 0
             else:
                 chg = _num(s.get('change_pct'))
-            high = _num(s.get('high'))
-            low = _num(s.get('low'))
             vol = s.get('volume')
             color = _clr(chg)
             flag = ''
             if chg >= 9.9: flag = ' 🚀涨停'
             elif chg <= -9.9: flag = ' 💀跌停'
             elif chg >= 7: flag = ' ⚡强势'
+            range_cells = (f'<td style="color:#6b7280">{_price_cell(s.get("high"))}</td>'
+                           f'<td style="color:#6b7280">{_price_cell(s.get("low"))}</td>'
+                           ) if show_range else ''
             wl_rows += f"""<tr>
             <td>{name}{flag}</td>
             <td style="font-weight:bold">{price:.2f}</td>
             <td style="color:{color};font-weight:bold">{_fp(chg)}</td>
-            <td style="color:#6b7280">{high:.2f}</td>
-            <td style="color:#6b7280">{low:.2f}</td>
-            <td>{_fmt_amt(vol)}</td>
+            {range_cells}<td>{_fmt_amt(vol)}</td>
           </tr>"""
 
     wl_price_hdr = f'现价<br/><span style="font-weight:normal;font-size:11px;color:#b45309">{quote_date}</span>' if quote_date else '现价'
-    watchlist_table = f"""<table>
-    <tr><th>股票</th><th>{wl_price_hdr}</th><th>涨跌幅</th><th>最高</th><th>最低</th><th>成交量</th></tr>
+    range_hdr = '<th>最高</th><th>最低</th>' if show_range else ''
+    range_note = '' if show_range else (
+        '<p style="font-size:11px;color:#b45309;margin:0 0 6px">'
+        '本期报价来自收盘回填，数据源只提供收盘价，因此不列最高/最低——'
+        '日内振幅本期不可得。</p>')
+    watchlist_table = f"""{range_note}<table>
+    <tr><th>股票</th><th>{wl_price_hdr}</th><th>涨跌幅</th>{range_hdr}<th>成交量</th></tr>
     {wl_rows}</table>""" if wl_rows else ''
 
     # Watchlist technicals (from P1)
