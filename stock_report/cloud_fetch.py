@@ -54,6 +54,19 @@ MERGE_KEYS = {
                   'all_boards_by_change'],
 }
 
+# 盘中报价层。与 MERGE_KEYS 分开处理，因为这几个键不能无条件覆盖——
+# 要比时点，取新的那份。
+#
+# 2026-08-12 午报的教训：GitHub Actions 13:42 抓到了完整的当日盘中数据，
+# 但这四个键都不在 MERGE_KEYS 里，于是合并后被 CCR 会话自己那份
+# klines_cache 昨收（quote_source=none、fallback_rows=50）盖掉——
+# 今日盘中数据被扔了，换成了昨天的收盘价。当时靠模型自己发现并手写
+# overlay 脚本才救回来。
+INTRADAY_KEYS = {
+    'morning': (),
+    'afternoon': ('realtime_indices', 'watchlist_rt', 'sectors', 'index_5day_kline'),
+}
+
 
 def load_universe():
     """读取 sectors.json（本脚本同目录；云端 curl 到 /tmp 时也兼容）。"""
@@ -381,10 +394,107 @@ def load_old(merge_from):
         return {}
 
 
+def intraday_as_of(snapshot):
+    """这份快照的盘中报价层对应哪个市场时点。返回 datetime 或 None。
+
+    按可信度依次尝试：逐行 as_of（provenance 盖的）→ 指数行的 as_of →
+    快照日期 + 指数的 time 字段（Actions 那份只有 time，没有 as_of）→
+    观察池 data_date 的当日收盘。全都没有就返回 None——None 永不算更新。
+    """
+    best = None
+
+    def consider(value):
+        nonlocal best
+        if not value:
+            return
+        try:
+            moment = timeutil.parse_iso(value)
+        except Exception:
+            return
+        if moment and (best is None or moment > best):
+            best = moment
+
+    rows = [r for r in (snapshot.get('watchlist_rt') or []) if isinstance(r, dict)]
+    indices = [v for v in (snapshot.get('realtime_indices') or {}).values()
+               if isinstance(v, dict)]
+    for row in rows + indices:
+        consider(row.get('as_of'))
+    if best is None:
+        date = snapshot.get('fetch_date') or snapshot.get('expected_data_date')
+        for row in indices:
+            consider(provenance.market_as_of(date, row.get('time')))
+    if best is None:
+        for row in rows:
+            consider(provenance.daily_close_as_of(row.get('data_date')))
+    return best
+
+
+# watchlist_rt -> watchlist_technicals 的价格字段对应关系。
+# 只覆盖价格，不动 ma/macd/rsi/score——那些算自 60 日 K 线序列，
+# 用昨收序列算今日的均线本来就是正常做法。
+_RT_TO_TECH = (('current', 'close'), ('change_pct', 'chg_pct'), ('open', 'open'),
+               ('high', 'high'), ('low', 'low'), ('volume', 'volume'),
+               ('amount', 'amount'), ('yesterday_close', 'prev_close'),
+               ('data_date', 'data_date'))
+
+
+def overlay_technicals_prices(result, rt_rows, source, as_of):
+    """把盘中报价盖回 watchlist_technicals 的价格字段。
+
+    不盖的话会造出自相矛盾的快照：watchlist_rt 是今日 13:42，而
+    watchlist_technicals 仍是昨收——而 verify 的活性判定、覆盖率、
+    provenance 统计读的都是后者，会把一份当日数据判成全部回填。
+    """
+    by_code = {str(r.get('code')): r for r in rt_rows if isinstance(r, dict)}
+    touched = 0
+    for row in (result.get('watchlist_technicals') or []):
+        rt = by_code.get(str(row.get('code')))
+        if not rt:
+            continue
+        for src_key, dst_key in _RT_TO_TECH:
+            if rt.get(src_key) is not None:
+                row[dst_key] = rt[src_key]
+        # 指标仍出自缓存序列，这一点必须写在行上，别让人以为整行都是今日的
+        if row.get('technicals_source') in (None, '', 'cache'):
+            row['technicals_source'] = 'klines_cache'
+        provenance.stamp(row, source, as_of=as_of)
+        touched += 1
+    return touched
+
+
+def apply_intraday_merge(result, old, mode):
+    """盘中层按时点取新的那份，整组一起换。返回被采用的来源标签或 None。
+
+    整组一起换而不是逐键比：这四层出自同一次抓取，混用会造出
+    「13:42 的指数 + 昨收的个股池」这种自相矛盾的快照。
+    """
+    keys = [k for k in INTRADAY_KEYS.get(mode, ()) if old.get(k)]
+    if not keys:
+        return None
+    mine, theirs = intraday_as_of(result), intraday_as_of(old)
+    if theirs is None or (mine is not None and theirs <= mine):
+        print(f'intraday layer kept (mine={mine}, merge-from={theirs})')
+        return None
+    for key in keys:
+        result[key] = old[key]
+    source = 'efinance@github_actions'
+    as_of = theirs.isoformat()
+    touched = overlay_technicals_prices(result, old.get('watchlist_rt') or [],
+                                        source, as_of)
+    print(f'intraday layer taken from --merge-from (mine={mine}, theirs={theirs}): '
+          + ', '.join(f'{k}({len(old[k])})' for k in keys)
+          + f'; technicals prices overlaid on {touched} rows')
+    return source
+
+
 def apply_merge(result, old, mode):
-    """合并 efinance 板块/资金流向键（互补双路径）+ 继承 klines 缓存。"""
+    """合并 efinance 板块/资金流向键（互补双路径）+ 继承 klines 缓存。
+
+    返回盘中层的来源标签（若采用了 --merge-from 那份），供 data_quality 用。
+    """
     if not old:
-        return
+        return None
+    intraday_source = apply_intraday_merge(result, old, mode)
     for key in MERGE_KEYS[mode]:
         if key in old:
             result[key] = old[key]
@@ -397,6 +507,7 @@ def apply_merge(result, old, mode):
     if not result.get('watchlist_klines_cache') and old.get('watchlist_klines_cache'):
         result['watchlist_klines_cache'] = old['watchlist_klines_cache']
         print(f'inherited klines cache: {len(old["watchlist_klines_cache"])} stocks')
+    return intraday_source
 
 
 def _ef_pricemap(old):
@@ -762,13 +873,16 @@ def main():
                                 'hk_count': len(hk_list), 'us_count': len(us_list)}
 
     # ---- 合并 efinance 板块数据 + 实时源失败时回填指数/个股价（互补双路径，写盘前）----
-    apply_merge(result, OLD, mode)
+    intraday_source = apply_merge(result, OLD, mode)
     backfilled = backfill_from_efinance(result, OLD, all_codes, list(SECTORS.keys()), mode)
 
     # data_quality 在回填后统计真实覆盖率
     priced = [w for w in result.get('watchlist_technicals', []) if w.get('chg_pct') is not None]
     if api_ok:
         conf, qsrc = 'high', 'sina/tencent'
+    elif intraday_source:
+        # 采用了 Actions 抓的当日盘中层——那不是回填，别报成 efinance_backfill
+        conf, qsrc = 'medium', f'{intraday_source} (盘中快照)'
     elif backfilled or result.get('indices') or result.get('realtime_indices'):
         conf, qsrc = 'medium', 'efinance_backfill'
     else:
