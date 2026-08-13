@@ -18,7 +18,8 @@ Loop Engineering "抽公共脚本去重"：早报/午报原本各自内联 ~200 
 数据源策略（项目硬规则）:
     - AKShare / 东方财富 API 云端被屏蔽(403) —— 禁止使用。
     - A股行情:  新浪 hq.sinajs.cn(必须带 Referer) -> 腾讯 qt.gtimg.cn 备用。带日期戳，校验新鲜度。
-    - A股60日历史(MA/MACD/RSI): yfinance，限流(429)重试一次；再失败则用 --merge-from 里的
+    - A股60日历史(MA/MACD/RSI): yfinance，**只对限流/超时类错误**重试一次（连接层被代理
+      拒绝时重试无意义，见 download_history）；再失败则用 --merge-from 里的
       watchlist_klines_cache 兜底；都没有则技术指标置 null、价格仍用新浪，绝不中断。
     - 港/美股: 新浪(rt_hk*/gb_*) -> yfinance -> stooq CSV(仅美股)。绝不输出空数组+网络借口。
 
@@ -236,6 +237,44 @@ def compute_technicals(closes, volumes):
             'macd_signal': macd_dea, 'macd_hist': macd_hist, 'macd_status': macd_status, 'rsi_12': rsi_12,
             'volume_ratio': volume_ratio, 'volume_label': volume_label, 'support_20d': support_20d,
             'resistance_20d': resistance_20d, 'score': score, 'score_label': score_label, 'divergence': False}
+
+
+# 值得再试一次的失败：限流、超时、网关抖动。连接层被拒不在此列。
+# 刻意不写裸数字 502/503/504——yfinance 的报错常把 ticker 抄进去，
+# 600504.SS 这样的 A 股代码会撞上，白白多重试一次。
+RETRYABLE = ('429', 'too many requests', 'rate limit', 'timed out', 'timeout',
+             'bad gateway', 'service unavailable', 'connection reset')
+
+
+def download_history(yf, tickers, attempts=2):
+    """批量拉 3 个月日线；拿不到返回 None，由调用方退回 klines_cache。
+
+    **重试只对限流有意义。** CCR 会话里 yfinance 被出口代理拒在连接层
+    （`curl: (7) CONNECT tunnel failed, response 403`），第二次不会有不同
+    结果——2026-08-13 早报实测，55 个 ticker 白跑两遍，两次报同样的错。
+    所以只在错误文本像限流/超时/网关抖动时才重试；被拒绝、被屏蔽、或者
+    干脆返回空表，都直接认输去用缓存。
+
+    保留这条路而不是删掉 yfinance：代理规则不归我们管，哪天放开了它自己
+    就活了。但不该为一条已知不通的路每天付两遍代价。
+    """
+    for attempt in range(max(1, attempts)):
+        try:
+            frame = yf.download(tickers, period='3mo', group_by='ticker',
+                                threads=True, progress=False)
+        except Exception as exc:
+            text = f'{type(exc).__name__}: {exc}'
+            print('yf.download fail:', text)
+            if not any(k in text.lower() for k in RETRYABLE):
+                print('  不是限流类错误，不重试')
+                return None
+            continue
+        if frame is not None and len(frame) > 0:
+            return frame
+        # 没抛异常但空表：ticker 层面全军覆没，再拉一次也是同一批空值
+        print('yf.download returned nothing')
+        return None
+    return None
 
 
 NULL_TECH = {'ma5': None, 'ma10': None, 'ma20': None, 'ma_trend': '未知', 'macd': None, 'macd_signal': None,
@@ -699,14 +738,7 @@ def main():
 
     import yfinance as yf
     tickers = [t for t in [yft(c) for c, n, s in all_codes] if t] + [v[1] for v in IDX.values()]
-    hist = None
-    for attempt in range(2):
-        try:
-            hist = yf.download(tickers, period='3mo', group_by='ticker', threads=True, progress=False)
-            if hist is not None and len(hist) > 0:
-                break
-        except Exception as e:
-            print('yf.download fail:', e)
+    hist = download_history(yf, tickers)
     if hist is None or len(hist) == 0:
         print('WARN: yfinance history unavailable, technicals use cache or null')
 
