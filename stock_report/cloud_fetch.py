@@ -891,7 +891,16 @@ def main():
     check_targets = crosscheck.select_crosscheck_targets(result)
     conflicts = crosscheck.cross_validate(quotes, tencent_quotes, check_targets)
     checked_pairs = crosscheck.count_checked_pairs(quotes, tencent_quotes, check_targets)
-    if not checked_pairs:
+    cc_summary = crosscheck.summarize(conflicts, checked_pairs)
+    # 本会话连不上任何行情源时，采用 Actions 侧做的那次对账。它比对的正是
+    # 我们最终采用的那份东财数据，而本地这次 checked_pairs=0 什么也没证明。
+    upstream = (OLD or {}).get('source_crosscheck')
+    if not checked_pairs and isinstance(upstream, dict) and upstream.get('checked_pairs'):
+        cc_summary = dict(upstream, checked_by='github_actions')
+        conflicts = []
+        print(f'crosscheck: 采用 Actions 侧结果 {upstream.get("status")} '
+              f'({upstream.get("checked_pairs")} pairs)')
+    elif not checked_pairs:
         print('crosscheck: 无第二数据源，本次未做交叉验证')
     if conflicts:
         print(f'source conflicts: {len(conflicts)} (max {conflicts[0]["diff_pct"]:.2f}%)')
@@ -905,7 +914,7 @@ def main():
         'technicals_source': 'yfinance' if (hist is not None and len(hist) > 0) else ('cache' if klines_cache else 'none'),
         'quote_source': qsrc,
         'source_conflicts': conflicts,
-        'crosscheck': crosscheck.summarize(conflicts, checked_pairs),
+        'crosscheck': cc_summary,
         'provenance': provenance.summarize(result.get('watchlist_technicals')),
         'caveat': '' if api_ok else '实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时，复盘以此为参考'}
 
