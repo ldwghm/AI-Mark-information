@@ -24,6 +24,26 @@ def archive_relative_dir(mode: str, report_date: str) -> Path:
     return Path("stock_report/data/archive") / report_date / mode
 
 
+def already_delivered(repo_root: Path, mode: str, report_date: str) -> bool:
+    """今天这一期是否已经发出去并归档了。
+
+    定时抓数排在 routine 之前是为了给它备好数据，但 GitHub 的 schedule 会漂：
+    2026-08-13 早报，cron 写 23:50 UTC，实际 00:44:45 才跑起来，此时 routine
+    早已用自己 push trigger 抓的数据发完信、归了档。那次迟到的抓数把
+    morning_latest.json 从"已投递的合并快照"覆盖成一份事后重抓的原始数据——
+    归档还在，所以报告没坏，但工作副本从此和发出去的东西对不上。
+
+    已投递就不必再抓：这一期的数据已经用掉了，下一期会重新抓。
+    """
+    delivery = (Path(repo_root) / archive_relative_dir(mode, report_date)
+                / ARCHIVE_NAMES["delivery"])
+    try:
+        state = json.loads(delivery.read_text(encoding="utf-8-sig"))
+    except (OSError, ValueError):
+        return False
+    return state.get("status") == "sent"
+
+
 def build_delivery_state(
     *, mode: str, report_date: str, email_id: str, sent_at: str,
     verify_exit_code: int,
@@ -75,17 +95,34 @@ def archive_bundle(
     return archive
 
 
+def _bjt_today() -> str:
+    from datetime import datetime, timedelta, timezone
+
+    return datetime.now(timezone(timedelta(hours=8))).strftime("%Y-%m-%d")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--mode", required=True, choices=["morning", "afternoon"])
-    parser.add_argument("--date", required=True)
+    parser.add_argument("--date", default=None)
+    parser.add_argument("--check-delivered", action="store_true",
+                        help='只查询今天这一期是否已投递，打印 "sent"/"pending"')
     for key in ARCHIVE_NAMES:
-        parser.add_argument(f"--{key}", required=True)
+        parser.add_argument(f"--{key}", default=None)
     args = parser.parse_args()
 
+    date = args.date or _bjt_today()
+    if args.check_delivered:
+        print("sent" if already_delivered(Path(args.repo_root), args.mode, date)
+              else "pending")
+        return
+
+    missing = [key for key in ARCHIVE_NAMES if getattr(args, key) is None]
+    if missing:
+        parser.error(f"missing --{' --'.join(missing)}")
     sources = {key: Path(getattr(args, key)) for key in ARCHIVE_NAMES}
-    path = archive_bundle(Path(args.repo_root), args.mode, args.date, sources)
+    path = archive_bundle(Path(args.repo_root), args.mode, date, sources)
     print(path.as_posix())
 
 

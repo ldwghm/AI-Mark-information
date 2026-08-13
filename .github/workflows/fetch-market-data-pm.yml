@@ -33,7 +33,20 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
-      - run: python fetch_market_data_pm.py
+      # 迟到的定时抓数不许覆盖已投递的快照，理由同 fetch-market-data.yml。
+      # routine 主动 push trigger 的那次必须照跑。
+      - name: Check whether today's report already shipped
+        id: guard
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            state=$(python -m stock_report.pipeline_state --mode afternoon --check-delivered)
+          else
+            state=pending
+          fi
+          echo "delivered=$state" >> "$GITHUB_OUTPUT"
+          echo "today's afternoon delivery: $state"
+      - if: steps.guard.outputs.delivered != 'sent'
+        run: python fetch_market_data_pm.py
       - name: Stamp connector request
         if: github.event_name == 'push'
         run: |
@@ -43,6 +56,7 @@ jobs:
             --trigger stock_report/triggers/afternoon.json \
             --trigger-commit-sha "$GITHUB_SHA"
       - name: Commit data
+        if: steps.guard.outputs.delivered != 'sent'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
