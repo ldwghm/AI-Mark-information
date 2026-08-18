@@ -1,5 +1,5 @@
 {
-  "fetch_time": "2026-08-18T12:31:13.973961",
+  "fetch_time": "2026-08-18T12:47:39.195181",
   "fetch_date": "2026-08-18",
   "report_type": "morning",
   "indices": {
@@ -27,56 +27,115 @@
   "index_technicals": {},
   "index_macd_60m": {
     "shanghai": {
-      "state": "insufficient",
-      "label": "数据不足",
+      "state": "blunting",
+      "label": "顶部钝化",
       "params": {
         "span": 3,
         "fast": 12,
         "slow": 26,
         "signal": 9
       },
-      "bars": 0,
-      "reason": "需要至少 43 根，实际 0 根",
-      "name": "上证指数"
+      "bars": 110,
+      "peak_prev": {
+        "index": 92,
+        "price": 3966.4355,
+        "dif": 17.9666,
+        "time": "2026-08-13 12:30"
+      },
+      "peak_last": {
+        "index": 104,
+        "price": 3983.2937,
+        "dif": 11.1637,
+        "time": "2026-08-17 14:30"
+      },
+      "bars_since_last_peak": 5,
+      "meaning": "价格创新高而 DIF 未创新高，是预警，不等于顶部已确认",
+      "dif_now": 14.6104,
+      "name": "上证指数",
+      "source": "yfinance"
     },
     "shenzhen": {
-      "state": "insufficient",
-      "label": "数据不足",
+      "state": "blunting",
+      "label": "顶部钝化",
       "params": {
         "span": 3,
         "fast": 12,
         "slow": 26,
         "signal": 9
       },
-      "bars": 0,
-      "reason": "需要至少 43 根，实际 0 根",
-      "name": "深证成指"
+      "bars": 108,
+      "peak_prev": {
+        "index": 88,
+        "price": 14548.498,
+        "dif": 114.4263,
+        "time": "2026-08-13 09:30"
+      },
+      "peak_last": {
+        "index": 102,
+        "price": 14704.5205,
+        "dif": 95.2878,
+        "time": "2026-08-17 14:30"
+      },
+      "bars_since_last_peak": 5,
+      "meaning": "价格创新高而 DIF 未创新高，是预警，不等于顶部已确认",
+      "dif_now": 86.3871,
+      "name": "深证成指",
+      "source": "yfinance"
     },
     "chinext": {
-      "state": "insufficient",
-      "label": "数据不足",
+      "state": "none",
+      "label": "无顶背离",
       "params": {
         "span": 3,
         "fast": 12,
         "slow": 26,
         "signal": 9
       },
-      "bars": 0,
-      "reason": "需要至少 43 根，实际 0 根",
-      "name": "创业板指"
+      "bars": 108,
+      "peak_prev": {
+        "index": 88,
+        "price": 3669.0708,
+        "dif": 35.6249,
+        "time": "2026-08-13 09:30"
+      },
+      "peak_last": {
+        "index": 102,
+        "price": 3739.5884,
+        "dif": 40.9826,
+        "time": "2026-08-17 14:30"
+      },
+      "bars_since_last_peak": 5,
+      "meaning": "最近两个高点未出现价格与动能背离",
+      "name": "创业板指",
+      "source": "yfinance"
     },
     "star50": {
-      "state": "insufficient",
-      "label": "数据不足",
+      "state": "cleared",
+      "label": "钝化消失",
       "params": {
         "span": 3,
         "fast": 12,
         "slow": 26,
         "signal": 9
       },
-      "bars": 0,
-      "reason": "需要至少 43 根，实际 0 根",
-      "name": "科创50"
+      "bars": 110,
+      "peak_prev": {
+        "index": 90,
+        "price": 1772.6378,
+        "dif": 15.3819,
+        "time": "2026-08-13 09:30"
+      },
+      "peak_last": {
+        "index": 104,
+        "price": 1788.241,
+        "dif": 13.8574,
+        "time": "2026-08-17 14:30"
+      },
+      "bars_since_last_peak": 5,
+      "meaning": "价格与 DIF 同步创新高，原背离条件已不成立",
+      "dif_peak_after": 16.5815,
+      "name": "科创50",
+      "source": "yfinance"
     }
   },
   "all_boards_by_change": [
