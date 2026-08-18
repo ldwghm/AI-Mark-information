@@ -1376,6 +1376,58 @@ def _render_northbound(block):
             f'<b>北向成交</b>（{_safe(block.get("trade_date"), "")}）　{cells}</div>{caveat}')
 
 
+_MACD_TONE = {
+    'blunting':  ('#fef3c7', '#b45309'),
+    'structure': ('#fee2e2', '#b91c1c'),
+    'cleared':   ('#dcfce7', '#15803d'),
+    'none':      ('#f1f5f9', '#64748b'),
+}
+
+
+def _render_macd_60m(market_data):
+    """60 分钟顶部钝化状态。
+
+    三种状态必须在版面上分得开：钝化是预警、结构才是较明确的顶部信号、
+    消失是警报解除。混成一句"MACD 显示顶背离"就把预警读成了结论。
+    """
+    states = (market_data or {}).get('index_macd_60m') or {}
+    usable = {k: v for k, v in states.items()
+              if isinstance(v, dict) and v.get('state') not in (None, 'insufficient')}
+    if not usable:
+        return ''
+    rows = ''
+    for _key, s in usable.items():
+        bg, fg = _MACD_TONE.get(s.get('state'), ('#f1f5f9', '#64748b'))
+        prev, last = s.get('peak_prev') or {}, s.get('peak_last') or {}
+        peaks = '-'
+        if prev and last:
+            peaks = (f"{_safe(str(prev.get('time'))[:16], '')} "
+                     f"{_num(prev.get('price')):.2f}/DIF{_num(prev.get('dif')):+.2f}"
+                     f"　→　{_safe(str(last.get('time'))[:16], '')} "
+                     f"{_num(last.get('price')):.2f}/DIF{_num(last.get('dif')):+.2f}")
+        rows += f"""<tr>
+          <td style="white-space:nowrap"><b>{_safe(s.get('name'), _key)}</b></td>
+          <td style="white-space:nowrap">
+            <span style="font-size:11px;font-weight:700;background:{bg};color:{fg};
+                         padding:2px 8px;border-radius:999px">{_safe(s.get('label'))}</span></td>
+          <td style="font-size:11px;color:#6b7280">{peaks}</td>
+        </tr>"""
+
+    any_state = next(iter(usable.values()))
+    p = any_state.get('params') or {}
+    foot = (f'<div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.7">'
+            f'参数：MACD({_safe(p.get("fast"))},{_safe(p.get("slow"))},{_safe(p.get("signal"))})，'
+            f'swing high 左右各 {_safe(p.get("span"))} 根确认；'
+            f'价格与 DIF 均取 60 分钟收盘。<br>'
+            f'⚠️ 钝化＝价格创新高而 DIF 未创新高，是<b>预警</b>，不等于顶部已确认；'
+            f'DIF 掉头才是结构，DIF 重上前峰则警报解除。'
+            f'该判定采用的是一套非标准定义，参数如上，换参数结论会变。</div>')
+    return (f'<div style="font-size:12.5px;font-weight:700;color:#1e3a8a;margin:10px 0 4px">'
+            f'60 分钟 MACD 顶部状态</div>'
+            f'<table><tr><th>指数</th><th>状态</th><th>近两个高点（价/DIF）</th></tr>'
+            f'{rows}</table>{foot}')
+
+
 def _render_divergence(market_data):
     """价格与主力资金背离。
 
@@ -1499,6 +1551,7 @@ def render_morning_report(market_data, analysis=None, date_str=''):
         idx_tech_html = f"""<table style="margin-top:10px">
         <tr><th>指数</th><th>MA趋势</th><th>MACD</th><th>RSI</th><th>量比</th></tr>
         {rows}</table>"""
+    idx_tech_html += _render_macd_60m(market_data)
 
     # AI boards
     ai_boards = market_data.get('ai_boards', [])

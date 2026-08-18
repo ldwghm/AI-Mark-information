@@ -9,6 +9,7 @@ import requests, json, os, time
 from datetime import datetime, timedelta
 from technical_indicators import compute_stock_technical
 from stock_report import flow_divergence
+from stock_report import macd_state
 from stock_report import second_source
 
 HEADERS = {
@@ -76,6 +77,18 @@ def fetch_index_kline(secid, name, days=25):
     })
     klines = data["data"]["klines"] if data and data.get("data") and data["data"].get("klines") else []
     return {"name": name, "secid": secid, "klines": klines}
+
+def fetch_index_kline_60m(secid, bars=260):
+    """60 分钟 K 线（klt=60）。东财单次上限约 128 根（~32 个交易日），
+    对 MACD(12,26,9) 够用（最少需 26+9 根，再留 swing high 的确认窗口）。"""
+    data = safe_get("https://push2his.eastmoney.com/api/qt/stock/kline/get", {
+        "secid": secid, "fields1": "f1,f2,f3,f4,f5,f6",
+        "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
+        "klt": "60", "fqt": "1", "end": "20500101", "lmt": bars,
+        "ut": "bd1d9ddb04089700cf9c27f6f7426281"
+    })
+    return data["data"]["klines"] if data and data.get("data") and data["data"].get("klines") else []
+
 
 def fetch_concept_boards(fid="f3", pz=200):
     data = safe_get("https://push2delay.eastmoney.com/api/qt/clist/get", {
@@ -317,6 +330,22 @@ def main():
         if tech:
             result["index_technicals"][k] = tech
             print(f"   {v['name']}: {tech['ma_trend']}")
+
+    # 1c 才是唯一有 60 分钟粒度的地方。日线 MACD 看不出"这一轮上涨的动能
+    # 什么时候开始跟不上价格"——那是小时级的事。分析层拿到的一直只有最后
+    # 一根的三个标量，看不到序列，所以背离只能靠猜；这里把判定算完再给它。
+    print("1c. Index 60m MACD state...")
+    result["index_macd_60m"] = {}
+    for key, secid, name in (("shanghai", "1.000001", "上证指数"),
+                             ("shenzhen", "0.399001", "深证成指"),
+                             ("chinext", "0.399006", "创业板指"),
+                             ("star50", "1.000688", "科创50")):
+        times, closes = macd_state.parse_60m(fetch_index_kline_60m(secid))
+        state = macd_state.top_state(closes, times=times)
+        state["name"] = name
+        result["index_macd_60m"][key] = state
+        print(f"   {name}: {state['label']}（{state['bars']} 根 60min）")
+        time.sleep(0.3)
 
     print("2. Concept boards by change...")
     all_by_change = fetch_concept_boards("f3", 200)
