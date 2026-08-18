@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """technical_indicators.py - Shared technical indicator calculations"""
 
+def _opt_float(parts, i):
+    """可缺字段：拿不到就是 None，不是 0。
+
+    yfinance 兜底的日线没有成交额（Yahoo 不提供），空着比编一个
+    `close * volume` 诚实。整行不能因此被丢掉——OHLC 和成交量都是真的。
+    """
+    try:
+        return float(parts[i])
+    except (ValueError, IndexError, TypeError):
+        return None
+
+
 def parse_klines(klines):
     rows = []
     for line in klines:
@@ -11,8 +23,8 @@ def parse_klines(klines):
             rows.append({
                 "date": parts[0], "open": float(parts[1]), "close": float(parts[2]),
                 "high": float(parts[3]), "low": float(parts[4]),
-                "volume": float(parts[5]), "amount": float(parts[6]),
-                "chg_pct": float(parts[8]) if len(parts) > 8 else 0,
+                "volume": float(parts[5]), "amount": _opt_float(parts, 6),
+                "chg_pct": _opt_float(parts, 8) or 0,
             })
         except (ValueError, IndexError):
             continue

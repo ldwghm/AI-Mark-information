@@ -48,6 +48,12 @@ def safe_get(url, params=None, timeout=20, attempts=3, backoff=1.5):
     return None
 
 
+# MACD(12,26,9) 需要 slow+signal=35 根才有值。原来固定取 25 根，于是
+# index_technicals 的 macd/macd_signal/macd_hist **每天都是 null**、
+# macd_status 恒为「未知」——报告里那一列从来没有过内容。60 根同时
+# 覆盖 MA20 与 20 日支撑压力，代价只是每只多 35 行。
+DAILY_BARS = 60
+
 DATACENTER = "https://datacenter-web.eastmoney.com/api/data/v1/get"
 
 
@@ -89,15 +95,80 @@ def _latest_trade_date(report_name, date_column):
     value = rows[0].get(date_column)
     return str(value)[:10] if value else None
 
-def fetch_index_kline(secid, name, days=25):
+def fetch_daily_klines_em(secid, days=DAILY_BARS):
     data = safe_get("https://push2his.eastmoney.com/api/qt/stock/kline/get", {
         "secid": secid, "fields1": "f1,f2,f3,f4,f5,f6",
         "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
         "klt": "101", "fqt": "1", "end": "20500101", "lmt": days,
         "ut": "bd1d9ddb04089700cf9c27f6f7426281"
     })
-    klines = data["data"]["klines"] if data and data.get("data") and data["data"].get("klines") else []
-    return {"name": name, "secid": secid, "klines": klines}
+    return data["data"]["klines"] if data and data.get("data") and data["data"].get("klines") else []
+
+
+def fetch_daily_klines_yf(ticker, days=DAILY_BARS):
+    """yfinance 日线 → 东财 klt=101 的行格式，下游 parse_klines 不用改。
+
+    字段顺序照 f51..f61：`日期,开,收,高,低,量,额,振幅,涨跌幅,涨跌额,换手率`。
+    **成交额与换手率留空**——Yahoo 不给，空着比编一个 `close*volume` 诚实
+    （parse_klines 已能把缺失读成 None 而不丢整行）。
+    """
+    try:
+        import yfinance as yf
+        frame = yf.download(ticker, period='3mo', interval='1d',
+                            progress=False, auto_adjust=False)
+    except Exception as exc:
+        print(f"  WARN yf daily {ticker}: {type(exc).__name__}: {exc}")
+        return []
+    if frame is None or len(frame) == 0:
+        return []
+
+    def col(name):
+        c = frame[name]
+        return c.iloc[:, 0] if hasattr(c, 'columns') else c
+
+    o, h, l, c, v = (col(x) for x in ('Open', 'High', 'Low', 'Close', 'Volume'))
+    lines, prev_close = [], None
+    for stamp in frame.index:
+        try:
+            row = [float(o[stamp]), float(h[stamp]), float(l[stamp]),
+                   float(c[stamp]), float(v[stamp])]
+        except (TypeError, ValueError, KeyError):
+            continue
+        if any(x != x for x in row):          # NaN
+            continue
+        op, hi, lo, cl, vol = (round(x, 3) for x in row)
+        if prev_close:
+            amp = round((hi - lo) / prev_close * 100, 2)
+            chg_pct = round((cl - prev_close) / prev_close * 100, 2)
+            chg = round(cl - prev_close, 2)
+        else:
+            amp = chg_pct = chg = 0
+        lines.append(f"{str(stamp)[:10]},{op},{cl},{hi},{lo},{int(vol)},,"
+                     f"{amp},{chg_pct},{chg},")
+        prev_close = cl
+    return lines[-days:]
+
+
+def fetch_daily_klines(secid, ticker, days=DAILY_BARS):
+    """日线：东财优先（有成交额），yfinance 兜底。返回 (klines, source)。
+
+    东财在这里是优先项而不是像 60m 那样退居兜底，因为它给的是完整
+    OHLC＋成交额，且日线的 bar 口径两边一致（不像 60 分钟那样一个 4 根/天、
+    一个 5 根/天）。但 push2his 从 Actions runner 间歇性整体不可达，
+    实测三次运行里两次这里拿到 0 根——所以必须有兜底，否则 technicals
+    每天静默退回 klines_cache（无 OHLC，playbook 规则 1 那次事故的根源）。
+    """
+    lines = fetch_daily_klines_em(secid, days)
+    if lines:
+        return lines, 'eastmoney'
+    lines = fetch_daily_klines_yf(ticker, days)
+    return lines, 'yfinance' if lines else 'unavailable'
+
+
+def fetch_index_kline(secid, name, days=DAILY_BARS, ticker=None):
+    klines, source = ((fetch_daily_klines(secid, ticker, days)) if ticker
+                      else (fetch_daily_klines_em(secid, days), 'eastmoney'))
+    return {"name": name, "secid": secid, "klines": klines, "klines_source": source}
 
 def fetch_index_kline_60m_em(secid, bars=260):
     """东财 klt=60。单次约 128 根（~32 个交易日）。"""
@@ -189,15 +260,28 @@ def fetch_capital_flow_top30():
     })
     return data["data"]["diff"] if data and data.get("data") and data["data"].get("diff") else []
 
-def fetch_stock_kline(secid, name, days=25):
-    data = safe_get("https://push2his.eastmoney.com/api/qt/stock/kline/get", {
-        "secid": secid, "fields1": "f1,f2,f3,f4,f5,f6",
-        "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
-        "klt": "101", "fqt": "1", "end": "20500101", "lmt": days,
-        "ut": "bd1d9ddb04089700cf9c27f6f7426281"
-    })
-    klines = data["data"]["klines"] if data and data.get("data") and data["data"].get("klines") else []
-    return {"name": name, "secid": secid, "klines": klines}
+def yf_ticker(secid):
+    """东财 secid（`1.600519` / `0.300308`）→ yfinance ticker。
+
+    `1.` 是沪市 → `.SS`，`0.` 是深市（含创业板）→ `.SZ`。北交所（`0.` 开头的
+    8/9 字头）Yahoo 没有，返回 None，让调用方老实报 unavailable。
+    """
+    text = str(secid or '')
+    if '.' not in text:
+        return None
+    market, code = text.split('.', 1)
+    if not code.isdigit():
+        return None
+    if market == '1':
+        return f'{code}.SS'
+    if market == '0':
+        return None if code[0] in ('4', '8', '9') else f'{code}.SZ'
+    return None
+
+
+def fetch_stock_kline(secid, name, days=DAILY_BARS):
+    klines, source = fetch_daily_klines(secid, yf_ticker(secid), days)
+    return {"name": name, "secid": secid, "klines": klines, "klines_source": source}
 
 # 北向净买入自 2024-08 起停止披露：RPT_MUTUAL_DEAL_HISTORY 里 NET_DEAL_AMT /
 # FUND_INFLOW / BUY_AMT / SELL_AMT 四个字段仍在，值恒为 null（2026-08-17 实测）。
@@ -367,13 +451,13 @@ def main():
 
     print("1. Index K-lines...")
     result["indices"] = {
-        "shanghai": fetch_index_kline("1.000001", "上证指数"),
-        "shenzhen": fetch_index_kline("0.399001", "深证成指"),
-        "chinext":  fetch_index_kline("0.399006", "创业板指"),
-        "star50":   fetch_index_kline("1.000688", "科创50"),
+        "shanghai": fetch_index_kline("1.000001", "上证指数", ticker="000001.SS"),
+        "shenzhen": fetch_index_kline("0.399001", "深证成指", ticker="399001.SZ"),
+        "chinext":  fetch_index_kline("0.399006", "创业板指", ticker="399006.SZ"),
+        "star50":   fetch_index_kline("1.000688", "科创50", ticker="000688.SS"),
     }
     for k, v in result["indices"].items():
-        print(f"   {v['name']}: {len(v['klines'])} bars")
+        print(f"   {v['name']}: {len(v['klines'])} bars ({v.get('klines_source')})")
     time.sleep(0.5)
 
     print("1b. Index technicals...")
@@ -449,7 +533,7 @@ def main():
     for secid, name in watchlist:
         kl = fetch_stock_kline(secid, name)
         result["watchlist_klines"].append(kl)
-        print(f"   {name}: {len(kl['klines'])} bars")
+        print(f"   {name}: {len(kl['klines'])} bars ({kl.get('klines_source')})")
         time.sleep(0.25)
 
     # Compute technical indicators for watchlist
