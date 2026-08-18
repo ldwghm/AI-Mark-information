@@ -17,14 +17,35 @@ HEADERS = {
     "Referer": "https://www.eastmoney.com/"
 }
 
-def safe_get(url, params=None, timeout=20):
-    try:
-        r = requests.get(url, params=params, headers=HEADERS, timeout=timeout)
-        r.raise_for_status()
-        return r.json()
-    except Exception as e:
-        print(f"  WARN {url[:70]}: {e}")
-        return None
+# 突发限流才值得退避重试。2026-08-18 实测：push2his 前 4 个请求成功、之后整批
+# `RemoteDisconnected`，连观察池 10 只的日线一起挂掉——于是 technicals 每天静默
+# 退回 klines_cache（`is_fallback: true`、17 小时陈旧、且 cache 没有 OHLC，
+# 这正是 playbook 规则 1 那次「51 行最高＝最低＝现价」的根源）。
+#
+# ⚠️ 别和 cloud_fetch 里"yfinance 不重试"的判断搞混：那边是代理
+# `CONNECT tunnel failed, response 403`，确定性策略拦截，重试两次报同样的错。
+# 这里是连打请求把对端打崩，退避正是对症的。
+RETRY_ON = ('remotedisconnected', 'connection aborted', 'connection reset',
+            'connection refused', 'timed out', 'timeout',
+            'temporarily unavailable', 'bad gateway', 'service unavailable')
+
+
+def safe_get(url, params=None, timeout=20, attempts=3, backoff=1.5):
+    last = None
+    for attempt in range(max(1, attempts)):
+        try:
+            r = requests.get(url, params=params, headers=HEADERS, timeout=timeout)
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            last = e
+            text = f'{type(e).__name__}: {e}'.lower()
+            if not any(k in text for k in RETRY_ON):
+                break
+            if attempt < attempts - 1:
+                time.sleep(backoff * (attempt + 1))
+    print(f"  WARN {url[:70]}: {last}")
+    return None
 
 
 DATACENTER = "https://datacenter-web.eastmoney.com/api/data/v1/get"
