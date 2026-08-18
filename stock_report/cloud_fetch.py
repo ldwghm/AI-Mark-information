@@ -47,12 +47,28 @@ BJT = timeutil.BJT
 HEAD = {'Referer': 'https://finance.sina.com.cn', 'User-Agent': 'Mozilla/5.0'}
 
 # --merge-from 时按 mode 合并的板块/资金流向键（与线上 routine 行为逐字一致）
+#
+# ⚠️ 不在这张表里的键**会被整个丢掉**。凡是 Actions 侧能算、CCR 会话算不出来
+# 的东西，必须列进来，否则数据产出了却永远到不了报告——和渲染层不取
+# forecast_ledger_entry 是同一种病。
+#
+# 下面第二组就是这类：CCR 会话的出口代理连不上东财与 Yahoo，
+# 这六项**只可能**在 Actions 侧产生。
+ACTIONS_ONLY_KEYS = [
+    'index_macd_60m',    # 60 分钟顶部钝化状态（CCR 取不到 60m K 线）
+    'board_laggards',    # 板块跌幅榜（缺它则"逆势承接"永远检测不到）
+    'flow_divergence',   # 价格与主力资金背离
+    'northbound',        # 北向（成交额；净买入已停止披露）
+    'dragon_tiger',      # 龙虎榜
+    'margin_trading',    # 两融
+]
+
 MERGE_KEYS = {
     'morning': ['ai_boards', 'board_stocks', 'board_capital_flows',
-                'all_boards_by_change', 'capital_flow_top30'],
+                'all_boards_by_change', 'capital_flow_top30'] + ACTIONS_ONLY_KEYS,
     'afternoon': ['ai_boards', 'ai_boards_rt', 'board_stocks', 'board_stocks_rt',
                   'board_capital_flows', 'capital_flow_top30', 'capital_flow_top30_rt',
-                  'all_boards_by_change'],
+                  'all_boards_by_change'] + ACTIONS_ONLY_KEYS,
 }
 
 # 盘中报价层。与 MERGE_KEYS 分开处理，因为这几个键不能无条件覆盖——
