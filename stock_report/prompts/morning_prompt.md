@@ -121,7 +121,7 @@ curl -fsSL --max-time 20 \
 
 `stock_highlights.price/chg_pct` 必须逐字取自本次 latest。`orchestration_status` 原样复制 status JSON，`data_quality` 原样复制 latest 对应对象。所有 `evidence_ids` 必须能在 `evidence_log` 找到。概率合计为 100。JSON 写完后解析检查。
 
-两条数据口径硬规则：
+三条数据口径硬规则：
 
 1. **`open/high/low/amount` 为 null 时不得推断。** 回填价来自 klines_cache，缓存只存收盘价与成交量，没有 OHLC。null 表示"日内振幅本期不可得"，不是零振幅。（这三个字段曾被赋成收盘价，导致 08-11 午报邮件印出 51 行「最高＝最低＝现价」。）
 2. **引用外围指数前先看 `row_stale`。** `global_markets.markets.<区域>.indices[]` 逐行带 `market_date` 与 `row_stale`；`row_stale=true` 说明该行落后于同市场其余行（08-12 实测 ^HSI/^HSCE/^KS11/^TWII 均落后一个交易日）。这类数字**不得用于描述当日**：要么标注真实时点，要么写 unavailable，方向以同市场个股为准。verify 会核对——引用了陈旧涨跌幅而附近未标日期，判硬失败。
