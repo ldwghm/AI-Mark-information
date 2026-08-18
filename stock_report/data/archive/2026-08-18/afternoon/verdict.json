@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "degraded": true,
+  "hard_fail": false,
+  "blocked": false,
+  "hard_reasons": [],
+  "soft_reasons": [
+    "行情非实时（来源 efinance@github_actions (盘中快照)，置信度 medium）：实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回",
+    "当日实时报价仅 9/50（18%），低于 50%，多数个股为回填价"
+  ],
+  "block_reasons": [],
+  "mode": "afternoon",
+  "expected_data_date": "2026-08-18",
+  "quote_date_mode": null,
+  "continuity": {
+    "level": "pass",
+    "reason": "早午报闭环成立（2026-08-18）",
+    "morning_date": "2026-08-18"
+  },
+  "data_currency": {
+    "level": "pass",
+    "reason": "午报数据为当日 2026-08-18"
+  },
+  "coverage": {
+    "level": "pass",
+    "reason": "关注池覆盖率 50/51（98%）"
+  },
+  "liveness": {
+    "level": "degrade",
+    "reason": "当日实时报价仅 9/50（18%），低于 50%，多数个股为回填价",
+    "live_rows": 9,
+    "total_rows": 50
+  },
+  "stale_highlights": [],
+  "global_index_staleness": {
+    "level": "pass",
+    "reason": "",
+    "stale_rows": [],
+    "misattributed": []
+  },
+  "primary_priced": 50,
+  "ef_priced": 0
+}
