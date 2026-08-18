@@ -1415,7 +1415,21 @@ def _render_macd_60m(market_data):
 
     any_state = next(iter(usable.values()))
     p = any_state.get('params') or {}
+    # 两个源的"60 分钟"不是同一种：Yahoo 给 A 股 5 根/交易日、东财 4 根/交易日。
+    # DIF 因此不可跨源比较，来源必须写出来。
+    sources = sorted({s.get('source') for s in usable.values() if s.get('source')})
+    src_txt = ''
+    if sources:
+        src_txt = f'K 线源：{"／".join(sources)}'
+        if 'yfinance' in sources:
+            src_txt += ('（Yahoo 整点网格，已剔除午休切片后为 <b>5 根/交易日</b>；'
+                        '国内看盘软件的 60 分钟是 <b>4 根/交易日</b>，'
+                        '<b>读数不会与之对上</b>）')
+        if len(sources) > 1:
+            src_txt += '　⚠️ 本期混用两个源，各指数之间的 DIF 不可直接横比'
+        src_txt += '<br>'
     foot = (f'<div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.7">'
+            f'{src_txt}'
             f'参数：MACD({_safe(p.get("fast"))},{_safe(p.get("slow"))},{_safe(p.get("signal"))})，'
             f'swing high 左右各 {_safe(p.get("span"))} 根确认；'
             f'价格与 DIF 均取 60 分钟收盘。<br>'

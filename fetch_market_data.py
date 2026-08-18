@@ -99,9 +99,8 @@ def fetch_index_kline(secid, name, days=25):
     klines = data["data"]["klines"] if data and data.get("data") and data["data"].get("klines") else []
     return {"name": name, "secid": secid, "klines": klines}
 
-def fetch_index_kline_60m(secid, bars=260):
-    """60 分钟 K 线（klt=60）。东财单次上限约 128 根（~32 个交易日），
-    对 MACD(12,26,9) 够用（最少需 26+9 根，再留 swing high 的确认窗口）。"""
+def fetch_index_kline_60m_em(secid, bars=260):
+    """东财 klt=60。单次约 128 根（~32 个交易日）。"""
     data = safe_get("https://push2his.eastmoney.com/api/qt/stock/kline/get", {
         "secid": secid, "fields1": "f1,f2,f3,f4,f5,f6",
         "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
@@ -109,6 +108,39 @@ def fetch_index_kline_60m(secid, bars=260):
         "ut": "bd1d9ddb04089700cf9c27f6f7426281"
     })
     return data["data"]["klines"] if data and data.get("data") and data["data"].get("klines") else []
+
+
+def fetch_index_60m_yf(ticker, period='1mo'):
+    """yfinance interval='60m'。返回 DataFrame 或 None。"""
+    try:
+        import yfinance as yf
+        frame = yf.download(ticker, period=period, interval='60m',
+                            progress=False, auto_adjust=False)
+    except Exception as exc:
+        print(f"  WARN yf 60m {ticker}: {type(exc).__name__}: {exc}")
+        return None
+    return frame if frame is not None and len(frame) else None
+
+
+def fetch_index_60m_series(secid, ticker):
+    """60 分钟收盘序列，返回 (times, closes, source)。
+
+    **yfinance 优先，东财兜底** —— 顺序是照实测定的，不是偏好：
+    push2his 从 Actions runner 间歇性整体不可达（2026-08-18 三次运行里两次
+    连指数日线都拿不到，run 32084883565 / 32137224403），而 yfinance 是本仓库
+    唯一被证明在 Actions 上天天成功的行情源（update-klines-cache.yml 靠它）。
+    退避重试解决不了——同一次运行的整个时间窗都在不可达状态里。
+
+    ⚠️ 两个源的"60 分钟"不是同一种：Yahoo 给 A 股 5 根/天，东财 4 根/天。
+    DIF 因此不可跨源比较，所以把 source 一路带到报告里。
+    """
+    frame = fetch_index_60m_yf(ticker)
+    if frame is not None:
+        times, closes = macd_state.parse_yf_60m(frame)
+        if closes:
+            return times, closes, 'yfinance'
+    times, closes = macd_state.parse_60m(fetch_index_kline_60m_em(secid))
+    return times, closes, 'eastmoney' if closes else 'unavailable'
 
 
 def fetch_concept_boards(fid="f3", pz=200):
@@ -357,15 +389,16 @@ def main():
     # 一根的三个标量，看不到序列，所以背离只能靠猜；这里把判定算完再给它。
     print("1c. Index 60m MACD state...")
     result["index_macd_60m"] = {}
-    for key, secid, name in (("shanghai", "1.000001", "上证指数"),
-                             ("shenzhen", "0.399001", "深证成指"),
-                             ("chinext", "0.399006", "创业板指"),
-                             ("star50", "1.000688", "科创50")):
-        times, closes = macd_state.parse_60m(fetch_index_kline_60m(secid))
+    for key, secid, ticker, name in (("shanghai", "1.000001", "000001.SS", "上证指数"),
+                                     ("shenzhen", "0.399001", "399001.SZ", "深证成指"),
+                                     ("chinext", "0.399006", "399006.SZ", "创业板指"),
+                                     ("star50", "1.000688", "000688.SS", "科创50")):
+        times, closes, source = fetch_index_60m_series(secid, ticker)
         state = macd_state.top_state(closes, times=times)
         state["name"] = name
+        state["source"] = source
         result["index_macd_60m"][key] = state
-        print(f"   {name}: {state['label']}（{state['bars']} 根 60min）")
+        print(f"   {name}: {state['label']}（{state['bars']} 根 60min, {source}）")
         time.sleep(0.3)
 
     print("2. Concept boards by change...")

@@ -195,6 +195,141 @@ class ParseTests(unittest.TestCase):
         self.assertEqual(M.parse_60m(None), ([], []))
 
 
+class YahooParseTests(unittest.TestCase):
+    """Yahoo 的 60 分钟不是国内那个 60 分钟。
+
+    2026-08-18 实测：A 股 11:30—13:00 休市，Yahoo 仍切出一根 11:30 桶，
+    上证该桶平均成交量 3974 万，邻近桶 5 亿—13 亿。留着它等于每天塞一根
+    几乎不动的价，系统性压低 DIF（实测上证 132→110 根后 DIF 从 +13.95
+    升到 +17.97）。
+    """
+
+    class Col:
+        """最小的 Series 替身：只需要 .items()。"""
+        def __init__(self, pairs):
+            self._pairs = pairs
+
+        def items(self):
+            return iter(self._pairs)
+
+    class Frame:
+        def __init__(self, col, multi=False):
+            self._col = col
+            self._multi = multi
+
+        def __len__(self):
+            return 1
+
+        def __getitem__(self, key):
+            assert key == 'Close'
+            if self._multi:
+                class Wrap:
+                    columns = ['000001.SS']
+
+                    def __init__(self, inner):
+                        self.iloc = self
+                        self._inner = inner
+
+                    def __getitem__(self, idx):
+                        return self._inner
+                return Wrap(self._col)
+            return self._col
+
+    def frame(self, pairs, multi=False):
+        return self.Frame(self.Col(pairs), multi=multi)
+
+    ONE_DAY = [('2026-08-17 09:30:00+08:00', 3950.0),
+               ('2026-08-17 10:30:00+08:00', 3960.24),
+               ('2026-08-17 11:30:00+08:00', 3960.19),
+               ('2026-08-17 12:30:00+08:00', 3960.47),
+               ('2026-08-17 13:30:00+08:00', 3973.62),
+               ('2026-08-17 14:30:00+08:00', 3983.29)]
+
+    def test_lunch_bucket_is_dropped(self):
+        times, closes = M.parse_yf_60m(self.frame(self.ONE_DAY))
+        self.assertEqual(len(closes), 5)
+        self.assertNotIn('11:30', [t[11:16] for t in times])
+        self.assertNotIn(3960.19, closes)
+
+    def test_lunch_bucket_can_be_kept_explicitly(self):
+        _t, closes = M.parse_yf_60m(self.frame(self.ONE_DAY), drop_lunch=False)
+        self.assertEqual(len(closes), 6)
+
+    def test_multiindex_columns_do_not_crash(self):
+        """单 ticker 下载时 yfinance 返回 MultiIndex，frame['Close'] 是 DataFrame。"""
+        times, closes = M.parse_yf_60m(self.frame(self.ONE_DAY, multi=True))
+        self.assertEqual(len(closes), 5)
+        self.assertEqual(closes[-1], 3983.29)
+
+    def test_nan_rows_are_skipped(self):
+        rows = [('2026-08-17 09:30:00+08:00', float('nan')),
+                ('2026-08-17 10:30:00+08:00', 3960.24)]
+        _t, closes = M.parse_yf_60m(self.frame(rows))
+        self.assertEqual(closes, [3960.24])
+
+    def test_non_numeric_rows_are_skipped(self):
+        rows = [('2026-08-17 09:30:00+08:00', None),
+                ('2026-08-17 10:30:00+08:00', 3960.24)]
+        _t, closes = M.parse_yf_60m(self.frame(rows))
+        self.assertEqual(closes, [3960.24])
+
+    def test_timestamps_are_trimmed_to_minutes(self):
+        times, _c = M.parse_yf_60m(self.frame(self.ONE_DAY))
+        self.assertEqual(times[0], '2026-08-17 09:30')
+
+    def test_empty_frame(self):
+        self.assertEqual(M.parse_yf_60m(None), ([], []))
+
+
+class SourceSelectionTests(unittest.TestCase):
+    """yfinance 优先是照实测定的，不是偏好。
+
+    push2his 从 Actions runner 间歇性整体不可达（2026-08-18 三次运行两次全挂），
+    yfinance 是本仓库唯一被证明在 Actions 天天成功的行情源。
+    """
+
+    def test_yfinance_is_tried_first_and_eastmoney_is_not_touched_on_success(self):
+        from unittest import mock
+        import fetch_market_data as F
+        with mock.patch.object(F, 'fetch_index_60m_yf', return_value='FRAME'), \
+             mock.patch.object(F.macd_state, 'parse_yf_60m',
+                               return_value=(['t'], [1.0])), \
+             mock.patch.object(F, 'fetch_index_kline_60m_em') as em:
+            times, closes, source = F.fetch_index_60m_series('1.000001', '000001.SS')
+        self.assertEqual(source, 'yfinance')
+        self.assertEqual(closes, [1.0])
+        em.assert_not_called()
+
+    def test_eastmoney_is_the_fallback(self):
+        from unittest import mock
+        import fetch_market_data as F
+        with mock.patch.object(F, 'fetch_index_60m_yf', return_value=None), \
+             mock.patch.object(F, 'fetch_index_kline_60m_em',
+                               return_value=['2026-08-17 15:00,1,2,3,4']):
+            _t, closes, source = F.fetch_index_60m_series('1.000001', '000001.SS')
+        self.assertEqual(source, 'eastmoney')
+        self.assertEqual(closes, [2.0])
+
+    def test_both_down_reports_unavailable(self):
+        from unittest import mock
+        import fetch_market_data as F
+        with mock.patch.object(F, 'fetch_index_60m_yf', return_value=None), \
+             mock.patch.object(F, 'fetch_index_kline_60m_em', return_value=[]):
+            _t, closes, source = F.fetch_index_60m_series('1.000001', '000001.SS')
+        self.assertEqual(source, 'unavailable')
+        self.assertEqual(closes, [])
+
+    def test_yfinance_returning_an_empty_frame_falls_through(self):
+        from unittest import mock
+        import fetch_market_data as F
+        with mock.patch.object(F, 'fetch_index_60m_yf', return_value='FRAME'), \
+             mock.patch.object(F.macd_state, 'parse_yf_60m', return_value=([], [])), \
+             mock.patch.object(F, 'fetch_index_kline_60m_em',
+                               return_value=['2026-08-17 15:00,1,2,3,4']):
+            _t, _c, source = F.fetch_index_60m_series('1.000001', '000001.SS')
+        self.assertEqual(source, 'eastmoney')
+
+
 class AnalyseTests(unittest.TestCase):
     def test_each_series_is_evaluated_independently(self):
         out = M.analyse({'上证指数': [], '科创50': []})
@@ -259,6 +394,27 @@ class RenderTests(unittest.TestCase):
         self.assertIn('MACD(12,26,9)', html)
         self.assertIn('swing high 左右各 3 根确认', html)
         self.assertIn('非标准定义', html)
+
+    def test_yahoo_source_warns_that_readings_wont_match_domestic_tools(self):
+        """Yahoo 5 根/交易日，国内软件 4 根/交易日——同名不同物。"""
+        md = {'index_macd_60m': {'a': dict(self.MD['index_macd_60m']['shanghai'],
+                                           source='yfinance')}}
+        html = self.R._render_macd_60m(md)
+        self.assertIn('yfinance', html)
+        self.assertIn('5 根/交易日', html)
+        self.assertIn('不会与之对上', html)
+
+    def test_mixed_sources_are_flagged_as_not_comparable(self):
+        states = self.MD['index_macd_60m']
+        md = {'index_macd_60m': {
+            'a': dict(states['shanghai'], source='yfinance'),
+            'b': dict(states['star50'], source='eastmoney')}}
+        self.assertIn('不可直接横比', self.R._render_macd_60m(md))
+
+    def test_no_source_field_does_not_break_the_footer(self):
+        html = self.R._render_macd_60m(self.MD)
+        self.assertIn('MACD(12,26,9)', html)
+        self.assertNotIn('K 线源', html)
 
     def test_both_peaks_are_shown_so_the_claim_can_be_checked(self):
         html = self.R._render_macd_60m(self.MD)

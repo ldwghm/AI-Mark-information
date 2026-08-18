@@ -169,6 +169,45 @@ def parse_60m(klines):
     return times, closes
 
 
+# A 股 11:30—13:00 休市，Yahoo 仍按 UTC 整点切出一根 11:30 桶。2026-08-18 实测
+# 上证该桶平均成交量 3974 万，邻近桶 5 亿—13 亿，是午休切片。留着它等于每天
+# 往序列里塞一根几乎不动的价，系统性地压低 DIF。
+LUNCH_BUCKET = '11:30'
+
+
+def parse_yf_60m(frame, drop_lunch=True):
+    """yfinance `interval='60m'` 的 DataFrame → (times, closes)。
+
+    单 ticker 下载时 yfinance 返回 MultiIndex 列（('Close','000001.SS')），
+    `frame['Close']` 拿到的是 DataFrame 不是 Series，`float()` 会炸。
+
+    ⚠️ **这不是国内看盘软件那个「60 分钟」。** A 股标准 60 分钟是 4 根/交易日
+    （10:30／11:30／14:00／15:00），Yahoo 是 UTC 整点网格，剔掉午休切片后
+    仍有 5 根/交易日（09:30／10:30／12:30／13:30／14:30）。同名不同物：
+    同一段行情两边算出的 DIF 不可直接比较，读数也不会和国内软件对上。
+    所以状态里必须带 `source`，报告里必须写明。
+    """
+    if frame is None or len(frame) == 0:
+        return [], []
+    col = frame['Close']
+    if hasattr(col, 'columns'):          # MultiIndex：取第一列
+        col = col.iloc[:, 0]
+    times, closes = [], []
+    for stamp, value in col.items():
+        label = str(stamp)[:16]
+        if drop_lunch and label[11:16] == LUNCH_BUCKET:
+            continue
+        try:
+            price = float(value)
+        except (TypeError, ValueError):
+            continue
+        if price != price:               # NaN
+            continue
+        closes.append(price)
+        times.append(label)
+    return times, closes
+
+
 def analyse(series_by_name, span=SPAN):
     """{名称: klines} → {名称: 状态}。用于指数一组一起算。"""
     out = {}
