@@ -114,33 +114,30 @@ curl -fsSL --max-time 20 \
 
 1. **`open/high/low/amount` 为 null 时不得推断。** 回填价来自 klines_cache，缓存只存收盘价与成交量，没有 OHLC。null 表示"日内振幅本期不可得"，不是零振幅。（这三个字段曾被赋成收盘价，导致 08-11 午报邮件印出 51 行「最高＝最低＝现价」——江波龙涨 6.70% 却零振幅。）
 2. **引用外围指数前先看 `row_stale`。** `global_markets.markets.<区域>.indices[]` 逐行带 `market_date` 与 `row_stale`；`row_stale=true` 说明该行落后于同市场其余行（08-12 实测 ^HSI/^HSCE/^KS11/^TWII 均落后一个交易日）。这类数字**不得用于描述当日**：要么标注真实时点，要么写 unavailable，方向以同市场个股为准。verify 会核对——引用了陈旧涨跌幅而附近未标日期，判硬失败。
+3. **带 `carried_forward: true` 的行来自上一次抓取，不是本次的新数据。** 新一期若把某行退回更早的交易日，抓取脚本会沿用上一期那行并打这个标记（`carried_reason` 为 `regressed`／`missing`，`carried_at` 是本次抓取时刻）。它的 `market_date` 是真实的，可以用；但**不要说成"最新抓取显示"**，行文按 `market_date` 标注时点即可。
+
+### WebFetch 的已知封锁域名
+
+本会话的 egress 代理拦截多数财经媒体正文。2026-08-13 实测返回 `EGRESS_BLOCKED` 的有：`cnbc.com`、`fool.com`、`bls.gov`、`tradingeconomics.com`、`mrjjxw.com`、`cn.dailyeconomic.com`。**不要逐个去试**——直接用 WebSearch 的摘要，并在 `evidence_log` 里把 `source_url` 记为搜索结果指向的原文地址、`claim` 只写摘要能支撑的内容。若某个数字只有摘要、没能取到正文，照写 `kind: hard_fact` 但在 `claim` 里注明"来自搜索摘要，正文未取到"。宁可标注来源强度，也不要因为取不到正文就把数字丢掉或编一个。
 
 ## Step 3：提交 latest 与候选分析
 
 ```bash
 set -e
-python3 - <<'PYEOF'
-import base64, datetime, json, os, requests
-token = os.environ.get('GH_PAT') or os.environ.get('GITHUB_TOKEN')
-assert token, 'GitHub token missing'
-repo = 'ldwghm/AI-Mark-information'
-headers = {'Authorization': f'Bearer {token}', 'Accept': 'application/vnd.github+json'}
-json.load(open('/tmp/afternoon_latest.json', encoding='utf-8-sig'))
-json.load(open('/tmp/afternoon_analysis_candidate.json', encoding='utf-8-sig'))
-def commit(path, local, message):
-    url = f'https://api.github.com/repos/{repo}/contents/{path}'
-    current = requests.get(url, headers=headers, timeout=20)
-    sha = current.json().get('sha') if current.status_code == 200 else None
-    body = {'message': message, 'content': base64.b64encode(open(local, 'rb').read()).decode()}
-    if sha:
-        body['sha'] = sha
-    response = requests.put(url, headers=headers, json=body, timeout=30)
-    response.raise_for_status()
-    print(path, response.json()['commit']['sha'])
-date = datetime.datetime.now().strftime('%Y-%m-%d')
-commit('stock_report/data/afternoon_latest.json', '/tmp/afternoon_latest.json', f'data: afternoon merged snapshot {date}')
-commit('stock_report/data/afternoon_analysis_candidate.json', '/tmp/afternoon_analysis_candidate.json', f'analysis: afternoon candidate {date}')
-PYEOF
+RAW="https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report"
+curl -fsSL --max-time 30 "$RAW/publish.py" -o /tmp/publish.py
+python3 /tmp/publish.py \
+  --mode afternoon \
+  --latest /tmp/afternoon_latest.json \
+  --candidate /tmp/afternoon_analysis_candidate.json \
+  --repo ldwghm/AI-Mark-information \
+  --ref main
 ```
+
+**和 Step 0 一样走 git over HTTPS，不要用 `api.github.com/contents`。** 那条路在本会话必然 403——网关只拦 Bash 直连 `api.github.com`，git 与 raw 都通。2026-08-13 早报实测：Step 3 首次尝试 403，靠临场手写 clone+push 才把报告救回来。`publish.py` 就是把那段固化下来，别再自己拼。
+
+脚本做三件事：推之前把两个 JSON 各解析一遍（坏 JSON 推上去等于当天报废）；`afternoon_latest.json` 先提交、候选后提交，两个提交一次推送（`send-report-pm.yml` 由候选触发，触发时必须能读到配套的 latest）；token 只从 `GH_PAT`／`GITHUB_TOKEN` 读，git 输出一律抹掉凭据。成功时打印两个 commit SHA，逐字抄进收尾回报。
+
+脚本本身失败（拉不到、push 被拒）时，可改用本会话被授权的 GitHub MCP 工具按相同语义重试一次，并把偏差逐字写进 `orchestration_status.transport_note`。**不要退回 `api.github.com`。**
 
 候选提交会触发 `send-report-pm.yml`。该 workflow 校验并发送同一候选，写入最终 `afternoon_analysis.json` 并归档。不要绕过该链路。
