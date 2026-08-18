@@ -218,6 +218,8 @@ tr:last-child td { border-bottom: none; }
 .sec-risk .section-header { background: linear-gradient(90deg, #fff7ed, #fffbf5); color: #ea580c; }
 .sec-evidence { border-left: 4px solid #94a3b8; }
 .sec-evidence .section-header { background: linear-gradient(90deg, #f8fafc, #fcfdfe); color: #64748b; }
+.sec-chips { border-left: 4px solid #db2777; }
+.sec-chips .section-header { background: linear-gradient(90deg, #fdf2f8, #fefafc); color: #db2777; }
 
 /* ── 可读性层 ─────────────────────────────────────────────────
    分析正文常年一万六千字以上，平铺会让"当天最重要的结论"和"第 9 条
@@ -1262,6 +1264,130 @@ def _render_evidence(analysis):
     return f'<table>{rows}</table>'
 
 
+def _chip_block(value):
+    """筹码三项的取值兼容层。
+
+    修复前它们是裸 list（且长期为 `[]`），修复后变成
+    `{status, trade_date, rows, note}`。归档里两种形状都有，渲染端必须都能读。
+    """
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, list):
+        return {'status': 'ok' if value else 'unavailable', 'rows': value}
+    return {'status': 'unavailable', 'rows': []}
+
+
+def _yi(v, digits=2):
+    """元 → 亿元。"""
+    if not isinstance(v, (int, float)):
+        return '-'
+    return f'{v / 1e8:.{digits}f}亿'
+
+
+def _chip_status_note(name, block):
+    """取数失败和"今天真没有"必须分得开——这正是这三个字段坏掉半年没人发现的原因。"""
+    status = block.get('status')
+    if status == 'error':
+        return (f'<div style="font-size:11.5px;color:#b91c1c;margin:4px 0">'
+                f'⛔ {name}取数失败：{_safe(block.get("note"), "未知原因")}</div>')
+    if status in (None, 'unavailable') and not block.get('rows'):
+        return (f'<div style="font-size:11.5px;color:#9ca3af;margin:4px 0">'
+                f'{name}本期无数据</div>')
+    return ''
+
+
+def _render_margin(block, top=10):
+    """两融：融资净买入排序。杠杆资金在加仓还是撤退，是最接近"筹码"的公开数据。"""
+    rows = block.get('rows') or []
+    note = _chip_status_note('两融', block)
+    if not rows:
+        return note
+    body = ''
+    for r in rows[:top]:
+        chg = _num(r.get('chg_pct'))
+        net = r.get('fin_net_buy')
+        pct = r.get('fin_pct_of_float')
+        body += f"""<tr>
+          <td><b>{_safe(r.get('name'))}</b>
+              <span style="color:#9ca3af;font-size:11px">{_safe(r.get('code'))}</span></td>
+          <td style="color:{_clr(chg)};font-weight:600">{_fp(chg)}</td>
+          <td style="color:{_clr(_num(net))};font-weight:600">{_yi(net)}</td>
+          <td>{_yi(r.get('fin_balance'), 1)}</td>
+          <td style="color:#6b7280">{f'{_num(pct):.2f}%' if isinstance(pct, (int, float)) else '-'}</td>
+        </tr>"""
+    date = _safe(block.get('trade_date'), '')
+    head = (f'<div style="font-size:11.5px;color:#6b7280;margin:6px 0 4px">'
+            f'融资净买入前 {min(top, len(rows))}（{date} 披露，全市场 {len(rows)} 只入选池）</div>')
+    return note + head + f"""<table>
+    <tr><th>股票</th><th>涨跌幅</th><th>融资净买入</th><th>融资余额</th><th>占流通市值</th></tr>
+    {body}</table>"""
+
+
+def _render_billboard(block, top=10):
+    """龙虎榜：净买入排序，带上榜原因与龙虎榜成交占全天成交比。
+
+    `board_deal_ratio` 比净买入金额更能说明问题——占比 45% 意味着当天近一半
+    成交发生在几个席位之间，那是明确的资金集中，而绝对金额只反映股票大小。
+    """
+    rows = block.get('rows') or []
+    note = _chip_status_note('龙虎榜', block)
+    if not rows:
+        return note
+    body = ''
+    for r in rows[:top]:
+        chg = _num(r.get('chg_pct'))
+        net = _num(r.get('net_buy'))
+        ratio = r.get('board_deal_ratio')
+        count = r.get('board_count') or 1
+        multi = (f'<span style="font-size:10.5px;background:#fef3c7;color:#b45309;'
+                 f'padding:1px 5px;border-radius:4px;margin-left:4px">{count}次上榜</span>'
+                 if count > 1 else '')
+        body += f"""<tr>
+          <td><b>{_safe(r.get('name'))}</b>
+              <span style="color:#9ca3af;font-size:11px">{_safe(r.get('code'))}</span>{multi}</td>
+          <td style="color:{_clr(chg)};font-weight:600">{_fp(chg)}</td>
+          <td style="color:{_clr(net)};font-weight:600">{_yi(net)}</td>
+          <td style="color:#6b7280">{f'{_num(ratio):.1f}%' if isinstance(ratio, (int, float)) else '-'}</td>
+          <td style="font-size:11px;color:#6b7280">{_safe(r.get('reason'), '-')}</td>
+        </tr>"""
+    date = _safe(block.get('trade_date'), '')
+    head = (f'<div style="font-size:11.5px;color:#6b7280;margin:6px 0 4px">'
+            f'净买入前 {min(top, len(rows))}（{date} 榜单，当日 {len(rows)} 只上榜；'
+            f'同股多次上榜已合并，不相加重叠成交）</div>')
+    return note + head + f"""<table>
+    <tr><th>股票</th><th>涨跌幅</th><th>净买入</th><th>占全天成交</th><th>上榜原因</th></tr>
+    {body}</table>"""
+
+
+def _render_northbound(block):
+    """北向：只剩成交额，且单位未核实——照原样标出来，不换算成"亿元"。"""
+    rows = block.get('rows') or []
+    note = _chip_status_note('北向', block)
+    if not rows:
+        return note
+    cells = '　'.join(
+        f'{_safe(r.get("channel"))} {_safe(r.get("deal_amt_raw"), "-")}' for r in rows)
+    caveat = ''
+    if block.get('unit_verified') is False:
+        caveat = ('<div style="font-size:11px;color:#b45309;margin-top:3px">'
+                  '⚠️ 东财原值，单位未核实（按万元算量级偏小、按百万元算才对得上），'
+                  '暂不换算；净买入自 2024-08 起停止披露。</div>')
+    return (note + f'<div style="font-size:12.5px;color:#374151;margin-top:8px">'
+            f'<b>北向成交</b>（{_safe(block.get("trade_date"), "")}）　{cells}</div>{caveat}')
+
+
+def _render_chips(market_data):
+    """筹码与杠杆一节：龙虎榜 + 两融 + 北向。"""
+    md = market_data or {}
+    parts = [
+        _render_billboard(_chip_block(md.get('dragon_tiger'))),
+        _render_margin(_chip_block(md.get('margin_trading'))),
+        _render_northbound(_chip_block(md.get('northbound'))),
+    ]
+    body = ''.join(p for p in parts if p)
+    return body
+
+
 def _render_verdict(analysis):
     """结论段：方向 + 置信度 + 理由，紧跟操作建议。
 
@@ -1322,6 +1448,9 @@ def render_morning_report(market_data, analysis=None, date_str=''):
     # Capital flow
     capital = market_data.get('capital_flow_top30', [])
     capital_html = _render_capital_flow(capital)
+
+    # 筹码与杠杆（龙虎榜/两融/北向）——三个字段一直声明着，直到修好取数才有内容
+    chips_html = _render_chips(market_data)
 
     # Watchlist technicals
     wt = _filter_tech(market_data.get('watchlist_technicals', []))
@@ -1388,7 +1517,9 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 
 {_section('sec-capital', '💰', '五之4　资金流向 TOP10', capital_html) if capital else ''}
 
-{_section('sec-score', '⭐', '五之5　个股：评分与技术面', score_chart + '<br/>' + wt_html + change_chart + highlights_html) if wt_html else ''}
+{_section('sec-chips', '🎫', '五之5　筹码与杠杆：龙虎榜 · 两融 · 北向', chips_html) if chips_html else ''}
+
+{_section('sec-score', '⭐', '五之6　个股：评分与技术面', score_chart + '<br/>' + wt_html + change_chart + highlights_html) if wt_html else ''}
 
 {_section('sec-anomaly', '🔍', '六、异常追因', anomaly_html) if anomaly_html else ''}
 

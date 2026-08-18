@@ -24,6 +24,48 @@ def safe_get(url, params=None, timeout=20):
         print(f"  WARN {url[:70]}: {e}")
         return None
 
+
+DATACENTER = "https://datacenter-web.eastmoney.com/api/data/v1/get"
+
+
+def datacenter_get(label, params, timeout=25):
+    """东财 datacenter 报表查询。**返回 (rows, error)，不把失败吞成空表。**
+
+    这个接口用 HTTP 200 + body 里的 `success:false` 报错，所以 safe_get 那层
+    看不出任何问题，旧写法 `data["result"]["data"] if ... else []` 会把它悄悄
+    变成空列表。实测后果：northbound / dragon_tiger / margin_trading 三个字段
+    因为东财改了列名（`SECURITY_NAME` → `SECURITY_NAME_ABBR` 等）连续多期
+    返回 `[]`，而日志里一个字都没有，报告端只当"今天没有龙虎榜"。
+    错误码 9501「XXX返回字段不存在」必须响，否则下次改名还是这样。
+    """
+    payload = dict(params)
+    payload.setdefault("client", "WEB")
+    data = safe_get(DATACENTER, payload, timeout=timeout)
+    if data is None:
+        return [], f"{label}: 请求失败"
+    if not data.get("success"):
+        msg = data.get("message") or data.get("code") or "unknown"
+        print(f"  ERROR {label}: 东财返回 success=false（{msg}）—— 报表字段可能已变更")
+        return [], f"{label}: {msg}"
+    rows = (data.get("result") or {}).get("data") or []
+    return rows, None
+
+
+def _latest_trade_date(report_name, date_column):
+    """先问该报表的最新日期。
+
+    两融旧写法按 RZYE 倒序且不带日期过滤，会把历史最高融资余额的行捞上来——
+    实测探到的样本日期是 2024-06-07。就算列名修好，不锁日期照样是错的。
+    """
+    rows, err = datacenter_get(
+        f"{report_name}.{date_column}",
+        {"reportName": report_name, "columns": date_column, "pageNumber": 1,
+         "pageSize": 1, "sortTypes": -1, "sortColumns": date_column})
+    if err or not rows:
+        return None
+    value = rows[0].get(date_column)
+    return str(value)[:10] if value else None
+
 def fetch_index_kline(secid, name, days=25):
     data = safe_get("https://push2his.eastmoney.com/api/qt/stock/kline/get", {
         "secid": secid, "fields1": "f1,f2,f3,f4,f5,f6",
@@ -80,35 +122,163 @@ def fetch_stock_kline(secid, name, days=25):
     klines = data["data"]["klines"] if data and data.get("data") and data["data"].get("klines") else []
     return {"name": name, "secid": secid, "klines": klines}
 
+# 北向净买入自 2024-08 起停止披露：RPT_MUTUAL_DEAL_HISTORY 里 NET_DEAL_AMT /
+# FUND_INFLOW / BUY_AMT / SELL_AMT 四个字段仍在，值恒为 null（2026-08-17 实测）。
+# 只有 DEAL_AMT（成交额，单位万元）是真数据。写清楚拿不到什么，比留个空数组强。
+NORTHBOUND_TYPES = {"001": "沪股通", "003": "深股通"}
+
+
 def fetch_northbound():
-    data = safe_get("https://datacenter-web.eastmoney.com/api/data/v1/get", {
-        "reportName": "RPT_MUTUAL_QUOTA",
-        "columns": "TRADE_DATE,MUTUAL_TYPE,MUTUAL_TYPE_NAME,QUOTA_BALANCE,QUOTA_USED,NET_BUY_AMT,BUY_AMT,SELL_AMT",
-        "filter": '(MUTUAL_TYPE+in+("001","003"))',
-        "pageNumber": 1, "pageSize": 20,
-        "sortTypes": -1, "sortColumns": "TRADE_DATE", "client": "WEB"
-    })
-    return data["result"]["data"] if data and data.get("result") and data["result"].get("data") else []
+    """北向：只剩成交额。净买入不可得，且不会再回来——不要拿成交额冒充净流入。"""
+    rows, err = datacenter_get("northbound", {
+        "reportName": "RPT_MUTUAL_DEAL_HISTORY",
+        "columns": "TRADE_DATE,MUTUAL_TYPE,DEAL_AMT,NET_DEAL_AMT,FUND_INFLOW",
+        "filter": '(MUTUAL_TYPE in ("001","003"))',
+        "pageNumber": 1, "pageSize": 10,
+        "sortTypes": -1, "sortColumns": "TRADE_DATE"})
+    if err:
+        return {"status": "error", "note": err, "rows": []}
 
-def fetch_dragon_tiger():
-    week_ago = (datetime.now() - timedelta(days=5)).strftime("%Y-%m-%d")
-    data = safe_get("https://datacenter-web.eastmoney.com/api/data/v1/get", {
+    latest = rows[0]["TRADE_DATE"][:10] if rows else None
+    out = []
+    for r in rows:
+        if latest and str(r.get("TRADE_DATE", ""))[:10] != latest:
+            continue
+        out.append({
+            "trade_date": str(r.get("TRADE_DATE", ""))[:10],
+            "channel": NORTHBOUND_TYPES.get(str(r.get("MUTUAL_TYPE")), str(r.get("MUTUAL_TYPE"))),
+            # 原值直接存，不换算。东财没有文档标单位：按万元算沪股通只有 13.7 亿，
+            # 对单日成交额明显偏小；按百万元算是 1368 亿，量级才对得上。两种都
+            # 只是推断，没有第二来源能证，所以不换算也不在报告里写成"亿元"。
+            "deal_amt_raw": r.get("DEAL_AMT"),
+            "net_buy": None,
+        })
+    return {
+        "status": "partial" if out else "unavailable",
+        "trade_date": latest,
+        "unit_verified": False,
+        "note": ("净买入自2024-08起交易所停止披露，恒为不可得；"
+                 "deal_amt_raw 为东财原值，单位未核实，引用前须自行标注口径"),
+        "rows": out,
+    }
+
+
+def fetch_dragon_tiger(top=60):
+    """龙虎榜：最新一个榜单日，按机构口径净买入排序。
+
+    列名已随东财改版变更（`SECURITY_NAME`→`SECURITY_NAME_ABBR`、
+    `NET_BUY_AMT`→`BILLBOARD_NET_AMT`、`OPERATEDEPT_NAME`/`RANK` 已不在本表）。
+    改版后多出 DEAL_AMOUNT_RATIO（龙虎榜成交占全天成交比）和上榜后 N 日涨幅，
+    后者让"上榜"这件事第一次可以被回测。
+    """
+    latest = _latest_trade_date("RPT_DAILYBILLBOARD_DETAILSNEW", "TRADE_DATE")
+    if not latest:
+        return {"status": "unavailable", "trade_date": None, "rows": []}
+
+    rows, err = datacenter_get("dragon_tiger", {
         "reportName": "RPT_DAILYBILLBOARD_DETAILSNEW",
-        "columns": "SECURITY_CODE,SECURITY_NAME,CLOSE_PRICE,CHANGE_RATE,TRADE_DATE,EXPLANATION,OPERATEDEPT_NAME,BUY_AMT,SELL_AMT,NET_BUY_AMT,RANK,OPERATEDEPT_TYPE",
-        "filter": f"(TRADE_DATE>='{week_ago}')",
-        "pageNumber": 1, "pageSize": 100,
-        "sortTypes": -1, "sortColumns": "TRADE_DATE,NET_BUY_AMT", "client": "WEB"
-    })
-    return data["result"]["data"] if data and data.get("result") and data["result"].get("data") else []
+        "columns": ("TRADE_DATE,SECURITY_CODE,SECURITY_NAME_ABBR,CLOSE_PRICE,CHANGE_RATE,"
+                    "EXPLANATION,BILLBOARD_NET_AMT,BILLBOARD_BUY_AMT,BILLBOARD_SELL_AMT,"
+                    "BILLBOARD_DEAL_AMT,DEAL_AMOUNT_RATIO,ACCUM_AMOUNT,TURNOVERRATE,"
+                    "D1_CLOSE_ADJCHRATE,D5_CLOSE_ADJCHRATE,D10_CLOSE_ADJCHRATE"),
+        "filter": f"(TRADE_DATE='{latest} 00:00:00')",
+        "pageNumber": 1, "pageSize": top,
+        "sortTypes": -1, "sortColumns": "BILLBOARD_NET_AMT"})
+    if err:
+        return {"status": "error", "note": err, "trade_date": latest, "rows": []}
 
-def fetch_margin_trading():
-    data = safe_get("https://datacenter-web.eastmoney.com/api/data/v1/get", {
+    return {"status": "ok" if rows else "unavailable", "trade_date": latest,
+            "rows": _dedupe_billboard(rows)}
+
+
+def _dedupe_billboard(rows):
+    """同一只股票同一天可以因多个原因分别上榜（实测 000620 盈新发展当日两行，
+    净买入 2.53 亿与 1.91 亿，上榜原因不同）。
+
+    这几行的成交是重叠的，**不能相加**；直接平铺又会让"净买入前十"里同一只
+    股票占两格。取绝对值最大的那条作代表，把其余原因收进 also_listed_for，
+    并记下上榜次数——一天上多个榜本身就是强度信号，不该丢。
+    """
+    best = {}
+    order = []
+    for r in rows:
+        code = r.get("SECURITY_CODE")
+        if code is None:
+            continue
+        item = {
+            "code": code,
+            "name": r.get("SECURITY_NAME_ABBR"),
+            "price": r.get("CLOSE_PRICE"),
+            "chg_pct": r.get("CHANGE_RATE"),
+            "net_buy": r.get("BILLBOARD_NET_AMT"),
+            "buy": r.get("BILLBOARD_BUY_AMT"),
+            "sell": r.get("BILLBOARD_SELL_AMT"),
+            "board_deal_ratio": r.get("DEAL_AMOUNT_RATIO"),
+            "turnover_rate": r.get("TURNOVERRATE"),
+            "reason": r.get("EXPLANATION"),
+            "after_1d": r.get("D1_CLOSE_ADJCHRATE"),
+            "after_5d": r.get("D5_CLOSE_ADJCHRATE"),
+            "after_10d": r.get("D10_CLOSE_ADJCHRATE"),
+            "board_count": 1,
+            "also_listed_for": [],
+        }
+        if code not in best:
+            best[code] = item
+            order.append(code)
+            continue
+        kept = best[code]
+        kept["board_count"] += 1
+        loser = item
+        if abs(_f(item["net_buy"])) > abs(_f(kept["net_buy"])):
+            item["board_count"] = kept["board_count"]
+            item["also_listed_for"] = kept["also_listed_for"]
+            best[code] = item
+            loser = kept
+        if loser.get("reason"):
+            best[code]["also_listed_for"].append(loser["reason"])
+    return [best[c] for c in order]
+
+
+def _f(v):
+    return v if isinstance(v, (int, float)) else 0.0
+
+
+def fetch_margin_trading(top=100):
+    """两融：锁定最新披露日，按融资净买入排序。
+
+    旧写法按 RZYE 倒序且不带日期过滤，会把历史上融资余额最高的行捞出来——
+    探测样本日期是 2024-06-07。锁日期这件事和改列名同样重要。
+    """
+    latest = _latest_trade_date("RPTA_WEB_RZRQ_GGMX", "DATE")
+    if not latest:
+        return {"status": "unavailable", "trade_date": None, "rows": []}
+
+    rows, err = datacenter_get("margin_trading", {
         "reportName": "RPTA_WEB_RZRQ_GGMX",
-        "columns": "SECUCODE,SECURITY_NAME,RZYE,RZMRE,RZCHE,RQYE,RQMCL,RZRQYE,CHANGE_RATE",
-        "pageNumber": 1, "pageSize": 200,
-        "sortTypes": -1, "sortColumns": "RZYE", "client": "WEB"
-    })
-    return data["result"]["data"] if data and data.get("result") and data["result"].get("data") else []
+        "columns": ("DATE,SCODE,SECNAME,SPJ,ZDF,RZYE,RZMRE,RZCHE,RZJME,RQYE,RZRQYE,"
+                    "RZYEZB,RZJME3D,RZJME5D"),
+        "filter": f"(DATE='{latest} 00:00:00')",
+        "pageNumber": 1, "pageSize": top,
+        "sortTypes": -1, "sortColumns": "RZJME"})
+    if err:
+        return {"status": "error", "note": err, "trade_date": latest, "rows": []}
+
+    out = [{
+        "code": r.get("SCODE"),
+        "name": r.get("SECNAME"),
+        "price": r.get("SPJ"),
+        "chg_pct": r.get("ZDF"),
+        "fin_net_buy": r.get("RZJME"),          # 融资净买入
+        "fin_balance": r.get("RZYE"),           # 融资余额
+        "fin_buy": r.get("RZMRE"),
+        "fin_repay": r.get("RZCHE"),
+        "short_balance": r.get("RQYE"),         # 融券余额
+        "total_balance": r.get("RZRQYE"),
+        "fin_pct_of_float": r.get("RZYEZB"),    # 融资余额占流通市值%
+        "fin_net_buy_3d": r.get("RZJME3D"),
+        "fin_net_buy_5d": r.get("RZJME5D"),
+    } for r in rows]
+    return {"status": "ok" if out else "unavailable", "trade_date": latest, "rows": out}
 
 def main():
     print(f"=== Morning fetch started {datetime.now().isoformat()} ===")
@@ -204,19 +374,28 @@ def main():
             entry.update(tech)
         result["watchlist_technicals"].append(entry)
 
+    # 8–10 是"筹码侧"。三个字段一直声明着但连续多期为空——东财改了列名，
+    # 而旧代码把 API 的 success=false 吞成 []。现在状态和日期都要写进快照，
+    # 空表必须能和"取数失败"区分开。
+    def _report(label, block):
+        rows = block.get("rows") or []
+        print(f"   [{block.get('status')}] {len(rows)} rows"
+              f"{' @ ' + block['trade_date'] if block.get('trade_date') else ''}"
+              f"{' — ' + block['note'] if block.get('note') else ''}")
+
     print("8. Northbound capital...")
     result["northbound"] = fetch_northbound()
-    print(f"   {len(result['northbound'])} records")
+    _report("northbound", result["northbound"])
     time.sleep(0.4)
 
     print("9. Dragon tiger...")
     result["dragon_tiger"] = fetch_dragon_tiger()
-    print(f"   {len(result['dragon_tiger'])} records")
+    _report("dragon_tiger", result["dragon_tiger"])
     time.sleep(0.4)
 
     print("10. Margin trading...")
     result["margin_trading"] = fetch_margin_trading()
-    print(f"   {len(result['margin_trading'])} records")
+    _report("margin_trading", result["margin_trading"])
 
     # 双源交叉验证只能在这里做：CCR 会话连不上新浪/腾讯，那边的 crosscheck
     # 每期都是 checked_pairs=0。runner 上新浪 718ms、腾讯 957ms，都通。
