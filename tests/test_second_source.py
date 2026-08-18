@@ -256,3 +256,50 @@ class FetchScriptWiringTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class PrimaryQuoteKeyTests(unittest.TestCase):
+    """收盘价在三处叫三个名字，只认一个就等于没接上。
+
+    `attach_crosscheck` 跑在 **Actions 侧**，那里 compute_stock_technical
+    输出的键是 `price`；而 primary_quotes 最初只读 `close`（CCR 合并后的形状）。
+    后果：PR #7 上线后 checked_pairs **每一期都是 0**、status 恒为 unchecked
+    （"主源无可用报价，无从比对"），双源交叉验证等于从没跑过。
+    """
+
+    def test_actions_side_price_key_is_recognised(self):
+        snap = {'watchlist_technicals': [
+            {'code': '300308', 'price': 988.1, 'chg_pct': -1.29}]}
+        quotes = second_source.primary_quotes(snap)
+        self.assertEqual(quotes['300308']['price'], 988.1)
+
+    def test_ccr_side_close_key_still_works(self):
+        snap = {'watchlist_technicals': [
+            {'code': '300308', 'close': 921.0, 'chg_pct': 3.84}]}
+        self.assertEqual(second_source.primary_quotes(snap)['300308']['price'], 921.0)
+
+    def test_close_wins_over_price_when_both_exist(self):
+        snap = {'watchlist_technicals': [
+            {'code': '300308', 'close': 921.0, 'price': 1.0}]}
+        self.assertEqual(second_source.primary_quotes(snap)['300308']['price'], 921.0)
+
+    def test_pm_realtime_key_still_wins_over_both(self):
+        snap = {'watchlist_rt': [{'code': '300308', 'current': 950.0}],
+                'watchlist_technicals': [{'code': '300308', 'price': 988.1}]}
+        self.assertEqual(second_source.primary_quotes(snap)['300308']['price'], 950.0)
+
+    def test_non_numeric_price_is_skipped(self):
+        snap = {'watchlist_technicals': [{'code': '300308', 'price': '-'}]}
+        self.assertEqual(second_source.primary_quotes(snap), {})
+
+    def test_a_real_morning_snapshot_yields_targets(self):
+        """回归：这份形状以前会得到 0 条主源报价。"""
+        snap = {'watchlist_technicals': [
+            {'code': c, 'name': n, 'price': p, 'chg_pct': 1.0}
+            for c, n, p in (('300308', '中际旭创', 988.1),
+                            ('300502', '新易盛', 466.68),
+                            ('688041', '海光信息', 120.0))]}
+        quotes = second_source.primary_quotes(snap)
+        targets = crosscheck.select_crosscheck_targets(snap)
+        self.assertEqual(len(quotes), 3)
+        self.assertTrue(targets & set(quotes))

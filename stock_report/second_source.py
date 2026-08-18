@@ -157,7 +157,19 @@ def fetch_second_source(codes, providers=PROVIDERS):
 
 
 def primary_quotes(snapshot):
-    """从东财快照里取出主源报价，键用裸代码。"""
+    """从东财快照里取出主源报价，键用裸代码。
+
+    收盘价在三个地方叫三个名字，必须都认：
+
+      `watchlist_rt[].current`        午报脚本（盘中快照）
+      `watchlist_technicals[].price`  早报脚本 —— compute_stock_technical 的输出
+      `watchlist_technicals[].close`  CCR 合并后的形状
+
+    只读 `close` 是本函数最初的写法，因为它是照 CCR 合并结果写的；但
+    `attach_crosscheck` 实际运行在 **Actions 侧**，那里的键是 `price`。
+    结果 PR #7 上线后 `checked_pairs` **每一期都是 0**、status 恒为
+    `unchecked`（"主源无可用报价，无从比对"），双源交叉验证等于从没跑过。
+    """
     out = {}
     for row in (snapshot.get('watchlist_rt') or []):
         code = str(row.get('code') or '')
@@ -168,6 +180,8 @@ def primary_quotes(snapshot):
     for row in (snapshot.get('watchlist_technicals') or []):
         code = str(row.get('code') or '')
         price = row.get('close')
+        if not isinstance(price, (int, float)):
+            price = row.get('price')
         if code and code not in out and isinstance(price, (int, float)):
             out[code] = {'price': price, 'chg_pct': row.get('chg_pct'),
                          'src': 'eastmoney', 'date': row.get('data_date', '')}
