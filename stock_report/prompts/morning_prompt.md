@@ -121,7 +121,7 @@ curl -fsSL --max-time 20 \
 
 `stock_highlights.price/chg_pct` 必须逐字取自本次 latest。`orchestration_status` 原样复制 status JSON，`data_quality` 原样复制 latest 对应对象。所有 `evidence_ids` 必须能在 `evidence_log` 找到。概率合计为 100。JSON 写完后解析检查。
 
-两条数据口径硬规则：
+三条数据口径硬规则：
 
 1. **`open/high/low/amount` 为 null 时不得推断。** 回填价来自 klines_cache，缓存只存收盘价与成交量，没有 OHLC。null 表示"日内振幅本期不可得"，不是零振幅。（这三个字段曾被赋成收盘价，导致 08-11 午报邮件印出 51 行「最高＝最低＝现价」。）
 2. **引用外围指数前先看 `row_stale`。** `global_markets.markets.<区域>.indices[]` 逐行带 `market_date` 与 `row_stale`；`row_stale=true` 说明该行落后于同市场其余行（08-12 实测 ^HSI/^HSCE/^KS11/^TWII 均落后一个交易日）。这类数字**不得用于描述当日**：要么标注真实时点，要么写 unavailable，方向以同市场个股为准。verify 会核对——引用了陈旧涨跌幅而附近未标日期，判硬失败。
@@ -130,6 +130,31 @@ curl -fsSL --max-time 20 \
 ### WebFetch 的已知封锁域名
 
 本会话的 egress 代理拦截多数财经媒体正文。2026-08-13 实测返回 `EGRESS_BLOCKED` 的有：`cnbc.com`、`fool.com`、`bls.gov`、`tradingeconomics.com`、`mrjjxw.com`、`cn.dailyeconomic.com`。**不要逐个去试**——直接用 WebSearch 的摘要，并在 `evidence_log` 里把 `source_url` 记为搜索结果指向的原文地址、`claim` 只写摘要能支撑的内容。若某个数字只有摘要、没能取到正文，照写 `kind: hard_fact` 但在 `claim` 里注明"来自搜索摘要，正文未取到"。宁可标注来源强度，也不要因为取不到正文就把数字丢掉或编一个。
+
+### 筹码与指标三块的口径（新增字段，独立于上面两条）
+
+**`dragon_tiger` / `margin_trading` / `northbound`** —— 形状是 `{status, trade_date, rows, note}`，**先读 `status` 再读 `rows`**。
+
+- `status=error` 表示**取数失败**，不是"今天没有"。必须写进 `risk_warnings`，不得渲染成"本期无龙虎榜"。（这三个字段曾因东财改列名连续多期返回空表，而失败被吞掉，没人发现。）
+- `northbound.net_buy` **恒为 null**——交易所 2024-08 起停止披露北向净买入。`deal_amt_raw` 的**单位未核实**（`unit_verified: false`）：照抄原值并注明口径，**不得换算成"亿元"，更不得说成"北向净流入 X 亿"**。
+- `dragon_tiger` 的 `board_count>1` 表示当日因多个原因上榜，`net_buy` 已取最大的一条、**没有相加**（成交重叠，相加会凭空放大）。
+
+**`flow_divergence`** —— 只说明"大额单方向与价格方向相反"，**不等于机构在出货**。
+
+- 东财的"主力/超大单/大单"按**单笔成交金额**机械划分，量化拆单会把大资金打散成中小单。行文用"大额资金净流出/净流入"，**禁用"机构派发""主力出货""游资接盘"**。
+- `accumulation_detectable: false` 时，"未发现逆势承接"是**取数口径所限**（样本内没有下跌股），必须这样写，**不能写成"市场无承接盘"**。
+- `super_agrees: false` 说明超大单与主力合计口径反向，该条要降级表述。
+
+**`index_macd_60m`** —— 三种状态**不可混为一谈**，这是整块最容易被写坏的地方。
+
+| state | 含义 | 允许的说法 |
+|---|---|---|
+| `blunting` | 价格创新高而 DIF 未创新高 | "出现顶部钝化，属**预警**" |
+| `structure` | 钝化后 DIF 掉头向下 | "顶部结构形成，调整概率上升" |
+| `cleared` | DIF 重上前峰 | "原背离条件已不成立" |
+| `insufficient` | 没算出来 | 写 unavailable，**不要编** |
+
+**禁止把 `blunting` 写成"已见顶""顶部确认""见顶信号"。** 该判定使用的是一套**非标准定义**（`params` 字段里是实际参数：MACD 周期、swing high 确认根数），引用时连参数一起说，或至少写明"按本系统口径"。换参数结论会变，这一点要让读者知道。
 
 ## Step 3：提交 latest 与候选分析
 

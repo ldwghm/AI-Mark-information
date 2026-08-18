@@ -203,6 +203,24 @@ tr:last-child td { border-bottom: none; }
 .sec-sectors .section-header { background: linear-gradient(90deg, #ecfeff, #f0feff); color: #0891b2; }
 .sector-title-row td { background: #f0f9ff; font-weight: 700; color: #0891b2; padding: 5px 10px; font-size: 12px; }
 
+/* 研报分节。结论段用最重的蓝，论据段沿用既有配色，附录压到灰。 */
+.sec-verdict { border-left: 4px solid #1e3a8a; }
+.sec-verdict .section-header { background: linear-gradient(90deg, #eef2ff, #f8faff); color: #1e3a8a; }
+.sec-scenario { border-left: 4px solid #b45309; }
+.sec-scenario .section-header { background: linear-gradient(90deg, #fffbeb, #fffdf5); color: #b45309; }
+.sec-review { border-left: 4px solid #ca8a04; }
+.sec-review .section-header { background: linear-gradient(90deg, #fefce8, #fffef5); color: #854d0e; }
+.sec-anomaly { border-left: 4px solid #0d9488; }
+.sec-anomaly .section-header { background: linear-gradient(90deg, #f0fdfa, #f7fffe); color: #0d9488; }
+.sec-thesis { border-left: 4px solid #4f46e5; }
+.sec-thesis .section-header { background: linear-gradient(90deg, #eef2ff, #f8faff); color: #4f46e5; }
+.sec-risk { border-left: 4px solid #ea580c; }
+.sec-risk .section-header { background: linear-gradient(90deg, #fff7ed, #fffbf5); color: #ea580c; }
+.sec-evidence { border-left: 4px solid #94a3b8; }
+.sec-evidence .section-header { background: linear-gradient(90deg, #f8fafc, #fcfdfe); color: #64748b; }
+.sec-chips { border-left: 4px solid #db2777; }
+.sec-chips .section-header { background: linear-gradient(90deg, #fdf2f8, #fefafc); color: #db2777; }
+
 /* ── 可读性层 ─────────────────────────────────────────────────
    分析正文常年一万六千字以上，平铺会让"当天最重要的结论"和"第 9 条
    数据口径声明"拥有同样的视觉权重。以下三组样式只做一件事：把已经
@@ -599,69 +617,85 @@ def _render_change_chart(technicals):
     url = _chart_url(config, width=600, height=max(200, len(labels) * 24))
     return f'<img src="{url}" class="chart-img" alt="个股涨跌幅" />'
 
-def _render_analysis(analysis):
-    """Render CCR analysis JSON into HTML sections."""
-    if not analysis:
+def _render_review(analysis):
+    """上期预测 vs 实际。"""
+    review = (analysis or {}).get('review', '')
+    if not review:
         return ''
-    parts = []
-
-    # Market summary
-    summary = analysis.get('market_summary', '')
-    if summary:
-        parts.append(_rich_text(summary))
-
-    # Review (morning prediction vs intraday reality)
-    review = analysis.get('review', '')
-    if review:
-        parts.append(
-            '<div style="margin:12px 0;padding:10px 14px;background:#fefce8;'
+    return ('<div style="margin:12px 0;padding:10px 14px;background:#fefce8;'
             'border-left:3px solid #ca8a04;border-radius:4px">'
             '<div style="font-size:13px;font-weight:700;color:#854d0e">早报复盘</div>'
             f'{_rich_text(review)}</div>')
 
-    # Key insights —— 编号，让"十条要点"变成可数、可跳读的清单
-    insights = analysis.get('key_insights', [])
-    if insights:
-        items = ''.join(
-            f'<div style="margin:8px 0;font-size:13px;line-height:1.75">'
-            f'<span class="insight-num">{n}</span>{_md_inline(text)}</div>'
-            for n, text in enumerate(insights, 1))
-        parts.append(
-            '<div class="insight-box"><b>核心观点</b>'
+
+def _render_insights(analysis):
+    """核心观点 —— 编号，让"十条要点"变成可数、可跳读的清单。"""
+    insights = (analysis or {}).get('key_insights', [])
+    if not insights:
+        return ''
+    items = ''.join(
+        f'<div style="margin:8px 0;font-size:13px;line-height:1.75">'
+        f'<span class="insight-num">{n}</span>{_md_inline(text)}</div>'
+        for n, text in enumerate(insights, 1))
+    return ('<div class="insight-box"><b>核心观点</b>'
             f'<div style="margin-top:6px">{items}</div></div>')
 
-    # Sector rotation
+
+def _render_highlights(analysis):
+    """个股点评卡片。每条 comment 常有 400 字，挤在 <li> 里读不动；
+    开头的【价格字段口径…】提成徽章，读者一眼知道这个价是哪天的。"""
+    highlights = (analysis or {}).get('stock_highlights', [])
+    if not highlights:
+        return ''
+    cards = ''
+    for h in highlights:
+        lead, body = _split_lead(h.get('comment', ''))
+        asof = h.get('price_as_of') or ''
+        badge = ''
+        if h.get('price_is_fallback') and asof:
+            badge = f'<span class="hl-asof">价格截至 {str(asof)[:10]}</span>'
+        elif lead:
+            badge = f'<span class="hl-asof">{lead[:18]}</span>'
+        cards += (
+            '<div class="hl-card">'
+            f'<div class="hl-head">{h.get("name", "")}'
+            f'<span class="hl-code">{h.get("code", "")}</span>{badge}</div>'
+            f'<div class="hl-body">{_md_inline(body or h.get("comment", ""))}</div>'
+            '</div>')
+    return f'<div style="margin-top:12px"><b>个股点评</b>{cards}</div>'
+
+
+def _render_analysis(analysis):
+    """Render CCR analysis JSON into HTML sections（午报沿用的整块布局）。"""
+    if not analysis:
+        return ''
+    summary = analysis.get('market_summary', '')
+    parts = [
+        _rich_text(summary) if summary else '',
+        _render_review(analysis),
+        _render_insights(analysis),
+        _render_sector_rotation_block(analysis),
+        _render_highlights(analysis),
+        _render_sector_analysis_block(analysis),
+    ]
+    return '\n'.join(p for p in parts if p)
+
+
+def _render_sector_rotation_block(analysis):
     rotation_html = _render_sector_rotation(analysis)
-    if rotation_html:
-        parts.append(f'<div style="margin-top:10px"><b>板块轮动判断：</b>{rotation_html}</div>')
+    return (f'<div style="margin-top:10px"><b>板块轮动判断：</b>{rotation_html}</div>'
+            if rotation_html else '')
 
-    # Stock highlights —— 卡片化。每条 comment 常有 400 字，挤在 <li> 里读不动；
-    # 开头的【价格字段口径…】提成徽章，读者一眼知道这个价是哪天的。
-    highlights = analysis.get('stock_highlights', [])
-    if highlights:
-        cards = ''
-        for h in highlights:
-            lead, body = _split_lead(h.get('comment', ''))
-            asof = h.get('price_as_of') or ''
-            badge = ''
-            if h.get('price_is_fallback') and asof:
-                badge = f'<span class="hl-asof">价格截至 {str(asof)[:10]}</span>'
-            elif lead:
-                badge = f'<span class="hl-asof">{lead[:18]}</span>'
-            cards += (
-                '<div class="hl-card">'
-                f'<div class="hl-head">{h.get("name", "")}'
-                f'<span class="hl-code">{h.get("code", "")}</span>{badge}</div>'
-                f'<div class="hl-body">{_md_inline(body or h.get("comment", ""))}</div>'
-                '</div>')
-        parts.append(f'<div style="margin-top:12px"><b>个股点评</b>{cards}</div>')
 
-    # Sector analysis
-    sector = analysis.get('sector_analysis', '')
-    if sector:
-        parts.append(f'<div style="margin-top:12px"><b>板块解读</b>{_rich_text(sector)}</div>')
+def _render_sector_analysis_block(analysis):
+    sector = (analysis or {}).get('sector_analysis', '')
+    return (f'<div style="margin-top:12px"><b>板块解读</b>{_rich_text(sector)}</div>'
+            if sector else '')
 
-    return '\n'.join(parts)
+
+def _render_sector_read(analysis):
+    """板块轮动判断 + 板块解读（早报把两者收进「板块」一节）。"""
+    return _render_sector_rotation_block(analysis) + _render_sector_analysis_block(analysis)
 
 
 _RISK_WORDS = ('事件', '政策', '风险', '波动', '传闻', '不确定', '监管')
@@ -983,6 +1017,499 @@ def _render_degraded_banner(analysis):
 </div>"""
 
 
+# ── 研报层：分析层每天产出、但一直没有出口的字段 ──────────────────────────
+# playbook Step 2 强制模型每期写 forecast_ledger_entry / thesis_updates /
+# technical_analysis / fundamental_analysis / sentiment_analysis /
+# anomaly_investigation / evidence_log / reflection，实测都是填满的
+# （08-13 早报：11 条 thesis、3 档情景、17 条证据）。渲染端一条都没有取。
+# 也就是说模型每天写的分析里有一半直接进了归档，从没到过读者眼前。
+
+_SCEN_CN = {'base': '基准', 'bull': '偏多', 'bear': '偏空'}
+_SCEN_COLOR = {'base': '#1e3a8a', 'bull': '#dc2626', 'bear': '#16a34a'}
+
+
+def _bullets(items, color='#6b7280'):
+    """把字符串列表渲染成紧凑列表；单个字符串也接受（分析层偶尔不写成数组）。"""
+    if isinstance(items, str):
+        items = [items] if items.strip() else []
+    if not items:
+        return ''
+    lis = ''.join(f'<li style="margin:2px 0">{_md_inline(str(i))}</li>' for i in items)
+    return (f'<ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;'
+            f'line-height:1.65;color:{color}">{lis}</ul>')
+
+
+def _render_scenarios(analysis):
+    """情景与失效条件表。
+
+    研报结论段的核心不是方向标签，而是"什么情况下这个判断作废"。给了失效
+    条件，第二天才能机械地判对错；只给"偏多 55%"，复盘时怎么写都能自圆其说。
+    分析层已经按 base/bull/bear 三档写好并要求概率合计 100，这里只是把它取出来。
+    """
+    entry = (analysis or {}).get('forecast_ledger_entry') or {}
+    scenarios = entry.get('scenarios') or []
+    if not scenarios:
+        return ''
+
+    rows = ''
+    for s in scenarios:
+        key = str(s.get('name', '')).strip().lower()
+        label = _SCEN_CN.get(key, s.get('name') or '-')
+        color = _SCEN_COLOR.get(key, '#374151')
+        prob = s.get('probability')
+        prob_txt = f'{_num(prob):.0f}%' if isinstance(prob, (int, float)) else '-'
+        conds = _bullets(s.get('conditions'))
+        inval = _bullets(s.get('invalidation'), color='#9a3412')
+        rows += f"""<tr>
+          <td style="white-space:nowrap"><b style="color:{color}">{label}</b></td>
+          <td style="white-space:nowrap;font-weight:700;color:{color}">{prob_txt}</td>
+          <td>{conds or '<span style="color:#9ca3af">未列出</span>'}</td>
+          <td>{inval or '<span style="color:#9ca3af">未列出</span>'}</td>
+        </tr>"""
+
+    meta = []
+    if entry.get('horizon'):
+        meta.append(f'期限 {_safe(entry.get("horizon"))}')
+    if entry.get('next_check'):
+        meta.append(f'下次检验：{_safe(entry.get("next_check"))}')
+    meta_html = (f'<div style="font-size:11.5px;color:#6b7280;margin-top:8px">'
+                 f'{"　|　".join(meta)}</div>') if meta else ''
+
+    return f"""<table>
+    <tr><th style="width:52px">情景</th><th style="width:52px">概率</th>
+        <th>成立条件</th><th>失效条件</th></tr>
+    {rows}</table>{meta_html}"""
+
+
+def _render_view_matrix(analysis):
+    """技术／基本面／情绪三面并列。
+
+    这三块分析层分别写在 technical_analysis、fundamental_analysis、
+    sentiment_analysis 里。并列摆放的意义是让三者的分歧显形——三面一致和
+    "技术偏多但基本面无验证"是完全不同的信号强度，平铺成散文会糊掉。
+    """
+    a = analysis or {}
+    tech = a.get('technical_analysis') or {}
+    fund = a.get('fundamental_analysis') or {}
+    sent = a.get('sentiment_analysis') or {}
+    if not (tech or fund or sent):
+        return ''
+
+    blocks = []
+    if tech:
+        legs = [('短期', tech.get('short_term')), ('中期', tech.get('medium_term')),
+                ('长期', tech.get('long_term'))]
+        body = ''.join(
+            f'<div style="margin:4px 0"><b style="color:#1e3a8a">{k}</b>　'
+            f'{_md_inline(str(v))}</div>'
+            for k, v in legs if v)
+        if body:
+            blocks.append(('技术面', body, '#1e3a8a'))
+    if fund:
+        status = str(fund.get('status') or '').strip()
+        tag = ''
+        if status:
+            tone = {'verified': ('#dcfce7', '#15803d'), 'partial': ('#fef3c7', '#b45309')}
+            bg, fg = tone.get(status, ('#f1f5f9', '#64748b'))
+            tag = (f'<span style="font-size:10.5px;font-weight:700;background:{bg};'
+                   f'color:{fg};padding:1px 7px;border-radius:999px;margin-left:6px">'
+                   f'{status}</span>')
+        body = _md_inline(str(fund.get('summary') or ''))
+        if body:
+            blocks.append((f'基本面{tag}', body, '#0891b2'))
+    if sent:
+        conf = sent.get('confidence')
+        parts = []
+        if sent.get('hard_data'):
+            parts.append(f'<div style="margin:4px 0"><b>硬数据</b>　'
+                         f'{_md_inline(str(sent["hard_data"]))}</div>')
+        if sent.get('social_signal'):
+            # 社交信号和硬数据必须视觉分开：playbook 边界 3 不许拿传闻当事实
+            parts.append(f'<div style="margin:4px 0;color:#6b7280"><b>社交信号</b>'
+                         f'<span style="font-size:10.5px;background:#f1f5f9;color:#64748b;'
+                         f'padding:1px 6px;border-radius:4px;margin:0 6px">未证实</span>'
+                         f'{_md_inline(str(sent["social_signal"]))}</div>')
+        if isinstance(conf, (int, float)):
+            parts.append(f'<div style="font-size:11.5px;color:#6b7280;margin-top:4px">'
+                         f'情绪判断置信度 {conf}%</div>')
+        if parts:
+            blocks.append(('情绪面', ''.join(parts), '#7c3aed'))
+
+    if not blocks:
+        return ''
+    return ''.join(
+        f'<div style="margin:10px 0;padding:10px 12px;background:#f9fafb;'
+        f'border-left:3px solid {color};border-radius:0 6px 6px 0">'
+        f'<div style="font-size:12.5px;font-weight:700;color:{color};margin-bottom:4px">'
+        f'{title}</div>'
+        f'<div style="font-size:12.5px;line-height:1.75;color:#374151">{body}</div></div>'
+        for title, body, color in blocks)
+
+
+def _render_reflection(analysis):
+    """上期结果认账：对/错/部分对，错在哪一类，形成什么规则。
+
+    这是整套系统区别于"每天重新讲一个故事"的地方，但一直没渲染。
+    """
+    r = (analysis or {}).get('reflection') or {}
+    if not r:
+        return ''
+    tone = {'correct': ('#dcfce7', '#15803d', '判断正确'),
+            'partial': ('#fef3c7', '#b45309', '部分正确'),
+            'wrong': ('#fee2e2', '#b91c1c', '判断错误'),
+            'pending': ('#f1f5f9', '#64748b', '尚未到期')}
+    key = str(r.get('prior_result') or '').strip().lower()
+    bg, fg, label = tone.get(key, ('#f1f5f9', '#64748b', key or '未标注'))
+
+    rows = ''
+    for k, v in (('错误类型', r.get('error_type')), ('教训', r.get('lesson')),
+                 ('规则更新', r.get('rule_update'))):
+        if v:
+            rows += (f'<div style="margin:4px 0;font-size:12.5px;line-height:1.7">'
+                     f'<b style="color:#475569">{k}</b>　{_md_inline(str(v))}</div>')
+    return (f'<div style="margin-top:10px;padding:10px 12px;border:1px solid #e2e8f0;'
+            f'border-radius:8px">'
+            f'<span style="font-size:11px;font-weight:700;background:{bg};color:{fg};'
+            f'padding:2px 8px;border-radius:999px">上期结果：{label}</span>{rows}</div>')
+
+
+def _render_anomalies(analysis):
+    """异常追因。已证实／候选／待核实三档必须分开——把候选原因写成结论是
+    这类日报最常见的失真方式。"""
+    items = (analysis or {}).get('anomaly_investigation') or []
+    if not items:
+        return ''
+    out = ''
+    for a in items:
+        signal = a.get('signal') or ''
+        if not signal:
+            continue
+        cols = ''
+        for label, key, color in (('已证实', 'confirmed_causes', '#15803d'),
+                                  ('候选', 'candidate_causes', '#b45309'),
+                                  ('待核实', 'unresolved', '#64748b')):
+            vals = a.get(key) or []
+            body = _bullets(vals, color=color) or (
+                '<div style="font-size:11.5px;color:#cbd5e1;margin-top:4px">—</div>')
+            cols += (f'<td style="vertical-align:top;width:33%">'
+                     f'<div style="font-size:11px;font-weight:700;color:{color}">{label}</div>'
+                     f'{body}</td>')
+        out += (f'<div style="margin:8px 0;padding:10px 12px;border:1px solid #e5e7eb;'
+                f'border-radius:8px">'
+                f'<div style="font-size:12.5px;font-weight:700;color:#111827">{_md_inline(signal)}</div>'
+                f'<table style="margin-top:6px"><tr>{cols}</tr></table></div>')
+    return out
+
+
+def _render_thesis(analysis):
+    """论点跟踪：上期每条 thesis 今天是加强了、减弱了还是关闭了。
+
+    没有这一段，"连续性"就只是 playbook 里的一句要求，读者看不到兑现。
+    """
+    items = (analysis or {}).get('thesis_updates') or []
+    if not items:
+        return ''
+    tone = {'strengthened': ('#dcfce7', '#15803d', '加强'),
+            'weakened': ('#fef3c7', '#b45309', '减弱'),
+            'carried_forward': ('#eff6ff', '#1d4ed8', '延续'),
+            'closed': ('#f1f5f9', '#64748b', '关闭')}
+    rows = ''
+    for t in items:
+        key = str(t.get('status') or '').strip().lower()
+        bg, fg, label = tone.get(key, ('#f1f5f9', '#64748b', key or '-'))
+        ev = t.get('evidence_ids') or []
+        ev_txt = ('<span style="font-size:11px;color:#9ca3af;margin-left:6px">'
+                  f'{"、".join(str(e) for e in ev)}</span>') if ev else ''
+        inval = t.get('invalidation')
+        inval_html = (f'<div style="font-size:11.5px;color:#9a3412;margin-top:3px">'
+                      f'失效条件：{_md_inline(str(inval))}</div>') if inval else ''
+        rows += f"""<tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:{bg};color:{fg};
+                         padding:2px 8px;border-radius:999px">{label}</span></td>
+          <td><b style="font-size:12.5px">{_safe(t.get('thesis_id'), '-')}</b>{ev_txt}{inval_html}</td>
+        </tr>"""
+    return f'<table>{rows}</table>'
+
+
+def _render_evidence(analysis):
+    """证据链附录。硬事实与社交信号分色，来源与时间逐条摊开。
+
+    放在最后是对的——但"放在最后"和"根本不渲染"是两回事。所有 evidence_ids
+    引用的东西读者应当能查到，否则前面那些 E1/E7 就是死链。
+    """
+    log = (analysis or {}).get('evidence_log') or []
+    if not log:
+        return ''
+    rows = ''
+    for e in log:
+        kind = str(e.get('kind') or '').strip()
+        is_social = kind == 'social_signal'
+        bg, fg, label = (('#f1f5f9', '#64748b', '社交信号') if is_social
+                         else ('#eff6ff', '#1d4ed8', '硬事实'))
+        url = e.get('source_url') or ''
+        src = _safe(e.get('source'), '-')
+        src_html = (f'<a href="{url}" style="color:#2563eb;text-decoration:none">{src}</a>'
+                    if url.startswith('http') else src)
+        when = e.get('published_at') or e.get('fetched_at') or ''
+        rows += f"""<tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            {_safe(e.get('id'), '-')}</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:{bg};color:{fg};
+                         padding:1px 7px;border-radius:999px">{label}</span></td>
+          <td style="font-size:11.5px;line-height:1.6">{_md_inline(str(e.get('claim') or ''))}
+            <div style="color:#9ca3af;margin-top:2px">{src_html}　{str(when)[:19]}</div></td>
+        </tr>"""
+    return f'<table>{rows}</table>'
+
+
+def _chip_block(value):
+    """筹码三项的取值兼容层。
+
+    修复前它们是裸 list（且长期为 `[]`），修复后变成
+    `{status, trade_date, rows, note}`。归档里两种形状都有，渲染端必须都能读。
+    """
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, list):
+        return {'status': 'ok' if value else 'unavailable', 'rows': value}
+    return {'status': 'unavailable', 'rows': []}
+
+
+def _yi(v, digits=2):
+    """元 → 亿元。"""
+    if not isinstance(v, (int, float)):
+        return '-'
+    return f'{v / 1e8:.{digits}f}亿'
+
+
+def _chip_status_note(name, block):
+    """取数失败和"今天真没有"必须分得开——这正是这三个字段坏掉半年没人发现的原因。"""
+    status = block.get('status')
+    if status == 'error':
+        return (f'<div style="font-size:11.5px;color:#b91c1c;margin:4px 0">'
+                f'⛔ {name}取数失败：{_safe(block.get("note"), "未知原因")}</div>')
+    if status in (None, 'unavailable') and not block.get('rows'):
+        return (f'<div style="font-size:11.5px;color:#9ca3af;margin:4px 0">'
+                f'{name}本期无数据</div>')
+    return ''
+
+
+def _render_margin(block, top=10):
+    """两融：融资净买入排序。杠杆资金在加仓还是撤退，是最接近"筹码"的公开数据。"""
+    rows = block.get('rows') or []
+    note = _chip_status_note('两融', block)
+    if not rows:
+        return note
+    body = ''
+    for r in rows[:top]:
+        chg = _num(r.get('chg_pct'))
+        net = r.get('fin_net_buy')
+        pct = r.get('fin_pct_of_float')
+        body += f"""<tr>
+          <td><b>{_safe(r.get('name'))}</b>
+              <span style="color:#9ca3af;font-size:11px">{_safe(r.get('code'))}</span></td>
+          <td style="color:{_clr(chg)};font-weight:600">{_fp(chg)}</td>
+          <td style="color:{_clr(_num(net))};font-weight:600">{_yi(net)}</td>
+          <td>{_yi(r.get('fin_balance'), 1)}</td>
+          <td style="color:#6b7280">{f'{_num(pct):.2f}%' if isinstance(pct, (int, float)) else '-'}</td>
+        </tr>"""
+    date = _safe(block.get('trade_date'), '')
+    head = (f'<div style="font-size:11.5px;color:#6b7280;margin:6px 0 4px">'
+            f'融资净买入前 {min(top, len(rows))}（{date} 披露，全市场 {len(rows)} 只入选池）</div>')
+    return note + head + f"""<table>
+    <tr><th>股票</th><th>涨跌幅</th><th>融资净买入</th><th>融资余额</th><th>占流通市值</th></tr>
+    {body}</table>"""
+
+
+def _render_billboard(block, top=10):
+    """龙虎榜：净买入排序，带上榜原因与龙虎榜成交占全天成交比。
+
+    `board_deal_ratio` 比净买入金额更能说明问题——占比 45% 意味着当天近一半
+    成交发生在几个席位之间，那是明确的资金集中，而绝对金额只反映股票大小。
+    """
+    rows = block.get('rows') or []
+    note = _chip_status_note('龙虎榜', block)
+    if not rows:
+        return note
+    body = ''
+    for r in rows[:top]:
+        chg = _num(r.get('chg_pct'))
+        net = _num(r.get('net_buy'))
+        ratio = r.get('board_deal_ratio')
+        count = r.get('board_count') or 1
+        multi = (f'<span style="font-size:10.5px;background:#fef3c7;color:#b45309;'
+                 f'padding:1px 5px;border-radius:4px;margin-left:4px">{count}次上榜</span>'
+                 if count > 1 else '')
+        body += f"""<tr>
+          <td><b>{_safe(r.get('name'))}</b>
+              <span style="color:#9ca3af;font-size:11px">{_safe(r.get('code'))}</span>{multi}</td>
+          <td style="color:{_clr(chg)};font-weight:600">{_fp(chg)}</td>
+          <td style="color:{_clr(net)};font-weight:600">{_yi(net)}</td>
+          <td style="color:#6b7280">{f'{_num(ratio):.1f}%' if isinstance(ratio, (int, float)) else '-'}</td>
+          <td style="font-size:11px;color:#6b7280">{_safe(r.get('reason'), '-')}</td>
+        </tr>"""
+    date = _safe(block.get('trade_date'), '')
+    head = (f'<div style="font-size:11.5px;color:#6b7280;margin:6px 0 4px">'
+            f'净买入前 {min(top, len(rows))}（{date} 榜单，当日 {len(rows)} 只上榜；'
+            f'同股多次上榜已合并，不相加重叠成交）</div>')
+    return note + head + f"""<table>
+    <tr><th>股票</th><th>涨跌幅</th><th>净买入</th><th>占全天成交</th><th>上榜原因</th></tr>
+    {body}</table>"""
+
+
+def _render_northbound(block):
+    """北向：只剩成交额，且单位未核实——照原样标出来，不换算成"亿元"。"""
+    rows = block.get('rows') or []
+    note = _chip_status_note('北向', block)
+    if not rows:
+        return note
+    cells = '　'.join(
+        f'{_safe(r.get("channel"))} {_safe(r.get("deal_amt_raw"), "-")}' for r in rows)
+    caveat = ''
+    if block.get('unit_verified') is False:
+        caveat = ('<div style="font-size:11px;color:#b45309;margin-top:3px">'
+                  '⚠️ 东财原值，单位未核实（按万元算量级偏小、按百万元算才对得上），'
+                  '暂不换算；净买入自 2024-08 起停止披露。</div>')
+    return (note + f'<div style="font-size:12.5px;color:#374151;margin-top:8px">'
+            f'<b>北向成交</b>（{_safe(block.get("trade_date"), "")}）　{cells}</div>{caveat}')
+
+
+_MACD_TONE = {
+    'blunting':  ('#fef3c7', '#b45309'),
+    'structure': ('#fee2e2', '#b91c1c'),
+    'cleared':   ('#dcfce7', '#15803d'),
+    'none':      ('#f1f5f9', '#64748b'),
+}
+
+
+def _render_macd_60m(market_data):
+    """60 分钟顶部钝化状态。
+
+    三种状态必须在版面上分得开：钝化是预警、结构才是较明确的顶部信号、
+    消失是警报解除。混成一句"MACD 显示顶背离"就把预警读成了结论。
+    """
+    states = (market_data or {}).get('index_macd_60m') or {}
+    usable = {k: v for k, v in states.items()
+              if isinstance(v, dict) and v.get('state') not in (None, 'insufficient')}
+    if not usable:
+        return ''
+    rows = ''
+    for _key, s in usable.items():
+        bg, fg = _MACD_TONE.get(s.get('state'), ('#f1f5f9', '#64748b'))
+        prev, last = s.get('peak_prev') or {}, s.get('peak_last') or {}
+        peaks = '-'
+        if prev and last:
+            peaks = (f"{_safe(str(prev.get('time'))[:16], '')} "
+                     f"{_num(prev.get('price')):.2f}/DIF{_num(prev.get('dif')):+.2f}"
+                     f"　→　{_safe(str(last.get('time'))[:16], '')} "
+                     f"{_num(last.get('price')):.2f}/DIF{_num(last.get('dif')):+.2f}")
+        rows += f"""<tr>
+          <td style="white-space:nowrap"><b>{_safe(s.get('name'), _key)}</b></td>
+          <td style="white-space:nowrap">
+            <span style="font-size:11px;font-weight:700;background:{bg};color:{fg};
+                         padding:2px 8px;border-radius:999px">{_safe(s.get('label'))}</span></td>
+          <td style="font-size:11px;color:#6b7280">{peaks}</td>
+        </tr>"""
+
+    any_state = next(iter(usable.values()))
+    p = any_state.get('params') or {}
+    foot = (f'<div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.7">'
+            f'参数：MACD({_safe(p.get("fast"))},{_safe(p.get("slow"))},{_safe(p.get("signal"))})，'
+            f'swing high 左右各 {_safe(p.get("span"))} 根确认；'
+            f'价格与 DIF 均取 60 分钟收盘。<br>'
+            f'⚠️ 钝化＝价格创新高而 DIF 未创新高，是<b>预警</b>，不等于顶部已确认；'
+            f'DIF 掉头才是结构，DIF 重上前峰则警报解除。'
+            f'该判定采用的是一套非标准定义，参数如上，换参数结论会变。</div>')
+    return (f'<div style="font-size:12.5px;font-weight:700;color:#1e3a8a;margin:10px 0 4px">'
+            f'60 分钟 MACD 顶部状态</div>'
+            f'<table><tr><th>指数</th><th>状态</th><th>近两个高点（价/DIF）</th></tr>'
+            f'{rows}</table>{foot}')
+
+
+def _render_divergence(market_data):
+    """价格与主力资金背离。
+
+    两个方向分开摆，并且**必须显示口径**：东财的"主力"是按单笔成交金额划的，
+    不是按账户性质，量化拆单会把大资金打散。写成"机构派发"就是过度解读。
+    """
+    fd = (market_data or {}).get('flow_divergence') or {}
+    if not fd:
+        return ''
+    dist = fd.get('distribution') or []
+    accu = fd.get('accumulation') or []
+
+    def table(items, title, color, hint):
+        if not items:
+            return ''
+        rows = ''
+        for h in items:
+            amt = h.get('main_net_amount')
+            agree = h.get('super_agrees')
+            # 超大单与主力反向时降级——"主力"这个合计口径内部就不一致
+            flag = ('' if agree is not False else
+                    '<span style="font-size:10.5px;background:#f1f5f9;color:#64748b;'
+                    'padding:1px 5px;border-radius:4px;margin-left:4px">超大单反向</span>')
+            rows += f"""<tr>
+              <td><b>{_safe(h.get('name'))}</b>
+                  <span style="color:#9ca3af;font-size:11px">{_safe(h.get('code'))}</span>{flag}</td>
+              <td style="color:{_clr(_num(h.get('chg_pct')))};font-weight:600">
+                  {_fp(_num(h.get('chg_pct')))}</td>
+              <td style="color:{color};font-weight:600">{_num(h.get('main_net_pct')):+.2f}%</td>
+              <td style="color:#6b7280">{_yi(amt) if amt is not None else '-'}</td>
+              <td style="color:#6b7280">{f"{_num(h.get('turnover_rate')):.1f}%"
+                                         if h.get('turnover_rate') is not None else '-'}</td>
+            </tr>"""
+        return (f'<div style="font-size:12.5px;font-weight:700;color:{color};margin:10px 0 4px">'
+                f'{title}<span style="font-weight:400;color:#6b7280;font-size:11.5px">'
+                f'　{hint}</span></div>'
+                f'<table><tr><th>股票</th><th>涨跌幅</th><th>主力净占比</th>'
+                f'<th>主力净额</th><th>换手率</th></tr>{rows}</table>')
+
+    parts = [
+        table(dist, '涨但大额资金净流出', '#16a34a', '价格与资金反向，留意兑现压力'),
+        table(accu, '跌但大额资金净流入', '#dc2626', '价格与资金反向，留意承接'),
+    ]
+    if not accu and fd.get('accumulation_detectable') is False:
+        parts.append('<div style="font-size:11.5px;color:#9ca3af;margin-top:6px">'
+                     '本期样本中无下跌个股（板块榜单只取涨幅前列），'
+                     '「跌但资金流入」不可检出——是取数口径所限，不是市场没有。</div>')
+    body = ''.join(p for p in parts if p)
+    if not body:
+        return ''
+
+    th = fd.get('thresholds') or {}
+    foot = (f'<div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.7">'
+            f'判定阈值：涨跌幅 ≥{_safe(th.get("chg_pct"), "-")}% 且 '
+            f'主力净占比 ≥{_safe(th.get("main_net_pct"), "-")}%（反向）；'
+            f'本期扫描 {_safe(fd.get("scanned"), "-")} 只。<br>'
+            f'⚠️ {_safe(fd.get("caveat"), "")}</div>')
+    return body + foot
+
+
+def _render_chips(market_data):
+    """筹码与杠杆一节：龙虎榜 + 两融 + 北向。"""
+    md = market_data or {}
+    parts = [
+        _render_billboard(_chip_block(md.get('dragon_tiger'))),
+        _render_margin(_chip_block(md.get('margin_trading'))),
+        _render_northbound(_chip_block(md.get('northbound'))),
+    ]
+    body = ''.join(p for p in parts if p)
+    return body
+
+
+def _render_verdict(analysis):
+    """结论段：方向 + 置信度 + 理由，紧跟操作建议。
+
+    `_render_prediction` 一直只在午报里被调用，早报从未渲染过它——早报
+    prediction 的 reasons 每天都写、每天都丢，只有 label 漏进顶部摘要卡。
+    """
+    parts = [_render_prediction(analysis), _render_trading_advice(analysis)]
+    return ''.join(p for p in parts if p)
+
+
 # ── Main renderers ────────────────────────────────────────────────────────
 
 def render_morning_report(market_data, analysis=None, date_str=''):
@@ -1024,6 +1551,7 @@ def render_morning_report(market_data, analysis=None, date_str=''):
         idx_tech_html = f"""<table style="margin-top:10px">
         <tr><th>指数</th><th>MA趋势</th><th>MACD</th><th>RSI</th><th>量比</th></tr>
         {rows}</table>"""
+    idx_tech_html += _render_macd_60m(market_data)
 
     # AI boards
     ai_boards = market_data.get('ai_boards', [])
@@ -1034,6 +1562,10 @@ def render_morning_report(market_data, analysis=None, date_str=''):
     capital = market_data.get('capital_flow_top30', [])
     capital_html = _render_capital_flow(capital)
 
+    # 筹码与杠杆（龙虎榜/两融/北向）——三个字段一直声明着，直到修好取数才有内容
+    chips_html = _render_chips(market_data)
+    divergence_html = _render_divergence(market_data)
+
     # Watchlist technicals
     wt = _filter_tech(market_data.get('watchlist_technicals', []))
     sectors = market_data.get('sectors', [])
@@ -1043,10 +1575,19 @@ def render_morning_report(market_data, analysis=None, date_str=''):
     score_chart = _render_score_ranking(wt)
     change_chart = _render_change_chart(wt)
 
-    # CCR analysis sections
-    analysis_html = _render_analysis(analysis)
-    advice_html = _render_trading_advice(analysis)
+    # CCR analysis sections —— 研报顺序：先结论，后论据，最后附录
+    summary_html = _rich_text(analysis.get('market_summary', ''))
+    verdict_html = _render_verdict(analysis)          # prediction + trading_advice
+    scenarios_html = _render_scenarios(analysis)      # 情景与失效条件
+    review_html = _render_review(analysis) + _render_reflection(analysis)
+    insights_html = _render_insights(analysis)
+    matrix_html = _render_view_matrix(analysis)       # 技术/基本面/情绪三面
+    sector_read_html = _render_sector_read(analysis)
+    highlights_html = _render_highlights(analysis)
+    anomaly_html = _render_anomalies(analysis)
+    thesis_html = _render_thesis(analysis)
     risk_html = _render_risk_warnings(analysis)
+    evidence_html = _render_evidence(analysis)
     hk_us_html = _render_hk_us(analysis)
 
     # Assemble
@@ -1074,21 +1615,33 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 
 {_render_tldr(analysis, market_data)}
 
-{_section('sec-index', '📊', '大盘指数概览', idx_cards + idx_table + idx_tech_html) if (idx_cards or idx_tech_html) else ''}
+{_section('sec-verdict', '🎯', '一、投资结论与操作建议', summary_html + verdict_html) if (summary_html or verdict_html) else ''}
 
-{_section('sec-capital', '💰', 'AI板块资金流向 TOP10', capital_html) if capital else ''}
+{_section('sec-scenario', '🔀', '二、情景与失效条件', scenarios_html) if scenarios_html else ''}
 
-{_section('sec-board', '🔥', 'AI板块动态', boards_html)}
+{_section('sec-review', '🔁', '三、上期复盘', review_html) if review_html else ''}
 
-{_section('sec-chart', '📈', '个股涨跌幅图表', change_chart) if change_chart else ''}
+{_section('sec-analysis', '🧠', '四、核心逻辑', insights_html + matrix_html) if (insights_html or matrix_html) else ''}
 
-{_section('sec-sectors', '📊', '板块强弱总览', sectors_summary_html) if sectors_summary_html else ''}
+{_section('sec-predict', '🌏', '五之1　外围市场：港股 & 美股AI龙头', hk_us_html) if hk_us_html else ''}
 
-{_section('sec-score', '⭐', 'AI龙头综合评分', score_chart + '<br/>' + wt_html) if wt_html else ''}
+{_section('sec-index', '📊', '五之2　A股大盘', idx_cards + idx_table + idx_tech_html) if (idx_cards or idx_tech_html) else ''}
 
-{_section('sec-analysis', '🧠', 'AI深度分析', analysis_html + advice_html + risk_html) if analysis_html else ''}
+{_section('sec-board', '🔥', '五之3　板块', boards_html + sectors_summary_html + sector_read_html)}
 
-{_section('sec-predict', '🌏', '港股 & 美股AI龙头', hk_us_html) if hk_us_html else ''}
+{_section('sec-capital', '💰', '五之4　资金流向 TOP10', capital_html + divergence_html) if (capital or divergence_html) else ''}
+
+{_section('sec-chips', '🎫', '五之5　筹码与杠杆：龙虎榜 · 两融 · 北向', chips_html) if chips_html else ''}
+
+{_section('sec-score', '⭐', '五之6　个股：评分与技术面', score_chart + '<br/>' + wt_html + change_chart + highlights_html) if wt_html else ''}
+
+{_section('sec-anomaly', '🔍', '六、异常追因', anomaly_html) if anomaly_html else ''}
+
+{_section('sec-thesis', '🧭', '七、论点跟踪', thesis_html) if thesis_html else ''}
+
+{_section('sec-risk', '⚠️', '八、风险提示', risk_html) if risk_html else ''}
+
+{_section('sec-evidence', '📎', '附录　证据链', evidence_html) if evidence_html else ''}
 
 <div class="footer">
   ⚠️ 仅供参考，不构成投资建议。股市有风险，入市需谨慎。<br>
