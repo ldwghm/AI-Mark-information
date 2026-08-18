@@ -1376,6 +1376,66 @@ def _render_northbound(block):
             f'<b>北向成交</b>（{_safe(block.get("trade_date"), "")}）　{cells}</div>{caveat}')
 
 
+def _render_divergence(market_data):
+    """价格与主力资金背离。
+
+    两个方向分开摆，并且**必须显示口径**：东财的"主力"是按单笔成交金额划的，
+    不是按账户性质，量化拆单会把大资金打散。写成"机构派发"就是过度解读。
+    """
+    fd = (market_data or {}).get('flow_divergence') or {}
+    if not fd:
+        return ''
+    dist = fd.get('distribution') or []
+    accu = fd.get('accumulation') or []
+
+    def table(items, title, color, hint):
+        if not items:
+            return ''
+        rows = ''
+        for h in items:
+            amt = h.get('main_net_amount')
+            agree = h.get('super_agrees')
+            # 超大单与主力反向时降级——"主力"这个合计口径内部就不一致
+            flag = ('' if agree is not False else
+                    '<span style="font-size:10.5px;background:#f1f5f9;color:#64748b;'
+                    'padding:1px 5px;border-radius:4px;margin-left:4px">超大单反向</span>')
+            rows += f"""<tr>
+              <td><b>{_safe(h.get('name'))}</b>
+                  <span style="color:#9ca3af;font-size:11px">{_safe(h.get('code'))}</span>{flag}</td>
+              <td style="color:{_clr(_num(h.get('chg_pct')))};font-weight:600">
+                  {_fp(_num(h.get('chg_pct')))}</td>
+              <td style="color:{color};font-weight:600">{_num(h.get('main_net_pct')):+.2f}%</td>
+              <td style="color:#6b7280">{_yi(amt) if amt is not None else '-'}</td>
+              <td style="color:#6b7280">{f"{_num(h.get('turnover_rate')):.1f}%"
+                                         if h.get('turnover_rate') is not None else '-'}</td>
+            </tr>"""
+        return (f'<div style="font-size:12.5px;font-weight:700;color:{color};margin:10px 0 4px">'
+                f'{title}<span style="font-weight:400;color:#6b7280;font-size:11.5px">'
+                f'　{hint}</span></div>'
+                f'<table><tr><th>股票</th><th>涨跌幅</th><th>主力净占比</th>'
+                f'<th>主力净额</th><th>换手率</th></tr>{rows}</table>')
+
+    parts = [
+        table(dist, '涨但大额资金净流出', '#16a34a', '价格与资金反向，留意兑现压力'),
+        table(accu, '跌但大额资金净流入', '#dc2626', '价格与资金反向，留意承接'),
+    ]
+    if not accu and fd.get('accumulation_detectable') is False:
+        parts.append('<div style="font-size:11.5px;color:#9ca3af;margin-top:6px">'
+                     '本期样本中无下跌个股（板块榜单只取涨幅前列），'
+                     '「跌但资金流入」不可检出——是取数口径所限，不是市场没有。</div>')
+    body = ''.join(p for p in parts if p)
+    if not body:
+        return ''
+
+    th = fd.get('thresholds') or {}
+    foot = (f'<div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.7">'
+            f'判定阈值：涨跌幅 ≥{_safe(th.get("chg_pct"), "-")}% 且 '
+            f'主力净占比 ≥{_safe(th.get("main_net_pct"), "-")}%（反向）；'
+            f'本期扫描 {_safe(fd.get("scanned"), "-")} 只。<br>'
+            f'⚠️ {_safe(fd.get("caveat"), "")}</div>')
+    return body + foot
+
+
 def _render_chips(market_data):
     """筹码与杠杆一节：龙虎榜 + 两融 + 北向。"""
     md = market_data or {}
@@ -1451,6 +1511,7 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 
     # 筹码与杠杆（龙虎榜/两融/北向）——三个字段一直声明着，直到修好取数才有内容
     chips_html = _render_chips(market_data)
+    divergence_html = _render_divergence(market_data)
 
     # Watchlist technicals
     wt = _filter_tech(market_data.get('watchlist_technicals', []))
@@ -1515,7 +1576,7 @@ def render_morning_report(market_data, analysis=None, date_str=''):
 
 {_section('sec-board', '🔥', '五之3　板块', boards_html + sectors_summary_html + sector_read_html)}
 
-{_section('sec-capital', '💰', '五之4　资金流向 TOP10', capital_html) if capital else ''}
+{_section('sec-capital', '💰', '五之4　资金流向 TOP10', capital_html + divergence_html) if (capital or divergence_html) else ''}
 
 {_section('sec-chips', '🎫', '五之5　筹码与杠杆：龙虎榜 · 两融 · 北向', chips_html) if chips_html else ''}
 

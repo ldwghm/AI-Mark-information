@@ -8,6 +8,7 @@ Saves to: stock_report/data/morning_latest.json
 import requests, json, os, time
 from datetime import datetime, timedelta
 from technical_indicators import compute_stock_technical
+from stock_report import flow_divergence
 from stock_report import second_source
 
 HEADERS = {
@@ -92,12 +93,22 @@ AI_KEYWORDS = ["算力", "光模块", "CPO", "光纤", "光缆", "光通信",
 def filter_ai(boards):
     return [b for b in boards if any(kw in (b.get("f14", "") or "") for kw in AI_KEYWORDS)]
 
-def fetch_board_stocks(bk_code, board_name, top=25):
+BOARD_FIELDS = ("f2,f3,f4,f5,f6,f7,f8,f9,f10,f12,f14,f15,f16,f17,f18,f20,f21,f22,"
+                "f23,f62,f184,f66,f84")
+
+
+def fetch_board_stocks(bk_code, board_name, top=25, ascending=False):
+    """板块成分。`ascending=True` 取跌幅榜（po=0）。
+
+    只取涨幅榜的后果：整份快照里一只下跌股都没有（08-13 实测 130 只样本
+    涨跌幅最小 +0.9%），于是"跌但主力净流入＝逆势承接"这一类背离
+    **永远检测不到**，而且看起来像是"今天没有"，不像是取数看不见。
+    """
     data = safe_get("https://push2delay.eastmoney.com/api/qt/clist/get", {
-        "pn": 1, "pz": top, "po": 1, "np": 1,
+        "pn": 1, "pz": top, "po": 0 if ascending else 1, "np": 1,
         "ut": "bd1d9ddb04089700cf9c27f6f7426281",
         "fltt": 2, "invt": 2, "fid": "f3", "fs": f"b:{bk_code}+f:!50",
-        "fields": "f2,f3,f4,f5,f6,f7,f8,f9,f10,f12,f14,f15,f16,f17,f18,f20,f21,f22,f23,f62,f184,f66,f84"
+        "fields": BOARD_FIELDS
     })
     stocks = data["data"]["diff"] if data and data.get("data") and data["data"].get("diff") else []
     return {"board_name": board_name, "bk_code": bk_code, "stocks": stocks}
@@ -328,11 +339,15 @@ def main():
         except (ValueError, TypeError): return default
     top_ai = sorted(ai_boards, key=lambda x: _safe_float(x.get("f3", 0) or 0), reverse=True)[:8]
     result["board_stocks"] = []
+    result["board_laggards"] = []
     for b in top_ai:
         bk, nm = b.get("f12", ""), b.get("f14", "")
         if bk:
             print(f"   {nm} ({bk})...")
             result["board_stocks"].append(fetch_board_stocks(bk, nm))
+            time.sleep(0.4)
+            # 跌幅榜：没有它，"跌但主力净流入"这类背离永远检测不到
+            result["board_laggards"].append(fetch_board_stocks(bk, nm, top=10, ascending=True))
             time.sleep(0.4)
 
     print("6. Capital flow top30...")
@@ -397,9 +412,16 @@ def main():
     result["margin_trading"] = fetch_margin_trading()
     _report("margin_trading", result["margin_trading"])
 
+    print("11. Price / capital-flow divergence...")
+    result["flow_divergence"] = flow_divergence.analyse(result)
+    fd = result["flow_divergence"]
+    print(f"   扫描 {fd['scanned']} 只：拉高派发 {len(fd['distribution'])}、"
+          f"逆势承接 {len(fd['accumulation'])}"
+          f"{'' if fd['accumulation_detectable'] else '（样本无下跌股，后者不可检出）'}")
+
     # 双源交叉验证只能在这里做：CCR 会话连不上新浪/腾讯，那边的 crosscheck
     # 每期都是 checked_pairs=0。runner 上新浪 718ms、腾讯 957ms，都通。
-    print("11. Cross-check against second source (sina/tencent)...")
+    print("12. Cross-check against second source (sina/tencent)...")
     second_source.attach_crosscheck(result)
 
     os.makedirs("stock_report/data", exist_ok=True)
