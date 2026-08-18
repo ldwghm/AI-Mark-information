@@ -149,19 +149,90 @@ def fetch_daily_klines_yf(ticker, days=DAILY_BARS):
     return lines[-days:]
 
 
-def fetch_daily_klines(secid, ticker, days=DAILY_BARS):
-    """日线：东财优先（有成交额），yfinance 兜底。返回 (klines, source)。
+def fetch_daily_from_60m_yf(ticker, days=DAILY_BARS):
+    """把 60 分钟聚合成日线。
+
+    Yahoo 对**创业板指(399006.SZ) 与科创50(000688.SS) 没有日线历史**——
+    period 取 3mo/6mo/1y、start/end、Ticker.history 四种问法都只回今天一根
+    （2026-08-18 实测），但同一个 ticker 的 60 分钟有 110 根。上证与深证成指
+    的日线则正常。差异在 Yahoo 那边，问不出所以然，只能绕。
+
+    60m 的 period='3mo' 覆盖 65 个交易日，聚合后够 MACD(12,26,9) 的 35 根。
+    开＝当日首根开、收＝末根收、高低＝当日极值、量＝求和；**成交额仍留空**。
+    ⚠️ 聚合用的 60m 已剔除午休切片，日内极值取自剩下的 5 根，
+    与交易所口径的当日最高/最低可能有细微出入。
+    """
+    frame = fetch_index_60m_yf(ticker, period='3mo')
+    if frame is None:
+        return []
+
+    def col(name):
+        c = frame[name]
+        return c.iloc[:, 0] if hasattr(c, 'columns') else c
+
+    o, h, l, c, v = (col(x) for x in ('Open', 'High', 'Low', 'Close', 'Volume'))
+    buckets, order = {}, []
+    for stamp in frame.index:
+        label = str(stamp)[:16]
+        if label[11:16] == macd_state.LUNCH_BUCKET:
+            continue
+        day = label[:10]
+        try:
+            bar = [float(o[stamp]), float(h[stamp]), float(l[stamp]),
+                   float(c[stamp]), float(v[stamp])]
+        except (TypeError, ValueError, KeyError):
+            continue
+        if any(x != x for x in bar):
+            continue
+        op, hi, lo, cl, vol = bar
+        if day not in buckets:
+            buckets[day] = [op, hi, lo, cl, vol]
+            order.append(day)
+            continue
+        agg = buckets[day]
+        agg[1] = max(agg[1], hi)
+        agg[2] = min(agg[2], lo)
+        agg[3] = cl
+        agg[4] += vol
+
+    lines, prev_close = [], None
+    for day in order:
+        op, hi, lo, cl, vol = (round(x, 3) for x in buckets[day])
+        if prev_close:
+            amp = round((hi - lo) / prev_close * 100, 2)
+            chg_pct = round((cl - prev_close) / prev_close * 100, 2)
+            chg = round(cl - prev_close, 2)
+        else:
+            amp = chg_pct = chg = 0
+        lines.append(f"{day},{op},{cl},{hi},{lo},{int(vol)},,{amp},{chg_pct},{chg},")
+        prev_close = cl
+    return lines[-days:]
+
+
+def fetch_daily_klines(secid, ticker, days=DAILY_BARS, min_bars=35):
+    """日线：东财优先（有成交额），yfinance 兜底，再退到 60m 聚合。
 
     东财在这里是优先项而不是像 60m 那样退居兜底，因为它给的是完整
     OHLC＋成交额，且日线的 bar 口径两边一致（不像 60 分钟那样一个 4 根/天、
     一个 5 根/天）。但 push2his 从 Actions runner 间歇性整体不可达，
     实测三次运行里两次这里拿到 0 根——所以必须有兜底，否则 technicals
     每天静默退回 klines_cache（无 OHLC，playbook 规则 1 那次事故的根源）。
+
+    `min_bars=35` 是 MACD(12,26,9) 的下限。加这道判断是因为 Yahoo 对
+    创业板指与科创50 只回一根日线——"拿到 1 根"和"没拿到"一样没用，
+    不能因为列表非空就当成功，必须继续往下退。
     """
     lines = fetch_daily_klines_em(secid, days)
     if lines:
         return lines, 'eastmoney'
+    if not ticker:
+        return [], 'unavailable'
     lines = fetch_daily_klines_yf(ticker, days)
+    if len(lines) >= min_bars:
+        return lines, 'yfinance'
+    agg = fetch_daily_from_60m_yf(ticker, days)
+    if len(agg) > len(lines):
+        return agg, 'yfinance_60m_agg'
     return lines, 'yfinance' if lines else 'unavailable'
 
 

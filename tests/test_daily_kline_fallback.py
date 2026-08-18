@@ -108,21 +108,24 @@ class FallbackOrderTests(unittest.TestCase):
         self.assertEqual((lines, source), (['x'], 'eastmoney'))
         yf.assert_not_called()
 
+    FULL = [f'r{i}' for i in range(60)]      # ≥ min_bars，不会掉进 60m 聚合分支
+
     def test_yfinance_takes_over_when_push2his_returns_nothing(self):
         with mock.patch.object(F, 'fetch_daily_klines_em', return_value=[]), \
-             mock.patch.object(F, 'fetch_daily_klines_yf', return_value=['y']):
+             mock.patch.object(F, 'fetch_daily_klines_yf', return_value=self.FULL):
             self.assertEqual(F.fetch_daily_klines('0.300308', '300308.SZ'),
-                             (['y'], 'yfinance'))
+                             (self.FULL, 'yfinance'))
 
     def test_both_down_is_reported_not_silently_empty(self):
         with mock.patch.object(F, 'fetch_daily_klines_em', return_value=[]), \
-             mock.patch.object(F, 'fetch_daily_klines_yf', return_value=[]):
+             mock.patch.object(F, 'fetch_daily_klines_yf', return_value=[]), \
+             mock.patch.object(F, 'fetch_daily_from_60m_yf', return_value=[]):
             self.assertEqual(F.fetch_daily_klines('0.300308', '300308.SZ'),
                              ([], 'unavailable'))
 
     def test_source_is_stamped_on_the_watchlist_entry(self):
         with mock.patch.object(F, 'fetch_daily_klines_em', return_value=[]), \
-             mock.patch.object(F, 'fetch_daily_klines_yf', return_value=['y']):
+             mock.patch.object(F, 'fetch_daily_klines_yf', return_value=self.FULL):
             entry = F.fetch_stock_kline('0.300308', '中际旭创')
         self.assertEqual(entry['klines_source'], 'yfinance')
 
@@ -130,6 +133,112 @@ class FallbackOrderTests(unittest.TestCase):
         with mock.patch.object(F, 'fetch_daily_klines_em', return_value=['x']):
             entry = F.fetch_index_kline('1.000001', '上证指数')
         self.assertEqual(entry['klines_source'], 'eastmoney')
+
+
+class SixtyMinuteAggregationTests(unittest.TestCase):
+    """Yahoo 对创业板指与科创50 没有日线历史，只回今天一根。
+
+    2026-08-18 实测：period 取 3mo/6mo/1y、start/end、Ticker.history 四种问法
+    都是 1 行，而同一 ticker 的 60 分钟有 110 根。上证与深证成指日线正常。
+    """
+
+    class Col(dict):
+        pass
+
+    class Frame:
+        def __init__(self, rows):
+            self.index = [r[0] for r in rows]
+            self._rows = {r[0]: r[1:] for r in rows}
+
+        def __len__(self):
+            return len(self.index)
+
+        def __getitem__(self, name):
+            i = ('Open', 'High', 'Low', 'Close', 'Volume').index(name)
+            return SixtyMinuteAggregationTests.Col(
+                {k: v[i] for k, v in self._rows.items()})
+
+    ROWS = [
+        # day 1 —— 含一根 11:30 午休切片，必须被剔除
+        ('2026-08-17 09:30', 100.0, 105.0, 99.0, 104.0, 10),
+        ('2026-08-17 10:30', 104.0, 108.0, 103.0, 107.0, 20),
+        ('2026-08-17 11:30', 107.0, 999.0, 1.0, 107.0, 1),     # 午休切片，极值是脏的
+        ('2026-08-17 13:30', 107.0, 110.0, 106.0, 109.0, 30),
+        ('2026-08-17 14:30', 109.0, 111.0, 100.0, 101.0, 40),
+        # day 2
+        ('2026-08-18 09:30', 102.0, 106.0, 101.0, 105.0, 50),
+        ('2026-08-18 14:30', 105.0, 120.0, 104.0, 118.0, 60),
+    ]
+
+    def lines(self):
+        with mock.patch.object(F, 'fetch_index_60m_yf',
+                               return_value=self.Frame(self.ROWS)):
+            return F.fetch_daily_from_60m_yf('000688.SS')
+
+    def test_one_line_per_trading_day(self):
+        self.assertEqual([l.split(',')[0] for l in self.lines()],
+                         ['2026-08-17', '2026-08-18'])
+
+    def test_open_is_first_bar_and_close_is_last(self):
+        first = self.lines()[0].split(',')
+        self.assertEqual(float(first[1]), 100.0)   # 首根开
+        self.assertEqual(float(first[2]), 101.0)   # 末根收
+
+    def test_lunch_slice_is_excluded_from_the_daily_extremes(self):
+        """午休切片的 999/1 是脏值，混进当日最高最低就毁了支撑压力位。"""
+        first = self.lines()[0].split(',')
+        self.assertEqual(float(first[3]), 111.0)   # 高，不是 999
+        self.assertEqual(float(first[4]), 99.0)    # 低，不是 1
+
+    def test_volume_is_summed_excluding_the_lunch_slice(self):
+        self.assertEqual(int(self.lines()[0].split(',')[5]), 10 + 20 + 30 + 40)
+
+    def test_amount_stays_empty(self):
+        for line in self.lines():
+            self.assertEqual(line.split(',')[6], '')
+
+    def test_chg_pct_uses_the_previous_day_close(self):
+        second = self.lines()[1].split(',')
+        self.assertAlmostEqual(float(second[8]), round((118.0 - 101.0) / 101.0 * 100, 2))
+
+    def test_no_frame_yields_nothing(self):
+        with mock.patch.object(F, 'fetch_index_60m_yf', return_value=None):
+            self.assertEqual(F.fetch_daily_from_60m_yf('000688.SS'), [])
+
+
+class ThinDailyHistoryTests(unittest.TestCase):
+    """"拿到 1 根"和"没拿到"一样没用——不能因为列表非空就当成功。"""
+
+    def test_a_single_daily_bar_falls_through_to_aggregation(self):
+        with mock.patch.object(F, 'fetch_daily_klines_em', return_value=[]), \
+             mock.patch.object(F, 'fetch_daily_klines_yf', return_value=['only-one']), \
+             mock.patch.object(F, 'fetch_daily_from_60m_yf',
+                               return_value=[f'r{i}' for i in range(60)]):
+            lines, source = F.fetch_daily_klines('1.000688', '000688.SS')
+        self.assertEqual(source, 'yfinance_60m_agg')
+        self.assertEqual(len(lines), 60)
+
+    def test_enough_daily_bars_skips_aggregation(self):
+        with mock.patch.object(F, 'fetch_daily_klines_em', return_value=[]), \
+             mock.patch.object(F, 'fetch_daily_klines_yf',
+                               return_value=[f'r{i}' for i in range(60)]), \
+             mock.patch.object(F, 'fetch_daily_from_60m_yf') as agg:
+            _lines, source = F.fetch_daily_klines('1.000001', '000001.SS')
+        self.assertEqual(source, 'yfinance')
+        agg.assert_not_called()
+
+    def test_aggregation_that_is_no_better_does_not_win(self):
+        with mock.patch.object(F, 'fetch_daily_klines_em', return_value=[]), \
+             mock.patch.object(F, 'fetch_daily_klines_yf', return_value=['a', 'b']), \
+             mock.patch.object(F, 'fetch_daily_from_60m_yf', return_value=['c']):
+            lines, source = F.fetch_daily_klines('1.000688', '000688.SS')
+        self.assertEqual((lines, source), (['a', 'b'], 'yfinance'))
+
+    def test_no_ticker_means_unavailable_not_a_crash(self):
+        """北交所：yf_ticker 返回 None。"""
+        with mock.patch.object(F, 'fetch_daily_klines_em', return_value=[]):
+            self.assertEqual(F.fetch_daily_klines('0.831010', None),
+                             ([], 'unavailable'))
 
 
 class BarCountTests(unittest.TestCase):
