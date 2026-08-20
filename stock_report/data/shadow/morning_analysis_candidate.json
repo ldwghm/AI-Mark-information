@@ -1,192 +1,192 @@
 {
   "shadow": true,
   "mode": "morning",
-  "date": "2026-08-19",
-  "market_summary": "【行情时点】本次快照抓取于2026-08-19T00:30:29.749432。创业板指与科创50日线已更新至2026-08-18，分别收3705.86（-0.90%）和1790.689（+0.14%）；上证指数与深证成指却仍停留在2026-08-17，不能用来结算8月18日的大盘方向或成交额。8月18日AI方向由普涨转为结构分化：华为欧拉+3.17%、主力净流入812223664元，而存储芯片仅+0.29%、53涨78跌、主力净流出11204251392元；全市场涨幅前列转向转基因、粮食与农业种植。",
-  "review": "上一期给出base 42%、bull 30%、bear 28%。由于上证、深证和沪深成交额未更新至8月18日，三个情景均无法完整结算；可验证部分显示创业板指-0.90%但仍高于MA5=3652.129，科创50+0.14%并守住上一期bull条件1788.85，既未形成指数级bear，也未获得上证突破确认，记为partial。结构上，上一期最强的存储在8月18日降至+0.29%、资金净流出11204251392元且下跌家数多于上涨家数，T-MEMORY连续强化假设失效；CPO核心股分化但中际旭创988.1仍高于上一期MA20=965.15，龙头背书尚未完全破坏。偏差归类为市场状态切换，新增规则：当主线板块资金由正转为净流出且下跌家数超过上涨家数时，即使板块指数仍为正，也必须当期降级而不能沿用“连续强化”。",
+  "date": "2026-08-20",
+  "market_summary": "【行情时点】快照抓取于2026-08-20T00:32:22.375858。创业板指与科创50已更新至2026-08-19，分别收3474.592（-6.24%）和1664.561（-7.04%），均跌破各自MA5；上证与深证日线仅更新至2026-08-18，不能用于判断8月19日大盘方向或成交额。AI观察池10只全跌、平均-7.534%，9只跌破MA5、7只跌破MA20，显示AI硬件发生普遍性风险释放；latest的ai_boards、board_stocks和board_laggards均为空，板块级结论降级。",
+  "review": "上一期正式分析给出base 46%、bear 34%、bull 20%，并明确bear触发条件包括创业板跌破3652.129或科创50跌破1750.178、观察池均值≤-3.5%或上涨家数≤5只。8月19日创业板3474.592、科创501664.561，AI观察池均值-7.534%、0涨10跌，bear的指数和广度条件同时命中，base的两条指数条件被明确作废。情景框架识别了下行路径，但把base列为最高概率仍低估了尾部，方向概率排序结果记为wrong；偏差归类为市场状态切换。可复用规则：当同一观察池前一日已出现主线资金转负、且次日面临未定价外部冲击时，若bear只需指数下跌1%-2%即可触发，必须把bear概率至少提高到与base相同，不能继续以“结构未破”压低尾部。",
   "key_insights": [
-    "创业板指2026-08-18收3705.86、跌0.90%，仍高于MA5=3652.129；科创50收1790.689、涨0.14%，高于MA5=1750.178。",
-    "上证与深证最后一根日线仍是2026-08-17，分别为3982.654和14704.27；8月18日指数级结论与成交额不可结算。",
-    "华为欧拉+3.17%、12涨7跌、主力净流入812223664元，是AI板块中价格、广度和资金同向最清晰的方向。",
-    "存储芯片+0.29%、53涨78跌、主力净流出11204251392元；长鑫科技报59.19、跌4.2233%，存储由前一日强化转为明显分歧。",
-    "CPO核心股分化：中际旭创988.1跌1.29%、新易盛452.21跌3.10%，天孚通信291.44涨1.70%、长飞光纤383.6涨1.87%、亨通光电65.41涨0.54%。",
-    "跨源校验检查10组、冲突0组，status=agreed；北向仅有成交额原值且单位未核实，净买入不可得。"
+    "创业板指2026-08-19收3474.592、跌6.24%，低于MA5=3626.593和MA20=3508.917；科创50收1664.561、跌7.04%，低于MA5=1735.674和MA20=1707.276。",
+    "AI观察池10只全部下跌，平均跌幅7.534%；9只低于MA5、7只低于MA20。",
+    "中际旭创报895.6、跌9.36%，低于MA5=949.754和MA20=949.469；新易盛报411.5、跌9.00%，低于MA5=441.674和MA20=431.01。",
+    "寒武纪报1050.49、跌9.64%；海光信息报259.74、跌7.26%；工业富联报61.83、跌6.60%，算力核心股同步回撤。",
+    "长飞光纤报345.24、跌10.00%；亨通光电报58.91、跌9.94%，光纤上游未提供防御。",
+    "跨源校验检查10组、冲突0组，status=agreed；北向净买入不可得，成交额原值单位未核实。"
   ],
   "sector_rotation": [
     {
-      "sector": "农业/粮食/转基因",
-      "role": "主线",
-      "evidence": "转基因+8.27%（15涨3跌）、粮食概念+7.45%（29涨1跌）、农业种植+4.81%（67涨15跌），主力分别净流入911985872元、1625471312元和2631600112元。"
+      "sector": "红利/价值",
+      "role": "相对防御主线",
+      "evidence": "昨日连板+0.90%、红利破净股+0.84%、红利股+0.11%；在多数板块下跌时保持相对强势，但主力资金并未全面转正。"
     },
     {
-      "sector": "华为欧拉",
-      "role": "跟随",
-      "evidence": "板块+3.17%、12涨7跌、主力净流入812223664元，是本次AI方向中唯一价格、广度、资金均为正的板块。"
-    },
-    {
-      "sector": "半导体设备/材料",
-      "role": "结构性跟随",
-      "evidence": "拓荆科技755.46涨5.07%、中微公司398.33涨2.71%、立昂微49.62涨6.50%，个股资金流入但板块级数据仍分化。"
-    },
-    {
-      "sector": "存储芯片",
-      "role": "退潮",
-      "evidence": "板块+0.29%但53涨78跌、主力净流出11204251392元；长鑫科技59.19跌4.2233%。"
+      "sector": "半导体设备",
+      "role": "分化",
+      "evidence": "斯达半导+10.00%、主力净流入468292144元；芯源微344.69跌3.31%但大额单净流入243599664元，设备内部不再是普遍上涨。"
     },
     {
       "sector": "CPO/光通信",
-      "role": "分化",
-      "evidence": "中际旭创-1.29%、新易盛-3.10%，天孚通信+1.70%、长飞光纤+1.87%、亨通光电+0.54%，核心股方向不一致。"
+      "role": "退潮",
+      "evidence": "中际旭创-9.36%、新易盛-9.00%、天孚通信-4.82%，核心股全部下跌。"
+    },
+    {
+      "sector": "算力芯片/服务器",
+      "role": "退潮",
+      "evidence": "寒武纪-9.64%、海光信息-7.26%、工业富联-6.60%、中科曙光-5.42%。"
+    },
+    {
+      "sector": "光纤光缆",
+      "role": "退潮",
+      "evidence": "长飞光纤-10.00%、亨通光电-9.94%，上游与模组端同步下跌。"
     }
   ],
-  "sector_analysis": "市场热点由8月17日的存储和CPO扩散切换至农业与粮食。AI内部只有华为欧拉形成价格、广度和资金同向；华为海思、AIPC、第三代半导体和存储芯片虽然指数为正，但主力分别净流出1723284480元、2178400768元、3127182080元和11204251392元。半导体设备个股仍有结构性强度，拓荆科技、中微公司和立昂微进入资金流入前列。CPO核心股保持部分承接但分化加大，不能继续沿用前一日“板块普涨”叙事。",
+  "sector_analysis": "AI硬件从前一日的结构分化演变为观察池普跌。CPO龙头中际旭创和新易盛双双跌破MA5与MA20，T-CPO-LEADERSHIP的龙头背书失效；算力芯片、服务器和光纤上游同步大跌，说明风险不再局限于存储。前一日唯一强化的半导体设备也转为内部差异：斯达半导涨停、芯源微下跌但大额资金流入，不能继续使用“设备板块普遍强化”的表述。ai_boards为空使板块广度与主力资金总量不可核验，结论主要依赖指数和观察池硬行情。",
   "stock_highlights": [
     {
       "code": "300308",
       "name": "中际旭创",
-      "price": 988.1,
-      "chg_pct": -1.29,
+      "price": 895.6,
+      "chg_pct": -9.36,
       "sector": "CPO",
-      "comment": "收盘仍高于上一期MA20=965.15，但当日转跌且均线状态为震荡偏多，龙头背书降为待确认。"
+      "comment": "跌破MA5=949.754与MA20=949.469，前期龙头背书失效，量比1.29显示回撤并非明显缩量。"
     },
     {
       "code": "300502",
       "name": "新易盛",
-      "price": 452.21,
-      "chg_pct": -3.1,
+      "price": 411.5,
+      "chg_pct": -9,
       "sector": "CPO",
-      "comment": "核心股回撤，CPO内部强弱分化扩大。"
+      "comment": "跌破MA5=441.674与MA20=431.01，量比1.20。"
     },
     {
       "code": "300394",
       "name": "天孚通信",
-      "price": 291.44,
-      "chg_pct": 1.7,
+      "price": 277.4,
+      "chg_pct": -4.82,
       "sector": "CPO",
-      "comment": "保持强势多头，但RSI(12)=94.01，短线超买风险高。"
+      "comment": "仍略高于MA5=276.054和MA20=222.53，但RSI=84.27，强势结构中出现大幅回撤。"
+    },
+    {
+      "code": "688256",
+      "name": "寒武纪",
+      "price": 1050.49,
+      "chg_pct": -9.64,
+      "sector": "AI芯片",
+      "comment": "低于MA5=1113.498与MA20=1131.853，技术状态为强势空头。"
+    },
+    {
+      "code": "688041",
+      "name": "海光信息",
+      "price": 259.74,
+      "chg_pct": -7.26,
+      "sector": "算力芯片",
+      "comment": "低于MA5=279.122与MA20=287.264，量比1.41。"
+    },
+    {
+      "code": "601869",
+      "name": "长飞光纤",
+      "price": 345.24,
+      "chg_pct": -10,
+      "sector": "光纤光缆",
+      "comment": "跌破MA5=359.614但仍高于MA20=324.517；单日跌停只描述当日，不外推资金意图。"
     },
     {
       "code": "600487",
       "name": "亨通光电",
-      "price": 65.41,
-      "chg_pct": 0.54,
+      "price": 58.91,
+      "chg_pct": -9.94,
       "sector": "光纤光缆",
-      "comment": "仍为强势多头且保持上涨，但RSI(12)=83.74，需防高位震荡。"
+      "comment": "跌破MA5=61.922但仍高于MA20=55.605，量比0.91。"
     },
     {
-      "code": "688072",
-      "name": "拓荆科技",
-      "price": 755.46,
-      "chg_pct": 5.07,
+      "code": "688037",
+      "name": "芯源微",
+      "price": 344.69,
+      "chg_pct": -3.31,
       "sector": "半导体设备",
-      "comment": "价格上涨且主力净流入548130272元，设备链结构性强势延续。"
-    },
-    {
-      "code": "688012",
-      "name": "中微公司",
-      "price": 398.33,
-      "chg_pct": 2.71,
-      "sector": "半导体设备",
-      "comment": "价格上涨且主力净流入499022176元，设备链强于存储板块整体。"
-    },
-    {
-      "code": "688825",
-      "name": "长鑫科技",
-      "price": 59.19,
-      "chg_pct": -4.2233,
-      "sector": "存储芯片",
-      "comment": "存储代表股回落；融资净买入26957635元不足以抵消价格与板块资金转弱。"
-    },
-    {
-      "code": "600536",
-      "name": "中国软件",
-      "price": 34.45,
-      "chg_pct": 9.99,
-      "sector": "华为欧拉",
-      "comment": "涨停且主力净流入421581517元，但按R16只描述当日，不外推资金意图。"
+      "comment": "价格下跌但主力净流入243599664元，属于大额单与价格背离；不等同于机构吸筹。"
     }
   ],
   "trading_advice": {
-    "style": "由进攻转为结构性持有，降低追涨",
-    "position": "建议影子观察仓位区间40%-55%；AI内部优先保留仍守中期均线的CPO龙头和半导体设备，存储降至中性观察。",
-    "rationale": "创业板与科创50没有形成指数级破位，但AI主线出现资金与广度分化；上证、深证及成交额缺失，不具备提高总仓位的完整证据。"
+    "style": "防御优先、停止追涨、等待止跌确认",
+    "position": "影子观察仓位区间下调至25%-40%；AI硬件不新增方向性仓位，保留现金与相对防御资产。",
+    "rationale": "创业板与科创50同时跌破MA5，AI观察池0涨10跌且多数跌破MA20，前期CPO和设备主线均失去连续性。只有当创业板、科创50重新站回MA5，且观察池至少6只收涨时，才考虑恢复至中性仓位。"
   },
   "risk_warnings": [
-    "上证指数和深证成指日线停留在2026-08-17，无法结算8月18日的关键位、成交额及上一期base/bull/bear条件。",
-    "本次latest未包含global_markets，无法核验美股、港股、日股、韩股与台股最新行情。",
-    "存储芯片板块价格微涨但广度转弱、主力大额净流出，存在继续兑现风险。",
-    "天孚通信、长飞光纤、亨通光电RSI分别为94.01、84.73、83.74，短线超买集中。",
-    "北向资金净买入自2024年8月起不可得，deal_amt_raw单位未核实，不能据此判断外资方向。",
-    "龙虎榜和主力资金为成交分类结果，只能描述当日，不等同于机构真实意图。"
+    "上证和深证日线停留在2026-08-18，无法判断8月19日大盘收盘、成交额和放量性质。",
+    "ai_boards、board_stocks和board_laggards为空，无法计算AI板块广度与板块资金。",
+    "global_markets字段缺失，不能核验外部冲击是否延续或逆转。",
+    "AI观察池平均跌幅7.534%，技术破位集中，短线波动与流动性风险显著。",
+    "北向净买入不可得，deal_amt_raw单位未核实；龙虎榜与大额单分类不等同于机构意图。",
+    "N宇树-W上市首日涨460.34%，属于新股价格发现，不应外推为整个机器人或AI板块方向。"
   ],
-  "hk_us_summary": "本次匹配latest未提供global_markets字段，美股、港股、日股、韩股和台股均标记为unavailable；不使用上一期值冒充最新行情。",
+  "hk_us_summary": "本次latest未提供global_markets，美股、港股、日股、韩股和台股均为unavailable；不沿用上一期行情。",
   "hk_stocks": [],
   "us_stocks": [],
   "news_highlights": [
     {
-      "headline": "本次快照未提供过去24小时可核验的公司或宏观新闻字段",
-      "implication": "基本面与宏观事件不作新增归因，价格异动仅按硬行情和待核实项处理。"
+      "headline": "本次快照未提供可核验的过去24小时宏观、公司或AI产业新闻",
+      "implication": "不对8月19日大跌强行归因，外部冲击仅作为上一期已登记但本期未复核的候选原因。"
     }
   ],
   "prediction": {
-    "label": "AI由普涨转向结构分化，半导体设备与华为欧拉相对占优，存储降级；指数趋势尚未破坏但上证时点缺口限制确认",
-    "confidence": 56,
-    "color": "#d97706",
+    "label": "AI硬件进入技术破位后的高波动期；基准为弱势修复或继续分化，只有指数与观察池同时收复阈值才转为反弹",
+    "confidence": 64,
+    "color": "#dc2626",
     "reasons": [
-      "创业板指虽跌0.90%但仍高于MA5，科创50+0.14%并维持强势多头，暂不支持全面转空。",
-      "存储芯片主力净流出11204251392元且53涨78跌，前一日最强主线已失去资金与广度确认。",
-      "CPO核心股涨跌分化，中际旭创仍守上一期MA20，但新易盛和工业富联分别下跌3.10%和2.98%。",
-      "华为欧拉+3.17%、主力净流入812223664元；拓荆科技和中微公司分别上涨5.07%和2.71%，结构性机会仍在。",
-      "上证、深证和全球市场数据不新鲜或缺失，置信度下调。"
+      "创业板-6.24%、科创50-7.04%，均跌破MA5和MA20。",
+      "AI观察池0涨10跌、均值-7.534%，9只低于MA5、7只低于MA20。",
+      "CPO、算力芯片、服务器和光纤上游同步下跌，前期结构性主线未能提供对冲。",
+      "量比多数接近或高于1，不能把大跌简单解释为缩量洗盘。",
+      "上证、深证、AI板块和海外市场数据不完整，限制了对全市场风险的置信度。"
     ]
   },
   "orchestration_status": {
-    "request_id": "codex-morning-20260819T002949Z-7ep7a2xb",
-    "requested_at": "2026-08-19T00:29:49Z",
-    "trigger_commit_sha": "f00efc5de71edff754b5314266a38fc88571a18a",
+    "request_id": "codex-morning-20260820T003154Z-cyh0bylc",
+    "requested_at": "2026-08-20T00:31:54Z",
+    "trigger_commit_sha": "a7777f61268fc8cc6cce5cdfb9611725bd734d7f",
     "state": "completed",
     "conclusion": "success",
     "report_type": "morning",
     "freshness": {
       "fresh": true,
-      "fetch_time": "2026-08-19T00:30:29.749432",
-      "elapsed_seconds": 40.749,
-      "latest_content_sha": "44c167f234df6170654f3d14db783b7e53571182",
+      "fetch_time": "2026-08-20T00:32:22.375858",
+      "elapsed_seconds": 28.375,
+      "latest_content_sha": "cf2befef3988645046466c9ee293006ee0996834",
       "match": "by_request_id",
-      "matched_request_id": "codex-morning-20260819T002949Z-7ep7a2xb",
-      "matched_requested_at": "2026-08-19T00:29:49Z"
+      "matched_request_id": "codex-morning-20260820T003154Z-cyh0bylc",
+      "matched_requested_at": "2026-08-20T00:31:54Z"
     }
   },
   "global_markets": [
     {
       "market": "CN",
-      "as_of": "2026-08-18",
+      "as_of": "2026-08-19",
       "status": "partial",
-      "summary": "创业板指与科创50已更新至8月18日；上证与深证仍停留在8月17日。"
+      "summary": "创业板和科创50已到8月19日；上证和深证仅到8月18日。"
     },
     {
       "market": "US",
       "as_of": "unavailable",
       "status": "unavailable",
-      "summary": "本次latest无global_markets字段。"
+      "summary": "latest无global_markets字段。"
     },
     {
       "market": "HK",
       "as_of": "unavailable",
       "status": "unavailable",
-      "summary": "本次latest无global_markets字段。"
+      "summary": "latest无global_markets字段。"
     },
     {
       "market": "JP",
       "as_of": "unavailable",
       "status": "unavailable",
-      "summary": "本次latest无global_markets字段。"
+      "summary": "latest无global_markets字段。"
     },
     {
       "market": "KR",
       "as_of": "unavailable",
       "status": "unavailable",
-      "summary": "本次latest无global_markets字段。"
+      "summary": "latest无global_markets字段。"
     }
   ],
   "evidence_log": [
@@ -195,216 +195,223 @@
       "kind": "hard_fact",
       "source": "morning_latest.json.indices/index_technicals",
       "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
-      "published_at": "2026-08-18",
-      "fetched_at": "2026-08-19T00:30:29.749432",
-      "claim": "创业板指3705.86（-0.90%）、科创501790.689（+0.14%）；上证和深证最后日线仍为8月17日。"
+      "published_at": "2026-08-19",
+      "fetched_at": "2026-08-20T00:32:22.375858",
+      "claim": "创业板3474.592/-6.24%、科创501664.561/-7.04%，均跌破MA5与MA20；上证和深证仅到8月18日。"
     },
     {
       "id": "E2",
       "kind": "hard_fact",
-      "source": "morning_latest.json.ai_boards",
+      "source": "morning_latest.json.watchlist_technicals",
       "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
-      "published_at": "2026-08-18",
-      "fetched_at": "2026-08-19T00:30:29.749432",
-      "claim": "华为欧拉+3.17%、12涨7跌、主力净流入812223664元。"
+      "published_at": "2026-08-19",
+      "fetched_at": "2026-08-20T00:32:22.375858",
+      "claim": "观察池10只0涨10跌、平均-7.534%，9只低于MA5、7只低于MA20。"
     },
     {
       "id": "E3",
       "kind": "hard_fact",
-      "source": "morning_latest.json.ai_boards",
+      "source": "morning_latest.json.watchlist_technicals",
       "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
-      "published_at": "2026-08-18",
-      "fetched_at": "2026-08-19T00:30:29.749432",
-      "claim": "存储芯片+0.29%、53涨78跌、主力净流出11204251392元。"
+      "published_at": "2026-08-19",
+      "fetched_at": "2026-08-20T00:32:22.375858",
+      "claim": "中际旭创895.6/-9.36%、新易盛411.5/-9.00%、寒武纪1050.49/-9.64%、海光信息259.74/-7.26%。"
     },
     {
       "id": "E4",
       "kind": "hard_fact",
-      "source": "morning_latest.json.watchlist_technicals",
+      "source": "morning_latest.json.all_boards_by_change",
       "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
-      "published_at": "2026-08-18",
-      "fetched_at": "2026-08-19T00:30:29.749432",
-      "claim": "中际旭创988.1/-1.29%，新易盛452.21/-3.10%，天孚通信291.44/+1.70%，工业富联66.2/-2.98%。"
+      "published_at": "2026-08-19",
+      "fetched_at": "2026-08-20T00:32:22.375858",
+      "claim": "红利破净股+0.84%、红利股+0.11%，在多数板块下跌时相对占优。"
     },
     {
       "id": "E5",
       "kind": "hard_fact",
-      "source": "morning_latest.json.all_boards_by_change",
+      "source": "morning_latest.json.capital_flow_top30/flow_divergence",
       "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
-      "published_at": "2026-08-18",
-      "fetched_at": "2026-08-19T00:30:29.749432",
-      "claim": "转基因+8.27%、粮食概念+7.45%、农业种植+4.81%，全市场热点转向农业。"
+      "published_at": "2026-08-19",
+      "fetched_at": "2026-08-20T00:32:22.375858",
+      "claim": "斯达半导100.31/+10.00%、主力净流入468292144元；芯源微344.69/-3.31%、主力净流入243599664元。"
     },
     {
       "id": "E6",
       "kind": "hard_fact",
-      "source": "morning_latest.json.capital_flow_top30",
+      "source": "morning_latest.json.source_crosscheck",
       "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
-      "published_at": "2026-08-18",
-      "fetched_at": "2026-08-19T00:30:29.749432",
-      "claim": "拓荆科技755.46/+5.07%、主力净流入548130272元；中微公司398.33/+2.71%、净流入499022176元。"
+      "published_at": "2026-08-20T00:34:23.444740Z",
+      "fetched_at": "2026-08-20T00:32:22.375858",
+      "claim": "跨源检查10组、0冲突，status=agreed。"
     },
     {
       "id": "E7",
       "kind": "hard_fact",
-      "source": "morning_latest.json.source_crosscheck",
+      "source": "morning_latest.json.northbound",
       "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
-      "published_at": "2026-08-19T00:32:32.769664Z",
-      "fetched_at": "2026-08-19T00:30:29.749432",
-      "claim": "跨源检查10组、冲突0组，status=agreed。"
+      "published_at": "2026-08-19",
+      "fetched_at": "2026-08-20T00:32:22.375858",
+      "claim": "北向净买入不可得，成交额原值单位未核实。"
     },
     {
       "id": "E8",
       "kind": "hard_fact",
-      "source": "morning_latest.json.northbound",
+      "source": "morning_latest.json",
       "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
-      "published_at": "2026-08-18",
-      "fetched_at": "2026-08-19T00:30:29.749432",
-      "claim": "北向净买入不可得，成交额原值单位未核实。"
-    },
-    {
-      "id": "E9",
-      "kind": "hard_fact",
-      "source": "morning_latest.json.flow_divergence",
-      "source_url": "https://github.com/ldwghm/AI-Mark-information/blob/main/stock_report/data/morning_latest.json",
-      "published_at": "2026-08-18",
-      "fetched_at": "2026-08-19T00:30:29.749432",
-      "claim": "扫描159只，识别4只涨价但大额资金净流出及2只跌价但大额资金净流入；机械分类不等于机构行为。"
+      "published_at": "2026-08-20",
+      "fetched_at": "2026-08-20T00:32:22.375858",
+      "claim": "ai_boards、board_stocks、board_laggards和global_markets不可用或为空。"
     }
   ],
   "technical_analysis": {
-    "short_term": "创业板指8月18日回落0.90%，但3705.86仍高于MA5=3652.129；科创50收1790.689，高于MA5=1750.178，二者MACD仍为多头。上证和深证的日线未更新至8月18日，不能判断其是否突破或跌破关键位。",
-    "medium_term": "四个指数技术对象均显示强势多头，但上证、深证基于8月17日旧行；创业板RSI=77.57、上证旧值RSI=77.16，处于偏热区域。60分钟信号中上证与深证为顶部钝化、创业板无顶背离、科创50钝化消失，但上证和深证结论受时点缺口限制。",
-    "long_term": "有效的8月18日创业板和科创50仍在MA20之上，长期方向未被单日波动破坏；缺少完整四指数同日数据，不升级趋势判断。"
+    "short_term": "创业板和科创50分别跌破MA5与MA20；AI观察池9/10低于MA5、7/10低于MA20，短线进入破位状态。上证与深证没有8月19日日线，不能判断其同步程度。",
+    "medium_term": "创业板和科创50均线排列仍显示多头，但价格已跌破MA20、MACD多头减弱，说明趋势指标滞后于急跌。中际旭创、新易盛、寒武纪、海光信息等核心股均跌破MA20。",
+    "long_term": "单日急跌不足以单独判定长期趋势结束，但此前收紧后的T-INDEX-STRUCTURE-INTACT判据已被创业板和科创50跌破MA20明确破坏，需等待重新站回关键均线。"
   },
   "fundamental_analysis": {
     "status": "unavailable",
-    "summary": "本次latest没有可核验的业绩、指引、订单、资本开支或监管事件；不从价格走势反推基本面。",
+    "summary": "latest没有业绩、订单、指引、资本开支或监管事实，不能从大跌反推基本面恶化。",
     "evidence_ids": []
   },
   "sentiment_analysis": {
-    "hard_data": "AI情绪从8月17日普涨转为分化：存储53涨78跌且资金净流出，CPO核心股涨跌互现；全市场热点集中到农业。跨源行情校验为agreed。",
-    "social_signal": "unavailable；本次未取得两条独立来源相互印证的社交信号。",
-    "confidence": 61
+    "hard_data": "创业板-6.24%、科创50-7.04%，AI观察池0涨10跌、均值-7.534%；多数核心股量比接近或超过1，恐慌与兑现压力显著。",
+    "social_signal": "unavailable；没有两条独立来源相互印证的社交信号。",
+    "confidence": 72
   },
   "anomaly_investigation": [
     {
-      "signal": "存储芯片指数+0.29%，但53涨78跌且主力净流出11204251392元。",
+      "signal": "AI观察池10只全部下跌且均值-7.534%。",
       "confirmed_causes": [
-        "价格、广度和资金数据存在可核验背离"
+        "指数与个股同步急跌已由硬行情确认"
       ],
       "candidate_causes": [
-        "前一交易日强势后的获利兑现",
-        "少数权重股支撑板块指数"
+        "上一期已登记的海外半导体与利率冲击传导",
+        "高位科技股集中去风险"
       ],
       "unresolved": [
-        "缺少逐笔资金主体和可核验产业事件"
+        "本次无全球市场与新闻字段，不能确认因果"
       ],
       "evidence_ids": [
+        "E1",
+        "E2",
         "E3"
       ]
     },
     {
-      "signal": "上证与深证日线停留8月17日，而创业板与科创50已到8月18日。",
+      "signal": "芯源微跌3.31%但大额资金净流入243599664元。",
       "confirmed_causes": [
-        "同一latest内指数时点不一致"
+        "价格与机械大额单方向背离"
+      ],
+      "candidate_causes": [
+        "盘中承接或拆单造成的分类偏差"
+      ],
+      "unresolved": [
+        "不能识别真实机构意图"
+      ],
+      "evidence_ids": [
+        "E5"
+      ]
+    },
+    {
+      "signal": "上证、深证只到8月18日，创业板、科创50已到8月19日。",
+      "confirmed_causes": [
+        "同一快照的指数时点不一致"
       ],
       "candidate_causes": [
         "数据源更新延迟"
       ],
       "unresolved": [
-        "8月18日上证、深证收盘与沪深成交额"
+        "8月19日上证、深证收盘与成交额"
       ],
       "evidence_ids": [
-        "E1"
+        "E1",
+        "E8"
       ]
     },
     {
-      "signal": "中际旭创、新易盛回落，而天孚通信、长飞光纤、亨通光电上涨。",
+      "signal": "N宇树-W上市首日涨460.34%且主力净流入2195280160元。",
       "confirmed_causes": [
-        "CPO与光纤核心股当日方向分化"
+        "上市首日价格发现"
       ],
-      "candidate_causes": [
-        "高位换手或内部轮动"
-      ],
+      "candidate_causes": [],
       "unresolved": [
-        "缺少板块连续量比和公司级事件"
+        "不可与成熟股票涨幅或板块趋势直接比较"
       ],
       "evidence_ids": [
-        "E4"
-      ]
-    },
-    {
-      "signal": "flow_divergence识别涨价资金流出与跌价资金流入标的。",
-      "confirmed_causes": [
-        "大额单方向与价格方向不一致"
-      ],
-      "candidate_causes": [
-        "机械大单分类、拆单或短线换手"
-      ],
-      "unresolved": [
-        "不能据此识别机构真实买卖"
-      ],
-      "evidence_ids": [
-        "E9"
+        "E5"
       ]
     }
   ],
   "thesis_updates": [
     {
-      "thesis_id": "T-CPO-LEADERSHIP",
-      "status": "carried_forward",
+      "thesis_id": "T-SEMI-EQUIP-PURE",
+      "status": "weakened",
       "evidence_ids": [
-        "E4"
+        "E5"
       ],
-      "invalidation": "中际旭创988.1仍高于上一期MA20=965.15，龙头背书未失效；但核心股涨跌分化，连续强化条件未满足。若中际旭创跌破MA20且板块资金转负，则降级为weakened。"
-    },
-    {
-      "thesis_id": "T-OPTICAL-UPSTREAM-ROTATION",
-      "status": "carried_forward",
-      "evidence_ids": [
-        "E4"
-      ],
-      "invalidation": "长飞光纤+1.87%、亨通光电+0.54%好于中际旭创-1.29%和新易盛-3.10%，单日相对强度回到上游，但缺少完整板块量比，不升级。若亨通光电跌破上一期MA5=60.44且长飞光纤转弱则关闭。"
+      "invalidation": "前一日设备是唯一主线，本期斯达半导强而芯源微下跌，且缺少完整设备三只观察数据，连续普遍强化不成立。若拓荆、中微、北方华创重新全部收涨且至少两只进入资金Top30，再恢复。"
     },
     {
       "thesis_id": "T-MEMORY",
-      "status": "weakened",
+      "status": "closed",
+      "evidence_ids": [
+        "E2",
+        "E3"
+      ],
+      "invalidation": "上一期已weakened，本期AI硬件普跌且多个核心股跌破MA20；ai_boards为空无法证明存储例外。关闭后只有存储观察标的连续两日多数上涨并重新站回MA20才重开。"
+    },
+    {
+      "thesis_id": "T-CPO-LEADERSHIP",
+      "status": "closed",
       "evidence_ids": [
         "E3"
       ],
-      "invalidation": "存储仅+0.29%、53涨78跌且主力净流出11204251392元，前一日价格、量能、资金同向强化不再成立。若下一快照资金转正且上涨家数重新超过下跌家数，回到carried_forward。"
+      "invalidation": "中际旭创与新易盛分别跌9.36%和9.00%，双双跌破MA5和MA20，龙头背书明确失效。连续两日重新站上MA20且板块广度为正才重开。"
     },
     {
-      "thesis_id": "T-SEMI-EQUIP-PURE",
-      "status": "strengthened",
+      "thesis_id": "T-OPTICAL-UPSTREAM-ROTATION",
+      "status": "closed",
       "evidence_ids": [
-        "E6"
+        "E2",
+        "E3"
       ],
-      "invalidation": "拓荆科技+5.07%、中微公司+2.71%且均获主力净流入，设备个股连续性好于存储。若设备代表股下一交易日均值转负且拓荆科技跌破上一期MA20=703.48，则回退。"
+      "invalidation": "长飞光纤-10.00%、亨通光电-9.94%，上游未能对模组端形成防御，轮动命题失效。"
+    },
+    {
+      "thesis_id": "T-INDEX-STRUCTURE-INTACT",
+      "status": "weakened",
+      "evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "invalidation": "创业板与科创50均跌破MA20，观察池7/10低于MA20，上一期收紧后的结构完整判据明确失效。若四指数同日数据齐备且全部重回MA20之上，再恢复。"
+    },
+    {
+      "thesis_id": "T-INCREMENTAL-INFLOW",
+      "status": "closed",
+      "evidence_ids": [
+        "E1",
+        "E2"
+      ],
+      "invalidation": "创业板、科创50和AI观察池同步大跌；上证与成交额缺失虽不能核对放量条件，但增量资金支持风险资产的叙事已失去结构证据。"
     },
     {
       "thesis_id": "T-MACRO-EQUITY-DECOUPLING",
-      "status": "carried_forward",
+      "status": "strengthened",
       "evidence_ids": [
-        "E1"
+        "E1",
+        "E2",
+        "E4"
       ],
-      "invalidation": "8月18日创业板-0.90%、科创50+0.14%，但上证、深证与成交额缺失，无法完成宏观数据公布后的首日定价检验。待同日四指数与成交额齐备后结算。"
+      "invalidation": "AI观察池继续显著转弱，而红利与价值相对抗跌，横截面由成长向防御切换的判断获得第二日支持；上证时点缺失限制指数层面结论。"
     },
     {
       "thesis_id": "T-MARKET-BREADTH-BULL",
       "status": "closed",
       "evidence_ids": [
-        "E3",
-        "E4"
+        "E2"
       ],
-      "invalidation": "8月18日缺少全市场上涨家数且AI内部广度明显分化，不能确认连续第二天普涨；上一期重开计数清零。"
-    },
-    {
-      "thesis_id": "T-OIL-RATE-SHOCK",
-      "status": "carried_forward",
-      "evidence_ids": [],
-      "invalidation": "本次无全球市场、油价或美债收益率数据，尚未到期检验，不作方向更新。"
+      "invalidation": "观察池0涨10跌，不具备重开广度牛市论点的条件。"
     }
   ],
   "forecast_ledger_entry": {
@@ -412,58 +419,59 @@
     "scenarios": [
       {
         "name": "base",
-        "probability": 50,
+        "probability": 45,
         "conditions": [
-          "创业板指收盘维持在MA5=3652.129以上",
-          "科创50收盘维持在MA5=1750.178以上",
-          "AI观察池核心股上涨与下跌数量接近，存储资金仍偏弱但不出现板块跌幅大于2%"
+          "创业板在3400至3600区间、科创50在1600至1720区间震荡",
+          "AI观察池上涨家数2至6只，平均涨跌幅在-3%至+2%",
+          "中际旭创维持在850至930之间且不再出现接近跌停"
         ],
         "invalidation": [
-          "创业板或科创50任一有效跌破MA5且AI核心股普跌",
-          "存储板块主力资金转正且CPO核心股多数上涨，则转入bull"
-        ]
-      },
-      {
-        "name": "bull",
-        "probability": 25,
-        "conditions": [
-          "创业板指重新站上3747.528且科创50高于1798.767",
-          "存储芯片上涨家数重新超过下跌家数且主力资金转正",
-          "中际旭创、新易盛、天孚通信至少两只收涨"
-        ],
-        "invalidation": [
-          "创业板跌破MA5=3652.129",
-          "存储主力资金继续净流出且板块转负"
+          "创业板收盘低于3400或科创50低于1600则转bear",
+          "观察池至少7只上涨且创业板重回MA5=3626.593则转bull"
         ]
       },
       {
         "name": "bear",
-        "probability": 25,
+        "probability": 35,
         "conditions": [
-          "创业板指收盘低于MA5=3652.129或科创50低于MA5=1750.178",
-          "存储、华为海思、AIPC与第三代半导体主力资金继续同时净流出",
-          "中际旭创跌破上一期MA20=965.15且新易盛继续下跌"
+          "创业板收盘低于3400或科创50低于1600",
+          "AI观察池上涨家数≤1且平均跌幅≤-3%",
+          "中际旭创低于850且新易盛低于390"
         ],
         "invalidation": [
-          "创业板重新站上3747.528且AI核心股多数上涨",
-          "存储与CPO资金同时转正"
+          "创业板重新站上MA5=3626.593",
+          "观察池至少6只上涨且平均涨幅≥2%"
+        ]
+      },
+      {
+        "name": "bull",
+        "probability": 20,
+        "conditions": [
+          "创业板重新站上MA5=3626.593且科创50重新站上MA5=1735.674",
+          "AI观察池至少7只上涨、平均涨幅≥2%",
+          "中际旭创重新站上MA20=949.469或新易盛重新站上MA20=431.01"
+        ],
+        "invalidation": [
+          "创业板继续低于MA20=3508.917",
+          "观察池上涨家数≤3"
         ]
       }
     ],
-    "next_check": "下一期逐项核对：①上证与深证是否补齐8月18日并取得同日成交额；②创业板3652.129、科创501750.178两条MA5；③存储上涨/下跌家数及主力资金能否转正；④中际旭创能否守965.15、新易盛与天孚通信方向；⑤拓荆科技能否守703.48且设备代表股均值为正；⑥全球市场、FOMC纪要、油价与长端利率是否恢复；⑦北向口径、龙虎榜与融资数据继续按披露边界解释。"
+    "next_check": "下一期核对：①上证和深证是否补齐8月19日及成交额；②创业板3508.917/3626.593与科创501707.276/1735.674两组MA20/MA5；③观察池上涨家数、平均涨幅和站回MA20数量；④中际旭创949.469、新易盛431.01；⑤设备三只是否恢复同向；⑥ai_boards与global_markets是否恢复；⑦北向、龙虎榜、融资与crosscheck继续按披露边界解释。"
   },
   "reflection": {
-    "prior_result": "partial",
+    "prior_result": "wrong",
     "error_type": "市场状态切换",
-    "lesson": "上一期对指数趋势保持偏多有部分依据：创业板回落后仍在MA5之上，科创50仍小幅上涨；但把存储的单日价格、量能、资金共振赋予较强连续性，低估了次日资金兑现。板块指数微涨并不等于主线延续，广度与资金方向必须同时复核。",
-    "rule_update": "R17：上一期主线若在下一交易日出现“主力资金由正转负且下跌家数超过上涨家数”，无论板块指数是否仍为正，thesis至少降一级；只有资金重新转正且上涨家数再次超过下跌家数，才允许恢复。"
+    "lesson": "上一期的bear情景条件准确描述了8月19日，但只分配34%，低于base的46%。当主线资金已转负、广度已恶化且存在隔夜冲击时，用仍在MA20之上作为结构安全垫会低估急跌概率；技术结构可以在一个交易日内被跳跃式破坏。",
+    "rule_update": "R19：若前一日主线出现资金转负与广度转弱，且下一交易日存在已知但尚未定价的跨市场冲击，则bear情景只要指数下跌不超过2%即可触发时，bear概率不得低于base；若观察池中RSI≥70者超过30%，bear概率还应额外增加至少5个百分点。"
   },
   "data_quality": {
-    "status": "partial",
-    "fetch_time": "2026-08-19T00:30:29.749432",
+    "status": "degraded",
+    "fetch_time": "2026-08-20T00:32:22.375858",
     "available": [
-      "创业板与科创50截至2026-08-18的K线及技术指标",
-      "AI板块与个股行情",
+      "创业板和科创50截至2026-08-19的K线及技术指标",
+      "10只AI观察股价格、涨跌幅、均线、RSI和量比",
+      "资金Top30",
       "龙虎榜",
       "融资融券",
       "北向成交额原值",
@@ -471,11 +479,12 @@
       "10组双源交叉校验"
     ],
     "degraded": [
-      "上证与深证K线停留2026-08-17",
+      "上证和深证K线仅到2026-08-18",
+      "沪深成交额与全市场涨跌家数不可得",
+      "ai_boards、board_stocks、board_laggards为空",
       "global_markets缺失",
       "北向净买入不可得且成交额单位未核实",
-      "无基本面与新闻事件字段",
-      "全市场上涨/下跌总家数与沪深成交额不可得"
+      "无基本面与新闻事件字段"
     ],
     "source_crosscheck": {
       "checked_pairs": 10,
@@ -485,7 +494,7 @@
       "max_diff_pct": 0,
       "primary_source": "eastmoney",
       "secondary_source": "sina",
-      "checked_at": "2026-08-19T00:32:32.769664Z",
+      "checked_at": "2026-08-20T00:34:23.444740Z",
       "as_of_skew_seconds": 0
     }
   }
