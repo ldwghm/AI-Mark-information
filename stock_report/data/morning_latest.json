@@ -1,5 +1,5 @@
 {
-  "fetch_time": "2026-08-21T00:01:50.702663",
+  "fetch_time": "2026-08-21T00:15:14.772854",
   "fetch_date": "2026-08-21",
   "report_type": "morning",
   "indices": {
@@ -4796,8 +4796,8 @@
           "f16": 66.5,
           "f17": 66.5,
           "f18": 64.68,
-          "f20": 35619135111,
-          "f21": 21549038693,
+          "f20": 35619492187,
+          "f21": 21549395769,
           "f22": 0.23,
           "f23": 7.78,
           "f62": 29586991.0,
@@ -8390,8 +8390,8 @@
           "f16": 66.5,
           "f17": 66.5,
           "f18": 64.68,
-          "f20": 35619135111,
-          "f21": 21549038693,
+          "f20": 35619492187,
+          "f21": 21549395769,
           "f22": 0.23,
           "f23": 7.78,
           "f62": 29586991.0,
@@ -13713,7 +13713,15 @@
     "max_diff_pct": 0.0,
     "primary_source": "eastmoney",
     "secondary_source": "sina",
-    "checked_at": "2026-08-21T00:04:00.743931Z",
+    "checked_at": "2026-08-21T00:17:31.348648Z",
     "as_of_skew_seconds": 0.0
+  },
+  "orchestration_request": {
+    "schema_version": 1,
+    "request_id": "morning-20260821T001452Z-c1a03f41",
+    "requested_at": "2026-08-21T00:14:52.272782Z",
+    "requested_by": "claude-scheduled",
+    "source": "github_connector_push",
+    "trigger_commit_sha": "9611fcb5af50bb7a4e42bce6b722fe162397fb0a"
   }
 }
