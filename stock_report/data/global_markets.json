@@ -1,6 +1,6 @@
 {
-  "fetch_time": "2026-08-24T09:36:56.608064Z",
-  "fetch_time_bjt": "2026-08-24T17:36:56.608085+08:00",
+  "fetch_time": "2026-08-24T21:24:52.137424Z",
+  "fetch_time_bjt": "2026-08-25T05:24:52.137451+08:00",
   "markets": {
     "US": {
       "name": "美股",
@@ -10,48 +10,48 @@
           "code": "^GSPC",
           "name": "标普500",
           "market": "US",
-          "price": 7674.37,
-          "chg": 0.43,
-          "prev_close": 7641.16,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 7652.86,
+          "chg": -0.28,
+          "prev_close": 7674.37,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "^IXIC",
           "name": "纳斯达克",
           "market": "US",
-          "price": 26180.46,
-          "chg": 0.43,
-          "prev_close": 26067.17,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 25980.19,
+          "chg": -0.76,
+          "prev_close": 26180.46,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "^SOX",
           "name": "费城半导体",
           "market": "US",
-          "price": 11740.37,
-          "chg": -0.51,
-          "prev_close": 11800.02,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 11423.17,
+          "chg": -2.7,
+          "prev_close": 11740.37,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         }
       ],
@@ -60,203 +60,203 @@
           "code": "NVDA",
           "name": "英伟达",
           "market": "US",
-          "price": 214.72,
-          "chg": -0.98,
-          "prev_close": 216.85,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 208.48,
+          "chg": -2.91,
+          "prev_close": 214.72,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "MSFT",
           "name": "微软",
           "market": "US",
-          "price": 483.24,
-          "chg": 0.43,
-          "prev_close": 481.15,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 487.31,
+          "chg": 0.84,
+          "prev_close": 483.24,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "GOOGL",
           "name": "谷歌",
           "market": "US",
-          "price": 344.82,
-          "chg": 1.22,
-          "prev_close": 340.67,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 348.06,
+          "chg": 0.94,
+          "prev_close": 344.82,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "META",
           "name": "Meta",
           "market": "US",
-          "price": 549.9,
-          "chg": 0.75,
-          "prev_close": 545.83,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 559.02,
+          "chg": 1.66,
+          "prev_close": 549.9,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "AMD",
           "name": "AMD",
           "market": "US",
-          "price": 473.25,
-          "chg": 0.81,
-          "prev_close": 469.46,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 456.74,
+          "chg": -3.49,
+          "prev_close": 473.25,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "AVGO",
           "name": "博通",
           "market": "US",
-          "price": 368.45,
-          "chg": 1.21,
-          "prev_close": 364.03,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 358.76,
+          "chg": -2.63,
+          "prev_close": 368.45,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "TSM",
           "name": "台积电ADR",
           "market": "US",
-          "price": 418.95,
-          "chg": 0.71,
-          "prev_close": 416.0,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 410.12,
+          "chg": -2.11,
+          "prev_close": 418.95,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "MU",
           "name": "美光",
           "market": "US",
-          "price": 966.78,
-          "chg": -0.77,
-          "prev_close": 974.33,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 910.43,
+          "chg": -5.83,
+          "prev_close": 966.78,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "SMCI",
           "name": "SuperMicro",
           "market": "US",
-          "price": 37.24,
-          "chg": 2.03,
-          "prev_close": 36.5,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 35.17,
+          "chg": -5.56,
+          "prev_close": 37.24,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "PLTR",
           "name": "Palantir",
           "market": "US",
-          "price": 179.94,
-          "chg": 3.44,
-          "prev_close": 173.96,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 175.89,
+          "chg": -2.25,
+          "prev_close": 179.94,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "ANET",
           "name": "Arista",
           "market": "US",
-          "price": 188.65,
-          "chg": 2.67,
-          "prev_close": 183.75,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 188.15,
+          "chg": -0.27,
+          "prev_close": 188.65,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         },
         {
           "code": "VRT",
           "name": "Vertiv",
           "market": "US",
-          "price": 261.95,
-          "chg": -1.01,
-          "prev_close": 264.63,
-          "market_date": "2026-08-21",
-          "as_of_bjt": "2026-08-22T04:00:00+08:00",
+          "price": 254.97,
+          "chg": -2.66,
+          "prev_close": 261.95,
+          "market_date": "2026-08-24",
+          "as_of_bjt": "2026-08-25T04:00:00+08:00",
           "source": "yfinance",
-          "as_of": "2026-08-21T16:00:00-04:00",
-          "retrieved_at": "2026-08-24T09:36:56.608064Z",
+          "as_of": "2026-08-24T16:00:00-04:00",
+          "retrieved_at": "2026-08-24T21:24:52.137424Z",
           "is_fallback": false,
-          "stale_seconds": 221816.6,
+          "stale_seconds": 5092.1,
           "row_stale": false
         }
       ],
-      "as_of": "2026-08-21T16:00:00-04:00",
-      "as_of_bjt": "2026-08-22T04:00:00+08:00",
-      "market_date": "2026-08-21",
+      "as_of": "2026-08-24T16:00:00-04:00",
+      "as_of_bjt": "2026-08-25T04:00:00+08:00",
+      "market_date": "2026-08-24",
       "status": "fresh",
       "coverage": "15/15",
       "date_spread": [
-        "2026-08-21",
-        "2026-08-21"
+        "2026-08-24",
+        "2026-08-24"
       ],
       "stale_rows": []
     },
@@ -278,7 +278,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "^HSCE",
@@ -294,7 +297,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         }
       ],
       "stocks": [
@@ -312,7 +318,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "9988.HK",
@@ -328,7 +337,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "3690.HK",
@@ -344,7 +356,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "9999.HK",
@@ -360,7 +375,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "1024.HK",
@@ -376,7 +394,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "0020.HK",
@@ -392,7 +413,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "0981.HK",
@@ -408,7 +432,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "1810.HK",
@@ -424,7 +451,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 5816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         }
       ],
       "as_of": "2026-08-24T16:00:00+08:00",
@@ -436,7 +466,19 @@
         "2026-08-24",
         "2026-08-24"
       ],
-      "stale_rows": []
+      "stale_rows": [],
+      "carried_rows": [
+        "^HSI",
+        "^HSCE",
+        "0700.HK",
+        "9988.HK",
+        "3690.HK",
+        "9999.HK",
+        "1024.HK",
+        "0020.HK",
+        "0981.HK",
+        "1810.HK"
+      ]
     },
     "JP": {
       "name": "日股",
@@ -456,7 +498,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 13016.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         }
       ],
       "stocks": [
@@ -474,7 +519,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 13016.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "6857.T",
@@ -490,7 +538,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 13016.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "6146.T",
@@ -506,7 +557,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 13016.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "4063.T",
@@ -522,7 +576,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 13016.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "6758.T",
@@ -538,7 +595,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 13016.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "6981.T",
@@ -554,7 +614,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 13016.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         }
       ],
       "as_of": "2026-08-24T15:00:00+09:00",
@@ -566,7 +629,16 @@
         "2026-08-24",
         "2026-08-24"
       ],
-      "stale_rows": []
+      "stale_rows": [],
+      "carried_rows": [
+        "^N225",
+        "8035.T",
+        "6857.T",
+        "6146.T",
+        "4063.T",
+        "6758.T",
+        "6981.T"
+      ]
     },
     "KR": {
       "name": "韩股",
@@ -586,7 +658,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 11216.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         }
       ],
       "stocks": [
@@ -604,7 +679,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 11216.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "000660.KS",
@@ -620,7 +698,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 11216.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         }
       ],
       "as_of": "2026-08-24T15:30:00+09:00",
@@ -632,7 +713,12 @@
         "2026-08-24",
         "2026-08-24"
       ],
-      "stale_rows": []
+      "stale_rows": [],
+      "carried_rows": [
+        "^KS11",
+        "005930.KS",
+        "000660.KS"
+      ]
     },
     "TW": {
       "name": "台股",
@@ -652,7 +738,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 14816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         }
       ],
       "stocks": [
@@ -670,7 +759,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 14816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "2454.TW",
@@ -686,7 +778,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 14816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "3008.TW",
@@ -702,7 +797,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 14816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         },
         {
           "code": "2317.TW",
@@ -718,7 +816,10 @@
           "retrieved_at": "2026-08-24T09:36:56.608064Z",
           "is_fallback": false,
           "stale_seconds": 14816.6,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-08-24T21:24:52.137424Z"
         }
       ],
       "as_of": "2026-08-24T13:30:00+08:00",
@@ -730,7 +831,14 @@
         "2026-08-24",
         "2026-08-24"
       ],
-      "stale_rows": []
+      "stale_rows": [],
+      "carried_rows": [
+        "^TWII",
+        "2330.TW",
+        "2454.TW",
+        "3008.TW",
+        "2317.TW"
+      ]
     }
   }
 }
