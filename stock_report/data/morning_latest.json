@@ -1,5 +1,5 @@
 {
-  "fetch_time": "2026-08-25T00:01:28.165671",
+  "fetch_time": "2026-08-25T00:15:50.932641",
   "fetch_date": "2026-08-25",
   "report_type": "morning",
   "indices": {
@@ -7989,7 +7989,15 @@
     "max_diff_pct": 0.0,
     "primary_source": "eastmoney",
     "secondary_source": "sina",
-    "checked_at": "2026-08-25T00:03:20.935808Z",
+    "checked_at": "2026-08-25T00:17:44.633386Z",
     "as_of_skew_seconds": 0.0
+  },
+  "orchestration_request": {
+    "schema_version": 1,
+    "request_id": "morning-20260825T001527Z-68b304d4",
+    "requested_at": "2026-08-25T00:15:27.523528Z",
+    "requested_by": "claude-scheduled",
+    "source": "github_connector_push",
+    "trigger_commit_sha": "17890c200a302e945400a34dce804b287f9b715b"
   }
 }
