@@ -1,0 +1,42 @@
+{
+  "ok": true,
+  "degraded": true,
+  "hard_fail": false,
+  "blocked": false,
+  "hard_reasons": [],
+  "soft_reasons": [
+    "行情非实时（来源 efinance_backfill，置信度 medium）：实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时，复盘以此为参考"
+  ],
+  "block_reasons": [],
+  "mode": "morning",
+  "expected_data_date": "2026-08-24",
+  "quote_date_mode": null,
+  "continuity": {
+    "level": "pass",
+    "reason": "早报无需闭环校验",
+    "morning_date": null
+  },
+  "data_currency": {
+    "level": "pass",
+    "reason": ""
+  },
+  "coverage": {
+    "level": "pass",
+    "reason": "关注池覆盖率 50/51（98%）"
+  },
+  "liveness": {
+    "level": "pass",
+    "reason": "早报以收盘价为基准，不适用活性判定",
+    "live_rows": 0,
+    "total_rows": 50
+  },
+  "stale_highlights": [],
+  "global_index_staleness": {
+    "level": "pass",
+    "reason": "",
+    "stale_rows": [],
+    "misattributed": []
+  },
+  "primary_priced": 50,
+  "ef_priced": 30
+}
