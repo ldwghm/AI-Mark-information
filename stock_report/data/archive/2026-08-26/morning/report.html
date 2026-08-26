@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI股市日报 2026-08-26</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f0f4f8; color: #1a202c; }
+.container { max-width: 800px; margin: 0 auto; padding: 12px; }
+.header { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%); color: white; padding: 20px 24px; border-radius: 12px 12px 0 0; }
+.header h1 { font-size: 22px; font-weight: 700; }
+.header .subtitle { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+.header .date-bar { font-size: 12px; opacity: 0.75; margin-top: 8px; display: flex; justify-content: space-between; }
+.section { background: white; margin-top: 10px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.section-header { padding: 12px 16px; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.section-body { padding: 12px 16px; }
+.sec-index { border-left: 4px solid #2563eb; }
+.sec-index .section-header { background: linear-gradient(90deg, #eff6ff, #f8faff); color: #2563eb; }
+.sec-capital { border-left: 4px solid #0891b2; }
+.sec-capital .section-header { background: linear-gradient(90deg, #ecfeff, #f0feff); color: #0891b2; }
+.sec-board { border-left: 4px solid #7c3aed; }
+.sec-board .section-header { background: linear-gradient(90deg, #faf5ff, #fdfaff); color: #7c3aed; }
+.sec-watchlist { border-left: 4px solid #d97706; }
+.sec-watchlist .section-header { background: linear-gradient(90deg, #fffbeb, #fffdf5); color: #d97706; }
+.sec-chart { border-left: 4px solid #059669; }
+.sec-chart .section-header { background: linear-gradient(90deg, #f0fdf4, #f8fff9); color: #059669; }
+.sec-analysis { border-left: 4px solid #dc2626; }
+.sec-analysis .section-header { background: linear-gradient(90deg, #fff1f2, #fff8f8); color: #dc2626; }
+.sec-score { border-left: 4px solid #ea580c; }
+.sec-score .section-header { background: linear-gradient(90deg, #fff7ed, #fffbf5); color: #ea580c; }
+.sec-predict { border-left: 4px solid #7c3aed; }
+.sec-predict .section-header { background: linear-gradient(90deg, #faf5ff, #fdfaff); color: #7c3aed; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: #f8faff; padding: 8px 10px; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { padding: 7px 10px; border-bottom: 1px solid #f3f4f6; }
+tr:last-child td { border-bottom: none; }
+.pos { color: #dc2626; font-weight: 600; }
+.neg { color: #16a34a; font-weight: 600; }
+.idx-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.idx-card { background: #f8faff; border-radius: 8px; padding: 12px; text-align: center; border: 1px solid #e5e7eb; }
+.idx-card .idx-name { font-size: 12px; color: #6b7280; margin-bottom: 4px; }
+.idx-card .idx-val { font-size: 20px; font-weight: 700; }
+.idx-card .idx-chg { font-size: 13px; margin-top: 3px; }
+.board-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.board-item { background: #f9fafb; border-radius: 6px; padding: 10px; }
+.board-item .board-name { font-size: 12px; font-weight: 600; color: #374151; }
+.board-item .board-chg { font-size: 15px; font-weight: 700; margin: 3px 0; }
+.board-item .board-meta { font-size: 11px; color: #9ca3af; }
+.insight-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 14px; margin: 8px 0; }
+.insight-box li { margin: 5px 0; font-size: 13px; line-height: 1.6; }
+.risk-item { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 6px; padding: 8px 12px; margin: 6px 0; font-size: 12px; color: #9a3412; }
+.advice-box { background: linear-gradient(135deg, #1e3a8a, #1d4ed8); color: white; padding: 16px; border-radius: 10px; margin: 8px 0; }
+.advice-box .style-label { font-size: 22px; font-weight: 800; }
+.advice-box .pos-range { font-size: 14px; opacity: 0.9; margin-top: 4px; }
+.advice-box .rationale { font-size: 13px; opacity: 0.85; margin-top: 8px; line-height: 1.6; }
+.footer { background: #f1f5f9; border-top: 1px solid #e2e8f0; padding: 12px 16px; font-size: 11px; color: #94a3b8; text-align: center; margin-top: 10px; border-radius: 0 0 8px 8px; }
+.chart-img { max-width: 100%; border-radius: 6px; margin: 8px 0; }
+.predict-box { border: 2px solid; border-radius: 10px; padding: 18px; margin: 8px 0; background: #fafafa; }
+.predict-label { font-size: 22px; font-weight: bold; }
+.sec-sectors { border-left: 4px solid #0891b2; }
+.sec-sectors .section-header { background: linear-gradient(90deg, #ecfeff, #f0feff); color: #0891b2; }
+.sector-title-row td { background: #f0f9ff; font-weight: 700; color: #0891b2; padding: 5px 10px; font-size: 12px; }
+
+/* 研报分节。结论段用最重的蓝，论据段沿用既有配色，附录压到灰。 */
+.sec-verdict { border-left: 4px solid #1e3a8a; }
+.sec-verdict .section-header { background: linear-gradient(90deg, #eef2ff, #f8faff); color: #1e3a8a; }
+.sec-scenario { border-left: 4px solid #b45309; }
+.sec-scenario .section-header { background: linear-gradient(90deg, #fffbeb, #fffdf5); color: #b45309; }
+.sec-review { border-left: 4px solid #ca8a04; }
+.sec-review .section-header { background: linear-gradient(90deg, #fefce8, #fffef5); color: #854d0e; }
+.sec-anomaly { border-left: 4px solid #0d9488; }
+.sec-anomaly .section-header { background: linear-gradient(90deg, #f0fdfa, #f7fffe); color: #0d9488; }
+.sec-thesis { border-left: 4px solid #4f46e5; }
+.sec-thesis .section-header { background: linear-gradient(90deg, #eef2ff, #f8faff); color: #4f46e5; }
+.sec-risk { border-left: 4px solid #ea580c; }
+.sec-risk .section-header { background: linear-gradient(90deg, #fff7ed, #fffbf5); color: #ea580c; }
+.sec-evidence { border-left: 4px solid #94a3b8; }
+.sec-evidence .section-header { background: linear-gradient(90deg, #f8fafc, #fcfdfe); color: #64748b; }
+.sec-chips { border-left: 4px solid #db2777; }
+.sec-chips .section-header { background: linear-gradient(90deg, #fdf2f8, #fefafc); color: #db2777; }
+
+/* ── 可读性层 ─────────────────────────────────────────────────
+   分析正文常年一万六千字以上，平铺会让"当天最重要的结论"和"第 9 条
+   数据口径声明"拥有同样的视觉权重。以下三组样式只做一件事：把已经
+   写在文本里的结构（【小标题】、①②③、数据口径 vs 市场风险）翻译成
+   看得见的层级。 */
+.tldr { background: #fff; border: 2px solid #1e3a8a; border-radius: 10px; padding: 16px 18px; margin-top: 10px; }
+.tldr .tldr-tag { display: inline-block; font-size: 11px; font-weight: 700; color: #1e3a8a; background: #eff6ff; padding: 2px 8px; border-radius: 4px; letter-spacing: .5px; }
+.tldr .tldr-line { font-size: 16px; font-weight: 700; line-height: 1.6; margin-top: 8px; color: #111827; }
+.tldr .tldr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.tldr .tldr-cell { background: #f8faff; border-radius: 6px; padding: 8px 10px; }
+.tldr .tldr-k { font-size: 11px; color: #6b7280; }
+.tldr .tldr-v { font-size: 14px; font-weight: 700; color: #1f2937; margin-top: 2px; }
+.badges { margin-top: 10px; }
+.badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; margin: 2px 4px 2px 0; }
+.badge-ok { background: #dcfce7; color: #15803d; }
+.badge-warn { background: #fef3c7; color: #b45309; }
+.badge-bad { background: #fee2e2; color: #b91c1c; }
+.badge-mute { background: #f1f5f9; color: #64748b; }
+
+.subhead { font-size: 13px; font-weight: 700; color: #1e3a8a; margin: 12px 0 4px; padding-left: 8px; border-left: 3px solid #93c5fd; }
+.para { font-size: 13px; line-height: 1.85; margin: 4px 0; color: #374151; }
+.insight-num { display: inline-block; min-width: 18px; height: 18px; line-height: 18px; text-align: center; background: #1e3a8a; color: #fff; font-size: 11px; font-weight: 700; border-radius: 50%; margin-right: 6px; }
+
+.hl-card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; margin: 8px 0; background: #fff; }
+.hl-head { font-size: 14px; font-weight: 700; color: #111827; }
+.hl-code { font-size: 12px; color: #9ca3af; font-weight: 400; margin-left: 4px; }
+.hl-asof { font-size: 11px; color: #b45309; background: #fffbeb; border: 1px solid #fde68a; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+.hl-body { font-size: 12.5px; line-height: 1.75; color: #4b5563; margin-top: 6px; }
+
+.caveat-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+.caveat-title { font-size: 12px; font-weight: 700; color: #64748b; }
+.caveat-item { font-size: 11.5px; line-height: 1.7; color: #64748b; margin-top: 6px; padding-left: 10px; border-left: 2px solid #cbd5e1; }
+.caveat-item b { color: #475569; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>🤖 AI股市机构日报</h1>
+  <div class="subtitle">A股科创 · 港股科技 · 美股AI龙头 — 全市场覆盖</div>
+  <div class="date-bar">
+    <span>📅 2026-08-26 早盘报告</span>
+    <span>数据+AI分析自动生成</span>
+  </div>
+</div>
+
+<div style="background:#fffbeb;border-left:4px solid #d97706;border-radius:6px;padding:12px 16px;margin:0 0 16px">
+  <div style="font-weight:bold;color:#d97706;font-size:13px">⚠️ 数据降级提示——本期部分数据为盘中快照/缺失源，请谨慎参考</div>
+  <ul style="margin:6px 0 0;padding-left:20px;font-size:12px;color:#6b7280"><li>行情非实时（来源 efinance_backfill，置信度 medium）：实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时，复盘以此为参考</li></ul>
+</div>
+
+
+<div class="tldr">
+  <span class="tldr-tag">先看这里</span>
+  <div class="tldr-line">8/25 是一次『缩量、普涨、但 AI 链内部极度分化』的反弹：上证 3889.44 涨 0.19%、深证成指跌 0.35%、创业板指跌 1.00%、科创50 涨 0.14%，四行 data_date 全部为 8/25 且与外部收评逐字一致（连续四期以来第一次不需要外部替换任何一行）；沪深合计成交额 1.8318 万亿元、缩量 1756 亿元，A 股口径 18443 亿元创下半年新低，同时全市场超 4200 只个股上涨。本报 50 只 AI 观察池均值 +1.4876%、28 涨 21 跌 1 平，站上各自 MA20 由 18 只回到 20 只、站上 MA5 由 5 只回到 15 只——但按本期新增的 R31 必须同时说明：液冷、光纤光缆、高速铜连接三个方向的 13 只贡献了 +77.36 个百分点，其余 37 只合计 -2.98 个百分点、均值 -0.0805%。全池均值为正，是 13 只的行情，不是 50 只的行情。本期最硬的一组读数在资金侧：观察池进入全市场主力净流入前 30 的数量由 8/24 的 2 只跳到 12 只（跟踪期最高），龙虎榜全市场净买第 1（亨通光电 18.4959 亿元）、第 2（英维克 3.6866 亿元）、第 5（长飞光纤 1.4107 亿元）全部来自本报观察池的液冷与光纤光缆两个方向。与之相对，CPO 替代叙事在价格上连续第二日被确认且龙头破位：光通信/CPO/光模块 -0.65%、跑输 2.1376 个百分点，中际旭创跌破上一期登记的 20 日支撑 864.00 元收 846.00 元、该价位本身已成为其新的 20 日最低点。本报据此做出六项论点变动：新开 T-PHYSICAL-LAYER-ROTATION（开立于中性，并按 R28 穷举了五条未覆盖的风险轴）；上调 T-CPO-SUBSTITUTION-DERATING 与 T-COOLING-CPO-COMPLEMENT 为 strengthened、维持 T-OPTICAL-UPSTREAM-ROTATION 为 strengthened；下调 T-STAR-MEMORY-IPO-SUPPLY 与 T-CAPEX-SQUEEZE 为 weakened；把 T-OPTICAL-OVERSEAS-REVENUE、T-AI-CREDIT-FINANCING、T-LEVERAGE-ETF-ABSORPTION 三条由 strengthened 降回 carried_forward；并关闭 T-CHINA-CAPEX-MARGIN——关闭由上一期预先登记的条件触发（AI服务器连续第三日跑输、且服务器公司对云厂商的收入敞口数据仍 unavailable），不是事后判断。上一期复盘结论为 correct：base 45% 的五条条件全部命中、三条作废条款全部未触发，bear 与 bull 均被各自的作废条款击落。本期新增规则 R31（全池均值必须与剔除领涨后的均值同时给出）、R32（逆势型论点不得在顺势日判为通过）、R33（事件必须写清落在预测交易日的哪一侧）、R34（高波动计数型指标的门槛须逐期按新窗口重标），并把 R23 扩写为适用于所有随窗口滚动的计数型判据。仓位区间由 25%–40% 上调为 28%–42%，上调幅度被严格限制在 3/2 个百分点，理由是广度与资金面改善可度量，但量能创下半年新低、集中度极端、四大指数仍全部在 MA20 之下、且今日 8/26 全天位于英伟达季报之前。</div>
+  <div class="tldr-grid"><div class="tldr-cell"><div class="tldr-k">建议仓位</div><div class="tldr-v">28%</div></div><div class="tldr-cell"><div class="tldr-k">判断置信度</div><div class="tldr-v">44%</div></div></div>
+  <div style="margin-top:10px;font-size:12.5px;line-height:1.7;color:#9a3412"><b>主要风险：</b>本期最重要的一条结构性风险：8/25 的上涨高度集中：液冷、光纤光缆、高速铜连接三个方向的 13 只贡献了全池 +77.36 个百分点，其余 37 只合计 -2.98 …</div>
+  <div class="badges"><span class="badge badge-bad">个股价格 0/50 为当日实时</span><span class="badge badge-ok">双源已核对 10 只</span></div>
+</div>
+
+
+<div class="section sec-verdict">
+  <div class="section-header">🎯 一、投资结论与操作建议</div>
+  <div class="section-body"><div class="subhead">行情基准与数据口径，必须先读</div><p class="para">A 股基准＝2026-08-25（周二）收盘，是今日 8/26（周三）开盘前最近一个已完成交易日；美股＝2026-08-25 美东收盘（北京时间 8/26 04:00）；港股／日股／台股／韩股＝各自 2026-08-25 收盘（E1、E3、E7）。本次抓数：request_id=morning-20260826T001830Z-4b4e9f4a、transport=git、trigger_commit_sha=6581f575a38de66f53f08ddfe8a6c473e144cec8、state=completed、conclusion=success、snapshot.match=by_request_id、snapshot.fresh=true、age_seconds=101.0、reason=fresh（E2）。本期为 by_request_id 匹配，未使用『最近一条已完成 workflow_dispatch』顶替；git 通道不经过 api.github.com，故 run_id=null，这是 git transport 的固有限制而非抓取失败（E2）。latest.fetch_time=2026-08-26T00:21:46.826448Z（北京时间 08:21:46）；boards_fetch_time=2026-08-26T00:18:55.379439；global_markets 子快照 fetch_time=2026-08-25T21:23:42.724047Z（北京时间 8/26 05:23:42）（E1）。【缺口①已修复，且这一次本报有资格说它修复了】上一期 next_check 第 ① 项要求逐行核对 latest.indices 四行的 data_date。本期四行全部为 2026-08-25：上证 3889.44/+0.19%、深证成指 13745.87/-0.35%、创业板指 3397.52/-1.00%、科创50 1604.59/+0.14%（E1）。上一期该缺口第三次出现（上证与深证成指两行退回 8/21），本报当时收回了上上期『已修复』的判断。本期与上一期的关键差别是：上一期本报只能靠外部收评替换两行指数读数，本期外部收评（沪指 +0.19% 报 3889.44、深证成指 -0.35% 报 13745.87、创业板指 -1.00% 报 3397.52，E3）与快照三行逐字一致、无一处分歧，这是本报连续四期以来第一次不需要用外部数据替换任何一行指数。缺口未第四次出现，故不触发上一期登记的『升级为 market_summary 固定披露项』条款；但本报按 R14 保留该项在 next_check 中的最高优先级，不再第二次宣布『已彻底修复』。【本期仍在的四个缺口，逐条写明】缺口②：观察池 50 只价格全部为 klines_cache 回填（is_fallback=true、technicals_source=cache、quote_source=efinance_backfill、oldest_as_of=2026-08-25T15:00:00+08:00、max_stale_seconds=62506.8，约 17.4 小时），即全部为 8/25 收盘价而非实时价——这对开盘前早报是正确口径，但必须写明它不是实时值（E1）。缺口③：watchlist_coverage=50/51，缺失标的仍为液冷方向的曙光数创（872808），连续第十一期缺失（E1）。缺口④：northbound.net_buy 恒为 null（交易所自 2024-08 起停止披露），deal_amt_raw 的 unit_verified=false；本期沪股通 122860.7、深股通 144560.51，本报照抄原值、不换算、不称『北向净流入 X 亿』（E1）。缺口⑤：open/high/low/amount 四个字段在观察池 50 行中全部为 null——回填源 klines_cache 只存收盘价与成交量。null 表示『日内振幅本期不可得』，不是零振幅，本报全文不出现任何由收盘价推出的日内高低点（E1）。【一句话的行情定性】8/25 是一次『缩量、普涨、但 AI 链内部极度分化』的交易日：沪深合计成交额 1.83 万亿元、较 8/24 缩量 1756 亿元，A 股口径 18443 亿元创下半年新低，同时全市场超 4200 只个股上涨（E3、E4）；本报 50 只 AI 观察池均值 +1.4876%、28 涨 21 跌 1 平，但其中液冷、光纤光缆、高速铜连接三个方向的 13 只贡献了 +77.36 个百分点，其余 37 只合计 -2.98 个百分点、均值 -0.0805%（E1）——全池均值为正，是 13 只的行情，不是 50 只的行情。</p>
+<div class="predict-box" style="border-color:#d97706">
+  <p style="margin:0 0 10px;font-size:16px">
+    预测结论：<span class="predict-label" style="color:#d97706">8/25 是一次『缩量、普涨、但 AI 链内部极度分化』的反弹：上证 3889.44 涨 0.19%、深证成指跌 0.35%、创业板指跌 1.00%、科创50 涨 0.14%，四行 data_date 全部为 8/25 且与外部收评逐字一致（连续四期以来第一次不需要外部替换任何一行）；沪深合计成交额 1.8318 万亿元、缩量 1756 亿元，A 股口径 18443 亿元创下半年新低，同时全市场超 4200 只个股上涨。本报 50 只 AI 观察池均值 +1.4876%、28 涨 21 跌 1 平，站上各自 MA20 由 18 只回到 20 只、站上 MA5 由 5 只回到 15 只——但按本期新增的 R31 必须同时说明：液冷、光纤光缆、高速铜连接三个方向的 13 只贡献了 +77.36 个百分点，其余 37 只合计 -2.98 个百分点、均值 -0.0805%。全池均值为正，是 13 只的行情，不是 50 只的行情。本期最硬的一组读数在资金侧：观察池进入全市场主力净流入前 30 的数量由 8/24 的 2 只跳到 12 只（跟踪期最高），龙虎榜全市场净买第 1（亨通光电 18.4959 亿元）、第 2（英维克 3.6866 亿元）、第 5（长飞光纤 1.4107 亿元）全部来自本报观察池的液冷与光纤光缆两个方向。与之相对，CPO 替代叙事在价格上连续第二日被确认且龙头破位：光通信/CPO/光模块 -0.65%、跑输 2.1376 个百分点，中际旭创跌破上一期登记的 20 日支撑 864.00 元收 846.00 元、该价位本身已成为其新的 20 日最低点。本报据此做出六项论点变动：新开 T-PHYSICAL-LAYER-ROTATION（开立于中性，并按 R28 穷举了五条未覆盖的风险轴）；上调 T-CPO-SUBSTITUTION-DERATING 与 T-COOLING-CPO-COMPLEMENT 为 strengthened、维持 T-OPTICAL-UPSTREAM-ROTATION 为 strengthened；下调 T-STAR-MEMORY-IPO-SUPPLY 与 T-CAPEX-SQUEEZE 为 weakened；把 T-OPTICAL-OVERSEAS-REVENUE、T-AI-CREDIT-FINANCING、T-LEVERAGE-ETF-ABSORPTION 三条由 strengthened 降回 carried_forward；并关闭 T-CHINA-CAPEX-MARGIN——关闭由上一期预先登记的条件触发（AI服务器连续第三日跑输、且服务器公司对云厂商的收入敞口数据仍 unavailable），不是事后判断。上一期复盘结论为 correct：base 45% 的五条条件全部命中、三条作废条款全部未触发，bear 与 bull 均被各自的作废条款击落。本期新增规则 R31（全池均值必须与剔除领涨后的均值同时给出）、R32（逆势型论点不得在顺势日判为通过）、R33（事件必须写清落在预测交易日的哪一侧）、R34（高波动计数型指标的门槛须逐期按新窗口重标），并把 R23 扩写为适用于所有随窗口滚动的计数型判据。仓位区间由 25%–40% 上调为 28%–42%，上调幅度被严格限制在 3/2 个百分点，理由是广度与资金面改善可度量，但量能创下半年新低、集中度极端、四大指数仍全部在 MA20 之下、且今日 8/26 全天位于英伟达季报之前。</span>
+    <span style="color:#6b7280;font-size:13px;margin-left:10px">置信度 44%</span>
+  </p>
+  <ul style="margin:0;padding-left:20px;line-height:2"><li style="margin:5px 0;font-size:14px">本报把置信度由上一期的 36 上调至 44，第一条理由是上一期的判断被干净验证：base 45% 的五条条件全部命中且落在区间内部而非贴边，bear 第 1 条即失败并被作废条款二次击中，bull 五条中仅一条成立并被作废条款降级。框架本期没有暴露方向性错误。</li><li style="margin:5px 0;font-size:14px">第二条理由是数据质量本期是连续四期以来最好的一次：latest.indices 四行 data_date 全部为 8/25，与外部收评逐字一致，本报第一次不需要用外部数据替换任何一行；crosscheck 连续第六期 agreed（10 对、0 冲突、max_diff_pct=0.0）；index_macd_60m 的 60 分钟序列经索引核对已包含 8/25 全天，样本恢复有效。数据可信度提高，判断的置信度理应随之提高。</li><li style="margin:5px 0;font-size:14px">第三条理由是本期的核心事实有跨源交叉验证：外部涨停复盘给出的英维克换手率 8.51% 与快照龙虎榜的 8.5133% 一致，外部收评给出的三个指数点位与快照逐字一致，外部给出的美股三个读数（标普 7677.28、纳指 26151.30、SMCI 38.46/+9.35%）与快照逐字一致。本期没有出现任何一处需要本报在两个来源之间做选择的分歧。</li><li style="margin:5px 0;font-size:14px">本报不把置信度提得更高的第一条理由是集中度：全池均值 +1.4876% 与剔除领涨三方向后的 -0.0805% 相差 1.568 个百分点。本报的情景条件中有两条建立在全池均值之上，在这种结构下它们的判别力被削弱；本期虽已按 R31 收窄上沿并改写作废条款，但这套修正尚未经过一次实盘检验。</li><li style="margin:5px 0;font-size:14px">第二条理由是归因空白：本期涨幅最大的两个方向（液冷 +9.70%、光纤光缆 +4.77%）本报均未取得任何 8/25 当日的一手来源，美团 -6.65% 与大立光 +6.22% 同样完全无法归因。一个本报无法解释的上涨，本报没有资格对它的延续给出高置信度。</li><li style="margin:5px 0;font-size:14px">第三条理由是新开论点 T-PHYSICAL-LAYER-ROTATION 只有一天的样本，且它按 R28 自己列出的五条未覆盖风险轴中，第一条（缩量无主线环境下的资金择低位切换）本期就有直接证据支持——8/25 领涨的四条线中有三条与 AI 完全无关。本报无法区分自己的产业解释与这条更简单的解释。</li><li style="margin:5px 0;font-size:14px">第四条理由是事件时点：今日 8/26 全天位于英伟达季报之前，本报对该结果没有任何评估能力（一致预期营收约 918.5 亿美元、数据中心约 854 亿美元只是卖方预期，不是本报的判断）。在一个二元事件之前，任何单日方向判断的置信度都应当被折价。</li></ul>
+  <p style="margin:10px 0 0;font-size:13px;color:#6b7280">⚠️ 预测基于量化模型，不构成投资建议。</p>
+</div>
+<div class="advice-box">
+  <div class="style-label">今日风格: 事件前的谨慎观望，方向上不追高本期领涨的三个方向、也不左侧抄底本期跌破关键位的光模块整机；操作重心放在验证而不是加仓</div>
+  <div class="pos-range">建议仓位: 28%–42%（上一期为 25%–40%，上下沿各上调 3 与 2 个百分点，按 R24 单日调整幅度上限 5 个百分点之内）</div>
+  <div class="rationale">【上调的两条理由】其一，广度与资金面同时改善且改善幅度可度量：观察池上涨家数由 8 只回到 28 只、站上 MA20 的数量由 18 只回到 20 只、进入全市场主力净流入前 30 的数量由 2 只跳到 12 只、进入融资净买入前 100 的数量由 6 只升到 10 只，龙虎榜上本报观察池占据全市场净买第 1、第 2、第 5 三个位置（E1）。其二，上一期本报做出的判断（base 45%）被完整验证，且是干净命中，框架本期没有暴露方向性错误。
+【上调幅度被严格限制在 3/2 个百分点的四条理由，每一条都指向不追高】第一，按 R31，全池均值 +1.4876% 不代表普涨——剔除液冷、光纤光缆、高速铜连接后其余 37 只均值 -0.0805%、16 涨 20 跌 1 平。本报观察的 AI 硬件链在 8/25 其实是平盘略跌的。第二，量能方向与价格方向相反：成交额缩量 1756 亿元、A 股口径创下半年新低，观察池成交量变化中位数 -15.12%。上涨由抛压退出而非增量资金推动，持续性弱。第三，四大指数全部仍在各自 MA20 之下，本报在指数层面不持有任何看多的结构性依据；上证距 MA20 只差 8.83 个点，这个刻度尚未被收复之前，本报不把仓位上沿推到 42% 以上。第四，今日 8/26 全天位于英伟达季报之前（事件按北京时间落在 8/27 凌晨，E8），事件前时段加仓是用仓位承担一个本报无法评估的二元结果。
+【本报明确不做的三件事】其一，不追本期领涨的三个方向：液冷 4 只已全部高于各自 MA20 达 10.43%–21.23%、飞荣达 RSI12=71.77 为全池唯一超过 70 的一只，申菱环境高于 MA20 达 20.76%；且本报对这轮上涨没有任何一手基本面来源，追高等于为一个无法解释的涨幅付款。其二，不左侧买入跌破关键位的光模块整机：中际旭创 846.00 元已是其 20 日最低点、无任何缓冲，其 MA20=922.44 需上涨 9.04% 才能收复；在 T-CPO-SUBSTITUTION-DERATING 被本期上调为 strengthened 的情况下，本报没有理由在这个位置承接。其三，不把高速铜连接的价格强度当作资金流入的证据——该方向 5 只在主力净流入前 30、龙虎榜、融资净买入前 100 三条线上全部缺席（E1）。
+【本报认为值得跟踪而非立即交易的两个刻度】上证 3898.28（MA20，距 8.83 点、0.23%）——它是四条指数中唯一一个下一个交易日可能被收复的刻度，收复并连续两日维持是 T-INDEX-STRUCTURE-INTACT 的重开条件；以及中际旭创 846.00（新 20 日支撑）与 864.00（原支撑现为压力）这一对刻度——它是本报判断 CPO 替代叙事是否在价格上继续被确认的最干净的二值判据。
+【风险揭示】以上是本报基于公开数据的分析记录，不构成投资建议。本报对本期涨幅最大的两个方向没有任何一手基本面来源，对 CPO 替代叙事的份额与时间表没有任何数据，对联储路径的市场定价连续十三期无法取得读数。请读者按这些明确的缺口折价阅读本报的每一个结论。</div>
+</div></div>
+</div>
+
+
+<div class="section sec-scenario">
+  <div class="section-header">🔀 二、情景与失效条件</div>
+  <div class="section-body"><table>
+    <tr><th style="width:52px">情景</th><th style="width:52px">概率</th>
+        <th>成立条件</th><th>失效条件</th></tr>
+    <tr>
+          <td style="white-space:nowrap"><b style="color:#1e3a8a">基准</b></td>
+          <td style="white-space:nowrap;font-weight:700;color:#1e3a8a">48%</td>
+          <td><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#6b7280"><li style="margin:2px 0">上证指数 8/26 收盘涨跌幅在 -1.8% 至 +1.8% 区间内（含端点），基准为 8/25 实际收盘 3889.44 点（E1、E3）。区间宽度维持上一期的对称 ±1.8%，理由是本期外部收评与快照读数完全一致、基准点位无争议，且 8/26 全天位于英伟达季报之前（该事件落在北京时间 8/27 凌晨，E8），事件前时段的波动不应额外放宽。本条按 R9 与 R17 写为区间，不含方向含义。</li><li style="margin:2px 0">本报 AI 观察池 8/26 的当日均值在 -2.5% 至 +3.0% 之间（含端点）。上一期区间为 [-2.5%, +3.5%]，本期上沿由 +3.5% 收窄到 +3.0%：上一期实际 +1.4876% 落在区间中部，而按 R31 剔除领涨三个方向后其余 37 只均值仅 -0.0805%，全池均值的上沿更可能由少数方向的极端读数抬起而非普遍上涨，故收窄上沿。下沿维持 -2.5% 不变。</li><li style="margin:2px 0">沪深两市合计成交额在 1.60 万亿元至 2.35 万亿元之间（含端点）。上一期区间为 [1.70万亿, 2.45万亿]，实际 1.8318 万亿元落在下沿之上 0.13 万亿元。按 R26，本期不由上一期实际值平移设定，而是以 1.8318 万亿元为中枢、下沿留约 13%、上沿留约 28% 的容差；下沿由 1.70 万亿下调至 1.60 万亿，反映量能中枢已跌破 2 万亿元并创下半年新低这一事实，上沿由 2.45 万亿下调至 2.35 万亿，反映本周尚无事件落在 8/26 之前。</li><li style="margin:2px 0">本报 AI 观察池收于各自 MA20 之上的数量在 12 只至 28 只之间（含端点）。8/25 实际 20 只（8/24 为 18 只、8/21 为 31 只）。区间宽度 17 只与上一期一致，中枢由 18 只上移到 20 只。</li><li style="margin:2px 0">本报 AI 观察池 8/26 的上涨家数在 6 只至 38 只之间（含端点）。8/25 实际 28 只、8/24 为 8 只、8/21 为 39 只。本条按 R20 使用不依赖任何论点、可从快照直接读出的全池指标；下沿设 6 只而非 0 只，使本条在极端下跌日能被判废而非自动成立。</li></ul></td>
+          <td><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#9a3412"><li style="margin:2px 0">上证指数 8/26 收盘跌幅≥2.5%（即收盘＜3792.21 点）且 观察池上涨家数≤4 只，则下跌进入本报未观测过的加速区间，base 作废并转入 bear。</li><li style="margin:2px 0">观察池上涨家数≥42 只 且 观察池当日均值≥+3.5%，则出现本报未观测过的普涨，base 作废并转入 bull。注意本条按 R31 同时要求广度与幅度，单靠三个领涨方向再拉一次极端涨幅无法触发。</li><li style="margin:2px 0">沪深两市合计成交额＜1.50 万亿元 或 ＞2.55 万亿元，则流动性进入本报未观测过的区间，base 作废且本报当期无有效结构判断（不转入任何情景）。本条不含方向，只承认本报的观测范围有限。</li></ul></td>
+        </tr><tr>
+          <td style="white-space:nowrap"><b style="color:#16a34a">偏空</b></td>
+          <td style="white-space:nowrap;font-weight:700;color:#16a34a">28%</td>
+          <td><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#6b7280"><li style="margin:2px 0">上证指数 8/26 收盘＜3889.44 点（即低于 8/25 收盘，E1）。本条是一个低门槛条件，须与以下四条一起才构成 bear。</li><li style="margin:2px 0">本报 AI 观察池 8/26 当日均值≤-1.5%，或 上涨家数≤10 只。按 R9 写为『或』。8/25 为 +1.4876% 与 28 只。门槛由上一期的 -1.5%/8 只中的家数分支放宽到 10 只，理由是本期基数由 8 只升至 28 只，8 只的门槛在新基数下等价于要求单日回落 20 只、过于严苛。</li><li style="margin:2px 0">本报 AI 观察池收于各自 MA20 之上的数量由 20 只降至≤14 只。本期 20 只中缓冲不足 1.5% 的六只为胜宏科技（+0.02%）、德明利（+0.37%）、利通电子（+0.42%）、沃尔核材（+0.71%）、新亚电子（+1.27%）、生益科技（+1.42%）；这六只若全部翻转即达 14 只，因此本条要求的正是这一组的整体失守，是一个可精确定位的条件而非泛化的『普遍回落』。</li><li style="margin:2px 0">沪深两市合计成交额≥2.00 万亿元 且 上证指数收跌。按 R29 把量能与方向用『且』绑定，直接对应放量派发形态。本期实际 1.8318 万亿元且上证收涨，本条未成立。</li><li style="margin:2px 0">液冷子板块 8/26 当日均值跑输观察池均值。本条是 bear 的关键条件：8/25 的上涨高度依赖液冷（跑赢 8.2124 个百分点、贡献全池均值的大部分），若该方向熄火而其余方向未接力，本期的反弹结构即被瓦解。</li></ul></td>
+          <td><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#9a3412"><li style="margin:2px 0">上证指数 8/26 收盘≥3898.28 点（即收复本报记录的 MA20=3898.271，需自 3889.44 上涨 0.23%），则 bear 作废。</li><li style="margin:2px 0">观察池上涨家数≥30 只，则扩散前提不成立，bear 作废。</li><li style="margin:2px 0">英维克与申菱环境 8/26 同时收涨，则本期领涨核心未瓦解，bear 作废。本条针对的是本期反弹结构中最集中的一个点。</li></ul></td>
+        </tr><tr>
+          <td style="white-space:nowrap"><b style="color:#dc2626">偏多</b></td>
+          <td style="white-space:nowrap;font-weight:700;color:#dc2626">24%</td>
+          <td><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#6b7280"><li style="margin:2px 0">上证指数 8/26 收盘≥3898.28 点（即收复本报记录的 MA20=3898.271，需自 3889.44 上涨 0.23%）。本条要求的不是任意上涨，而是收复本报于 8/24 关闭 T-INDEX-STRUCTURE-INTACT 时跌破的那条线；上一期该条差 3.84 个点未达成，本期缺口缩小到 8.83 个点（因 MA20 本身上移）。</li><li style="margin:2px 0">本报 AI 观察池 8/26 上涨家数≥32 只，或 当日均值≥+2.0%。按 R9 写为『或』。8/25 为 28 只与 +1.4876%，两个分支都只差一点点，门槛由上一期的 30 只上调至 32 只，理由是基数已由 8 只升至 28 只。</li><li style="margin:2px 0">本报 AI 观察池收于各自 MA5 之上的数量≥22 只。【本条是按 R23 对 8/26 新窗口的重新标定，标定过程必须写明以便复核】上一期阈值为 20 只、8/25 实际 15 只。本期按 8/26 的新窗口（8/20、8/21、8/24、8/25 加当日）用同一份 klines_cache 逐只回算：若 8/26 价格与 8/25 完全持平、不发生任何变化，仅靠 8/19 的 K 线滚出 MA5 窗口，站上 MA5 的只数会自动变为 14 只。因此任何小于等于 14 只的阈值在零价格变化下会被自动满足，失去检验意义——上一期的 20 只在新窗口下也只需要极小涨幅即可达到，故不得沿用。本期标定为 22 只，对应：第 22 位的紫光股份需在其 8/25 收盘 35.10 元基础上再涨 0.91%（阈值价 35.42），第 20 位的鹏鼎控股需再涨 0.68%，第 15 位的源杰科技需再涨 0.22%。选择 22 只对应『全池需要一次约 0.9 个百分点量级的普遍上涨』。</li><li style="margin:2px 0">本报观察池中进入全市场主力净流入前 30 的数量≥8 只。【门槛由上一期的 5 只上调至 8 只，理由写在 review 中】该指标 8/24 为 2 只、8/21 为 9 只、8/25 为 12 只，两日内跨越 6 倍，5 只的门槛已不含区分度。8 只对应『本期入榜的 12 只中至少三分之二留在榜内』。</li><li style="margin:2px 0">『光通信/CPO/光模块』子板块 8/26 当日均值跑赢观察池均值≥0 个百分点（即止跌，不再跑输），且 中际旭创收盘≥846.00 元（守住其新的 20 日支撑，该价位即 8/25 收盘价）。按 R29 把方向与关键位用『且』绑定。8/25 该子板块跑输 2.1376 个百分点、中际旭创跌破原支撑 864.00 至 846.00。本条是 T-CPO-SUBSTITUTION-DERATING 的反向检验：门槛由上一期的『跑赢≥1.0 个百分点』放宽到『不再跑输』，理由是该方向已连续两日跑输，要求它立刻转为领涨不现实；但同时加上龙头守住新支撑这一硬刻度，避免本条被一次板块内的分化行情虚假满足。</li></ul></td>
+          <td><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#9a3412"><li style="margin:2px 0">上证指数收盘＜3889.44 点（即低于 8/25 收盘），则 bull 降级为 base。</li><li style="margin:2px 0">液冷子板块 8/26 均值跑输观察池均值，则 bull 降级为 base——本期反弹的震中若熄火，任何上涨只能定性为轮动而非趋势重建。</li><li style="margin:2px 0">沪深两市合计成交额＜1.75 万亿元，则增量资金未至，bull 降级为 base。本条按 R20 独立于第 2 条广度条件成立与否；阈值由上一期的 1.80 万亿下调至 1.75 万亿，与量能中枢下移一致。</li></ul></td>
+        </tr></table><div style="font-size:11.5px;color:#6b7280;margin-top:8px">期限 1d　|　下次检验：下一期（2026-08-27 早报，复盘 8/26 全天）必须逐条核对以下二十项，并按规则 R1/R4/R5/R6/R7/R8/R9/R10/R12/R12'/R13/R14/R15/R16/R17/R18/R19/R20/R21/R22/R23/R24/R25/R26/R27/R28/R29/R30/R31/R32/R33/R34 判定；任一项无法取得数据时必须写 unavailable 而非省略。
+①【数据侧，维持最高优先级】latest.indices 四行的 data_date 是否全部为 8/26。本期四行全部为 8/25，是连续四期以来第一次不需要用外部收评替换任何一行；但本报按 R14 不第二次宣布『已彻底修复』。下一期须逐行记录四个 data_date；若缺口第四次出现，须在 market_summary 首段固定披露并把它升级为常设披露项。
+②【方法侧】R23 的第三次实盘复核。8/26 须记录三个数：实际站上各自 MA5 的只数、若价格与 8/25 持平本应自动达到的只数（本报测算为 14 只）、以及两者之差；只有差值才是价格信息。本期的第二次复核已通过并且是精确验证（上一期测算 9 只、本报回算得 9 只）。下一期还须按 8/27 的新窗口再次重新标定阈值，不得沿用本期的 22 只，并明确记录是否执行了这次重新标定。
+③【本期最重要的判据】T-PHYSICAL-LAYER-ROTATION 的首次检验，四项逐一记录：(a) 液冷、光纤光缆、高速铜连接三个方向中是否至少两个继续跑赢观察池均值（8/25 分别跑赢 8.2124、3.2824、2.4124 个百分点）；(b) 光通信/CPO/光模块是否连续第三个交易日跑输；(c) 高速铜连接能否首次出现任一只进入全市场主力净流入前 30——这是该方向当前唯一的证据缺口，5 只本期在主力、龙虎榜、融资三条资金线上全部缺席；(d) 能否取得一条带 URL 与发布时间的一手来源，说明 CPO 机柜对液冷、光纤或铜连接的具体用量变化。
+④【英伟达季报的完整复盘，本期第一优先事件】英伟达 FY2027Q2 于美东 8/26 盘后发布（北京时间 8/27 凌晨），一致预期营收约 918.5 亿美元、非 GAAP EPS 约 2.08 美元、数据中心收入约 854 亿美元（E8）。下一期须完整复盘：实际营收与数据中心收入、下季指引、以及美股硬件组与平台组在事件后第一个交易日的相对强弱——最后一项同时是 T-CAPEX-SQUEEZE 的关键检验。本报须同时记录 8/26 的 A 股交易日属于事件前时段这一事实（按 R33），不得把事件后的信息倒推进 8/26 的解读。
+⑤【R27 的第二次实盘复核】中际旭创 8/25 跌破 864.00 元并以 846.00 元创下 20 日新低。R27 的高危时点是该股反弹时——若 8/26 该股上涨，本报是否会把 8/23 电话会或半年报重新写成上涨理由？下一期须明确记录本报是否违反了这条约束。本期未违反（该股继续下跌，且本报也未把下跌写成『利空出尽』）。
+⑥【R31 的首次实盘复核（本期新增规则）】下一期引用观察池全池均值时，是否同时给出了剔除领涨前三个方向后的均值？本期读数为全池 +1.4876% 对其余 37 只 -0.0805%。若下一期只写全池均值而不写剔除后的均值，即为违反 R31，须在 reflection 中记录。
+⑦【R32 的首次实盘复核（本期新增规则）】T-LEVERAGE-ETF-ABSORPTION 在 8/26 是否被正确处理：若 8/26 观察池当日均值为正，则其数量条件的通过只作记录、不得判为有效检验或据以上调；只有观察池均值为负的交易日才计为有效检验。下一期须写明 8/26 属于哪一类。
+⑧【四只关键位标的的逐只跟踪】中际旭创 846.00（新 20 日支撑，即 8/25 收盘价，无任何缓冲）、寒武纪 969.05（缓冲 4.28%）、海光信息 230.81（缓冲 0.54%）、光环新网 12.12（缓冲 0.25%）。本期 3 守 1 破。后三只的缓冲都极薄，下一期逐只记录；同时新增两只：长飞光纤 MA20=332.76（关闭条件刻度）、烽火通信 20 日压力 41.73（连续第二期未突破，缺口已收窄到 2.63%）。
+⑨【T-COOLING-CPO-COMPLEMENT 的第二次检验】(a) 液冷与高速铜连接是否至少有一个连续第三日跑赢；(b) 关键——检验必须再次在光通信方向下跌的交易日进行，若光通信上涨则本条当日记为无效样本，不得当作通过；(c) 高速铜连接的资金证据缺口是否补齐；(d) 机柜功率密度/散热要求的一手来源（连续第三期）。
+⑩【T-CAPEX-SQUEEZE 的关键检验】(a) 硬件跑赢计数是否由 1 继续增加（关闭条件为达到 3 且期间 30 年期美债未累计下行 20 个基点以上）；(b) 英伟达季报后平台组与硬件组的相对强弱（本期硬件跑赢 2.5550 个百分点、剔除美光 2.5925 个百分点；上一期平台跑赢 4.329 个百分点）；(c) 30 年期美债收益率的单日变动（本期 5.23%、基本持平）；(d) 第四次尝试直接取得 home.treasury.gov 的日度收益率曲线，前三次均 EGRESS_BLOCKED。
+⑪【T-CPO-SUBSTITUTION-DERATING 的第二次检验】(a) 该子板块是否连续第三日跑输；(b) 中际旭创能否收回 864.00 元（原支撑现为压力），其 MA20=922.44 需上涨 9.04%，逐日记录该缺口；(c) 该子板块内部上涨与下跌的分组是否继续沿『器件上游（天孚、源杰、光迅）vs 模块整机（中际旭创、新易盛、光库）』分界——若这条分界比本报的『物理层 vs 模块』分界解释力更强，T-PHYSICAL-LAYER-ROTATION 须被重写；(d) 能否取得含份额或时间表数字的一手来源（连续第二期列为第一优先）。
+⑫【T-STAR-MEMORY-IPO-SUPPLY 下调后的跟踪】(a) 存储五只是否恢复跑输观察池均值≥1.0 个百分点（本期跑输幅度由 1.785 收窄到 0.1976 个百分点，衰减 89%）；(b) 长江存储 IPO 是否出现问询、注册或发行定价节点；(c) 一手 DRAM/NAND 合约价来源（同时是 T-MEMORY 的重开条件之一）。
+⑬【T-OPTICAL-OVERSEAS-REVENUE 的可检验性判定】本期因无干净样本而由 strengthened 降回 carried_forward，并出现第一次反例（8/25 美股硬件大涨而 A 股光模块下跌）。下一期须取得一次干净样本：海外光模块/光互连侧（英伟达、博通、Arista、Coherent 之一）出现可指认的方向性消息，且当日 A 股光模块方向同向变动≥1.0 个百分点。若连续两期取不到干净样本，本报须承认该论点当前不可检验并考虑关闭。
+⑭【T-FOUNDRY-CYCLE】(a) 中芯国际与华虹公司当日价差是否连续第 5 个交易日＜3.0（8/20=1.82、8/21=0.79、8/24=1.58、8/25=0.60，逐日收窄）；(b) 华虹公司（226.56）能否收复 MA20=249.62（需上涨 10.18%，与上一期完全持平）；(c) 中芯国际 A/H 分化（本期 A -0.48% vs H +1.65%、分化 2.13 个百分点且方向较上一期反转，上一期为 4.55 个百分点且 H 更弱）。
+⑮【T-OIL-RATE-SHOCK】(a) 布伦特与 WTI 的 8/26 读数，并记录不同来源的数字是否仍互相冲突（本期布伦特有 87.12／88.58／约 89.5 三个版本，本报把精确读数记为 unavailable）；(b) 关闭条件的计数是否开始——需布伦特连续三个交易日低于 85 美元；(c) 伊朗二级制裁的具体实体清单是否公布、是否包含中国实体。
+⑯【T-CHINA-CAPEX-MARGIN 关闭后的空白跟踪】本论点本期关闭后，本报在『国内 AI 资本开支』这条链上已不持有任何有效论点。下一期须记录：(a) 阿里 800 亿港元的投放节奏与投向拆分是否公布；(b) AI服务器与算力租赁/AIDC 两个子板块相对观察池均值的超额（本期 -0.5376 与 -2.3376）；(c) 是否取得任一家 A 股服务器/AIDC 公司对云厂商的收入敞口数据——该项同时是本论点的重开条件之一。
+⑰【四条已关闭论点的接近度】T-SEMI-EQUIP-PURE 本期由 1/3 退回 0/3（拓荆科技跌破 MA20 达 3.73%，且三只均值跑输全池 3.60 个百分点，第二项条件同时失效）；T-CPO-LEADERSHIP 由形式 3/3 退回 1/3（仅天孚通信入主力净流入前 30 一项成立）；T-MEMORY 仍 2/3 且量比分支恶化至 0.79；T-AI-SERVER-ORDERBOOK 仍 0/2。逐条记录缺项是否补齐，以及本报是否按 R29 对每个条件集执行了方向绑定。
+⑱【筹码三块与数据质量的连续性，本期为恢复后第六期】dragon_tiger/margin_trading/northbound 的 status 是否仍为 ok/ok/partial；northbound.deal_amt_raw 的 unit_verified 是否仍为 false（本期沪股通 122860.7、深股通 144560.51，照抄原值、未换算，且本报全文未出现『北向净流入 X 亿』这类表述）；crosscheck.status 是否维持 agreed（本期连续第六期 agreed、checked_pairs=10、checked_conflicts=0、max_diff_pct=0.0）；watchlist_coverage 能否由 50/51 回到 51/51（曙光数创连续第十一期缺失）。
+⑲【数据覆盖的遗留缺口，按优先级】第一优先：CPO 与可插拔光模块的份额分配一手来源（本期部分补齐——取得了 Nature Electronics 的技术路线图 E9，但无份额数字，故维持第一优先）；第二优先：AI 应用软件方向（连续第十三期；本期缺口代价第三次具体化——AI语料 +2.50%、智谱AI概念 +2.27%、AI制药 +2.13% 三个应用/语料方向全部跑赢本报观察池，而本报十个子板块全为硬件，无法观测价值链内部的迁移）；第三优先：长鑫科技 688825.SH（连续第十一期）；第四优先：A 股服务器/AIDC 公司对云厂商的收入敞口；其余：算力租赁/AIDC 仅覆盖五只、机器人/人形机器人方向（连续第五期）、曙光数创、面板与消费电子组装、各子板块区间累计涨幅字段、flow_divergence 的下跌股样本基数（连续第三期建议未实现）。
+⑳【index_macd_60m 的连续性】本期样本恢复有效：经索引核对，四条 60 分钟序列的末根均落在 2026-08-25，state 全部为 none，参数 span=3、fast=12、slow=26、signal=9，有效性样本由三个增加到四个（8/19、8/20、8/21、8/25）。下一期须先核对 peak_last 与末根时间戳是否推进到 8/26，再决定样本是否有效；若 yfinance 再次断档，须标注为 unavailable 而非引用陈旧状态。引用时须连同参数一起说明，并遵守 blunting/structure/cleared/insufficient 四态不得混用的口径——特别是 none 既不是 cleared 也不是 blunting，不得引申方向含义。</div></div>
+</div>
+
+
+<div class="section sec-review">
+  <div class="section-header">🔁 三、上期复盘</div>
+  <div class="section-body"><div style="margin:12px 0;padding:10px 14px;background:#fefce8;border-left:3px solid #ca8a04;border-radius:4px"><div style="font-size:13px;font-weight:700;color:#854d0e">早报复盘</div><p class="para">【结论：上一期判定为 correct。上一期给了 base 45%，实际发生的就是 base，且五条条件全部命中、三条作废条款全部未触发。】</p><p class="para">■ base（45%）逐条核对，5/5 命中：</p><p class="para">①『上证 8/25 收盘涨跌幅在 -1.8% 至 +1.8% 之间』——实际 +0.19%（3889.44，E1、E3），命中，且落在区间正中。</p><p class="para">②『观察池当日均值在 -2.5% 至 +3.5% 之间』——实际 +1.4876%（E1），命中。</p><p class="para">③『沪深两市合计成交额在 1.70 万亿至 2.45 万亿之间』——实际 1.8318 万亿元（上证 8588.74 亿 + 深证 9729.70 亿，E1；外部收评口径 1.83 万亿元，E3），命中，落在下沿之上 0.13 万亿元。</p><p class="para">④『观察池收于各自 MA20 之上的数量在 10 至 26 只之间』——实际 20 只（8/24 为 18 只），命中。</p><p class="para">⑤『观察池上涨家数在 5 至 35 只之间』——实际 28 只（8/24 为 8 只），命中。</p><p class="para">■ base 的三条作废条款全部未触发：上证跌幅未达 2.5%；上涨家数 28 只未达 40 只且均值 +1.4876% 未达 +3.0%；成交额 1.8318 万亿元落在 [1.60万亿, 2.60万亿] 之内。</p><p class="para">■ bear（32%）：第 1 条即失败——要求上证收盘 < 3882.01，实际 3889.44，高于该线 0.19%。同时其作废条款『观察池上涨家数≥25 只』被触发（实际 28 只），bear 双重作废。</p><p class="para">■ bull（23%）：五条中仅第 4 条命中，1/5。第 1 条 未命中，且只差 3.84 个点——要求上证收盘≥3893.28（本报记录的 MA20=3893.278），实际 3889.44，差 0.099%。第 2 条 未命中——要求『上涨家数≥30 只 或 当日均值≥+2.0%』，实际 28 只与 +1.4876%，两个分支都差一点点。第 3 条 未命中——要求站上各自 MA5≥20 只，实际 15 只。第 4 条 命中且大幅超额——要求进入全市场主力净流入前 30 的观察池标的≥5 只，实际 12 只（8/24 为 2 只），为跟踪期内最高。第 5 条 未命中——光通信/CPO/光模块均值 -0.65%、跑输全池 2.1376 个百分点，且中际旭创收 846.00 元、跌破 20 日支撑 864.00 元。bull 的作废条款第 2 条（『该子板块继续跑输则 bull 降级为 base』）被触发，bull 降级为 base。</p><p class="para">■【本报必须自己指出的一处刻度问题】bull 的五条中有一条（第 4 条，主力净流入前 30 数量≥5 只）以 12 只的读数大幅超额命中，而该情景整体失败。这说明资金集中度这个指标在本报的条件集里被设成了一个『单边容易达标』的门槛：8/24 它是 2 只（极低），8/25 直接跳到 12 只（跟踪期最高），一个能在两天内跨越 6 倍的指标，用 5 只这样的低门槛去卡 bull，等于把它变成一个几乎不含信息的条件。本期据此把该门槛上调至 8 只并在下一期复核（见新增规则 R34）。</p><p class="para">■ 上一期 20 项 next_check 的逐项结果（按原编号）：</p><p class="para">① 指数四行 data_date 全部为 2026-08-25，缺口未第四次出现，本报本期不宣布『彻底修复』，只记录『本期未复现』——见 market_summary。</p><p class="para">② R23 的第二次实盘复核，通过，且是一次精确验证。上一期测算『若 8/25 价格与 8/24 完全持平，站上 MA5 的只数会自动变为 9 只』；本报本期用同一份 klines_cache 逐只回算，得到的正是 9 只，与上一期测算逐字吻合。8/25 实际站上 MA5 为 15 只，差值 +6 只——这 6 只才是价格信息，另外 9 只是窗口滚动的自动结果。本报已按 R23 对 8/26 的新窗口（8/20、8/21、8/24、8/25 加当日）重新标定：若 8/26 价格与 8/25 完全持平，自动站上 MA5 的只数为 14 只，因此本期 bull 的 MA5 阈值设为 22 只而非沿用 20 只（20 只在新窗口下只需极小涨幅即可达到，已失去区分度）。</p><p class="para">③ T-CPO-SUBSTITUTION-DERATING 首次检验，三项中两项成立、一项部分补齐：(a) 光通信/CPO/光模块均值 -0.65%，连续第二个交易日跑输观察池均值（8/24 跑输 2.7228、8/25 跑输 2.1376 个百分点），成立；(b) 中际旭创未守住 20 日支撑 864.00 元——收 846.00 元，跌破 2.08%，且 846.00 元本身已成为其新的 support_20d（即当日收盘价就是 20 日最低点），未守住；(c) 本报取得了 SK 海力士参与、发表于 Nature Electronics 的 CPO 综述路线图（E9），但该文不含 CPO 与可插拔光模块在 2027 年的份额分配数字，故本报判为『部分补齐』而非补齐，该项继续列为下一期第一优先。</p><p class="para">④ R27 的第一次实盘复核，本报未违反。本报本期全文未把中际旭创 8/23 电话会或其半年报作为任何多头依据；该股本期继续下跌 2.78% 并跌破支撑，本报也未反过来把它写成『利空出尽』。R27 的高危时点（该股反弹时）本期未到来，复核继续挂起。</p><p class="para">⑤ 四只『收盘价与 20 日支撑重合』的标的，3 守 1 破：中际旭创 破（864.00→收 846.00）；寒武纪 守（支撑 969.05，收 1010.48，+4.28%，缓冲 4.28%）；海光信息 守（支撑 230.81，收 232.06，+0.54%，缓冲 0.54%）；光环新网 守（支撑 12.12，收 12.15，+0.25%，缓冲 0.25%）。上一期写下『四只同时失守意味着下一个台阶，同时守住则支持反抽』，实际是 3:1——本报按 R10 记录这是一个本报预先未定义的中间态，不强行归入任何一边。</p><p class="para">⑥ T-STAR-MEMORY-IPO-SUPPLY 首次检验：(a) 存储五只均值 +1.29%，跑输观察池均值 0.1976 个百分点，方向成立但幅度由 8/24 的 1.785 个百分点大幅收窄；(b) 未出现第三家存储或半导体公司的科创板 IPO 受理或注册生效；(c) 长江存储 IPO 8/25 无新节点（E14）。</p><p class="para">⑦ T-COOLING-CPO-COMPLEMENT 首次检验，四项中三项成立：(a) 液冷子板块 +9.70%，跑赢观察池均值 8.2124 个百分点，连续第二日跑赢；(b) 高速铜连接 +3.90%，跑赢 2.4124 个百分点，连续第二日跑赢；(c) 关键前提成立——8/25 光通信方向确实继续下跌（-0.65%），因此本期是一次有效检验而非无效样本；(d) 未取得说明 CPO 架构对机柜功率密度或散热方案具体要求的一手来源，该项仍 unavailable。</p><p class="para">⑧ T-OPTICAL-OVERSEAS-REVENUE 复核：8/25 未出现『海外无消息而 A 股光模块单日波动超过 3%』（该子板块 -0.65%，六只中最大单日波动为中际旭创与光库科技的 -2.78%），故不触发降级。要求的『同类机制观察』本期未取得（8/25 无可指认的海外光模块侧消息）。观察池内另一家光模块/光器件公司的半年报海外收入占比，连续第三期 unavailable。</p><p class="para">⑨ T-CHINA-CAPEX-MARGIN 第三次检验，触发关闭条件：(a) AI服务器子板块 +0.95%，跑输观察池均值 0.5376 个百分点，连续第三个交易日跑输（8/21 跑输 0.327、8/24 跑输 0.8198、8/25 跑输 0.5376），成立；(b) 四只 macd_status 无一只转为金叉（工业富联、浪潮信息、中科曙光为空头排列，紫光股份为死叉），成立即未改善；(c) A 股服务器/AIDC 公司对云厂商的收入敞口数据仍 unavailable。上一期预登记『若 (a) 成立且 (c) 仍 unavailable，则本论点关闭』——两项均成立，本期关闭该论点。</p><p class="para">⑩ 阿里 800 亿港元 AI 基建投入的定价追踪，第二个交易日仍未被定价：AI服务器 跑输 0.5376、算力租赁/AIDC 跑输 2.3376 个百分点（后者为十个子板块最差）。800 亿港元的投放节奏与投向拆分仍 unavailable。</p><p class="para">⑪ 玻纤/电子布方向归因：本期该方向 -0.34%，跑输 1.8276 个百分点，但不构成『继续大幅下跌』，故上一期登记的『连续三期无法取得来源且继续大幅下跌则须公开承认盲区』这一触发条件在单日口径上未达成。本报仍主动做出这一承认——理由是 5 日累计口径已经足够：8/18→8/25 国际复材 -19.23%、中材科技 -18.47%、宏和科技 -15.30%，是全池五日跌幅前列，而本报连续三期未能取得该方向的任一条公告、政策、订单或价格来源。本报确认这是观察池设计上的盲区，而不是继续每期写『待核实』。</p><p class="para">⑫ T-CAPEX-SQUEEZE 复核，方向反转：(a) 30 年期美债 8/25 报 5.23%、较前一交易日基本持平，单日变动远小于 10 个基点门槛（E13），条件不成立；(b) 美股平台组四只均值 +0.1875%（Meta +1.97、微软 +0.90、谷歌 -0.32、Palantir -1.80），硬件组八只均值 +2.7425%（SMCI +9.35、AMD +4.91、美光 +2.48、英伟达 +2.19、台积电ADR +1.78、Arista +1.48、Vertiv +0.31、博通 -0.56），硬件跑赢平台 2.5550 个百分点；剔除美光后硬件七只均值 +2.7800%、跑赢 2.5925 个百分点（E1）；(c) 硬件跑赢计数由 0 变为 1。上一期该分化为『平台跑赢硬件 4.329 个百分点，跟踪期内最大』，一日之内完全反转。(d) home.treasury.gov 第三次尝试仍 EGRESS_BLOCKED，该项 unavailable。</p><p class="para">⑬ 事件时点：英伟达 FY2027Q2 季报确认为 2026-08-26 美东盘后，一致预期营收约 918.5 亿美元、非 GAAP EPS 约 2.08 美元、数据中心收入约 854 亿美元（E8）。【本报必须纠正上一期的一处时点错误】上一期把该事件列为『本周未定价事件』并据此对称放宽了 8/25 的上证波动区间——但该事件落在美东 8/26 盘后＝北京时间 8/27 凌晨，8/25 与 8/26 两个 A 股交易日都在事件之前，用它放宽 8/25 的区间属于时点未对齐。本期据此新增 R33。沃什 8/28 美东上午 10:00 杰克逊霍尔演讲，须在 8/31 早报复盘。CME FedWatch 带日期的原始读数，第十三次尝试仍未取得，unavailable。</p><p class="para">⑭ T-OIL-RATE-SHOCK 跟踪：(a) 8/25 油价继续下跌，布伦特区间约 87–89.5 美元、WTI 约 82.36 美元，多来源数字互不一致，本报把精确读数记为 unavailable（E12）；(b) 伊朗二级制裁的具体实体清单未公布，已知的是该方案未设截止日期、未涉及为伊朗石油资金清算的机构（E12），是否包含中国实体 unavailable；(c) A 股航运板块 8/25 是否连续第二日逆势活跃 unavailable（本次快照的涨幅前 60 板块中无航运方向，且该榜为单侧截断，本报不推断）。关闭条件『布伦特连续三个交易日低于 85 美元』尚未达成。</p><p class="para">⑮ T-FOUNDRY-CYCLE：(a) 中芯国际 -0.48%、华虹公司 -1.08%，价差 0.60 个百分点，连续第四个交易日 < 3.0（8/20=1.82、8/21=0.79、8/24=1.58、8/25=0.60，且逐日收窄），条件一持续成立；(b) 华虹公司收 226.56 元，其 MA20=249.62 元，需上涨 10.18% 才能收复——缺口与上一期的 10.18% 完全持平，条件二仍不成立，故不关闭；(c) 中芯国际 A/H 分化本期由 4.55 个百分点收窄至 2.13 个百分点，且方向反转——A 股 -0.48% 而 H 股 +1.65%（E1）。</p><p class="para">⑯ T-LEVERAGE-ETF-ABSORPTION 第三次持续性检验，数量条件全部通过但形态未出现：(a) 观察池进入全市场融资净买入前 100 的数量 10 只（门槛≥4 只），通过，且由上一期的 6 只上升；(b) 宽基 ETF 维持在前十，通过——500ETF 第 3 位 +1.38 亿元、科创半导 第 4 位 +1.22 亿元、科创50 第 7 位 +1.08 亿元，前十中有三只工具类 ETF（上一期为一只）；(c) 上一期六只的 3 日/5 日累计逐只跟踪：兆易创新 单日 +1.47 亿元而 3 日 -4.34 亿元、5 日 -10.43 亿元；寒武纪 单日 +0.95 亿元而 3 日 -0.36 亿元、5 日 -5.82 亿元；生益科技 单日 +0.74 亿元、3 日 +1.99 亿元但 5 日 -2.06 亿元；长飞光纤 单日 +1.01 亿元、3 日 +2.03 亿元、5 日 +1.10 亿元（三个口径全正，是十只中唯一一只）；工业富联 单日 +0.96 亿元、3 日 +1.55 亿元、5 日 +1.17 亿元（同样三口径全正）；亨通光电 单日 +0.81 亿元、3 日 +0.33 亿元、5 日 -2.15 亿元。『单日加仓叠加中期减仓』的背离在兆易创新与寒武纪两只上继续存在。</p><p class="para">⑰ 四条已关闭论点的接近度，两条恶化、两条持平：T-SEMI-EQUIP-PURE 由 1/3 退回 0/3——拓荆科技 -4.26% 收 654.99 元、跌破其 MA20=680.37 元达 3.73%，中微公司与北方华创同样在线下；且三只当日均值 -2.113% 跑输观察池均值 3.60 个百分点，第二项也由成立变为不成立，是本期接近度恶化最明显的一条。T-CPO-LEADERSHIP 由形式 3/3 退回 1/3——①子板块平均量比 0.82 < 1.0，不成立；②跑输 2.1376 个百分点，不成立；③天孚通信以主力净流入 4.03 亿元居第 18 位，成立。T-MEMORY 仍 2/3——存储五只平均量比 0.79（8/24 为 0.920）反而下降，第①条的量比分支仍不成立（其方向分支『当日均值为正』本期成立，+1.29%），一手合约价来源仍 unavailable。T-AI-SERVER-ORDERBOOK 仍 0/2。本报按 R29 确认：本期未以任何单一量能指标重开论点。</p><p class="para">⑱ 筹码三块与数据质量，全部维持上一期状态：dragon_tiger=ok（trade_date=2026-08-25、55 行）、margin_trading=ok（trade_date=2026-08-25、100 行）、northbound=partial（unit_verified 仍为 false，本期沪股通 122860.7、深股通 144560.51，照抄原值、未换算）；crosscheck.status=agreed，连续第六期，checked_pairs=10、checked_conflicts=0、max_diff_pct=0.0、as_of_skew_seconds=0.0、checked_by=github_actions；watchlist_coverage 仍为 50/51，曙光数创连续第十一期缺失（E1）。</p><p class="para">⑲ 数据覆盖缺口，按上一期优先级复核：第一优先（CPO 与可插拔光模块的份额分配一手来源）部分补齐，取得了路线图综述但未取得份额数字（E9），维持第一优先；第二优先（AI 应用软件方向）连续第十三期缺失；第三优先（长鑫科技 688825.SH）连续第十一期缺失；第四优先（A 股服务器/AIDC 公司对云厂商的收入敞口）仍 unavailable；其余（算力租赁/AIDC 仅覆盖五只、机器人/人形机器人方向连续第五期、曙光数创、面板与消费电子组装、各子板块区间累计涨幅字段、flow_divergence 的下跌股样本基数）全部未变。</p><p class="para">⑳ index_macd_60m 的可用性，本期样本恢复有效。上一期把样本作废的理由是 peak_last 时间戳停留在 8/21、序列未包含 8/24 数据。本期逐条核对索引：上证 bars=110、peak_last 位于 index 98（2026-08-21 13:30）、bars_since_last_peak=11，98+11=109=末根，按每交易日 5 根 60 分钟 K 线推算，末根落在 2026-08-25 14:30；深证成指与创业板指 bars=108、peak_last 位于 index 102（2026-08-24 14:30）、bars_since=5，102+5=107=末根，同样落在 8/25；科创50 bars=110、bars_since=14、末根落在 8/25。四条序列均已包含 8/25 全天，本期样本有效，有效性样本由 8/19、8/20、8/21 三个增加到四个。四条指数当前 state 全部为 none（label『无顶背离』），参数为 span=3、fast=12、slow=26、signal=9，来源 yfinance（E1）。按四态口径，none 既不是 blunting 也不是 cleared，本报只写『最近两个高点未出现价格与动能背离』，不引申任何方向含义。</p></div><div style="margin-top:10px;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px"><span style="font-size:11px;font-weight:700;background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:999px">上期结果：判断正确</span><div style="margin:4px 0;font-size:12.5px;line-height:1.7"><b style="color:#475569">错误类型</b>　尚未到期（不适用）——上一期最高概率情景 base 被完整命中，五条条件全部成立、三条作废条款全部未触发，本期不存在需要归因的预测偏差。本报仍按 R10 记录两处刻度设计问题（见 lesson），这两处不构成预测错误，属方法缺陷。</div><div style="margin:4px 0;font-size:12.5px;line-height:1.7"><b style="color:#475569">教训</b>　【结果判定】上一期给 base 45%、bear 32%、bull 23%，实际发生的是 base，且是干净命中：五条条件全部成立、三条作废条款全部未触发；bear 第 1 条即失败并被其作废条款二次击中；bull 五条中仅第 4 条成立、并被作废条款降级为 base。判定为 correct 而非 partial——本报此前把『方向正确但刻度偏』判为 partial，本期不存在刻度偏差，五条全部落在区间内部而非贴边。
+【第一条教训：一个能在两天内跨越 6 倍的指标，不能用低门槛去卡情景】bull 的第 4 条（观察池进入全市场主力净流入前 30 的数量≥5 只）以 12 只大幅超额命中，而 bull 整体失败。回看该指标的序列：8/21 为 9 只、8/24 为 2 只、8/25 为 12 只——两个交易日内跨越 6 倍。用 5 只这样的低门槛去卡一个如此高波动的指标，等于把一个条件变成了几乎必然成立的填充项，它对情景判别没有贡献。本期据此把该门槛上调到 8 只，并新增 R34：凡在最近三个交易日内极差与最小值之比≥3 的指标，其情景条件的门槛不得低于该窗口内的中位数；门槛须逐期按新窗口重标，与 R23 对 MA5 计数的处理方式一致。
+【第二条教训，也是本期最重要的一条：全池均值把 13 只的行情写成了 50 只的行情】本期观察池均值 +1.4876%，读起来像是一次普涨；但液冷、光纤光缆、高速铜连接三个方向的 13 只贡献了 +77.36 个百分点，其余 37 只合计仅 -2.98 个百分点、均值 -0.0805%、16 涨 20 跌 1 平。如果本报只报全池均值，读者会得到一个与事实相反的印象——本报观察的 AI 硬件链在 8/25 其实是平盘略跌的，只有三个方向在涨。更严重的是，本报的 base 与 bull 条件中有两条直接建立在全池均值之上（『均值在 -2.5% 至 +3.5%』『均值≥+2.0%』），这两条在本期这种极端集中的结构下会被少数标的的极端涨幅推动，而不是被全池状态推动。本期据此新增 R31，并已把 base 第 2 条的上沿由 +3.5% 收窄到 +3.0%，同时把 base 转 bull 的作废条款改写为『广度与幅度同时满足』，使它无法被三个方向再拉一次极端涨幅单独触发。
+【第三条教训：逆势型论点在顺势日会被自己的数量条件『假通过』】T-LEVERAGE-ETF-ABSORPTION 的两条数量条件（观察池进入融资净买入前 100 的只数、宽基 ETF 是否在前十）本期全部通过，且读数比上一期更好（10 只对 6 只、三只 ETF 对一只）。但本论点主张的形态是『杠杆资金在下跌中吸收抛压』，其识别特征是『跌中被买』；本期全池上涨 1.4876%、十只中多数当日上涨，融资加仓与价格同向，形态根本没有出现。数量条件在顺势日与逆势日同样会被满足，因此它们在顺势日不含区分能力。本期据此新增 R32，并把该论点由 strengthened 降回 carried_forward——这是本报第一次因为『检验样本类型不匹配』而不是因为『条件未通过』下调一条论点。
+【第四条教训：事件时点必须写清落在哪一个交易时段的哪一侧】上一期把英伟达 8/26 美东盘后季报列为『本周未定价事件』，并据此对称放宽了 8/25 的上证波动区间。但该事件落在北京时间 8/27 凌晨，8/25 与 8/26 两个 A 股交易日都在它之前，用它放宽 8/25 的区间是时点未对齐。本期据此新增 R33，并在本期的 base 第 1 条中明确写下『8/26 全天位于事件之前，事件前时段的波动不应额外放宽』，未再重复上一期的处理。
+【必须公平记下的三处做对了的地方】其一，R23 的第二次实盘复核是一次精确验证：上一期测算『若 8/25 价格与 8/24 持平，站上 MA5 的只数会自动变为 9 只』，本报本期用同一份 klines_cache 逐只回算得到的正是 9 只，方法在两期之间可复现。其二，R27 未被违反：中际旭创本期继续下跌并跌破支撑，本报既未把 8/23 电话会重新写成上涨理由，也未把连续下跌写成『利空出尽』。其三，T-CHINA-CAPEX-MARGIN 的关闭是由上一期预先登记的关闭条件触发的，不是事后判断——上一期写下『若 (a) 成立且 (c) 仍 unavailable 则关闭』，本期两项均成立，本报照此执行。</div><div style="margin:4px 0;font-size:12.5px;line-height:1.7"><b style="color:#475569">规则更新</b>　本期新增四条规则 R31–R34。
+【R31】凡引用本报观察池全池均值（当日均值、5 日累计均值等）之处，必须在同一句或紧邻处同时给出『剔除当日贡献最大的前三个子板块后的均值』，否则不得使用该均值支撑任何结论。情景条件中以全池均值为判据的条款，其上下沿必须同时考虑集中度：当剔除后均值与全池均值的差异超过 1.0 个百分点时，以全池均值为判据的条款须在下一期被重新标定。本规则的直接来源：本期全池均值 +1.4876%，而剔除液冷、光纤光缆、高速铜连接后其余 37 只均值 -0.0805%，差异 1.568 个百分点。【本规则同时适用于广度指标】全市场上涨家数这类广度读数，必须与量能（成交额环比）和集中度（剔除后均值）一起读；本期广度极好（超 4200 只上涨）而量能创下半年新低、集中度极端，三者不可分开引用。T-MARKET-BREADTH-BULL 的重开条件已按本条收紧为三条同时成立。
+【R32】以『逆势』形态为识别特征的论点（当前为 T-LEVERAGE-ETF-ABSORPTION），只有在本报观察池当日均值为负的交易日，其条件的成立才计为有效检验；在观察池当日均值为正的交易日，即使条件全部成立，一律记为 carried_forward，不得判为通过或据以上调。反之亦然：以『顺势』形态为识别特征的论点，不得在逆势日被判为通过。本规则要求在每条论点的开立文本中写明它属于逆势型、顺势型还是中性型；未标注的论点默认为中性型，本规则不适用。
+【R33】凡引用外部事件（财报、议息、演讲、数据发布）作为放宽或收窄情景区间的理由时，必须写明该事件按北京时间落在哪一天的哪个时段，以及它位于本报本期所预测的那个 A 股交易日之前还是之后。位于之后的事件不得用于放宽本期区间；位于之前的事件必须说明其信息是否已进入本期的公开信息集。本规则的直接来源：上一期用美东 8/26 盘后的英伟达季报放宽了 8/25 的区间，而该事件按北京时间落在 8/27 凌晨。
+【R34】凡用作情景条件的计数型或排名型指标，若其在最近三个交易日窗口内的极差与最小值之比≥3（即两日内可跨越 3 倍以上），则其门槛不得低于该窗口内的中位数，并须逐期按新窗口重新标定，不得沿用上一期的绝对数。标定过程必须像 R23 对 MA5 计数那样在情景条件正文中写出，以便下一期复核。本规则的直接来源：bull 第 4 条使用的『观察池进入全市场主力净流入前 30 的数量』在 8/21、8/24、8/25 三日分别为 9、2、12 只，极差 10、最小值 2，比值 5.0，而门槛被设在 5 只；本期已按本条上调至 8 只（该窗口中位数为 9，取 8 是因为本报同时要求该条与 bull 其余四条构成合取，略低于中位数可避免整条 bull 被单一指标锁死——这一处偏离已按 R10 写明）。
+【对既有规则的一处扩写：R23】R23 原本只规范 MA5 计数的窗口重标。本期起，R23 与 R34 合并适用于所有随时间窗口滚动而自动变化的计数型判据：每一期都必须先算出『价格零变化下的自动值』，再在其之上设定门槛，并把两个数字都写进条件正文。本期的自动值为 14 只（8/26 窗口），门槛设为 22 只。</div></div></div>
+</div>
+
+
+<div class="section sec-analysis">
+  <div class="section-header">🧠 四、核心逻辑</div>
+  <div class="section-body"><div class="insight-box"><b>核心观点</b><div style="margin-top:6px"><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">1</span>全池均值为正，但那是 13 只的行情，不是 50 只的行情：观察池 50 只 8/25 均值 +1.4876%、28 涨 21 跌 1 平；其中液冷、光纤光缆、高速铜连接三个方向的 13 只涨跌幅合计 +77.36 个百分点（均值 +5.9508%、12 只上涨），其余 37 只合计仅 -2.98 个百分点（均值 -0.0805%、16 涨 20 跌 1 平）。若剔除这三个方向，本报观察池 8/25 是一个平盘略跌的交易日（E1）。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">2</span>缩量与普涨同时出现，是本期最需要解释的背离：沪深两市合计成交额 1.8318 万亿元、较 8/24 缩量 1756 亿元，A 股口径 18443 亿元创 2026 年下半年新低，而全市场超 4200 只个股上涨（E3、E4）。观察池的成交量读数同样分裂——50 只相对 8/24 的成交量变化均值 +7.36%，中位数却是 -15.12%：极少数标的放巨量，多数标的显著缩量（E1）。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">3</span>资金集中度从 8/24 的塌缩状态直接跳回跟踪期最高：观察池进入全市场主力净流入前 30 的数量由 8/24 的 2 只跳到 12 只（8/21 为 9 只），其中光纤光缆 4 只全部入榜、液冷 3 只、PCB 2 只、存储/半导体/光通信各 1 只；全市场主力净流入首位为新股 N高凯 21.37 亿元，观察池最高为亨通光电 18.41 亿元居第 2 位（E1）。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">4</span>龙虎榜给出了本期最硬的一条资金证据：亨通光电 8/25 以 18.4959 亿元净买入居当日龙虎榜第一位（买入 26.64 亿元、卖出 8.14 亿元，上榜原因为『日价格振幅达到 15% 的前五只证券』，龙虎榜成交占比 21.37%、换手率 10.60%）；英维克第 2 位净买 3.6866 亿元（涨停，占比 29.29%、换手 8.51%）；长飞光纤第 5 位净买 1.4107 亿元。全市场 55 条龙虎榜记录中，本报观察池占 3 条，全部来自液冷与光纤光缆（E1）。英维克的换手率读数 8.5133% 与外部涨停复盘的 8.51% 一致，是一次跨源交叉验证（E6）。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">5</span>CPO 替代叙事在价格上连续第二个交易日被确认，且这一次龙头跌破了关键位：光通信/CPO/光模块子板块 -0.65%、连续第二日跑输全池（-2.1376 个百分点，前一日 -2.7228）；中际旭创收 846.00 元、跌 2.78%，跌破上一期登记的 20 日支撑 864.00 元达 2.08%，且 846.00 元本身即为其新的 support_20d（当日收盘价就是 20 日最低点）；新易盛 -2.70%、光库科技 -2.78%。该子板块内唯一的资金亮点是天孚通信 +3.05%、主力净流入 4.03 亿元居全市场第 18 位（E1）。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">6</span>液冷方向出现跟踪期内最极端的单日读数：子板块 +9.70%、4 只全涨、跑赢全池 8.2124 个百分点、平均量比 1.78；申菱环境 +16.16% 收 104.20 元（RSI12=68.03、量比 1.79、高于 MA20 达 20.76%）、英维克 +10.01% 涨停收 60.23 元、高澜股份 +6.39%、飞荣达 +6.22%（RSI12=71.77，全池唯一 RSI 超 70 的一只）。外部涨停复盘确认英维克为当日封单金额最高的涨停股 3.26 亿元（E5、E6）。本报未取得任何 8/25 当日的一手公告、订单或政策来源可解释这一幅度，归因列入 anomaly_investigation（E1）。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">7</span>美股 AI 链的内部结构一日之内完全反转：8/25 硬件八只均值 +2.7425%（SMCI +9.35%、AMD +4.91%、美光 +2.48%、英伟达 +2.19%、台积电ADR +1.78%、Arista +1.48%、Vertiv +0.31%、博通 -0.56%），平台四只均值 +0.1875%（Meta +1.97%、微软 +0.90%、谷歌 -0.32%、Palantir -1.80%），硬件跑赢平台 2.5550 个百分点；剔除美光后跑赢 2.5925 个百分点。上一期该分化是『平台跑赢硬件 4.329 个百分点、跟踪期内最大』（E1、E7）。SOXX 半导体 ETF +1.56%，市场把 SMCI 的涨幅归因于思科宣布扩展 AI 基础设施合作与英伟达季报前的仓位布局（E7）。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">8</span>融资资金的加仓面在扩大，但『单日加仓、中期减仓』的背离并未消失：观察池进入全市场融资净买入前 100 的数量由 6 只增至 10 只；其中长飞光纤（单日 +1.01 亿元、3 日 +2.03 亿元、5 日 +1.10 亿元）与工业富联（+0.96 / +1.55 / +1.17 亿元）是仅有的两只三个口径全为正的标的；而兆易创新单日 +1.47 亿元居第 2 位、3 日 -4.34 亿元、5 日 -10.43 亿元，寒武纪单日 +0.95 亿元、3 日 -0.36 亿元、5 日 -5.82 亿元，两只的单日加仓仍发生在连续多日大幅减仓的背景之上（E1）。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">9</span>四大指数全部仍在各自 MA20 之下，8/25 的上涨没有改变这一点：上证 3889.44 对 MA20=3898.271（低 0.23%）、深证成指 13745.87 对 14044.055（低 2.12%）、创业板指 3397.52 对 3503.16（低 3.02%）、科创50 1604.59 对 1679.587（低 4.47%）；四条 ma_trend 全部为『震荡偏空』，科创50 的 RSI12=29.88 已进入超卖区（E1）。上证距其 MA20 只差 8.83 个点，是四条里唯一一个下一个交易日可能被收复的刻度。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">10</span>央行 8/25 的操作是月末流动性的两面：当日 5000 亿元 1 年期 MLF 对 6000 亿元到期，净回笼 1000 亿元，结束连续 3 个月加量续作；同一批公告安排 8 月 27 日至 9 月 1 日开展隔夜逆回购、每日不超过 6000 亿元（E11）。前者是中长期口径的边际收紧，后者是跨月短端的托底，本报不把两者合并成单一方向。</div><div style="margin:8px 0;font-size:13px;line-height:1.75"><span class="insight-num">11</span>观察池 5 日累计（8/18→8/25）均值 -7.862%、中位数 -9.649%、50 只中仅 7 只为正（申菱环境 +7.66%、英维克 +4.62%、高澜股份 +4.05%、神宇股份 +4.02%、飞荣达 +3.06% 居前）；跌幅最深的五只为国际复材 -19.23%、中材科技 -18.47%、海光信息 -17.15%、光迅科技 -15.34%、宏和科技 -15.30%（E1）。8/25 的反弹幅度相对 5 日跌幅仍是小数，本报按 R24 不以单日读数改写中期定性。</div></div></div><div style="margin:10px 0;padding:10px 12px;background:#f9fafb;border-left:3px solid #1e3a8a;border-radius:0 6px 6px 0"><div style="font-size:12.5px;font-weight:700;color:#1e3a8a;margin-bottom:4px">技术面</div><div style="font-size:12.5px;line-height:1.75;color:#374151"><div style="margin:4px 0"><b style="color:#1e3a8a">短期</b>　【1–5 个交易日】四大指数全部仍位于各自 MA20 之下，ma_trend 四条全部为『震荡偏空』（E1）。上证 3889.44 距 MA20=3898.271 只差 8.83 个点（0.23%），是四条里唯一一个下一个交易日可能被收复的刻度；上证同时位于 MA5=3894.958 之下 0.14%，即它现在被夹在 MA5 与 MA20 之间一个只有 0.23% 宽的区间里。深证成指低于 MA20 2.12%、创业板指低于 3.02%、科创50 低于 4.47%，三条的距离都不是一日可及。MACD 日线：上证 macd=-3.992、signal=-4.382、hist=+0.779（多头减弱），创业板指 hist=+1.686（多头减弱），两条的柱状体已转正；深证成指 hist=-14.301（死叉）、科创50 hist=-10.342（空头）仍在恶化。RSI12：科创50 29.88 已进入超卖区，深证成指 36.70、创业板指 38.93、上证 41.34。量能：四条 volume_ratio 分别为 0.92、0.94、0.92、0.75，全部标注『正常』但全部小于 1，与成交额创下半年新低一致。20 日区间：上证支撑 3767.50／压力 3994.18，深证成指 13068.56／14733.90，创业板指 3158.14／3747.53，科创50 1549.74／1798.78。index_macd_60m 四条本期均为 state=none（label『无顶背离』，参数 span=3、fast=12、slow=26、signal=9，来源 yfinance），且经索引核对四条 60 分钟序列均已包含 8/25 全天，本期样本有效——按四态口径，none 既不是 blunting 也不是 cleared，本报只写『最近两个高点未出现价格与动能背离』，不引申任何方向含义（E1）。【个股短期】观察池站上各自 MA5 的 15 只中，13 只来自液冷（4）、光纤光缆（4）、高速铜连接（5）三个方向，另两只为源杰科技与生益科技——MA5 计数几乎完全被本期领涨的三个方向占据。站上 MA20 的 20 只中，缓冲不足 1.5% 的六只为胜宏科技（+0.02%）、德明利（+0.37%）、利通电子（+0.42%）、沃尔核材（+0.71%）、新亚电子（+1.27%）、生益科技（+1.42%），是下一个交易日最容易翻转计数的一组；线下最接近翻转的一只是兆易创新，低于其 MA20 仅 0.03%。</div><div style="margin:4px 0"><b style="color:#1e3a8a">中期</b>　【1–4 周】中期结构未因单日反弹改变。观察池 5 日累计（8/18→8/25）均值 -7.862%、中位数 -9.649%、50 只中仅 7 只为正（E1）；即便计入 8/25 的 +1.4876%，本周仍是一个显著下跌周。站上 MA20 的数量由 8/21 的 31 只降到 8/24 的 18 只、8/25 回到 20 只——回补了 2 只，距离 8/21 的水平仍差 11 只。分方向看，中期结构完好的只有两个：液冷 4 只全部在 MA20 之上且缓冲 10%–21%（飞荣达 +21.23%、申菱环境 +20.76%、英维克 +12.22%、高澜股份 +10.43%），光纤光缆 4 只全部在 MA20 之上且缓冲 5%–19%（长飞光纤 +18.55%、亨通光电 +12.58%、烽火通信 +7.59%、中天科技 +5.09%）。结构最差的是半导体方向：七只中五只在 MA20 之下，海光信息低于 MA20 达 15.04%、华虹公司 9.24%、寒武纪 7.38%；玻纤/电子布五只中四只在 MA20 之下、国际复材低 12.02%。关键中期刻度：中际旭创 846.00 元已经是它自己的 20 日最低点，其 MA20=922.44 元需要上涨 9.04% 才能收复；华虹公司需要 10.18%；海光信息需要 17.69%。这三个数字定义了中期修复的成本。</div><div style="margin:4px 0"><b style="color:#1e3a8a">长期</b>　【1 个季度以上】本报在指数层面自上一期起不再持有任何看多的结构性依据（T-INDEX-STRUCTURE-INTACT 已于上一期关闭），本期上证虽收涨 0.19%，但仍未收复 MA20，关闭状态维持。长期方向上真正在变的是产业结构而不是指数：CPO/NPO 对可插拔光模块的架构替代已经有了一篇同行评审的技术路线图（Nature Electronics，2026-08-19 刊出，SK 海力士参与，目标为单节点 >100 Tb/s、能效 <1 pJ/bit、光互连延伸至共享内存池，E9）。这条路线图不含任何份额分配或时间表数字，因此它能支持的结论只有一条：架构替代是一个被严肃对待的工程方向，而不是一次传闻。它不能支持任何关于 2027 年 A 股光模块公司收入的推断，本报也不做这样的推断。长期的第二条主线是国产存储产能的实质性扩张：长存控股科创板 IPO 拟募 330 亿元、其中 208 亿元用于量产线技术升级（E14）。这对存储价格是长期供给侧压力，方向与『存储涨价周期』相反。长期的第三条是海外资本开支的绝对量级：五家美系云与 AI 基础设施厂商 2026 年合计承诺 6600 亿–6900 亿美元（E15）。本报把它作为量级背景，不用作任何单日或单周的价格解释。【长期判断的可靠性声明】本报对上述三条中的第一条没有任何一手份额数据，对第三条没有分季度的投放节奏数据，对第二条没有合约价数据。因此本报在长期维度上不给方向性结论，只维护论点与其失效条件。</div></div></div><div style="margin:10px 0;padding:10px 12px;background:#f9fafb;border-left:3px solid #0891b2;border-radius:0 6px 6px 0"><div style="font-size:12.5px;font-weight:700;color:#0891b2;margin-bottom:4px">基本面<span style="font-size:10.5px;font-weight:700;background:#fef3c7;color:#b45309;padding:1px 7px;border-radius:999px;margin-left:6px">partial</span></div><div style="font-size:12.5px;line-height:1.75;color:#374151">【本期可用的基本面信息，全部带来源与日期】①英伟达 FY2027Q2 将于 2026-08-26 美东盘后发布，一致预期营收约 918.5 亿美元（约 40 位分析师均值，公司指引中值 910 亿、区间 892–928 亿）、非 GAAP EPS 约 2.08 美元、数据中心收入市场预期约 854 亿美元、同比约 +107%（E8）。该事件落在北京时间 8/27 凌晨，8/26 的 A 股全天位于事件之前。②Nature Electronics 于 2026-08-19 刊出 SK 海力士 AI Infra 团队负责人与弗吉尼亚大学教授共同通讯的 CPO 同行评审综述，目标单节点 >100 Tb/s、能效 <1 pJ/bit、光互连延伸至共享内存池，投稿 2025-11-18、接收 2026-07-08，合作机构含 UIUC、NTU、MIT、延世大学（E9）。这是技术路线图，不含份额或时间表数字。③长存控股科创板 IPO 于 2026-08-21 获受理，拟募资 330 亿元（量产线技术升级 208 亿元、研发 122 亿元），2026 年 1–3 月营收 470.42 亿元、归母净利润 333.79 亿元，一季度全球 NAND 销售金额与出货量均列第三（E14）；8/25 无新节点。④五家美系云与 AI 基础设施厂商 2026 年资本开支合计承诺 6600 亿–6900 亿美元（E15）。⑤央行 8/25 开展 5000 亿元 1 年期 MLF 对冲 6000 亿元到期、净回笼 1000 亿元，结束连续三个月加量续作；同批公告安排 8/27–9/1 隔夜逆回购每日不超过 6000 亿元（E11）。⑥思科宣布与 SuperMicro 扩展 AI 基础设施合作（E7）。
+【为什么状态是 partial 而不是 verified】本报观察池 50 只 A 股公司中，本期没有任何一家发布可用于分析的业绩、指引、订单或资本开支信息；上述六条中有五条来自海外或宏观，只有第③条与 A 股相关且已是 5 天前的旧节点。也就是说，本报对 8/25 涨幅最大的三个方向（液冷 +9.70%、光纤光缆 +4.77%、高速铜连接 +3.90%）没有任何一条当日的公司基本面信息。【本报明确不做的两件事】其一，不从价格走势反推基本面事实——本报不会因为液冷大涨就写『液冷订单在改善』；其二，按 R27，不把中际旭创 8/23 投资者关系记录表或半年报重新用作任何多头依据。【本期最重要的基本面缺口，按优先级】第一，CPO 与可插拔光模块的份额分配数字（本期部分补齐，取得路线图但无份额）；第二，A 股服务器/AIDC 公司对云厂商的收入敞口（该项缺失直接导致 T-CHINA-CAPEX-MARGIN 于本期关闭）；第三，一手 DRAM/NAND 合约价；第四，观察池内任一家光模块/光器件公司的半年报海外收入占比（连续第三期）。</div></div><div style="margin:10px 0;padding:10px 12px;background:#f9fafb;border-left:3px solid #7c3aed;border-radius:0 6px 6px 0"><div style="font-size:12.5px;font-weight:700;color:#7c3aed;margin-bottom:4px">情绪面</div><div style="font-size:12.5px;line-height:1.75;color:#374151"><div style="margin:4px 0"><b>硬数据</b>　【广度】全市场超 4200 只个股上涨（E4）；本报观察池 28 涨 21 跌 1 平，上涨家数由 8/24 的 8 只回升到 28 只（E1）。【量能】沪深合计成交额 1.8318 万亿元、较 8/24 缩量 1756 亿元，A 股口径 18443 亿元创 2026 年下半年新低（E1、E3、E4）；四大指数 volume_ratio 分别为 0.92/0.94/0.92/0.75，全部小于 1；观察池 50 只相对 8/24 的成交量变化均值 +7.36%、中位数 -15.12%。【资金】观察池进入全市场主力净流入前 30 的数量由 2 只跳升到 12 只（8/21 为 9 只）；进入融资净买入前 100 的数量由 6 只升到 10 只；工具类 ETF 在融资净买入前十中占三席（500ETF 第 3、科创半导 第 4、科创50 第 7），上一期只有一席。【龙虎榜】全市场 55 条记录，本报观察池占 3 条且全部为买方主导：亨通光电净买 18.4959 亿元居第 1、英维克 3.6866 亿元居第 2、长飞光纤 1.4107 亿元居第 5（E1）。【波动】本报无日内数据（open/high/low 三个字段在观察池 50 行中全部为 null，klines_cache 不含 OHLC），日内振幅本期不可得；但亨通光电与长飞光纤两只因『日价格振幅达到 15%』触发龙虎榜，可确认这两只当日振幅≥15%（E1）。【北向】northbound.net_buy 恒为 null（交易所自 2024-08 起停止披露）；deal_amt_raw 沪股通 122860.7、深股通 144560.51，unit_verified=false，本报照抄原值、不换算、不作为资金流向指标使用（E1）。【大额单方向背离】flow_divergence 扫描 161 只，distribution（涨但大额资金净流出）8 只、accumulation（跌但大额资金净流入）1 只（博汇股份，-8.14% 而 main_net_pct +4.94%、super_agrees=true），accumulation_detectable=true。按该模块自带的口径声明：主力/超大单按单笔成交金额机械划分、量化拆单会把大资金打散，因此本项只说明大额单方向与价格方向不一致，不等于机构在出货或建仓。8 只 distribution 中有 4 只 super_agrees=false（中原传媒、正和生态、慈文传媒、福石控股——超大单与主力合计口径反向），这四条须降级表述；另外 4 只（安必平、盛通股份、读客文化、果麦文化）super_agrees=true。本报观察池 50 只无一进入 distribution 或 accumulation 名单。</div><div style="margin:4px 0;color:#6b7280"><b>社交信号</b><span style="font-size:10.5px;background:#f1f5f9;color:#64748b;padding:1px 6px;border-radius:4px;margin:0 6px">未证实</span>【本期登记的唯一一条社交信号】市场与财经媒体把 8/24 光模块方向的下跌归因于 SK 海力士参与的 Nature Electronics CPO 路线图论文与英伟达硅光交换机量产（E10）。本报按分层规则处理：论文本身的存在、作者、投稿与接收日期、技术目标属硬事实（E9）；把当日价格下跌归因于该论文属媒体与分析师解读，登记为社交信号，不作为硬事实，也不据此单独形成任何交易结论。该归因至今只有单一来源方向（多家媒体的说法同源），未取得第二条独立来源相互印证，因此本报不提高其可信度。【本期未登记为社交信号的两类内容】其一，外部收评对板块涨跌与涨停个股的事实性描述（E3、E4、E5、E6），本报按硬事实处理，因为它们是可与快照交叉验证的读数——本期英维克换手率 8.51% 与快照 8.5133% 的一致即为一次成功的交叉验证；其二，对液冷、光纤光缆当日上涨的各种产业解释，本报在检索中未找到任何发布于 8/25 的来源，因此不登记为社交信号，而是直接写入 anomaly_investigation 的 unresolved。</div><div style="font-size:11.5px;color:#6b7280;margin-top:4px">情绪判断置信度 42%</div></div></div></div>
+</div>
+
+
+<div class="section sec-predict">
+  <div class="section-header">🌏 五之1　外围市场：港股 & 美股AI龙头</div>
+  <div class="section-body"><p style="font-size:13px;line-height:1.7;margin-bottom:10px">【港股／美股，先写时点】美股＝2026-08-25 美东收盘（北京时间 8/26 04:00），是本次抓取直接取得的当日行（carried_rows 为空）；港股＝2026-08-25 收盘（16:00 北京时间），该区域十行全部带 carried_forward=true、carried_reason=regressed、carried_at=2026-08-25T21:23:42.724047Z——market_date 是真实的 8/25、可以引用，但这些行来自上一次抓取，本报不写成『最新抓取显示』（E1）。
+【美股 8/25】标普500 7677.28（+0.32%）、纳斯达克 26151.30（+0.66%）、费城半导体 11588.04（+1.44%）、道指三连涨（+0.3% 报 53577.40）、SOXX 半导体 ETF +1.56%（E1、E7）。结构上是一次硬件对平台的反转：硬件八只均值 +2.7425%（SMCI +9.35%、AMD +4.91%、美光 +2.48%、英伟达 +2.19%、台积电ADR +1.78%、Arista +1.48%、Vertiv +0.31%、博通 -0.56%）对平台四只 +0.1875%（Meta +1.97%、微软 +0.90%、谷歌 -0.32%、Palantir -1.80%），硬件跑赢 2.5550 个百分点、剔除美光后 2.5925 个百分点；上一期是平台跑赢硬件 4.329 个百分点、为本报跟踪期内最大，一日之内完全反转。本报把它定性为英伟达季报前的仓位再平衡（唯一可指认的公司级消息是思科与 SMCI 的 AI 基础设施合作，E7），而不是资本开支预期的变化——理由是同期没有任何新的资本开支或订单信息发布，且 30 年期美债收益率持平于 5.23%（E13）、利率侧没有变化。这条反转已使 T-CAPEX-SQUEEZE 的硬件跑赢计数由 0 变为 1，本报据此把该论点由 strengthened 下调为 weakened。
+【港股 8/25】恒生指数 25511.10（-0.02%）、恒生中国企业 8445.37（-0.31%）；本报未取得任何 8/25 的港股外部收评来源，读数只用本次快照（前一交易日基准为恒指 -1.89%、恒生科技 -3.61%，E16）。八只 AI/科技标的均值 +0.2863%，但这个均值被一只标的完全支配：美团 77.20（-6.65%）是唯一的大幅下跌，剔除它之后其余七只均值 +1.28%——商汤 1.51（+2.72%）、网易 199.00（+2.10%）、中芯国际H 67.85（+1.65%）、阿里巴巴 114.20（+1.51%）、快手 33.26（+0.73%）、腾讯 442.00（+0.45%）、小米 27.76（-0.22%）。美团的跌幅本报未取得任何带日期的 8/25 一手或二手来源，检索到的相关报道均为 2026 年 3 月与 5 月的旧文，不能用于解释 8/25，本报按 R10 记为完全无法归因并列入 anomaly_investigation。
+【一条值得单列的 AH 读数】中芯国际 8/25 A 股 -0.48%、H 股 +1.65%，分化 2.13 个百分点；上一期是 A 股 -3.38%、H 股 -7.93%，分化 4.55 个百分点且 H 股明显更弱。两个交易日之内由『H 弱』转为『H 强』且分化幅度减半。本报记录这一读数但不解释——AH 折溢价的驱动因素本报仍无数据（E1）。
+【外围其余三个市场，各自 8/25 收盘】台股加权 45169.46（+0.91%）为亚太最强，四只均值 +1.5650%，其中大立光 5720（+6.22%）是外围全部标的中单日涨幅最大的一只、本报无来源解释；台积电 2400（+1.05%）、鸿海 243（-0.21%）、联发科 3735（-0.80%）。日经225 65856.43（+0.50%）而六只 AI 设备/材料标的均值 -0.1967%；韩国综合 6742.74（+0.68%）而 SK海力士 +0.42%、三星电子 0.00%。日韩两个市场呈现同一形态：指数上涨而 AI 链不涨。这与美股当日『AI 硬件领涨』的形态相反，也与 A 股当日『AI 链内部极度分化』的形态不同——8/25 三个区域的 AI 链定价并不同步，本报记录这一事实，不据此推断任何跨市场传导关系（E1）。</p>
+<table>
+        <tr><th>港股</th><th>代码</th><th>最新价</th><th>涨跌幅</th></tr>
+        <tr>
+            <td><b>腾讯</b></td>
+            <td style="color:#6b7280">0700.HK</td>
+            <td style="font-weight:bold">442.0</td>
+            <td style="color:#dc2626;font-weight:bold">+0.45%</td>
+          </tr><tr>
+            <td><b>阿里巴巴</b></td>
+            <td style="color:#6b7280">9988.HK</td>
+            <td style="font-weight:bold">114.2</td>
+            <td style="color:#dc2626;font-weight:bold">+1.51%</td>
+          </tr><tr>
+            <td><b>美团</b></td>
+            <td style="color:#6b7280">3690.HK</td>
+            <td style="font-weight:bold">77.2</td>
+            <td style="color:#16a34a;font-weight:bold">-6.65%</td>
+          </tr><tr>
+            <td><b>网易</b></td>
+            <td style="color:#6b7280">9999.HK</td>
+            <td style="font-weight:bold">199.0</td>
+            <td style="color:#dc2626;font-weight:bold">+2.10%</td>
+          </tr><tr>
+            <td><b>快手</b></td>
+            <td style="color:#6b7280">1024.HK</td>
+            <td style="font-weight:bold">33.26</td>
+            <td style="color:#dc2626;font-weight:bold">+0.73%</td>
+          </tr><tr>
+            <td><b>商汤</b></td>
+            <td style="color:#6b7280">0020.HK</td>
+            <td style="font-weight:bold">1.51</td>
+            <td style="color:#dc2626;font-weight:bold">+2.72%</td>
+          </tr><tr>
+            <td><b>中芯国际</b></td>
+            <td style="color:#6b7280">0981.HK</td>
+            <td style="font-weight:bold">67.85</td>
+            <td style="color:#dc2626;font-weight:bold">+1.65%</td>
+          </tr><tr>
+            <td><b>小米</b></td>
+            <td style="color:#6b7280">1810.HK</td>
+            <td style="font-weight:bold">27.76</td>
+            <td style="color:#16a34a;font-weight:bold">-0.22%</td>
+          </tr></table>
+<table style="margin-top:10px">
+        <tr><th>美股</th><th>代码</th><th>最新价</th><th>涨跌幅</th></tr>
+        <tr>
+            <td><b>英伟达</b></td>
+            <td style="color:#6b7280">NVDA</td>
+            <td style="font-weight:bold">213.05</td>
+            <td style="color:#dc2626;font-weight:bold">+2.19%</td>
+          </tr><tr>
+            <td><b>微软</b></td>
+            <td style="color:#6b7280">MSFT</td>
+            <td style="font-weight:bold">491.71</td>
+            <td style="color:#dc2626;font-weight:bold">+0.90%</td>
+          </tr><tr>
+            <td><b>谷歌</b></td>
+            <td style="color:#6b7280">GOOGL</td>
+            <td style="font-weight:bold">346.96</td>
+            <td style="color:#16a34a;font-weight:bold">-0.32%</td>
+          </tr><tr>
+            <td><b>Meta</b></td>
+            <td style="color:#6b7280">META</td>
+            <td style="font-weight:bold">570.05</td>
+            <td style="color:#dc2626;font-weight:bold">+1.97%</td>
+          </tr><tr>
+            <td><b>AMD</b></td>
+            <td style="color:#6b7280">AMD</td>
+            <td style="font-weight:bold">479.18</td>
+            <td style="color:#dc2626;font-weight:bold">+4.91%</td>
+          </tr><tr>
+            <td><b>博通</b></td>
+            <td style="color:#6b7280">AVGO</td>
+            <td style="font-weight:bold">356.74</td>
+            <td style="color:#16a34a;font-weight:bold">-0.56%</td>
+          </tr><tr>
+            <td><b>台积电ADR</b></td>
+            <td style="color:#6b7280">TSM</td>
+            <td style="font-weight:bold">417.41</td>
+            <td style="color:#dc2626;font-weight:bold">+1.78%</td>
+          </tr><tr>
+            <td><b>美光</b></td>
+            <td style="color:#6b7280">MU</td>
+            <td style="font-weight:bold">932.97</td>
+            <td style="color:#dc2626;font-weight:bold">+2.48%</td>
+          </tr><tr>
+            <td><b>SuperMicro</b></td>
+            <td style="color:#6b7280">SMCI</td>
+            <td style="font-weight:bold">38.46</td>
+            <td style="color:#dc2626;font-weight:bold">+9.35%</td>
+          </tr><tr>
+            <td><b>Palantir</b></td>
+            <td style="color:#6b7280">PLTR</td>
+            <td style="font-weight:bold">172.73</td>
+            <td style="color:#16a34a;font-weight:bold">-1.80%</td>
+          </tr><tr>
+            <td><b>Arista</b></td>
+            <td style="color:#6b7280">ANET</td>
+            <td style="font-weight:bold">190.94</td>
+            <td style="color:#dc2626;font-weight:bold">+1.48%</td>
+          </tr><tr>
+            <td><b>Vertiv</b></td>
+            <td style="color:#6b7280">VRT</td>
+            <td style="font-weight:bold">255.75</td>
+            <td style="color:#dc2626;font-weight:bold">+0.31%</td>
+          </tr></table></div>
+</div>
+
+
+<div class="section sec-index">
+  <div class="section-header">📊 五之2　A股大盘</div>
+  <div class="section-body"><div class="idx-grid">
+      <div class="idx-card">
+        <div class="idx-name">上证指数</div>
+        <div class="idx-val" style="color:#dc2626">3889.44</div>
+        <div class="idx-chg" style="color:#dc2626">↑+0.19%</div>
+      </div>
+      <div class="idx-card">
+        <div class="idx-name">深证成指</div>
+        <div class="idx-val" style="color:#16a34a">13745.87</div>
+        <div class="idx-chg" style="color:#16a34a">↓-0.35%</div>
+      </div>
+      <div class="idx-card">
+        <div class="idx-name">创业板指</div>
+        <div class="idx-val" style="color:#16a34a">3397.52</div>
+        <div class="idx-chg" style="color:#16a34a">↓-1.00%</div>
+      </div>
+      <div class="idx-card">
+        <div class="idx-name">科创50</div>
+        <div class="idx-val" style="color:#dc2626">1604.59</div>
+        <div class="idx-chg" style="color:#dc2626">↑+0.14%</div>
+      </div></div><table>
+    <tr><th>指数</th><th>最新价</th><th>涨跌幅</th><th>成交额</th></tr>
+    <tr>
+        <td><b>上证指数</b></td>
+        <td style="font-weight:bold">3889.44</td>
+        <td style="color:#dc2626;font-weight:bold">+0.19%</td>
+        <td>8588.7亿</td>
+      </tr><tr>
+        <td><b>深证成指</b></td>
+        <td style="font-weight:bold">13745.87</td>
+        <td style="color:#16a34a;font-weight:bold">-0.35%</td>
+        <td>9729.7亿</td>
+      </tr><tr>
+        <td><b>创业板指</b></td>
+        <td style="font-weight:bold">3397.52</td>
+        <td style="color:#16a34a;font-weight:bold">-1.00%</td>
+        <td>4666.0亿</td>
+      </tr><tr>
+        <td><b>科创50</b></td>
+        <td style="font-weight:bold">1604.59</td>
+        <td style="color:#dc2626;font-weight:bold">+0.14%</td>
+        <td>752.9亿</td>
+      </tr></table><table style="margin-top:10px">
+        <tr><th>指数</th><th>MA趋势</th><th>MACD</th><th>RSI</th><th>量比</th></tr>
+        <tr>
+            <td><b>上证</b></td>
+            <td>震荡偏空</td>
+            <td>多头减弱</td>
+            <td>41</td>
+            <td>0.9x 正常</td>
+          </tr><tr>
+            <td><b>深证</b></td>
+            <td>震荡偏空</td>
+            <td>死叉</td>
+            <td>37</td>
+            <td>0.9x 正常</td>
+          </tr><tr>
+            <td><b>创业板</b></td>
+            <td>震荡偏空</td>
+            <td>多头减弱</td>
+            <td>39</td>
+            <td>0.9x 正常</td>
+          </tr><tr>
+            <td><b>科创50</b></td>
+            <td>震荡偏空</td>
+            <td>空头</td>
+            <td>30</td>
+            <td>0.8x 正常</td>
+          </tr></table><div style="font-size:12.5px;font-weight:700;color:#1e3a8a;margin:10px 0 4px">60 分钟 MACD 顶部状态</div><table><tr><th>指数</th><th>状态</th><th>近两个高点（价/DIF）</th></tr><tr>
+          <td style="white-space:nowrap"><b>上证指数</b></td>
+          <td style="white-space:nowrap">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">无顶背离</span></td>
+          <td style="font-size:11px;color:#6b7280">2026-08-18 14:30 3990.84/DIF+14.61　→　2026-08-21 13:30 3909.33/DIF-10.65</td>
+        </tr><tr>
+          <td style="white-space:nowrap"><b>深证成指</b></td>
+          <td style="white-space:nowrap">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">无顶背离</span></td>
+          <td style="font-size:11px;color:#6b7280">2026-08-21 13:30 14115.12/DIF-86.51　→　2026-08-24 14:30 13797.45/DIF-134.20</td>
+        </tr><tr>
+          <td style="white-space:nowrap"><b>创业板指</b></td>
+          <td style="white-space:nowrap">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">无顶背离</span></td>
+          <td style="font-size:11px;color:#6b7280">2026-08-21 13:30 3552.70/DIF-23.09　→　2026-08-24 14:30 3434.11/DIF-43.10</td>
+        </tr><tr>
+          <td style="white-space:nowrap"><b>科创50</b></td>
+          <td style="white-space:nowrap">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">无顶背离</span></td>
+          <td style="font-size:11px;color:#6b7280">2026-08-18 14:30 1790.69/DIF+16.58　→　2026-08-21 09:30 1659.31/DIF-23.32</td>
+        </tr></table><div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.7">K 线源：yfinance（Yahoo 整点网格，已剔除午休切片后为 <b>5 根/交易日</b>；国内看盘软件的 60 分钟是 <b>4 根/交易日</b>，<b>读数不会与之对上</b>）<br>参数：MACD(12,26,9)，swing high 左右各 3 根确认；价格与 DIF 均取 60 分钟收盘。<br>⚠️ 钝化＝价格创新高而 DIF 未创新高，是<b>预警</b>，不等于顶部已确认；DIF 掉头才是结构，DIF 重上前峰则警报解除。该判定采用的是一套非标准定义，参数如上，换参数结论会变。</div></div>
+</div>
+
+
+<div class="section sec-board">
+  <div class="section-header">🔥 五之3　板块</div>
+  <div class="section-body"><div class="board-grid">
+      <div class="board-item">
+        <div class="board-name">AI语料</div>
+        <div class="board-chg" style="color:#dc2626">+2.50%</div>
+        <div class="board-meta">成交额: 96.9亿</div>
+        <div class="board-meta">主力净流入: +4.43亿</div>
+        <div class="board-meta">龙头: 慈文传媒(+5.08%) | 上海钢联(+4.98%) | 人民网(+4.90%)</div>
+      </div>
+      <div class="board-item">
+        <div class="board-name">智谱AI概念</div>
+        <div class="board-chg" style="color:#dc2626">+2.27%</div>
+        <div class="board-meta">成交额: 98.6亿</div>
+        <div class="board-meta">主力净流入: +1.75亿</div>
+        <div class="board-meta">龙头: 创业黑马(+9.59%) | ST豆神(+7.14%) | 中科金财(+5.35%)</div>
+      </div>
+      <div class="board-item">
+        <div class="board-name">液冷服务器</div>
+        <div class="board-chg" style="color:#dc2626">+2.14%</div>
+        <div class="board-meta">成交额: 1611.4亿</div>
+        <div class="board-meta">主力净流入: +86.54亿</div>
+        <div class="board-meta">龙头: 申菱环境(+16.16%) | 同飞股份(+13.56%) | 佳力图(+10.06%)</div>
+      </div>
+      <div class="board-item">
+        <div class="board-name">AI制药（医疗）</div>
+        <div class="board-chg" style="color:#dc2626">+2.13%</div>
+        <div class="board-meta">成交额: 272.0亿</div>
+        <div class="board-meta">主力净流入: +9.18亿</div>
+        <div class="board-meta">龙头: 美迪西(+8.98%) | 合富中国(+7.56%) | 皓元医药(+6.94%)</div>
+      </div></div><table>
+    <tr><th>板块</th><th>平均涨跌</th><th>涨跌家数</th><th>领涨股</th></tr>
+    <tr>
+            <td><b>液冷</b></td>
+            <td style="color:#dc2626;font-weight:bold">+9.70%</td>
+            <td style="color:#6b7280">4涨/0跌/4只</td>
+            <td style="color:#dc2626">申菱环境+16.16%</td>
+          </tr><tr>
+            <td><b>光纤光缆</b></td>
+            <td style="color:#dc2626;font-weight:bold">+4.77%</td>
+            <td style="color:#6b7280">4涨/0跌/4只</td>
+            <td style="color:#dc2626">亨通光电+6.90%</td>
+          </tr><tr>
+            <td><b>高速铜连接</b></td>
+            <td style="color:#dc2626;font-weight:bold">+3.90%</td>
+            <td style="color:#6b7280">4涨/1跌/5只</td>
+            <td style="color:#dc2626">神宇股份+8.70%</td>
+          </tr><tr>
+            <td><b>存储</b></td>
+            <td style="color:#dc2626;font-weight:bold">+1.29%</td>
+            <td style="color:#6b7280">4涨/1跌/5只</td>
+            <td style="color:#dc2626">兆易创新+3.63%</td>
+          </tr><tr>
+            <td><b>AI服务器</b></td>
+            <td style="color:#dc2626;font-weight:bold">+0.95%</td>
+            <td style="color:#6b7280">3涨/1跌/4只</td>
+            <td style="color:#dc2626">紫光股份+1.77%</td>
+          </tr><tr>
+            <td><b>PCB</b></td>
+            <td style="color:#16a34a;font-weight:bold">-0.06%</td>
+            <td style="color:#6b7280">1涨/3跌/5只</td>
+            <td style="color:#dc2626">生益科技+2.14%</td>
+          </tr><tr>
+            <td><b>玻纤/电子布</b></td>
+            <td style="color:#16a34a;font-weight:bold">-0.34%</td>
+            <td style="color:#6b7280">1涨/4跌/5只</td>
+            <td style="color:#dc2626">国际复材+0.20%</td>
+          </tr><tr>
+            <td><b>半导体设备/制造/AI芯片</b></td>
+            <td style="color:#16a34a;font-weight:bold">-0.44%</td>
+            <td style="color:#6b7280">2涨/5跌/7只</td>
+            <td style="color:#dc2626">寒武纪+4.28%</td>
+          </tr><tr>
+            <td><b>光通信/CPO/光模块</b></td>
+            <td style="color:#16a34a;font-weight:bold">-0.65%</td>
+            <td style="color:#6b7280">3涨/3跌/6只</td>
+            <td style="color:#dc2626">天孚通信+3.05%</td>
+          </tr><tr>
+            <td><b>算力租赁/AIDC</b></td>
+            <td style="color:#16a34a;font-weight:bold">-0.85%</td>
+            <td style="color:#6b7280">2涨/3跌/5只</td>
+            <td style="color:#dc2626">光环新网+0.25%</td>
+          </tr></table><div style="margin-top:10px"><b>板块轮动判断：</b><div style="margin-top:8px"><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #dc2626;background:#f9fafb">
+          <span style="color:#dc2626;font-weight:bold;margin-right:8px">[主线]</span>
+          <b>液冷</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 +9.70%、4 只全涨、跑赢观察池均值 8.2124 个百分点、平均量比 1.78（全池最高）；申菱环境 +16.16%、英维克 +10.01% 涨停；英维克居龙虎榜净买第 2 位 +3.6866 亿元、主力净流入 16.22 亿元居全市场第 3 位，申菱环境主力净流入 3.04 亿元居第 28 位、飞荣达 3.42 亿元居第 20 位，3 只进入前 30。连续第二个交易日跑赢（8/24 跑赢 4.9452 个百分点）。（E1、E5、E6）</span>
+        </div><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #dc2626;background:#f9fafb">
+          <span style="color:#dc2626;font-weight:bold;margin-right:8px">[主线]</span>
+          <b>光纤光缆</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 +4.77%、4 只全涨、跑赢 3.2824 个百分点、平均量比 1.30；亨通光电 +6.90% 居龙虎榜净买全市场第 1 位 +18.4959 亿元、主力净流入 18.41 亿元居第 2 位；长飞光纤 +4.04% 收 394.50 元、当日收盘价即为其 resistance_20d（创 20 日新高）、主力净流入 6.73 亿元居第 6 位；中天科技 +4.18%、烽火通信 +3.94%。4 只全部进入全市场主力净流入前 30，是十个子板块中唯一整建制入榜的方向。连续第三个交易日跑赢观察池均值。（E1）</span>
+        </div><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #dc2626;background:#f9fafb">
+          <span style="color:#dc2626;font-weight:bold;margin-right:8px">[主线]</span>
+          <b>高速铜连接</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 +3.90%、4 涨 1 跌、跑赢 2.4124 个百分点、平均量比 1.59（全池第二）；神宇股份 +8.70%（量比 2.61，全池最高）、沃尔核材 +7.44%、新亚电子 +4.55%、兆龙互连 +2.58%，瑞可达 -3.75% 为方向内唯一下跌。连续第二日跑赢（8/24 跑赢 1.5872 个百分点）。【必须写下的反证】该方向 5 只无一只进入全市场主力净流入前 30，也无一只上龙虎榜——价格强而机构资金证据缺席，本报把它的『主线』定性限定为价格口径。（E1）</span>
+        </div><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #d97706;background:#f9fafb">
+          <span style="color:#d97706;font-weight:bold;margin-right:8px">[跟随]</span>
+          <b>存储</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 +1.29%、4 涨 1 跌、跑输观察池均值 0.1976 个百分点（8/24 跑输 1.785），跑输幅度大幅收窄；兆易创新 +3.63% 收 395.51 元、主力净流入 13.26 亿元居全市场第 4 位、融资净买入 +1.47 亿元居第 2 位，但其 3 日 -4.34 亿元、5 日 -10.43 亿元。平均量比 0.79，是本方向未能转为主线的关键缺项。（E1）</span>
+        </div><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #d97706;background:#f9fafb">
+          <span style="color:#d97706;font-weight:bold;margin-right:8px">[跟随]</span>
+          <b>AI服务器</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 +0.95%、3 涨 1 跌、跑输 0.5376 个百分点，连续第三个交易日跑输（8/21 -0.327、8/24 -0.8198、8/25 -0.5376）；四只 macd_status 无一转为金叉（三只空头排列、紫光股份死叉）；平均量比 0.69。阿里 800 亿港元 AI 基建投入连续第二个交易日未在该方向被定价。（E1）</span>
+        </div><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #d97706;background:#f9fafb">
+          <span style="color:#d97706;font-weight:bold;margin-right:8px">[跟随]</span>
+          <b>PCB</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 -0.06%、1 涨 3 跌 1 平、跑输 1.5476 个百分点；生益科技 +2.14% 主力净流入 6.26 亿元居第 8 位、胜宏科技 0.00% 主力净流入 3.07 亿元居第 27 位，是本方向仅有的两个资金亮点；沪电股份 -1.11%、深南电路 -0.77%、鹏鼎控股 -0.58%。（E1）</span>
+        </div><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #6b7280;background:#f9fafb">
+          <span style="color:#6b7280;font-weight:bold;margin-right:8px">[退潮]</span>
+          <b>玻纤/电子布</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 -0.34%、1 涨 4 跌、跑输 1.8276 个百分点；5 日累计（8/18→8/25）国际复材 -19.23%、中材科技 -18.47%、宏和科技 -15.30%，为全池五日跌幅前列。本报连续第三期未能取得该方向任一条公告、政策、订单或价格来源，本期正式确认这是观察池设计上的盲区。（E1）</span>
+        </div><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #6b7280;background:#f9fafb">
+          <span style="color:#6b7280;font-weight:bold;margin-right:8px">[退潮]</span>
+          <b>半导体设备/制造/AI芯片</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 -0.44%、2 涨 5 跌、跑输 1.9276 个百分点；拓荆科技 -4.26% 收 654.99 元、跌破 MA20=680.37 达 3.73%（上一期它是设备三只中唯一在线上的一只，缓冲仅 0.15%，本期即被打回线下）；寒武纪 +4.28% 收 1010.48 元、守住 20 日支撑 969.05 元、主力净流入 6.58 亿元居第 7 位，是本方向唯一的逆势标的；海光信息 +0.54% 收 232.06 元、勉强守住支撑 230.81 元，其 RSI12=11.68 为全池最低。（E1）</span>
+        </div><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #6b7280;background:#f9fafb">
+          <span style="color:#6b7280;font-weight:bold;margin-right:8px">[退潮]</span>
+          <b>光通信/CPO/光模块</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 -0.65%、3 涨 3 跌、跑输 2.1376 个百分点、平均量比 0.82，连续第二个交易日跑输；中际旭创 -2.78% 收 846.00 元跌破 20 日支撑 864.00 元、新易盛 -2.70%、光库科技 -2.78%；上涨的三只为天孚通信 +3.05%（主力净流入 4.03 亿元居第 18 位）、源杰科技 +0.78%、光迅科技 +0.56%。方向内部已出现分化：偏光器件/上游的三只上涨，偏模块整机的三只下跌。（E1）</span>
+        </div><div style="margin:6px 0;padding:6px 10px;border-left:3px solid #6b7280;background:#f9fafb">
+          <span style="color:#6b7280;font-weight:bold;margin-right:8px">[退潮]</span>
+          <b>算力租赁/AIDC</b>
+          <span style="color:#6b7280;font-size:12px;margin-left:6px">8/25 均值 -0.85%、2 涨 3 跌、跑输 2.3376 个百分点，为十个子板块最差、平均量比 0.70 为全池最低；利通电子 -2.04%、奥飞数据 -1.55%、协创数据 -1.15%；光环新网 +0.25% 收 12.15 元勉强守住支撑 12.12 元。该方向 5 只无一进入主力净流入前 30 或融资净买入前 100。（E1）</span>
+        </div></div></div><div style="margin-top:12px"><b>板块解读</b><div class="subhead">自上而下：从全球风险偏好到 A 股 AI 子板块</div><p class="para">一、全球风险偏好（8/25 各市场自身收盘）。美股三大指数全数上涨、道指三连涨，半导体是当日最强的一块（SOXX +1.56%），驱动是英伟达季报前的仓位布局与思科—SMCI 的 AI 基础设施合作（E7）。这与前一交易日（8/24）的结构完全相反：8/24 是平台涨、硬件跌，8/25 是硬件大涨、平台平淡。一天之内 4.33 个百分点的分化翻转成 2.56 个百分点的反向分化，本报把它定性为『季报前的仓位再平衡』而不是资本开支预期的变化——理由是同期没有任何一条新的资本开支或订单信息发布，唯一可指认的公司级消息是思科与 SMCI 的合作（E7、E15）。</p><p class="para">二、亚太外围（各自 8/25 收盘）。台股最强，加权指数 +0.91% 报 45169.46，个股均值 +1.5650%，其中大立光 +6.22% 是外围五个市场中单日涨幅最大的一只（本报无来源解释，列入 anomaly_investigation）；台积电 +1.05%、联发科 -0.80%、鸿海 -0.21%。韩股综合指数 +0.68% 报 6742.74，但两只 AI 核心标的近乎不动——三星电子 0.00%、SK 海力士 +0.42%，指数的上涨不是由半导体贡献的。日经225 +0.50% 报 65856.43，而六只 AI 设备/材料标的均值 -0.1967%（东京电子 +0.47%、村田 +0.89%，Disco -1.17%、信越化学 -0.76%、索尼 -0.47%、爱德万 -0.14%）——同样是指数涨而 AI 链不涨。港股恒生指数 -0.02% 报 25511.10、恒生中国企业 -0.31% 报 8445.37，八只 AI/科技标的均值 +0.2863%：网易 +2.10%、商汤 +2.72%、中芯国际H +1.65%、阿里巴巴 +1.51%、快手 +0.73%、腾讯 +0.45%，小米 -0.22%，美团 -6.65% 是唯一的大幅下跌（本报未取得任何 8/25 一手来源解释，列入 anomaly_investigation）。【必须写明的时点口径】港/日/韩/台四个区域的行数均带 carried_forward=true、carried_reason=regressed，即本次抓取返回了更早的交易日、脚本沿用了上一次抓取中同为 2026-08-25 的那一行。其 market_date 是真实的 8/25，可以引用；但本报不写成『最新抓取显示』，一律按 market_date 标注时点（E1）。五个区域的 row_stale 全部为 false、date_spread 全部为单一 2026-08-25，本期没有任何一行需要按陈旧行处理。</p><p class="para">三、A 股指数与流动性。上证 3889.44 +0.19%、深证成指 13745.87 -0.35%、创业板指 3397.52 -1.00%、科创50 1604.59 +0.14%（E1、E3）。指数层面是分化的：大盘微涨、成长股下跌，创业板指是四条里唯一跌幅超过 1% 的。流动性是本期最重要的背景——合计成交额 1.8318 万亿元、缩量 1756 亿元、A 股口径 18443 亿元创下半年新低，而全市场超 4200 只个股上涨（E3、E4）。缩量普涨的含义是：抛压在减弱，但增量资金没有进来；上涨是靠卖盘退出而不是买盘推动。这种结构的持续性弱于放量普涨，本报据此不把 8/25 定性为趋势反转。央行侧，MLF 净回笼 1000 亿元结束连续三个月加量，同时安排 8/27–9/1 隔夜逆回购每日不超过 6000 亿元（E11）：中长期口径边际收紧、跨月短端托底，两者方向相反，本报不合并成单一信号。</p><p class="para">四、AI 子板块（十个方向的完整排序，全部相对观察池均值 +1.4876%）。液冷 +9.70（+8.2124）＞ 光纤光缆 +4.77（+3.2824）＞ 高速铜连接 +3.90（+2.4124）＞ 存储 +1.29（-0.1976）＞ AI服务器 +0.95（-0.5376）＞ PCB -0.06（-1.5476）＞ 玻纤/电子布 -0.34（-1.8276）＞ 半导体设备/制造/AI芯片 -0.44（-1.9276）＞ 光通信/CPO/光模块 -0.65（-2.1376）＞ 算力租赁/AIDC -0.85（-2.3376）（E1）。三个跑赢、七个跑输，且跑赢的三个幅度极大、跑输的七个幅度都在 2.4 个百分点以内——这不是一次普涨，是一次三个方向的集中拉升叠加其余方向的横盘。</p><p class="para">五、这次轮动的可指认结构（本报的解释，须与事实分开读）。跑赢的三个方向（液冷、光纤光缆、高速铜连接）有一个共同点：它们都不在『CPO 替代可插拔光模块』这条叙事的射程之内，甚至在 CPO 落地情形下需求方向不减反增——液冷对应机柜功率密度上升、光纤光缆对应物理层链路总量、高速铜连接对应机柜内短距互连。跑输最多的两个方向（光通信/CPO/光模块、算力租赁/AIDC）则分别对应该叙事的直接受损环节与资本开支落地节奏未被确认的环节。【本报必须标注的边界】以上是一个解释假设，不是结论。本报没有取得任何一条 8/25 当日的一手订单、公告或客户来源支持这一分类；三个跑赢方向中的高速铜连接甚至没有任何机构资金证据（无一只进入主力净流入前 30、无一只上龙虎榜）。该假设的检验条件已写入本期 thesis_updates 与 forecast_ledger_entry。</p><p class="para">六、个股层面的两组极值。上行端：申菱环境 +16.16%（RSI12=68.03、高于 MA20 20.76%）、英维克 +10.01% 涨停（封单 3.26 亿元居当日首位，E6）、神宇股份 +8.70%（量比 2.61 全池最高）、沃尔核材 +7.44%、亨通光电 +6.90%（龙虎榜净买全市场第一 18.4959 亿元）。下行端：拓荆科技 -4.26%（跌破 MA20 达 3.73%，上一期它是设备三只中唯一在线上的）、瑞可达 -3.75%、中际旭创 -2.78%（跌破 20 日支撑）、光库科技 -2.78%、新易盛 -2.70%。值得单独记一笔的是寒武纪 +4.28% 收 1010.48 元——它是半导体方向唯一的上涨标的、守住了上一期登记的 20 日支撑 969.05 元、主力净流入 6.58 亿元居全市场第 7 位，但其 RSI12 仍只有 30.64、价格仍低于 MA20=1090.97 达 7.38%，融资口径 5 日累计 -5.82 亿元。单日的强只是修复，中期读数未改善（E1）。</p></div></div>
+</div>
+
+
+<div class="section sec-capital">
+  <div class="section-header">💰 五之4　资金流向 TOP10</div>
+  <div class="section-body"><table>
+    <tr><th>#</th><th>股票</th><th>代码</th><th>涨跌幅</th><th>主力净流入</th><th>成交额</th></tr>
+    <tr>
+        <td>1</td>
+        <td><b>N高凯</b></td>
+        <td style="color:#6b7280">688835</td>
+        <td style="color:#dc2626;font-weight:bold">+282.99%</td>
+        <td style="color:#dc2626;font-weight:bold">+21.37亿</td>
+        <td>34.8亿</td>
+      </tr><tr>
+        <td>2</td>
+        <td><b>亨通光电</b></td>
+        <td style="color:#6b7280">600487</td>
+        <td style="color:#dc2626;font-weight:bold">+6.90%</td>
+        <td style="color:#dc2626;font-weight:bold">+18.41亿</td>
+        <td>162.7亿</td>
+      </tr><tr>
+        <td>3</td>
+        <td><b>英维克</b></td>
+        <td style="color:#6b7280">002837</td>
+        <td style="color:#dc2626;font-weight:bold">+10.01%</td>
+        <td style="color:#dc2626;font-weight:bold">+16.22亿</td>
+        <td>56.5亿</td>
+      </tr><tr>
+        <td>4</td>
+        <td><b>兆易创新</b></td>
+        <td style="color:#6b7280">603986</td>
+        <td style="color:#dc2626;font-weight:bold">+3.63%</td>
+        <td style="color:#dc2626;font-weight:bold">+13.26亿</td>
+        <td>153.4亿</td>
+      </tr><tr>
+        <td>5</td>
+        <td><b>中天科技</b></td>
+        <td style="color:#6b7280">600522</td>
+        <td style="color:#dc2626;font-weight:bold">+4.18%</td>
+        <td style="color:#dc2626;font-weight:bold">+9.23亿</td>
+        <td>83.9亿</td>
+      </tr><tr>
+        <td>6</td>
+        <td><b>长飞光纤</b></td>
+        <td style="color:#6b7280">601869</td>
+        <td style="color:#dc2626;font-weight:bold">+4.04%</td>
+        <td style="color:#dc2626;font-weight:bold">+6.73亿</td>
+        <td>80.7亿</td>
+      </tr><tr>
+        <td>7</td>
+        <td><b>寒武纪</b></td>
+        <td style="color:#6b7280">688256</td>
+        <td style="color:#dc2626;font-weight:bold">+4.28%</td>
+        <td style="color:#dc2626;font-weight:bold">+6.58亿</td>
+        <td>125.9亿</td>
+      </tr><tr>
+        <td>8</td>
+        <td><b>生益科技</b></td>
+        <td style="color:#6b7280">600183</td>
+        <td style="color:#dc2626;font-weight:bold">+2.14%</td>
+        <td style="color:#dc2626;font-weight:bold">+6.26亿</td>
+        <td>81.4亿</td>
+      </tr><tr>
+        <td>9</td>
+        <td><b>药明康德</b></td>
+        <td style="color:#6b7280">603259</td>
+        <td style="color:#dc2626;font-weight:bold">+3.31%</td>
+        <td style="color:#dc2626;font-weight:bold">+5.39亿</td>
+        <td>93.6亿</td>
+      </tr><tr>
+        <td>10</td>
+        <td><b>光智科技</b></td>
+        <td style="color:#6b7280">300489</td>
+        <td style="color:#dc2626;font-weight:bold">+7.51%</td>
+        <td style="color:#dc2626;font-weight:bold">+5.23亿</td>
+        <td>28.6亿</td>
+      </tr></table><div style="font-size:12.5px;font-weight:700;color:#16a34a;margin:10px 0 4px">涨但大额资金净流出<span style="font-weight:400;color:#6b7280;font-size:11.5px">　价格与资金反向，留意兑现压力</span></div><table><tr><th>股票</th><th>涨跌幅</th><th>主力净占比</th><th>主力净额</th><th>换手率</th></tr><tr>
+              <td><b>安必平</b>
+                  <span style="color:#9ca3af;font-size:11px">688393</span></td>
+              <td style="color:#dc2626;font-weight:600">
+                  +4.34%</td>
+              <td style="color:#16a34a;font-weight:600">-10.10%</td>
+              <td style="color:#6b7280">-0.03亿</td>
+              <td style="color:#6b7280">1.8%</td>
+            </tr><tr>
+              <td><b>中原传媒</b>
+                  <span style="color:#9ca3af;font-size:11px">000719</span><span style="font-size:10.5px;background:#f1f5f9;color:#64748b;padding:1px 5px;border-radius:4px;margin-left:4px">超大单反向</span></td>
+              <td style="color:#dc2626;font-weight:600">
+                  +3.50%</td>
+              <td style="color:#16a34a;font-weight:600">-7.06%</td>
+              <td style="color:#6b7280">-0.05亿</td>
+              <td style="color:#6b7280">0.9%</td>
+            </tr><tr>
+              <td><b>正和生态</b>
+                  <span style="color:#9ca3af;font-size:11px">605069</span><span style="font-size:10.5px;background:#f1f5f9;color:#64748b;padding:1px 5px;border-radius:4px;margin-left:4px">超大单反向</span></td>
+              <td style="color:#dc2626;font-weight:600">
+                  +4.31%</td>
+              <td style="color:#16a34a;font-weight:600">-4.74%</td>
+              <td style="color:#6b7280">-0.02亿</td>
+              <td style="color:#6b7280">2.1%</td>
+            </tr><tr>
+              <td><b>盛通股份</b>
+                  <span style="color:#9ca3af;font-size:11px">002599</span></td>
+              <td style="color:#dc2626;font-weight:600">
+                  +3.13%</td>
+              <td style="color:#16a34a;font-weight:600">-3.44%</td>
+              <td style="color:#6b7280">-0.02亿</td>
+              <td style="color:#6b7280">1.9%</td>
+            </tr><tr>
+              <td><b>读客文化</b>
+                  <span style="color:#9ca3af;font-size:11px">301025</span></td>
+              <td style="color:#dc2626;font-weight:600">
+                  +4.42%</td>
+              <td style="color:#16a34a;font-weight:600">-2.47%</td>
+              <td style="color:#6b7280">-0.03亿</td>
+              <td style="color:#6b7280">4.7%</td>
+            </tr><tr>
+              <td><b>果麦文化</b>
+                  <span style="color:#9ca3af;font-size:11px">301052</span></td>
+              <td style="color:#dc2626;font-weight:600">
+                  +3.37%</td>
+              <td style="color:#16a34a;font-weight:600">-2.43%</td>
+              <td style="color:#6b7280">-0.02亿</td>
+              <td style="color:#6b7280">3.4%</td>
+            </tr><tr>
+              <td><b>慈文传媒</b>
+                  <span style="color:#9ca3af;font-size:11px">002343</span><span style="font-size:10.5px;background:#f1f5f9;color:#64748b;padding:1px 5px;border-radius:4px;margin-left:4px">超大单反向</span></td>
+              <td style="color:#dc2626;font-weight:600">
+                  +5.08%</td>
+              <td style="color:#16a34a;font-weight:600">-2.41%</td>
+              <td style="color:#6b7280">-0.02亿</td>
+              <td style="color:#6b7280">2.8%</td>
+            </tr><tr>
+              <td><b>福石控股</b>
+                  <span style="color:#9ca3af;font-size:11px">300071</span><span style="font-size:10.5px;background:#f1f5f9;color:#64748b;padding:1px 5px;border-radius:4px;margin-left:4px">超大单反向</span></td>
+              <td style="color:#dc2626;font-weight:600">
+                  +3.38%</td>
+              <td style="color:#16a34a;font-weight:600">-1.85%</td>
+              <td style="color:#6b7280">-0.03亿</td>
+              <td style="color:#6b7280">5.0%</td>
+            </tr></table><div style="font-size:12.5px;font-weight:700;color:#dc2626;margin:10px 0 4px">跌但大额资金净流入<span style="font-weight:400;color:#6b7280;font-size:11.5px">　价格与资金反向，留意承接</span></div><table><tr><th>股票</th><th>涨跌幅</th><th>主力净占比</th><th>主力净额</th><th>换手率</th></tr><tr>
+              <td><b>博汇股份</b>
+                  <span style="color:#9ca3af;font-size:11px">300839</span></td>
+              <td style="color:#16a34a;font-weight:600">
+                  -8.14%</td>
+              <td style="color:#dc2626;font-weight:600">+4.94%</td>
+              <td style="color:#6b7280">0.21亿</td>
+              <td style="color:#6b7280">11.4%</td>
+            </tr></table><div style="font-size:11px;color:#9ca3af;margin-top:8px;line-height:1.7">判定阈值：涨跌幅 ≥3.0% 且 主力净占比 ≥1.0%（反向）；本期扫描 161 只。<br>⚠️ 主力/超大单按单笔成交金额机械划分，量化拆单会把大资金打散，故本项只说明大额单方向与价格方向不一致，不等于机构在出货</div></div>
+</div>
+
+
+<div class="section sec-chips">
+  <div class="section-header">🎫 五之5　筹码与杠杆：龙虎榜 · 两融 · 北向</div>
+  <div class="section-body"><div style="font-size:11.5px;color:#6b7280;margin:6px 0 4px">净买入前 10（2026-08-25 榜单，当日 55 只上榜；同股多次上榜已合并，不相加重叠成交）</div><table>
+    <tr><th>股票</th><th>涨跌幅</th><th>净买入</th><th>占全天成交</th><th>上榜原因</th></tr>
+    <tr>
+          <td><b>亨通光电</b>
+              <span style="color:#9ca3af;font-size:11px">600487</span></td>
+          <td style="color:#dc2626;font-weight:600">+6.90%</td>
+          <td style="color:#dc2626;font-weight:600">18.50亿</td>
+          <td style="color:#6b7280">21.4%</td>
+          <td style="font-size:11px;color:#6b7280">有价格涨跌幅限制的日价格振幅达到15%的前五只证券</td>
+        </tr><tr>
+          <td><b>英维克</b>
+              <span style="color:#9ca3af;font-size:11px">002837</span></td>
+          <td style="color:#dc2626;font-weight:600">+10.01%</td>
+          <td style="color:#dc2626;font-weight:600">3.69亿</td>
+          <td style="color:#6b7280">29.3%</td>
+          <td style="font-size:11px;color:#6b7280">日涨幅偏离值达到7%的前5只证券</td>
+        </tr><tr>
+          <td><b>金螳螂</b>
+              <span style="color:#9ca3af;font-size:11px">002081</span></td>
+          <td style="color:#dc2626;font-weight:600">+10.00%</td>
+          <td style="color:#dc2626;font-weight:600">2.68亿</td>
+          <td style="color:#6b7280">45.6%</td>
+          <td style="font-size:11px;color:#6b7280">日涨幅偏离值达到7%的前5只证券</td>
+        </tr><tr>
+          <td><b>登海种业</b>
+              <span style="color:#9ca3af;font-size:11px">002041</span></td>
+          <td style="color:#dc2626;font-weight:600">+10.01%</td>
+          <td style="color:#dc2626;font-weight:600">1.67亿</td>
+          <td style="color:#6b7280">28.0%</td>
+          <td style="font-size:11px;color:#6b7280">连续三个交易日内，涨幅偏离值累计达到20%的证券</td>
+        </tr><tr>
+          <td><b>长飞光纤</b>
+              <span style="color:#9ca3af;font-size:11px">601869</span></td>
+          <td style="color:#dc2626;font-weight:600">+4.04%</td>
+          <td style="color:#dc2626;font-weight:600">1.41亿</td>
+          <td style="color:#6b7280">19.5%</td>
+          <td style="font-size:11px;color:#6b7280">有价格涨跌幅限制的日价格振幅达到15%的前五只证券</td>
+        </tr><tr>
+          <td><b>盛达资源</b>
+              <span style="color:#9ca3af;font-size:11px">000603</span></td>
+          <td style="color:#16a34a;font-weight:600">-9.01%</td>
+          <td style="color:#dc2626;font-weight:600">1.30亿</td>
+          <td style="color:#6b7280">31.4%</td>
+          <td style="font-size:11px;color:#6b7280">日跌幅偏离值达到7%的前5只证券</td>
+        </tr><tr>
+          <td><b>金健米业</b>
+              <span style="color:#9ca3af;font-size:11px">600127</span><span style="font-size:10.5px;background:#fef3c7;color:#b45309;padding:1px 5px;border-radius:4px;margin-left:4px">2次上榜</span></td>
+          <td style="color:#dc2626;font-weight:600">+10.05%</td>
+          <td style="color:#dc2626;font-weight:600">1.04亿</td>
+          <td style="color:#6b7280">18.0%</td>
+          <td style="font-size:11px;color:#6b7280">有价格涨跌幅限制的日收盘价格涨幅偏离值达到7%的前五只证券</td>
+        </tr><tr>
+          <td><b>石头科技</b>
+              <span style="color:#9ca3af;font-size:11px">688169</span></td>
+          <td style="color:#dc2626;font-weight:600">+20.00%</td>
+          <td style="color:#dc2626;font-weight:600">1.02亿</td>
+          <td style="color:#6b7280">40.4%</td>
+          <td style="font-size:11px;color:#6b7280">有价格涨跌幅限制的日收盘价格涨幅达到15%的前五只证券</td>
+        </tr><tr>
+          <td><b>浙江世宝</b>
+              <span style="color:#9ca3af;font-size:11px">002703</span></td>
+          <td style="color:#dc2626;font-weight:600">+9.98%</td>
+          <td style="color:#dc2626;font-weight:600">0.80亿</td>
+          <td style="color:#6b7280">30.0%</td>
+          <td style="font-size:11px;color:#6b7280">日涨幅偏离值达到7%的前5只证券</td>
+        </tr><tr>
+          <td><b>国仪公司</b>
+              <span style="color:#9ca3af;font-size:11px">688828</span></td>
+          <td style="color:#dc2626;font-weight:600">+6.14%</td>
+          <td style="color:#dc2626;font-weight:600">0.79亿</td>
+          <td style="color:#6b7280">50.5%</td>
+          <td style="font-size:11px;color:#6b7280">有价格涨跌幅限制的日换手率达到30%的前五只证券</td>
+        </tr></table><div style="font-size:11.5px;color:#6b7280;margin:6px 0 4px">融资净买入前 10（2026-08-25 披露，全市场 100 只入选池）</div><table>
+    <tr><th>股票</th><th>涨跌幅</th><th>融资净买入</th><th>融资余额</th><th>占流通市值</th></tr>
+    <tr>
+          <td><b>N高凯</b>
+              <span style="color:#9ca3af;font-size:11px">688835</span></td>
+          <td style="color:#dc2626;font-weight:600">+282.99%</td>
+          <td style="color:#dc2626;font-weight:600">6.00亿</td>
+          <td>6.0亿</td>
+          <td style="color:#6b7280">13.60%</td>
+        </tr><tr>
+          <td><b>兆易创新</b>
+              <span style="color:#9ca3af;font-size:11px">603986</span></td>
+          <td style="color:#dc2626;font-weight:600">+3.63%</td>
+          <td style="color:#dc2626;font-weight:600">1.47亿</td>
+          <td>185.3亿</td>
+          <td style="color:#6b7280">7.01%</td>
+        </tr><tr>
+          <td><b>500ETF</b>
+              <span style="color:#9ca3af;font-size:11px">510500</span></td>
+          <td style="color:#16a34a;font-weight:600">-0.18%</td>
+          <td style="color:#dc2626;font-weight:600">1.38亿</td>
+          <td>10.7亿</td>
+          <td style="color:#6b7280">-</td>
+        </tr><tr>
+          <td><b>科创半导</b>
+              <span style="color:#9ca3af;font-size:11px">588170</span></td>
+          <td style="color:#16a34a;font-weight:600">-2.89%</td>
+          <td style="color:#dc2626;font-weight:600">1.22亿</td>
+          <td>18.7亿</td>
+          <td style="color:#6b7280">-</td>
+        </tr><tr>
+          <td><b>恒瑞医药</b>
+              <span style="color:#9ca3af;font-size:11px">600276</span></td>
+          <td style="color:#16a34a;font-weight:600">-0.58%</td>
+          <td style="color:#dc2626;font-weight:600">1.12亿</td>
+          <td>60.2亿</td>
+          <td style="color:#6b7280">2.03%</td>
+        </tr><tr>
+          <td><b>中远海控</b>
+              <span style="color:#9ca3af;font-size:11px">601919</span></td>
+          <td style="color:#16a34a;font-weight:600">-2.01%</td>
+          <td style="color:#dc2626;font-weight:600">1.08亿</td>
+          <td>36.8亿</td>
+          <td style="color:#6b7280">1.72%</td>
+        </tr><tr>
+          <td><b>科创50</b>
+              <span style="color:#9ca3af;font-size:11px">588000</span></td>
+          <td style="color:#dc2626;font-weight:600">+0.12%</td>
+          <td style="color:#dc2626;font-weight:600">1.08亿</td>
+          <td>27.8亿</td>
+          <td style="color:#6b7280">-</td>
+        </tr><tr>
+          <td><b>国泰海通</b>
+              <span style="color:#9ca3af;font-size:11px">601211</span></td>
+          <td style="color:#16a34a;font-weight:600">-1.87%</td>
+          <td style="color:#dc2626;font-weight:600">1.03亿</td>
+          <td>82.2亿</td>
+          <td style="color:#6b7280">3.53%</td>
+        </tr><tr>
+          <td><b>长飞光纤</b>
+              <span style="color:#9ca3af;font-size:11px">601869</span></td>
+          <td style="color:#dc2626;font-weight:600">+4.04%</td>
+          <td style="color:#dc2626;font-weight:600">1.01亿</td>
+          <td>25.7亿</td>
+          <td style="color:#6b7280">1.60%</td>
+        </tr><tr>
+          <td><b>工业富联</b>
+              <span style="color:#9ca3af;font-size:11px">601138</span></td>
+          <td style="color:#16a34a;font-weight:600">-0.41%</td>
+          <td style="color:#dc2626;font-weight:600">0.96亿</td>
+          <td>78.9亿</td>
+          <td style="color:#6b7280">0.66%</td>
+        </tr></table><div style="font-size:12.5px;color:#374151;margin-top:8px"><b>北向成交</b>（2026-08-25）　沪股通 122860.7　深股通 144560.51</div><div style="font-size:11px;color:#b45309;margin-top:3px">⚠️ 东财原值，单位未核实（按万元算量级偏小、按百万元算才对得上），暂不换算；净买入自 2024-08 起停止披露。</div></div>
+</div>
+
+
+<div class="section sec-score">
+  <div class="section-header">⭐ 五之6　个股：评分与技术面</div>
+  <div class="section-body"><img src="https://quickchart.io/chart?c=%7B%22type%22%3A%22horizontalBar%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22%E6%BA%90%E6%9D%B0%E7%A7%91%E6%8A%80%22%2C%22%E9%95%BF%E9%A3%9E%E5%85%89%E7%BA%A4%22%2C%22%E9%A3%9E%E8%8D%A3%E8%BE%BE%22%2C%22%E8%8B%B1%E7%BB%B4%E5%85%8B%22%2C%22%E7%94%B3%E8%8F%B1%E7%8E%AF%E5%A2%83%22%2C%22%E9%AB%98%E6%BE%9C%E8%82%A1%E4%BB%BD%22%2C%22%E7%A5%9E%E5%AE%87%E8%82%A1%E4%BB%BD%22%2C%22%E5%A4%A9%E5%AD%9A%E9%80%9A%E4%BF%A1%22%2C%22%E4%B8%AD%E9%99%85%E6%97%AD%E5%88%9B%22%2C%22%E6%96%B0%E6%98%93%E7%9B%9B%22%5D%2C%22datasets%22%3A%5B%7B%22data%22%3A%5B80%2C80%2C80%2C60%2C60%2C55%2C55%2C50%2C45%2C45%5D%2C%22backgroundColor%22%3A%5B%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23ea580c%22%2C%22%23ea580c%22%2C%22%239ca3af%22%2C%22%239ca3af%22%2C%22%239ca3af%22%2C%22%239ca3af%22%2C%22%239ca3af%22%5D%7D%5D%7D%2C%22options%22%3A%7B%22legend%22%3A%7B%22display%22%3Afalse%7D%2C%22title%22%3A%7B%22display%22%3Atrue%2C%22text%22%3A%22AI%E9%BE%99%E5%A4%B4%E7%BB%BC%E5%90%88%E8%AF%84%E5%88%86%20TOP10%22%2C%22fontSize%22%3A14%7D%2C%22scales%22%3A%7B%22xAxes%22%3A%5B%7B%22ticks%22%3A%7B%22min%22%3A0%2C%22max%22%3A100%7D%7D%5D%7D%2C%22plugins%22%3A%7B%22datalabels%22%3A%7B%22anchor%22%3A%22end%22%2C%22align%22%3A%22end%22%2C%22font%22%3A%7B%22size%22%3A11%2C%22weight%22%3A%22bold%22%7D%7D%7D%7D%7D&w=600&h=280&bkg=white" class="chart-img" alt="综合评分排行" /><br/><table>
+    <tr><th>股票</th><th>代码</th><th>现价</th><th>涨跌幅</th><th>评分</th><th>MA趋势</th><th>MACD</th><th>RSI</th><th>量比</th></tr>
+    <tr class="sector-title-row"><td colspan="9">📂 液冷</td></tr><tr>
+        <td><b>申菱环境</b></td>
+        <td style="color:#6b7280;font-family:monospace">301018</td>
+        <td style="font-weight:bold">104.20</td>
+        <td style="color:#dc2626;font-weight:bold">+16.16%</td>
+        <td><span style="color:#ea580c;font-weight:bold">60</span> ★★</td>
+        <td>偏空</td>
+        <td>多头排列</td>
+        <td>68</td>
+        <td>1.8x 平量</td>
+      </tr><tr>
+        <td><b>英维克</b></td>
+        <td style="color:#6b7280;font-family:monospace">002837</td>
+        <td style="font-weight:bold">60.23</td>
+        <td style="color:#dc2626;font-weight:bold">+10.01%</td>
+        <td><span style="color:#ea580c;font-weight:bold">60</span> ★★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>61</td>
+        <td>1.9x 平量</td>
+      </tr><tr>
+        <td><b>高澜股份</b></td>
+        <td style="color:#6b7280;font-family:monospace">300499</td>
+        <td style="font-weight:bold">30.80</td>
+        <td style="color:#dc2626;font-weight:bold">+6.39%</td>
+        <td><span style="color:#ea580c;font-weight:bold">55</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>58</td>
+        <td>1.9x 平量</td>
+      </tr><tr>
+        <td><b>飞荣达</b></td>
+        <td style="color:#6b7280;font-family:monospace">300602</td>
+        <td style="font-weight:bold">45.80</td>
+        <td style="color:#dc2626;font-weight:bold">+6.22%</td>
+        <td><span style="color:#ea580c;font-weight:bold">80</span> ★★★</td>
+        <td>强势多头</td>
+        <td>多头排列</td>
+        <td>72</td>
+        <td>1.5x 平量</td>
+      </tr><tr class="sector-title-row"><td colspan="9">📂 高速铜连接</td></tr><tr>
+        <td><b>神宇股份</b></td>
+        <td style="color:#6b7280;font-family:monospace">300563</td>
+        <td style="font-weight:bold">24.86</td>
+        <td style="color:#dc2626;font-weight:bold">+8.70%</td>
+        <td><span style="color:#ea580c;font-weight:bold">55</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>54</td>
+        <td>2.6x 放量</td>
+      </tr><tr>
+        <td><b>沃尔核材</b></td>
+        <td style="color:#6b7280;font-family:monospace">002130</td>
+        <td style="font-weight:bold">17.05</td>
+        <td style="color:#dc2626;font-weight:bold">+7.44%</td>
+        <td><span style="color:#ea580c;font-weight:bold">35</span> ★</td>
+        <td>强势空头</td>
+        <td>空头排列</td>
+        <td>48</td>
+        <td>2.0x 放量</td>
+      </tr><tr>
+        <td><b>新亚电子</b></td>
+        <td style="color:#6b7280;font-family:monospace">605277</td>
+        <td style="font-weight:bold">15.17</td>
+        <td style="color:#dc2626;font-weight:bold">+4.55%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>49</td>
+        <td>1.5x 平量</td>
+      </tr><tr>
+        <td><b>兆龙互连</b></td>
+        <td style="color:#6b7280;font-family:monospace">300913</td>
+        <td style="font-weight:bold">35.80</td>
+        <td style="color:#dc2626;font-weight:bold">+2.58%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>49</td>
+        <td>0.9x 略缩</td>
+      </tr><tr>
+        <td><b>瑞可达</b></td>
+        <td style="color:#6b7280;font-family:monospace">688800</td>
+        <td style="font-weight:bold">61.79</td>
+        <td style="color:#16a34a;font-weight:bold">-3.75%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>56</td>
+        <td>0.9x 略缩</td>
+      </tr><tr class="sector-title-row"><td colspan="9">📂 光纤光缆</td></tr><tr>
+        <td><b>亨通光电</b></td>
+        <td style="color:#6b7280;font-family:monospace">600487</td>
+        <td style="font-weight:bold">64.60</td>
+        <td style="color:#dc2626;font-weight:bold">+6.90%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>59</td>
+        <td>1.3x 平量</td>
+      </tr><tr>
+        <td><b>中天科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">600522</td>
+        <td style="font-weight:bold">33.89</td>
+        <td style="color:#dc2626;font-weight:bold">+4.18%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>51</td>
+        <td>1.2x 平量</td>
+      </tr><tr>
+        <td><b>长飞光纤</b></td>
+        <td style="color:#6b7280;font-family:monospace">601869</td>
+        <td style="font-weight:bold">394.50</td>
+        <td style="color:#dc2626;font-weight:bold">+4.04%</td>
+        <td><span style="color:#ea580c;font-weight:bold">80</span> ★★★</td>
+        <td>强势多头</td>
+        <td>多头排列</td>
+        <td>67</td>
+        <td>1.4x 平量</td>
+      </tr><tr>
+        <td><b>烽火通信</b></td>
+        <td style="color:#6b7280;font-family:monospace">600498</td>
+        <td style="font-weight:bold">40.66</td>
+        <td style="color:#dc2626;font-weight:bold">+3.94%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>55</td>
+        <td>1.2x 平量</td>
+      </tr><tr class="sector-title-row"><td colspan="9">📂 半导体设备/制造/AI芯片</td></tr><tr>
+        <td><b>寒武纪</b></td>
+        <td style="color:#6b7280;font-family:monospace">688256</td>
+        <td style="font-weight:bold">1010.48</td>
+        <td style="color:#dc2626;font-weight:bold">+4.28%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>强势空头</td>
+        <td>空头排列</td>
+        <td>31</td>
+        <td>0.9x 略缩</td>
+      </tr><tr>
+        <td><b>海光信息</b></td>
+        <td style="color:#6b7280;font-family:monospace">688041</td>
+        <td style="font-weight:bold">232.06</td>
+        <td style="color:#dc2626;font-weight:bold">+0.54%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>强势空头</td>
+        <td>空头排列</td>
+        <td>12</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>中芯国际</b></td>
+        <td style="color:#6b7280;font-family:monospace">688981</td>
+        <td style="font-weight:bold">120.00</td>
+        <td style="color:#16a34a;font-weight:bold">-0.48%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>36</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>中微公司</b></td>
+        <td style="color:#6b7280;font-family:monospace">688012</td>
+        <td style="font-weight:bold">354.00</td>
+        <td style="color:#16a34a;font-weight:bold">-1.02%</td>
+        <td><span style="color:#ea580c;font-weight:bold">25</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>45</td>
+        <td>0.8x 缩量</td>
+      </tr><tr>
+        <td><b>北方华创</b></td>
+        <td style="color:#6b7280;font-family:monospace">002371</td>
+        <td style="font-weight:bold">700.40</td>
+        <td style="color:#16a34a;font-weight:bold">-1.06%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>35</td>
+        <td>0.9x 略缩</td>
+      </tr><tr>
+        <td><b>华虹公司</b></td>
+        <td style="color:#6b7280;font-family:monospace">688347</td>
+        <td style="font-weight:bold">226.56</td>
+        <td style="color:#16a34a;font-weight:bold">-1.08%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>强势空头</td>
+        <td>空头排列</td>
+        <td>30</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>拓荆科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">688072</td>
+        <td style="font-weight:bold">654.99</td>
+        <td style="color:#16a34a;font-weight:bold">-4.26%</td>
+        <td><span style="color:#ea580c;font-weight:bold">25</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>44</td>
+        <td>0.9x 略缩</td>
+      </tr><tr class="sector-title-row"><td colspan="9">📂 存储</td></tr><tr>
+        <td><b>兆易创新</b></td>
+        <td style="color:#6b7280;font-family:monospace">603986</td>
+        <td style="font-weight:bold">395.51</td>
+        <td style="color:#dc2626;font-weight:bold">+3.63%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>43</td>
+        <td>0.9x 略缩</td>
+      </tr><tr>
+        <td><b>澜起科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">688008</td>
+        <td style="font-weight:bold">194.42</td>
+        <td style="color:#dc2626;font-weight:bold">+1.35%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>36</td>
+        <td>0.8x 缩量</td>
+      </tr><tr>
+        <td><b>江波龙</b></td>
+        <td style="color:#6b7280;font-family:monospace">301308</td>
+        <td style="font-weight:bold">369.66</td>
+        <td style="color:#dc2626;font-weight:bold">+1.30%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>44</td>
+        <td>0.8x 缩量</td>
+      </tr><tr>
+        <td><b>佰维存储</b></td>
+        <td style="color:#6b7280;font-family:monospace">688525</td>
+        <td style="font-weight:bold">227.82</td>
+        <td style="color:#dc2626;font-weight:bold">+0.99%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>40</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>德明利</b></td>
+        <td style="color:#6b7280;font-family:monospace">001309</td>
+        <td style="font-weight:bold">397.03</td>
+        <td style="color:#16a34a;font-weight:bold">-0.83%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>48</td>
+        <td>0.8x 缩量</td>
+      </tr><tr class="sector-title-row"><td colspan="9">📂 光通信/CPO/光模块</td></tr><tr>
+        <td><b>天孚通信</b></td>
+        <td style="color:#6b7280;font-family:monospace">300394</td>
+        <td style="font-weight:bold">257.10</td>
+        <td style="color:#dc2626;font-weight:bold">+3.05%</td>
+        <td><span style="color:#ea580c;font-weight:bold">50</span> ★</td>
+        <td>偏空</td>
+        <td>多头排列</td>
+        <td>60</td>
+        <td>0.8x 略缩</td>
+      </tr><tr>
+        <td><b>源杰科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">688498</td>
+        <td style="font-weight:bold">1553.00</td>
+        <td style="color:#dc2626;font-weight:bold">+0.78%</td>
+        <td><span style="color:#ea580c;font-weight:bold">80</span> ★★★</td>
+        <td>强势多头</td>
+        <td>多头排列</td>
+        <td>66</td>
+        <td>0.8x 略缩</td>
+      </tr><tr>
+        <td><b>光迅科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">002281</td>
+        <td style="font-weight:bold">167.32</td>
+        <td style="color:#dc2626;font-weight:bold">+0.56%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>34</td>
+        <td>0.8x 缩量</td>
+      </tr><tr>
+        <td><b>新易盛</b></td>
+        <td style="color:#6b7280;font-family:monospace">300502</td>
+        <td style="font-weight:bold">400.87</td>
+        <td style="color:#16a34a;font-weight:bold">-2.70%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>45</td>
+        <td>0.8x 略缩</td>
+      </tr><tr>
+        <td><b>中际旭创</b></td>
+        <td style="color:#6b7280;font-family:monospace">300308</td>
+        <td style="font-weight:bold">846.00</td>
+        <td style="color:#16a34a;font-weight:bold">-2.78%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>42</td>
+        <td>0.9x 略缩</td>
+      </tr><tr>
+        <td><b>光库科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">300620</td>
+        <td style="font-weight:bold">290.68</td>
+        <td style="color:#16a34a;font-weight:bold">-2.78%</td>
+        <td><span style="color:#ea580c;font-weight:bold">45</span> ★</td>
+        <td>偏空</td>
+        <td>多头排列</td>
+        <td>51</td>
+        <td>0.7x 缩量</td>
+      </tr><tr class="sector-title-row"><td colspan="9">📂 PCB</td></tr><tr>
+        <td><b>生益科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">600183</td>
+        <td style="font-weight:bold">129.00</td>
+        <td style="color:#dc2626;font-weight:bold">+2.14%</td>
+        <td><span style="color:#ea580c;font-weight:bold">40</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>40</td>
+        <td>1.0x 略缩</td>
+      </tr><tr>
+        <td><b>胜宏科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">300476</td>
+        <td style="font-weight:bold">244.99</td>
+        <td style="color:#dc2626;font-weight:bold">-0.00%</td>
+        <td><span style="color:#ea580c;font-weight:bold">40</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>30</td>
+        <td>0.8x 缩量</td>
+      </tr><tr>
+        <td><b>鹏鼎控股</b></td>
+        <td style="color:#6b7280;font-family:monospace">002938</td>
+        <td style="font-weight:bold">87.44</td>
+        <td style="color:#16a34a;font-weight:bold">-0.58%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>29</td>
+        <td>0.8x 略缩</td>
+      </tr><tr>
+        <td><b>深南电路</b></td>
+        <td style="color:#6b7280;font-family:monospace">002916</td>
+        <td style="font-weight:bold">341.00</td>
+        <td style="color:#16a34a;font-weight:bold">-0.77%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>34</td>
+        <td>0.8x 略缩</td>
+      </tr><tr>
+        <td><b>沪电股份</b></td>
+        <td style="color:#6b7280;font-family:monospace">002463</td>
+        <td style="font-weight:bold">114.29</td>
+        <td style="color:#16a34a;font-weight:bold">-1.11%</td>
+        <td><span style="color:#ea580c;font-weight:bold">40</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>36</td>
+        <td>0.9x 略缩</td>
+      </tr><tr class="sector-title-row"><td colspan="9">📂 AI服务器</td></tr><tr>
+        <td><b>紫光股份</b></td>
+        <td style="color:#6b7280;font-family:monospace">000938</td>
+        <td style="font-weight:bold">35.10</td>
+        <td style="color:#dc2626;font-weight:bold">+1.77%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>死叉</td>
+        <td>40</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>中科曙光</b></td>
+        <td style="color:#6b7280;font-family:monospace">603019</td>
+        <td style="font-weight:bold">83.19</td>
+        <td style="color:#dc2626;font-weight:bold">+1.23%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>33</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>浪潮信息</b></td>
+        <td style="color:#6b7280;font-family:monospace">000977</td>
+        <td style="font-weight:bold">74.11</td>
+        <td style="color:#dc2626;font-weight:bold">+1.22%</td>
+        <td><span style="color:#ea580c;font-weight:bold">25</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>42</td>
+        <td>0.6x 缩量</td>
+      </tr><tr>
+        <td><b>工业富联</b></td>
+        <td style="color:#6b7280;font-family:monospace">601138</td>
+        <td style="font-weight:bold">60.15</td>
+        <td style="color:#16a34a;font-weight:bold">-0.41%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>28</td>
+        <td>0.8x 略缩</td>
+      </tr><tr class="sector-title-row"><td colspan="9">📂 算力租赁/AIDC</td></tr><tr>
+        <td><b>光环新网</b></td>
+        <td style="color:#6b7280;font-family:monospace">300383</td>
+        <td style="font-weight:bold">12.15</td>
+        <td style="color:#dc2626;font-weight:bold">+0.25%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>强势空头</td>
+        <td>空头排列</td>
+        <td>24</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>润泽科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">300442</td>
+        <td style="font-weight:bold">62.60</td>
+        <td style="color:#dc2626;font-weight:bold">+0.24%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>30</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>协创数据</b></td>
+        <td style="color:#6b7280;font-family:monospace">300857</td>
+        <td style="font-weight:bold">238.02</td>
+        <td style="color:#16a34a;font-weight:bold">-1.15%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>38</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>奥飞数据</b></td>
+        <td style="color:#6b7280;font-family:monospace">300738</td>
+        <td style="font-weight:bold">20.90</td>
+        <td style="color:#16a34a;font-weight:bold">-1.55%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>强势空头</td>
+        <td>空头排列</td>
+        <td>36</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>利通电子</b></td>
+        <td style="color:#6b7280;font-family:monospace">603629</td>
+        <td style="font-weight:bold">119.30</td>
+        <td style="color:#16a34a;font-weight:bold">-2.04%</td>
+        <td><span style="color:#ea580c;font-weight:bold">25</span> ★</td>
+        <td>偏空</td>
+        <td>死叉</td>
+        <td>43</td>
+        <td>0.7x 缩量</td>
+      </tr><tr class="sector-title-row"><td colspan="9">📂 玻纤/电子布</td></tr><tr>
+        <td><b>国际复材</b></td>
+        <td style="color:#6b7280;font-family:monospace">301526</td>
+        <td style="font-weight:bold">30.15</td>
+        <td style="color:#dc2626;font-weight:bold">+0.20%</td>
+        <td><span style="color:#ea580c;font-weight:bold">20</span> ★</td>
+        <td>偏空</td>
+        <td>空头排列</td>
+        <td>22</td>
+        <td>0.8x 缩量</td>
+      </tr><tr>
+        <td><b>中国巨石</b></td>
+        <td style="color:#6b7280;font-family:monospace">600176</td>
+        <td style="font-weight:bold">39.79</td>
+        <td style="color:#16a34a;font-weight:bold">-0.20%</td>
+        <td><span style="color:#ea580c;font-weight:bold">40</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>37</td>
+        <td>0.8x 缩量</td>
+      </tr><tr>
+        <td><b>山东玻纤</b></td>
+        <td style="color:#6b7280;font-family:monospace">605006</td>
+        <td style="font-weight:bold">13.71</td>
+        <td style="color:#16a34a;font-weight:bold">-0.29%</td>
+        <td><span style="color:#ea580c;font-weight:bold">40</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>35</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>宏和科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">603256</td>
+        <td style="font-weight:bold">133.16</td>
+        <td style="color:#16a34a;font-weight:bold">-0.55%</td>
+        <td><span style="color:#ea580c;font-weight:bold">40</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>26</td>
+        <td>0.7x 缩量</td>
+      </tr><tr>
+        <td><b>中材科技</b></td>
+        <td style="color:#6b7280;font-family:monospace">002080</td>
+        <td style="font-weight:bold">49.00</td>
+        <td style="color:#16a34a;font-weight:bold">-0.87%</td>
+        <td><span style="color:#ea580c;font-weight:bold">40</span> ★</td>
+        <td>偏空</td>
+        <td>金叉</td>
+        <td>33</td>
+        <td>1.1x 略缩</td>
+      </tr></table><img src="https://quickchart.io/chart?c=%7B%22type%22%3A%22horizontalBar%22%2C%22data%22%3A%7B%22labels%22%3A%5B%22%E7%94%B3%E8%8F%B1%E7%8E%AF%E5%A2%83%22%2C%22%E8%8B%B1%E7%BB%B4%E5%85%8B%22%2C%22%E7%A5%9E%E5%AE%87%E8%82%A1%E4%BB%BD%22%2C%22%E6%B2%83%E5%B0%94%E6%A0%B8%E6%9D%90%22%2C%22%E4%BA%A8%E9%80%9A%E5%85%89%E7%94%B5%22%2C%22%E9%AB%98%E6%BE%9C%E8%82%A1%E4%BB%BD%22%2C%22%E9%A3%9E%E8%8D%A3%E8%BE%BE%22%2C%22%E6%96%B0%E4%BA%9A%E7%94%B5%E5%AD%90%22%2C%22%E5%AF%92%E6%AD%A6%E7%BA%AA%22%2C%22%E4%B8%AD%E5%A4%A9%E7%A7%91%E6%8A%80%22%2C%22%E9%95%BF%E9%A3%9E%E5%85%89%E7%BA%A4%22%2C%22%E7%83%BD%E7%81%AB%E9%80%9A%E4%BF%A1%22%2C%22%E5%85%86%E6%98%93%E5%88%9B%E6%96%B0%22%2C%22%E5%A4%A9%E5%AD%9A%E9%80%9A%E4%BF%A1%22%2C%22%E5%85%86%E9%BE%99%E4%BA%92%E8%BF%9E%22%5D%2C%22datasets%22%3A%5B%7B%22data%22%3A%5B16.16%2C10.01%2C8.7%2C7.44%2C6.9%2C6.39%2C6.22%2C4.55%2C4.28%2C4.18%2C4.04%2C3.94%2C3.63%2C3.05%2C2.58%5D%2C%22backgroundColor%22%3A%5B%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%2C%22%23dc2626%22%5D%7D%5D%7D%2C%22options%22%3A%7B%22legend%22%3A%7B%22display%22%3Afalse%7D%2C%22title%22%3A%7B%22display%22%3Atrue%2C%22text%22%3A%22%E4%B8%AA%E8%82%A1%E6%B6%A8%E8%B7%8C%E5%B9%85%E4%B8%80%E8%A7%88%22%2C%22fontSize%22%3A14%7D%2C%22plugins%22%3A%7B%22datalabels%22%3A%7B%22anchor%22%3A%22end%22%2C%22align%22%3A%22end%22%2C%22formatter%22%3A%22%28v%29%3D%3Ev.toFixed%282%29%2B%5C%22%25%5C%22%22%2C%22font%22%3A%7B%22size%22%3A11%7D%7D%7D%7D%7D&w=600&h=360&bkg=white" class="chart-img" alt="个股涨跌幅" /><div style="margin-top:12px"><b>个股点评</b><div class="hl-card"><div class="hl-head">申菱环境<span class="hl-code">301018</span><span class="hl-asof">价格截至 2026-08-25</span></div><div class="hl-body">量价：当日量比 1.79、成交量较 8/24 放大，RSI12=68.03，收盘 104.20 元高于 MA20=86.29 达 20.76%、高于 MA5=91.36 达 14.05%，且当日收盘价即为其 resistance_20d（创 20 日新高）。基本面边界：本报未取得任何 8/25 当日的一手公告、订单或中标来源，涨幅无一手解释（E1）。资金：主力净流入 3.04 亿元居全市场第 28 位，未上龙虎榜、未进入融资净买入前 100——价格与主力资金一致，但缺少龙虎榜与杠杆资金的第二重确认。关键位：向上无 20 日压力可参照（收盘价即区间高点），向下第一刻度 MA5=91.36（距 12.32%），其次 MA20=86.29（距 17.19%）。</div></div><div class="hl-card"><div class="hl-head">英维克<span class="hl-code">002837</span><span class="hl-asof">价格截至 2026-08-25</span></div><div class="hl-body">量价：涨停，量比 1.94，龙虎榜净买入 3.6866 亿元居当日第 2 位（买入 10.11 亿元、卖出 6.43 亿元、龙虎榜成交占比 29.29%、换手率 8.5133%），主力净流入 16.22 亿元居全市场第 3 位；外部涨停复盘记录其封单 3.26 亿元为当日最高、换手 8.51%（E6），与快照读数一致。基本面边界：本报未取得 8/25 当日一手来源。关键位：收盘 60.23 元即为其 resistance_20d（创 20 日新高），高于 MA20=53.67 达 12.22%，RSI12=60.78 尚未超买；向下第一刻度 MA5=54.92（距 8.82%）。</div></div><div class="hl-card"><div class="hl-head">亨通光电<span class="hl-code">600487</span><span class="hl-asof">价格截至 2026-08-25</span></div><div class="hl-body">量价：+6.90% 收 64.60 元，量比 1.30，日内振幅达到 15% 触发龙虎榜（振幅前五），龙虎榜净买入 18.4959 亿元为全市场第一（买入 26.64 亿元、卖出 8.14 亿元、占比 21.37%、换手率 10.60%），主力净流入 18.41 亿元居全市场第 2 位、观察池第一。融资净买入 +0.81 亿元居第 15 位，但 5 日累计 -2.15 亿元。基本面边界：本报未取得 8/25 当日一手来源；『光纤涨价周期』的公开报道均为 2026 年上半年旧文，不能用于解释 8/25。关键位：20 日压力 65.41 元，距收盘 64.60 元仅 1.25%，是下一个交易日最贴近的一个刻度；向下 MA5=61.63（距 4.60%）、MA20=57.38（距 11.18%），RSI12=58.56。</div></div><div class="hl-card"><div class="hl-head">长飞光纤<span class="hl-code">601869</span><span class="hl-asof">价格截至 2026-08-25</span></div><div class="hl-body">量价：+4.04% 收 394.50 元，当日收盘价即为其 resistance_20d（创 20 日新高），量比 1.45，RSI12=67.14；主力净流入 6.73 亿元居第 6 位、龙虎榜净买 1.4107 亿元居第 5 位、融资净买入 +1.01 亿元居第 9 位且 3 日 +2.03 亿元、5 日 +1.10 亿元三个口径全为正——是观察池 50 只中唯一一只在主力、龙虎榜、融资三条资金线同时为正的标的。基本面边界：无 8/25 当日一手来源。关键位：MA20=332.76，上一期登记的关闭刻度 328.13 未被触及，缓冲 18.55%。</div></div><div class="hl-card"><div class="hl-head">神宇股份<span class="hl-code">300563</span><span class="hl-asof">价格截至 2026-08-25</span></div><div class="hl-body">量价：+8.70% 收 24.86 元，量比 2.61 为全池最高，RSI12=54.40，收盘 24.86 元即为其 resistance_20d（创 20 日新高），高于 MA20=23.39 达 6.28%、高于 MA5=23.31 达 6.65%。基本面边界：无一手来源。【必须与价格分开写的一条】该股未进入全市场主力净流入前 30、未上龙虎榜、未进入融资净买入前 100——高速铜连接方向 5 只全部如此。价格强度与机构资金证据在本方向上是缺口关系，本报不把它的涨幅当作资金流入的证据。关键位：向上无 20 日压力可参照，向下 MA5=23.31（距 6.24%）与 MA20=23.39（距 5.91%）几乎重合，这两条线在下一个交易日会同时被测试。</div></div><div class="hl-card"><div class="hl-head">寒武纪<span class="hl-code">688256</span><span class="hl-asof">价格截至 2026-08-25</span></div><div class="hl-body">量价：+4.28% 收 1010.48 元，量比 0.87（缩量上涨），RSI12=30.64 仍在低位，主力净流入 6.58 亿元居全市场第 7 位、融资净买入 +0.95 亿元居第 11 位。守住上一期登记的 20 日支撑 969.05 元，缓冲 4.28%。基本面边界：无 8/25 当日一手来源。【中期反证必须同写】价格仍低于 MA20=1090.97 达 7.38%；融资 3 日累计 -0.36 亿元、5 日 -5.82 亿元，单日加仓发生在连续减仓的背景上。关键位：向上 MA20=1090.97（需涨 7.98%），向下支撑 969.05。</div></div><div class="hl-card"><div class="hl-head">中际旭创<span class="hl-code">300308</span><span class="hl-asof">价格截至 2026-08-25</span></div><div class="hl-body">量价：-2.78% 收 846.00 元，量比 0.94（缩量下跌）。跌破上一期登记的 20 日支撑 864.00 元达 2.08%，且 846.00 元本身已成为其新的 support_20d——当日收盘价就是 20 日最低点。RSI12=41.64，macd_status 显示金叉但 macd=-42.083 仍在零轴下方深处。基本面边界：本报按 R27，不把该公司 8/23 投资者关系记录表或半年报作为任何多头依据；本期也未反过来把连续下跌写成『利空出尽』。资金：未进入主力净流入前 30、未上龙虎榜、未进入融资净买入前 100，三条资金线全部缺席。关键位：MA20=922.44 需上涨 9.04% 才能收复，这是中期修复的成本刻度。</div></div><div class="hl-card"><div class="hl-head">拓荆科技<span class="hl-code">688072</span><span class="hl-asof">价格截至 2026-08-25</span></div><div class="hl-body">量价：-4.26% 收 654.99 元，为观察池当日跌幅最大的一只，量比 0.95。上一期它是设备三只中唯一站上 MA20 的一只、缓冲仅 0.15%；本期跌破 MA20=680.37 达 3.73%，把 T-SEMI-EQUIP-PURE 的接近度由 1/3 推回 0/3。融资净买入 +0.49 亿元居第 33 位，而 3 日 -0.85 亿元、5 日 -3.49 亿元。基本面边界：无一手来源解释当日跌幅。关键位：向下 20 日支撑 591.86（距 9.64%），向上 MA20=680.37（需涨 3.87%）。</div></div></div></div>
+</div>
+
+
+<div class="section sec-anomaly">
+  <div class="section-header">🔍 六、异常追因</div>
+  <div class="section-body"><div style="margin:8px 0;padding:10px 12px;border:1px solid #e5e7eb;border-radius:8px"><div style="font-size:12.5px;font-weight:700;color:#111827">液冷子板块 8/25 单日 +9.70%、跑赢观察池均值 8.2124 个百分点，为本报跟踪期内单日最大子板块超额；申菱环境 +16.16%、英维克 +10.01% 涨停</div><table style="margin-top:6px"><tr><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#15803d">已证实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#15803d"><li style="margin:2px 0">资金侧已证实：英维克主力净流入 16.22 亿元居全市场第 3 位、龙虎榜净买入 3.6866 亿元居第 2 位（买入 10.11 亿元、卖出 6.43 亿元、龙虎榜成交占比 29.29%、换手率 8.5133%）；飞荣达主力净流入 3.42 亿元居第 20 位；申菱环境 3.04 亿元居第 28 位（E1）。</li><li style="margin:2px 0">外部涨停复盘确认英维克封单金额 3.26 亿元为当日涨停股之最、换手率 8.51%，与快照读数一致（E6）；同方向的康盛股份、金富科技同日涨停（E5）。</li><li style="margin:2px 0">该方向 4 只全部站上各自 MA20 且缓冲 10.43%–21.23%，平均量比 1.78 为全池最高——上涨伴随放量，不是缩量拉升（E1）。</li></ul></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#b45309">候选</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#b45309"><li style="margin:2px 0">本报的 T-COOLING-CPO-COMPLEMENT 假设：CPO 架构提高机柜功率密度，利好散热环节。该假设连续第二期没有任何一手来源支持（unavailable）。</li><li style="margin:2px 0">缩量无主线环境下的资金择低位切换：8/25 领涨的四条线中有三条（创新药/CRO、农业、消费）与 AI 完全无关（E5），成交额同时创下半年新低（E4）——这一背景明显支持『轮动』而非『产业驱动』的解释。</li><li style="margin:2px 0">5 日超跌修复：液冷 4 只在 8/18→8/25 的 5 日累计中是全池仅有的正收益方向之一（申菱环境 +7.66%、英维克 +4.62%、高澜股份 +4.05%、飞荣达 +3.06%），但这条恰恰说明它们不是超跌标的，与超跌修复解释相矛盾。</li></ul></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#64748b">待核实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#64748b"><li style="margin:2px 0">本报未取得任何 8/25 当日的一手公告、订单、中标或政策来源可以解释 +9.70% 这一幅度。这是本期最大的一处归因空白。</li><li style="margin:2px 0">观察池液冷方向仅覆盖 4 只、且缺失曙光数创（连续第十一期），无法判断该方向的强势是全方向的还是仅限于这 4 只。</li></ul></td></tr></table></div><div style="margin:8px 0;padding:10px 12px;border:1px solid #e5e7eb;border-radius:8px"><div style="font-size:12.5px;font-weight:700;color:#111827">亨通光电 8/25 +6.90%，龙虎榜净买入 18.4959 亿元居当日全市场第一，主力净流入 18.41 亿元居全市场第 2 位；光纤光缆 4 只全部进入主力净流入前 30</div><table style="margin-top:6px"><tr><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#15803d">已证实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#15803d"><li style="margin:2px 0">龙虎榜上榜原因为『有价格涨跌幅限制的日价格振幅达到 15% 的前五只证券』，即当日日内振幅≥15%；买入 26.64 亿元、卖出 8.14 亿元、龙虎榜成交占比 21.37%、换手率 10.60%（E1）。</li><li style="margin:2px 0">同方向的长飞光纤同样因振幅≥15% 上榜，净买入 1.4107 亿元居第 5 位，并以收盘价 394.50 元创 20 日新高（E1）。</li></ul></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#b45309">候选</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#b45309"><li style="margin:2px 0">光纤涨价周期：公开报道显示 2026 年上半年光纤价格出现大幅上涨、行业存在供给缺口，但本报检索到的全部相关报道均为 2026 年 1–8 月中旬的旧文，无一条发布于 8/25，不能用于解释当日行情。</li><li style="margin:2px 0">本报的 T-OPTICAL-UPSTREAM-ROTATION 假设：光纤光缆不在 CPO 替代叙事射程内，若 CPO 落地则物理层需求不减反增。该假设连续三期无一手订单或客户来源支持。</li></ul></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#64748b">待核实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#64748b"><li style="margin:2px 0">无 8/25 当日一手来源。日内振幅≥15% 说明当日存在剧烈的多空交换，但本报无分时数据，无法判断是消息驱动还是资金行为。</li><li style="margin:2px 0">亨通光电与中天科技的收入结构中海缆与电力业务占比不小，本报无分部数据，无法判断这轮上涨定价的是 AI 相关业务还是其他业务。</li></ul></td></tr></table></div><div style="margin:8px 0;padding:10px 12px;border:1px solid #e5e7eb;border-radius:8px"><div style="font-size:12.5px;font-weight:700;color:#111827">美团 8/25 港股 -6.65% 收 77.20 港元，是港股八只 AI/科技标的中唯一大幅下跌的一只（其余七只均值约 +1.28%）</div><table style="margin-top:6px"><tr><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#15803d">已证实</div><div style="font-size:11.5px;color:#cbd5e1;margin-top:4px">—</div></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#b45309">候选</div><div style="font-size:11.5px;color:#cbd5e1;margin-top:4px">—</div></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#64748b">待核实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#64748b"><li style="margin:2px 0">本报未取得任何带日期的 8/25 一手或二手来源可以解释该跌幅。检索到的相关报道均为 2026 年 3 月、5 月的旧文（本地商业分部经营亏损、竞争格局变化），不能用于解释 8/25。</li><li style="margin:2px 0">本报按 R10 记录：这是一次完全无法归因的单日大幅下跌，不强行套用旧的基本面叙事。</li></ul></td></tr></table></div><div style="margin:8px 0;padding:10px 12px;border:1px solid #e5e7eb;border-radius:8px"><div style="font-size:12.5px;font-weight:700;color:#111827">大立光 8/25 台股 +6.22%，为外围五个市场全部 30 余只标的中单日涨幅最大的一只；同期台积电仅 +1.05%、联发科 -0.80%、鸿海 -0.21%</div><table style="margin-top:6px"><tr><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#15803d">已证实</div><div style="font-size:11.5px;color:#cbd5e1;margin-top:4px">—</div></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#b45309">候选</div><div style="font-size:11.5px;color:#cbd5e1;margin-top:4px">—</div></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#64748b">待核实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#64748b"><li style="margin:2px 0">本报未取得任何 8/25 一手来源。该标的属光学镜头方向，与本报观察池的十个 AI 硬件子板块无直接映射关系。</li><li style="margin:2px 0">该行带 carried_forward=true、carried_reason=regressed，其 market_date=2026-08-25 为真实交易日，但本报不写成『最新抓取显示』（E1）。</li></ul></td></tr></table></div><div style="margin:8px 0;padding:10px 12px;border:1px solid #e5e7eb;border-radius:8px"><div style="font-size:12.5px;font-weight:700;color:#111827">全市场超 4200 只个股上涨，而沪深合计成交额缩量 1756 亿元至 1.8318 万亿元、A 股口径 18443 亿元创 2026 年下半年新低</div><table style="margin-top:6px"><tr><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#15803d">已证实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#15803d"><li style="margin:2px 0">两个读数分别来自外部收评与本次快照并互相印证：外部给出 1.83 万亿元与超 4200 只上涨（E3、E4），快照给出上证 8588.74 亿元 + 深证 9729.70 亿元 = 1.8318 万亿元（E1）。</li><li style="margin:2px 0">观察池的成交量读数呈现同一形态的分裂：50 只相对 8/24 的成交量变化均值 +7.36%、中位数 -15.12%——极少数标的放巨量，多数标的显著缩量（E1）。</li></ul></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#b45309">候选</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#b45309"><li style="margin:2px 0">抛压退出而非增量入场：上涨由卖盘减少而非买盘推动，因而广度好而量能差。本报倾向这一解释，但没有分笔或委托数据可以证实。</li><li style="margin:2px 0">存量资金的高速轮动：8/25 领涨的四条线（创新药/CRO、农业、液冷、消费）互不相关，符合『热点快速轮动』的描述（E5）。</li></ul></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#64748b">待核实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#64748b"><li style="margin:2px 0">本报无法区分『抛压退出』与『存量高速轮动』这两种解释，两者对下一个交易日的含义不同（前者指向企稳，后者指向反复）。</li><li style="margin:2px 0">flow_divergence 的样本基数问题连续第三期未解决：本期 scanned=161，distribution 8 只、accumulation 仅 1 只（博汇股份，跌 8.14% 而大额资金净流入 4.94%），accumulation_detectable=true，但样本中下跌且满足阈值的股票数量本身很少，该模块在普涨日的判别力有限（E1）。</li></ul></td></tr></table></div><div style="margin:8px 0;padding:10px 12px;border:1px solid #e5e7eb;border-radius:8px"><div style="font-size:12.5px;font-weight:700;color:#111827">阿里巴巴 800 亿港元 AI 基建投入连续第二个交易日未被 A 股相关方向定价</div><table style="margin-top:6px"><tr><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#15803d">已证实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#15803d"><li style="margin:2px 0">AI服务器子板块 8/25 跑输观察池均值 0.5376 个百分点（连续第三个交易日跑输），算力租赁/AIDC 跑输 2.3376 个百分点（十个子板块最差、平均量比 0.70 为全池最低），两个方向合计 9 只无一进入全市场主力净流入前 30（E1）。</li></ul></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#b45309">候选</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#b45309"><li style="margin:2px 0">投放节奏与投向未拆分：本报仍无法判断 800 亿港元中有多少会转化为 A 股服务器厂商的订单（自建 IDC、芯片采购、还是海外算力租赁）。</li></ul></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#64748b">待核实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#64748b"><li style="margin:2px 0">800 亿港元的投放节奏与投向拆分，连续第三期 unavailable。</li><li style="margin:2px 0">A 股服务器/AIDC 公司对阿里及其他云厂商的收入敞口数据，连续第二期 unavailable——正是这一项的缺失导致 T-CHINA-CAPEX-MARGIN 于本期关闭。</li></ul></td></tr></table></div><div style="margin:8px 0;padding:10px 12px;border:1px solid #e5e7eb;border-radius:8px"><div style="font-size:12.5px;font-weight:700;color:#111827">玻纤/电子布方向 5 日累计（8/18→8/25）国际复材 -19.23%、中材科技 -18.47%、宏和科技 -15.30%，为全池五日跌幅前列，而本报连续三期无法取得该方向任一条来源</div><table style="margin-top:6px"><tr><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#15803d">已证实</div><div style="font-size:11.5px;color:#cbd5e1;margin-top:4px">—</div></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#b45309">候选</div><div style="font-size:11.5px;color:#cbd5e1;margin-top:4px">—</div></td><td style="vertical-align:top;width:33%"><div style="font-size:11px;font-weight:700;color:#64748b">待核实</div><ul style="margin:4px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:#64748b"><li style="margin:2px 0">【本报在此做出上一期登记的承认】本报确认：玻纤/电子布方向是本报观察池设计上的一个盲区，而不是一个『待核实』事项。连续三期无法取得该方向的任一条公告、政策、订单或价格来源，同时该方向出现了全池前列的中期跌幅，这两件事同时成立意味着本报在这个方向上既没有解释能力也没有预警能力。</li><li style="margin:2px 0">本报按 R10 不再在后续各期重复登记『待核实』，改为把它计入 data_quality 的固定缺口项，直到取得第一条一手来源为止。</li></ul></td></tr></table></div></div>
+</div>
+
+
+<div class="section sec-thesis">
+  <div class="section-header">🧭 七、论点跟踪</div>
+  <div class="section-body"><table><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:2px 8px;border-radius:999px">延续</span></td>
+          <td><b style="font-size:12.5px">T-PHYSICAL-LAYER-ROTATION</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1、E9、E5</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：【本期新开，开立于中性】
+【论点内容】自 2026-08-25 起，A 股 AI 硬件链内部出现一次可度量的资金迁移：资金从『会被 CPO/NPO 架构替代直接影响的环节』（可插拔光模块整机）迁向『在替代情形下需求不减反增的物理层与热管理环节』（液冷、光纤光缆、机柜内高速铜连接）。【开立依据（全部为本次快照读数）】①十个子板块相对全池均值的排序中，跑赢的三个方向恰好是液冷（+8.2124）、光纤光缆（+3.2824）、高速铜连接（+2.4124），跑输最多的两个恰好是光通信/CPO/光模块（-2.1376）与算力租赁/AIDC（-2.3376）；②这三个方向的 13 只贡献了全池 +77.36 个百分点，其余 37 只合计 -2.98 个百分点；③资金侧同向：观察池进入全市场主力净流入前 30 的 12 只中，光纤光缆 4 只（全部）、液冷 3 只，合计 7 只来自这两个方向；当日龙虎榜 55 条记录中本报观察池占 3 条，全部来自这两个方向（亨通光电第 1 位 18.4959 亿元、英维克第 2 位 3.6866 亿元、长飞光纤第 5 位 1.4107 亿元）。
+【本论点未覆盖的风险轴（按 R28 逐条穷举）】(a) 缩量轮动轴：8/25 成交额创下半年新低、全市场热点在医药/农业/消费/液冷之间快速切换，这三个方向的上涨完全可能只是缩量环境下资金选择低位方向的结果，与 CPO 叙事无关；本报没有任何证据可以区分这两种解释，这是本论点最大的空白。(b) 资金证据缺失轴：高速铜连接 5 只无一进入主力净流入前 30、无一上龙虎榜、无一进入融资净买入前 100，本论点在这个方向上只有价格证据。(c) 单日样本轴：液冷与光纤光缆分别只有两日与三日的连续跑赢记录，样本量不足以区分趋势与反弹。(d) 涨价周期轴：光纤光缆自 2026 年上半年起有独立的涨价周期叙事（公开报道均为旧文，无 8/25 当日来源），该方向的强势可能与 AI 架构完全无关。(e) 上游/下游轴：光通信子板块内部本期已分化——偏光器件与上游的天孚通信（+3.05%）、源杰科技（+0.78%）、光迅科技（+0.56%）上涨，偏模块整机的中际旭创、新易盛、光库科技下跌；若这条上下游分界比本论点的『物理层 vs 模块』分界解释力更强，本论点须被重写。
+【首次检验条件（下一期逐项核对）】①液冷、光纤光缆、高速铜连接三个方向 8/26 是否有至少两个继续跑赢观察池均值；②光通信/CPO/光模块是否连续第三个交易日跑输；③高速铜连接是否首次出现任一只进入全市场主力净流入前 30（补齐该方向的资金证据缺口）；④本报能否取得任一条带 URL 与发布时间的一手来源，说明 CPO 机柜对液冷、光纤或铜连接的具体用量变化。【作废条件】若 8/26 光通信/CPO/光模块跑赢观察池均值≥1.0 个百分点，同时液冷跑输，则本论点的方向分类被证伪，作废并重写。【降级条件】若三个方向中有两个连续两个交易日跑输观察池均值，降回并关闭。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#dcfce7;color:#15803d;
+                         padding:2px 8px;border-radius:999px">加强</span></td>
+          <td><b style="font-size:12.5px">T-CPO-SUBSTITUTION-DERATING</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1、E9、E10</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期新开、开立于中性。本期上调为 strengthened，依据是首次检验三项中两项成立、且价格侧的确认比上一期更硬。【逐条核对】(a) 光通信/CPO/光模块 8/25 均值 -0.65%、跑输观察池均值 2.1376 个百分点，连续第二个交易日跑输，成立；(b) 中际旭创未守住上一期登记的 20 日支撑 864.00 元——收 846.00 元、跌破 2.08%，且 846.00 元本身即成为其新的 support_20d，成立（方向与本论点一致）；(c) 一手份额来源部分补齐：取得 Nature Electronics 于 2026-08-19 刊出的 CPO 同行评审综述（SK 海力士 AI Infra 负责人与弗吉尼亚大学教授共同通讯，投稿 2025-11-18、接收 2026-07-08，目标单节点 >100 Tb/s、能效 <1 pJ/bit、光互连延伸至共享内存池，E9），但该文不含 CPO 与可插拔光模块的份额分配数字，故判为部分补齐。
+【上调为 strengthened 而非维持中性的理由】上一期本论点的全部依据是一次反向定价（利好被跌）加一条社交信号归因（E10）。本期新增两条独立于价格解释的证据：其一，该子板块的跑输在一个全池上涨 1.4876% 的日子里仍然成立——上一期的跑输发生在全池大跌日，跑输可能只是高 beta 的结果，本期全池上涨而它下跌，beta 解释被排除；其二，取得了同行评审的技术路线图（E9），把『架构替代』从传闻层面提升到工程层面。【本论点未覆盖的风险轴（按 R28）】(a) 该子板块内部的上下游分化：本期天孚通信、源杰科技、光迅科技三只上涨，若替代叙事成立，光器件上游同样应承压，本论点无法解释这三只的上涨；(b) 估值与拥挤度轴：中际旭创 5 日累计跌幅与其年内涨幅的对比本报未计算，无法排除单纯的拥挤交易平仓；(c) 汇率与海外需求轴：本论点完全不涉及；(d) 时间尺度轴：Nature Electronics 的路线图没有商业化时间表，本论点隐含的『2027 年份额切换』没有任何来源支持，这是本论点最脆弱的一处。
+【下一期检验条件】①该子板块是否连续第三个交易日跑输；②中际旭创能否收回 864.00 元（原支撑，现为压力）；若不能，其 MA20=922.44 需上涨 9.04% 才可收复，逐日记录该缺口；③该子板块内部上涨与下跌的分组是否继续沿『器件上游 vs 模块整机』分界；④能否取得含份额或时间表数字的一手来源。【作废条件】若该子板块连续两个交易日跑赢观察池均值≥1.0 个百分点且中际旭创收回 864.00 元，本论点作废。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#fef3c7;color:#b45309;
+                         padding:2px 8px;border-radius:999px">减弱</span></td>
+          <td><b style="font-size:12.5px">T-CPO-1.6T-SUPPLY-GAP</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1、E9</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期下调为 weakened。本期维持 weakened，不进一步下调、也不关闭。【本期读数】中际旭创 -2.78% 收 846.00 元、跌破 864.00 元支撑；该子板块继续跑输 2.1376 个百分点；平均量比 0.82（8/24 为 1.058），是缩量下跌而非放量下跌。【维持而不关闭的理由】本论点主张的是『1.6T 环节的业绩约束在有效产能而不在需求获取』，这是一条产能侧的机制主张。本期没有任何一条新的产能、物料或交付信息发布，因此该机制既未被证实也未被证伪；被继续证伪的仍然只是它的价格侧检验。【按 R27 的自我约束声明】本报本期未把该公司 8/23 投资者关系活动记录表或其半年报作为任何多头依据，也未把连续两日下跌重新解释为『利空出尽』。R27 的高危时点（该股反弹时）本期未到来。【本论点未覆盖的风险轴（按 R28，本期补写）】(a) 架构替代轴——已由 T-CPO-SUBSTITUTION-DERATING 单独承接；(b) 客户集中度轴——本报无该公司分客户收入数据；(c) 价格年降轴——本报无一手价格数据，只有公司口径的定性说法，且该说法按 R27 已被移出多头论证。【关闭条件（维持上一期）】若取得一手来源显示 1.6T 有效产能不再是约束（客户改单、产能过剩或价格战），则关闭。【本报的坦白】这条论点自开立以来没有一次通过其价格侧检验，其唯一的支撑是一条已按 R27 被移出多头论证的公司口径信息。若下一期仍无新的产能侧一手来源，本报应当考虑关闭它而不是继续挂着。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#dcfce7;color:#15803d;
+                         padding:2px 8px;border-radius:999px">加强</span></td>
+          <td><b style="font-size:12.5px">T-OPTICAL-UPSTREAM-ROTATION</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期上调为 strengthened。本期维持 strengthened，且是三期以来强度最高的一次检验。【上一期登记的检验条件逐条核对】①光纤光缆子板块 8/25 是否跑赢观察池均值——实际 +4.77% vs 全池 +1.4876%，跑赢 3.2824 个百分点，成立，且这是连续第三个交易日跑赢；②『光纤概念』板块主力净额是否连续为正——仍 unavailable（board_capital_flows 为净流入前 100 单侧截断，该板块不在榜内，本报不推断）；③长飞光纤是否跌破 MA20=328.13（关闭条件）——实际收 394.50 元、其 MA20=332.76 元，高出 18.55%，关闭条件未触发；④烽火通信能否突破 20 日压力 41.73 元——实际收 40.66 元（+3.94%），仍未突破，缺口由上一期的 6.0% 收窄到 2.63%，本项连续第二期失败但方向改善。【本期新增的三条更强证据】①光纤光缆 4 只全部进入全市场主力净流入前 30（亨通光电第 2 位 18.41 亿元、中天科技第 5 位 9.23 亿元、长飞光纤第 6 位 6.73 亿元、烽火通信第 15 位 4.67 亿元），是十个子板块中唯一整建制入榜的方向；②亨通光电以 18.4959 亿元净买入居当日全市场龙虎榜第一，长飞光纤居第 5；③长飞光纤是观察池 50 只中唯一一只主力、龙虎榜、融资三条资金线同时为正、且融资 1 日/3 日/5 日三个口径全为正的标的（+1.01/+2.03/+1.10 亿元）。【本报给出的机制假设，仍须标注为假设】光纤光缆不在 CPO 替代叙事的射程内，且若 CPO 落地，光纤与光互连物理层需求方向不减反增。本报连续三期未取得任何一手订单或客户来源支持这一假设。【本论点未覆盖的风险轴（按 R28，本期补写）】(a) 独立涨价周期轴：该方向自 2026 年上半年起有独立的光纤涨价叙事，公开报道均为旧文、无 8/25 当日来源，本方向的强势可能完全与 AI 无关；(b) 海缆与电网业务轴：亨通光电与中天科技的收入结构中海缆与电力占比不小，本报无分部数据；(c) 拥挤度轴：亨通光电当日换手率 10.60%、日内振幅≥15%，属极高活跃度，回撤风险本论点未覆盖。【降级条件（维持）】该子板块连续两个交易日跑输观察池均值，降回 carried_forward。【关闭条件（阈值按本期窗口更新）】长飞光纤跌破 MA20=332.76 元，则关闭。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#dcfce7;color:#15803d;
+                         padding:2px 8px;border-radius:999px">加强</span></td>
+          <td><b style="font-size:12.5px">T-COOLING-CPO-COMPLEMENT</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1、E5、E6</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期新开、开立于中性。本期上调为 strengthened，依据是四项检验条件中三项成立，且第 (c) 项的有效性前提被满足。【逐条核对】(a) 液冷 8/25 均值 +9.70%、跑赢观察池均值 8.2124 个百分点，连续第二日跑赢（8/24 跑赢 4.9452），成立且幅度扩大；(b) 高速铜连接 +3.90%、跑赢 2.4124 个百分点，连续第二日跑赢（8/24 跑赢 1.5872），成立且幅度扩大；(c) 上一期登记的关键前提是『须在光通信方向继续下跌的交易日检验，若光通信上涨则本条当日无效』——8/25 光通信方向确实下跌 0.65%，前提满足，本期是一次有效检验而不是无效样本；(d) 说明 CPO 架构对机柜功率密度或散热方案具体要求的一手来源，仍 unavailable，连续第二期。【本期新增的资金侧证据】液冷 4 只中 3 只进入全市场主力净流入前 30（英维克第 3 位 16.22 亿元、飞荣达第 20 位 3.42 亿元、申菱环境第 28 位 3.04 亿元），英维克居龙虎榜净买第 2 位 3.6866 亿元、封单 3.26 亿元为当日涨停股之最（E6）。液冷 4 只全部站上各自 MA20 且缓冲 10.43%–21.23%，是十个子板块中中期结构最完好的一个。【必须与上调同时写下的两条反证，否则这条论点会被误读】其一，高速铜连接 5 只无一进入主力净流入前 30、无一上龙虎榜、无一进入融资净买入前 100——该方向的『跑赢』只有价格证据。其二，本论点的机制主张（CPO 架构提高功率密度、利好散热）至今没有任何一手来源，连续两期 unavailable；在没有机制证据的情况下，连续两日的相对强弱同样可以由『缩量环境下资金选择低位方向』解释，而 8/25 领涨的四条线中有三条（创新药/CRO、农业、消费）与 AI 完全无关（E5），这一点明显支持后一种解释。【本论点未覆盖的风险轴（按 R28）】(a) 无主线轮动轴（见上）；(b) 液冷方向的观察池只有 4 只、且缺失曙光数创（连续第十一期），样本代表性不足；(c) 估值与超买轴：飞荣达 RSI12=71.77 是全池唯一超过 70 的一只，申菱环境高于 MA20 达 20.76%，本论点不覆盖回撤风险。【下一期检验条件】①液冷与高速铜连接是否至少有一个连续第三日跑赢；②检验必须再次在光通信下跌日进行，否则记为无效样本；③高速铜连接能否首次出现主力净流入前 30 的入榜标的；④能否取得机柜功率密度/散热要求的一手来源。【降级条件】两个方向同时跑输观察池均值，降回 carried_forward。【关闭条件】若连续三个交易日两个方向均跑输，或取得一手来源显示 CPO 架构对散热需求为中性甚至下降，则关闭。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:2px 8px;border-radius:999px">延续</span></td>
+          <td><b style="font-size:12.5px">T-OPTICAL-OVERSEAS-REVENUE</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1、E7</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期上调为 strengthened。本期降回 carried_forward——不是因为被证伪，而是因为本期不存在可用于检验它的样本。【上一期登记的检验条件核对】①要求在 8/25–8/29 内取得至少一次同类机制观察（国内信息中性或正面而 A 股光模块随海外方向变动）——本期未取得：8/25 既无可指认的海外光模块侧消息，国内侧也无该方向的信息；②降级触发条件『出现一次海外无消息而 A 股光模块单日波动超过 3%』——未触发，该子板块 8/25 均值 -0.65%，六只中最大单日波动为 -2.78%，全部小于 3%；③观察池内另一家光模块/光器件公司的半年报海外收入占比——连续第三期 unavailable。【本期出现一条方向相反的读数，必须记下】8/25 美股硬件八只均值 +2.7425%、SOXX +1.56%（E7、E1），海外光/半导体方向明确走强；而 A 股光通信/CPO/光模块 -0.65%。若本论点成立（A 股光模块跟随海外），当日应当上涨。这是本论点自开立以来第一次出现海外强而 A 股弱的反例。【本报不据此下调为 weakened 的理由】8/25 美股的强势发生在英伟达季报前，且集中在 SMCI（+9.35%，思科合作）与 AMD（+4.91%）这两只与光模块链条关系较弱的标的上；同期博通 -0.56%、Arista +1.48%、Vertiv +0.31%，与光互连更相关的三只并不强。因此本期的反例强度不足以支持下调，但足以取消上一期的上调。本报按 R10 把它记为『不构成有效检验的一期』并降回中性。【下一期检验条件（收紧）】要求在 8/26–8/29 内取得一次干净样本：海外光模块/光互连侧（英伟达、博通、Arista、Coherent 之一）出现可指认的方向性消息，且当日 A 股光模块方向同向变动≥1.0 个百分点。若连续两期取不到干净样本，本报须承认该论点当前不可检验并考虑关闭。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:2px 8px;border-radius:999px">延续</span></td>
+          <td><b style="font-size:12.5px">T-AI-CREDIT-FINANCING</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E15、E7</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期上调为 strengthened。本期降回 carried_forward：本期没有任何新的 AI 相关融资、债券或配售事件发生，论点既未被强化也未被削弱。【本期唯一相关读数】五家美系云与 AI 基础设施厂商 2026 年资本开支合计承诺 6600 亿–6900 亿美元（E15）——这是一条量级背景，不是新事件，本报不把它当作本期的强化依据。【下一期检验条件（维持）】①是否出现新的大额 AI 基建融资（配售、可转债、私募信贷）；②若出现，其发行主体的股价与信用利差在事件后第一个交易日的反应方向；③本报仍未取得任何 AI 相关私募信贷或数据中心 ABS 的利差数据，连续多期 unavailable，这是本论点最大的证据缺口。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#fef3c7;color:#b45309;
+                         padding:2px 8px;border-radius:999px">减弱</span></td>
+          <td><b style="font-size:12.5px">T-STAR-MEMORY-IPO-SUPPLY</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1、E14</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期新开、开立于中性。本期下调为 weakened，依据是首次检验的三项全部未能支持。【逐条核对】(a) 存储五只 8/25 均值 +1.29%、跑输观察池均值 0.1976 个百分点——方向上仍成立，但幅度由 8/24 的 1.785 个百分点收窄到 0.1976，收窄了约 89%，几乎已不构成跑输；(b) 未出现第三家存储或半导体公司的科创板 IPO 受理或注册生效；(c) 长江存储 IPO 8/25 无新节点（E14）。【下调理由】本论点主张的是『国产存储 IPO 供给对 A 股存储板块构成持续压制』。检验窗口内该压制的量化表现（跑输幅度）迅速衰减到接近零，且没有任何新的供给事件出现。一条以『持续压制』为内容的论点，在两个交易日内压制就衰减 89%，应当下调。【本报同时记下一条与下调方向相反的读数】兆易创新 8/25 +3.63%、主力净流入 13.26 亿元居全市场第 4 位、融资净买入 +1.47 亿元居第 2 位——存储方向的资金面本期是正的；但其融资 3 日 -4.34 亿元、5 日 -10.43 亿元，中期口径仍为大幅流出。存储五只平均量比 0.79，是十个子板块中第二低。【下一期检验条件】①存储五只是否恢复跑输观察池均值≥1.0 个百分点；②长江存储 IPO 是否出现问询、注册或发行定价节点，每个节点当日 A 股存储方向的反应逐一记录；③能否取得一手 DRAM 或 NAND 合约价来源（该项同时是 T-MEMORY 的重开条件之一，连续多期 unavailable）。【关闭条件】若连续三个交易日存储方向跑赢观察池均值，或长江存储 IPO 进程实质性中止，则关闭。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-CHINA-CAPEX-MARGIN</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：【本期关闭，触发的是上一期预先登记的关闭条件，不是事后判断】上一期写下：『(a) AI服务器子板块 8/25 是否第三次连续跑输观察池均值；(c) 能否取得任一家 A 股服务器/AIDC 公司对阿里或其他云厂商的收入敞口数据。若 (a) 成立且 (c) 仍 unavailable，则本论点关闭。』【逐条核对】(a) 成立——AI服务器 8/25 均值 +0.95%、跑输 0.5376 个百分点，连续第三个交易日跑输（8/21 -0.327、8/24 -0.8198、8/25 -0.5376）；(b) 四只 macd_status 无一转为金叉（工业富联、浪潮信息、中科曙光空头排列，紫光股份死叉）；(c) 收入敞口数据仍 unavailable。两项关闭条件同时成立，本期关闭。【关闭时必须写清关闭的是什么】关闭的是『国内 AI 资本开支的边际变化是 A 股 AI服务器方向的定价变量』这一主张。连续三个交易日的跑输本身不能证伪它，真正让本报关闭它的是第 (c) 项：本报连续多期无法取得任何一家 A 股服务器公司对云厂商的收入敞口数据，也就无法把『国内资本开支』与『这四只股票的收入』连起来。一条无法连接自变量与因变量的论点，本报没有资格继续持有。【重开条件（两条同时成立）】①取得任一家观察池内 AI服务器或算力租赁/AIDC 公司对阿里、腾讯、字节或运营商的收入敞口数据，带 URL 与发布时间；②该子板块当日均值跑赢观察池均值≥1.0 个百分点。【本方向的分析责任移交】阿里 800 亿港元投放的定价追踪继续留在 anomaly_investigation 的待核实项中，不随本论点关闭而终止。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:2px 8px;border-radius:999px">延续</span></td>
+          <td><b style="font-size:12.5px">T-LEVERAGE-ETF-ABSORPTION</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期为 strengthened。本期降回 carried_forward，理由是一条方法性的：本论点是一条逆势型论点，而 8/25 是一个顺势日，因此本期的通过不含增量信息。【上一期登记的条件逐条核对，数量条件全部通过】①观察池进入全市场融资净买入前 100 的数量≥4 只——实际 10 只（上一期 6 只），通过；②宽基 ETF 是否维持在前十——通过，且强化：500ETF 第 3 位 +1.38 亿元、科创半导 第 4 位 +1.22 亿元、科创50 第 7 位 +1.08 亿元，前十中有三只工具类 ETF（上一期为一只）；③上一期六只的 3 日/5 日累计逐只跟踪（本期完成）：长飞光纤 +1.01/+2.03/+1.10 亿元、工业富联 +0.96/+1.55/+1.17 亿元（两只三口径全正）；生益科技 +0.74/+1.99/-2.06 亿元；亨通光电 +0.81/+0.33/-2.15 亿元；兆易创新 +1.47/-4.34/-10.43 亿元；寒武纪 +0.95/-0.36/-5.82 亿元。单日加仓叠加中期减仓的背离，在兆易创新与寒武纪两只上继续存在，在生益科技与亨通光电两只上只剩 5 日口径为负。【降回中性而不是维持 strengthened 的理由，也是本期新增规则 R32 的来源】本论点主张的形态是『杠杆资金以指数化与逆势方式吸收抛压』，其识别特征是『下跌中被买』。上一期的六只中有五只当日下跌、科创50ETF 本身跌 3.09%，形态清晰。本期十只中多数当日上涨、全池均值 +1.4876%，融资加仓与价格同向——这是顺势加仓，不是逆势吸收。而本论点的两条数量条件（入榜只数、ETF 排名）在顺势日同样会被满足，因此它们本期不含区分能力。本报据此新增 R32：逆势型论点不得在顺势日被判定为通过或加强，一律记为 carried_forward。【降级条件（维持）】观察池进入融资净买入前 100 的数量降至≤3 只，或宽基 ETF 退出前十，任一成立则……本期已在中性，若触发则下调为 weakened。【关闭条件（维持）】连续三个交易日观察池融资净买入合计为负，则关闭。【下一期检验条件（按 R32 收紧）】只有在观察池当日均值为负的交易日，本论点的两条数量条件才计为有效检验；顺势日的读数仅作记录。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#fef3c7;color:#b45309;
+                         padding:2px 8px;border-radius:999px">减弱</span></td>
+          <td><b style="font-size:12.5px">T-CAPEX-SQUEEZE</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1、E7、E13</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期上调为 strengthened。本期下调为 weakened，依据是其核心的相对强弱指标一日之内完全反转。【上一期登记的检验条件逐条核对】(a) 30 年期美债 8/25 单日变动是否≥10 个基点——实际报 5.23%、较前一交易日基本持平（E13），不成立；(b) 美股平台组与硬件组的相对强弱——实际硬件八只 +2.7425% 对平台四只 +0.1875%，硬件跑赢 2.5550 个百分点；剔除美光后硬件七只 +2.7800%、跑赢 2.5925 个百分点。上一期是平台跑赢硬件 4.329 个百分点、为本报跟踪期内最大值，一日之内反转为硬件跑赢 2.56 个百分点；(c) 硬件跑赢计数由 0 变为 1，这是本论点开立以来第一次；(d) home.treasury.gov 的日度收益率曲线，第三次尝试仍返回 EGRESS_BLOCKED，unavailable。【下调为 weakened 而不是关闭的理由】本论点主张的机制是『高企的长端利率压制资本开支密集型硬件公司的估值』。本期长端利率并未下行（30 年期持平于 5.23%），而硬件大涨——也就是说，本期硬件的上涨不是由利率变化解释的，它更可能由英伟达季报前的仓位再平衡与思科—SMCI 合作这两个事件驱动（E7）。一个由事件驱动的单日反转，不足以证伪一条关于利率与估值的中期机制主张，但足以取消上一期的上调，并把硬件跑赢计数记上一笔。【本论点未覆盖的风险轴（按 R28，本期补写）】(a) 事件驱动轴：季报、合作公告等公司事件对单日相对强弱的影响可以远大于利率，本论点的日频检验对此没有免疫力；(b) 平台组样本轴：本报平台组只有四只且含 Palantir 这样波动极大的标的，8/25 它单独 -1.80%，对四只均值的拖累达 0.45 个百分点；(c) 融资成本传导时滞轴：利率对资本开支的影响以季度计，用日频价差检验存在根本的时间尺度错配，这是本论点方法上最大的问题。【下一期检验条件】①硬件跑赢计数是否继续增加（当前 1）；②英伟达季报后（8/27 早报）平台组与硬件组的相对强弱如何变化，这是本论点最重要的一次检验；③30 年期美债收益率的单日变动。【关闭条件（本期收紧）】若硬件跑赢计数达到 3 且期间 30 年期美债收益率未出现累计 20 个基点以上的下行，则本论点的机制主张被证伪，关闭。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:2px 8px;border-radius:999px">延续</span></td>
+          <td><b style="font-size:12.5px">T-FED-HIKE-REGIME</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E13</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持 carried_forward。本期无新的联储信息。【事件状态与时点】沃什 8/28 美东上午 10:00 杰克逊霍尔首场主题演讲，须在 8/31 早报完整复盘。【传导渠道】政策路径预期→长端利率→成长股估值→A 股 AI 链的外部风险偏好；本报对最后一段的传导强度没有量化证据。【可能影响期限】演讲当日至其后一至两周。【本期读数】30 年期 5.23%、10 年期 4.66%（E13），但 10 年期的日度序列在不同来源间无法拼接，本报把精确序列记为口径不确定。【连续第十三次失败的取数项】CME FedWatch 带日期的原始读数仍未取得。本报已连续十三期在此项写 unavailable——本报在此明确：若下一期仍无法取得，本报将停止在每期重复登记该项，改为在 data_quality 中固定标注『联储路径预期的市场定价本报长期不可得』，并在所有涉及联储的论述中承认这一结构性缺口，而不是继续制造一条永远失败的待办。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#fef3c7;color:#b45309;
+                         padding:2px 8px;border-radius:999px">减弱</span></td>
+          <td><b style="font-size:12.5px">T-OIL-RATE-SHOCK</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E12</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持 weakened。【逐条核对】(a) 8/25 油价继续下跌，布伦特在不同来源间为 87.12／88.58／约 89.5 美元三个互不一致的数字、WTI 约 82.36 美元（E12）；本报只记录『继续下跌、区间约 87–89.5 美元』，精确读数 unavailable。以区间中值计，较上一期记录的 8/24 布伦特 92.06 美元下跌约 3–5%。(b) 伊朗二级制裁的具体实体清单未公布；已确认的是该方案未设截止日期、且未涉及为伊朗石油资金清算的机构（E12），是否包含中国实体 unavailable。(c) A 股航运板块 8/25 是否连续第二日逆势活跃——unavailable：本次快照的涨幅前 60 板块榜中无航运方向，但该榜为单侧截断，不能据此推断该板块下跌，本报不推断。【事件状态】制裁已公布但执行力度弱于预期，同时出现外交降温迹象（巴基斯坦陆军参谋长赴德黑兰，被报道携带涉制裁豁免方案），属风险溢价回吐阶段。【关闭条件（维持）】布伦特连续三个交易日低于 85 美元且通行量继续回升，则关闭。本期区间下沿 87.12 美元仍高于 85 美元，未开始计数。【作废条件】若出现实体清单落地或霍尔木兹通行受阻，本论点须由 weakened 重新上调并重写传导路径。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:2px 8px;border-radius:999px">延续</span></td>
+          <td><b style="font-size:12.5px">T-BOJ-CARRY-UNWIND</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持 carried_forward。本期无新的日银信息，也未取得日元汇率或日债收益率的带日期读数（连续多期 unavailable）。【本期唯一相关读数】日经225 8/25 +0.50% 报 65856.43，而本报覆盖的六只日本 AI 设备/材料标的均值 -0.1967%（东京电子 +0.47%、村田 +0.89%、爱德万 -0.14%、索尼 -0.47%、信越化学 -0.76%、Disco -1.17%）——指数上涨而 AI 链下跌，与韩股的形态一致（综合指数 +0.68% 而三星 0.00%、SK 海力士 +0.42%）。【本报的解读边界】这一形态与套息交易的平仓与否没有可指认的联系，本报不把它当作本论点的证据，只作为『8/25 亚太市场的上涨普遍不由 AI 链贡献』这一事实的记录。【下一期检验条件】取得美元兑日元与日本 10 年期国债收益率的带日期读数；在取得之前，本论点不可检验。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:2px 8px;border-radius:999px">延续</span></td>
+          <td><b style="font-size:12.5px">T-FOUNDRY-CYCLE</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持 carried_forward。上一期登记的关闭条件为两条同时成立，本期仍是一条成立、一条不成立。【条件一：中芯国际与华虹公司当日价差连续＜3.0 个百分点】成立，且为连续第四个交易日并逐日收窄——8/20=1.82、8/21=0.79、8/24=1.58、8/25=0.60。8/25 中芯国际 -0.48% 收 120.00 元、华虹公司 -1.08% 收 226.56 元。【条件二：华虹公司收复 MA20】不成立。华虹收 226.56 元、MA20=249.62 元，需上涨 10.18%——与上一期的 10.18% 完全持平，缺口既未扩大也未收窄。【本期新增读数】中芯国际 RSI12=36.38、低于 MA20=126.31 达 5.00%；华虹公司 RSI12=30.16、低于 MA20 达 9.24%，其 20 日支撑 219.50 元距收盘仅 3.12%。【AH 分化的跟踪（上一期新增的记录项）】8/25 中芯国际 A 股 -0.48%、H 股 +1.65%（H 股收 67.85 港元，E1），分化 2.13 个百分点且方向反转——上一期是 A 股 -3.38% 而 H 股 -7.93%、分化 4.55 个百分点且 H 股更弱。两日之内由 H 弱转为 H 强，本报记录这一读数但不解释（AH 折溢价的驱动因素本报仍无数据）。【关闭条件（维持）】两条同时成立时关闭。【作废条件（维持）】价差单日≥6.0 个百分点，则作废并重写。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-SEMI-EQUIP-PURE</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭，接近度由 1/3 退回 0/3，是本期恶化最明显的一条已关闭论点。【本期读数】拓荆科技 -4.26% 收 654.99 元，跌破其 MA20=680.37 元达 3.73%——上一期它是设备三只中唯一站上 MA20 的一只、缓冲仅 0.15%，本报当时写下『任何小幅回落都会把它打回线下』，本期一日即被证实。中微公司 -1.02% 收 354.00 元、低于 MA20=362.12 达 2.24%；北方华创 -1.06% 收 700.40 元、低于 MA20=722.65 达 3.08%。【第二项条件同样由成立转为不成立】三只当日均值 -2.113%，跑输观察池均值 3.60 个百分点。上一期该项成立（三只均值 -0.223% 跑赢全池 2.862 个百分点）。也就是说，上一期本报观察到的『设备方向相对抗跌』，在全池上涨日立刻表现为『相对滞涨』——这说明上一期的抗跌很可能只是低 beta，而不是本论点主张的相对强势。本报把这一点记为对上一期解读的修正。【重开条件（维持）】设备三只全部站上各自 MA20 并连续两个交易日维持，且三只当日均值跑赢观察池均值≥1.0 个百分点。本期 0/2。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-MEMORY</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1、E14</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭，接近度仍为 2/3，两个缺项均未补齐，且其中一项本期恶化。【缺项一：存储五只平均量比≥1.0 且当日均值为正】未补齐。方向分支本期成立（+1.29%），但量比分支恶化——本期 0.79，低于上一期的 0.920 与 8/21 的 0.688 之间的水平。按 R29 该条为『且』绑定，一项不成立即整条不成立。【缺项二：一手 DRAM 或 NAND 合约价来源，且显示价格环比为正】未补齐，连续多期 unavailable。【本期与本论点方向相反的结构性证据仍在】长存控股科创板 IPO 拟募 330 亿元、其中 208 亿元用于量产线技术升级（E14），国产 NAND 产能的实质性扩张对存储价格是长期供给侧压制。【重开条件（维持上一期已上调的三条）】①存储五只平均量比≥1.0 且当日均值为正；②取得一手 DRAM 或 NAND 合约价来源；③该来源显示价格环比为正。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-CPO-LEADERSHIP</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭，接近度由上一期的形式 3/3 退回 1/3。【按 R29 重写后的三条重开条件逐条核对】①子板块平均量比≥1.0——本期 0.82（上一期 1.058），不成立；②子板块当日均值跑赢观察池均值≥1.0 个百分点——本期跑输 2.1376 个百分点，不成立；③该子板块内至少一只进入全市场主力净流入前 30——成立，天孚通信以 4.03 亿元居第 18 位。1/3。【R29 的一次实盘验证】上一期本报按 R29 重写条件集时判断：单独的量比条件在下跌日同样会被满足，因此不含方向信息。本期给出了反向的一个样本——量比由 1.058 降到 0.82（缩量），而该板块从大跌 5.808% 变为小跌 0.65%。也就是说，量比在这两期分别对应『放量大跌』与『缩量小跌』，与板块表现之间没有稳定方向关系。R29 的设计意图在两期内各得到一次验证。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-AI-SERVER-ORDERBOOK</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭，接近度仍为 0/2。【逐条核对】①观察池内任一家 AI服务器公司的一手订单、中标或收入指引来源——未取得；②该子板块当日均值跑赢观察池均值≥1.0 个百分点——本期跑输 0.5376 个百分点，不成立。【阿里 800 亿港元的定价追踪，第二个交易日】AI服务器跑输 0.5376、算力租赁/AIDC 跑输 2.3376 个百分点（后者为十个子板块最差）。该笔资金的投放节奏与投向拆分仍 unavailable。本报维持上一期的判定：把一笔用途未拆分的融资当作订单证据属于本报明令禁止的推断。【本期新增的一处观察】随 T-CHINA-CAPEX-MARGIN 于本期关闭，本报在『国内 AI 资本开支』这条链上已不持有任何有效论点，只保留 anomaly_investigation 中的待核实项。本报明确记录这是一个论点空白，而不是一个已解决的问题。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-GLOBAL-MEMORY-A-SHARE-GAP</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期关闭（缺口由全球侧下跌而非 A 股侧上涨消除）。本期维持关闭，无重开迹象：存储五只 +1.29%、跑输全池；美光 8/25 +2.48%、SK 海力士 +0.42%，全球侧回升而 A 股侧同步小幅回升，缺口未重新张开。重开条件维持：A 股存储方向与全球存储方向连续三个交易日方向相反且累计差异≥5 个百分点。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-INDEX-STRUCTURE-INTACT</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期关闭（上证跌破 MA20，触发预登记关闭条件）。本期维持关闭：上证 8/25 收 3889.44，仍低于 MA20=3898.271 达 0.23%，未收复。本报在指数层面继续不持有任何看多的结构性依据。重开条件维持：上证收复 MA20 并连续两个交易日维持在其上。本期距重开只差 8.83 个点，是四条指数中唯一接近的一条，下一期须逐日记录。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-ROBOTICS-IPO-SIPHON</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：上一期关闭（机制移交新论点）。本期维持关闭。本期相关读数：机器人概念板块 8/25 涨 1.75%、主力净流入 81.397 亿元居板块前列（E1），但本报观察池不覆盖机器人方向（连续第五期列为覆盖缺口），无法判断其对 AI 硬件方向的资金分流。重开条件维持：取得机器人方向与本报观察池的资金流对冲证据。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-PHARMA-SIPHON</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭。本期读数与该论点方向一致但本报不据此重开：8/25 创新药与 CRO 概念回暖、CRO 板块涨 3.31%、居涨幅前列，同时 AI 链十个子板块中七个跑输全池（E1、E5）。本报不重开的理由是：本论点要求的是资金对冲证据（同一批资金从 AI 流向医药），而涨跌幅的此消彼长不构成这种证据。重开条件维持：取得同期两个方向主力资金净额方向相反且量级可比的连续三日读数。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-MACRO-EQUITY-DECOUPLING</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭，本期无新证据。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-INCREMENTAL-INFLOW</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭。本期读数明确不支持重开：沪深合计成交额 1.8318 万亿元、缩量 1756 亿元，A 股口径 18443 亿元创 2026 年下半年新低（E3、E4）。增量资金在本期是净流出方向。重开条件维持：成交额连续三个交易日回升且累计升幅≥15%。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-VOLUME-EXPANSION-DISTRIBUTION</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭。本期形态与该论点相反——本期是缩量上涨而非放量下跌。本报按 R29 记录：量能与方向的组合本期为『缩量+普涨』，这是本报四种组合中样本最少的一种，不足以形成任何论点。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-AI-APP-SOFTWARE</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭，且缺口代价第三次具体化。本期 AI语料板块 +2.50%、智谱AI概念 +2.27%、AI制药（医疗）+2.13%，三个 AI 应用/语料方向全部跑赢本报观察池均值（E1）；而本报观察池十个子板块全部为硬件方向，无法观测 AI 价值链内部由硬件向应用与平台的迁移是否正在 A 股发生。连续第十三期列为第二优先覆盖缺口。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-AIDC-COMPUTE-RENTAL</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭。本期读数进一步不利：算力租赁/AIDC 8/25 均值 -0.85%、跑输 2.3376 个百分点，为十个子板块最差，平均量比 0.70 为全池最低，5 只无一进入主力净流入前 30 或融资净买入前 100。重开条件维持：该方向当日均值跑赢观察池均值≥1.0 个百分点且至少一只进入主力净流入前 30。</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:2px 8px;border-radius:999px">关闭</span></td>
+          <td><b style="font-size:12.5px">T-MARKET-BREADTH-BULL</b><span style="font-size:11px;color:#9ca3af;margin-left:6px">E1</span><div style="font-size:11.5px;color:#9a3412;margin-top:3px">失效条件：维持关闭。本期出现一条形式上有利但本报拒绝据此重开的读数：全市场超 4200 只个股上涨（E4）。本报不重开的理由是 R31——广度指标必须与量能和集中度一起读：本期广度极好，但成交额创下半年新低，且本报观察池的上涨高度集中于 13 只。广度好而量能与集中度差，不构成本论点主张的『广度型牛市』。重开条件按 R31 收紧为三条同时成立：①全市场上涨家数≥3500 只；②成交额环比回升；③本报观察池剔除领涨前三个方向后的均值为正。</div></td>
+        </tr></table></div>
+</div>
+
+
+<div class="section sec-risk">
+  <div class="section-header">⚠️ 八、风险提示</div>
+  <div class="section-body"><div class="risk-item">⚠️ northbound.status=partial、unit_verified=false：net_buy 恒为 null（交易所自 2024-08 起停止披露北向净买入），deal_amt_raw 为东财原值、单位未核实（本期沪股通 122860.7、深股通 144560.51）。本报照抄原值、不换算成亿元、不使用『北向净流入 X 亿』这类表述，也不把它当作资金流向指标（E1）。</div><div class="risk-item">⚠️ watchlist_coverage=50/51，液冷方向的曙光数创（872808）连续第十一期缺失。这直接影响本期的核心判断——液冷是本期涨幅最大的方向（+9.70%），而本报只能观测到该方向的 4 只，无法判断强势是全方向的还是仅限这 4 只（E1）。</div><div class="risk-item">⚠️ 外围四个亚太市场（HK/JP/KR/TW）的全部行均带 carried_forward=true、carried_reason=regressed、carried_at=2026-08-25T21:23:42.724047Z：本次抓取返回了更早的交易日，脚本沿用了上一次抓取中同为 2026-08-25 的行。这些行的 market_date 是真实的、可以引用，但它们不是本次抓取的新数据，本报按 market_date 标注时点，不写成『最新抓取显示』（E1）。五个区域的 row_stale 全部为 false、date_spread 全部为单一 2026-08-25，本期没有任何一行需要按陈旧行处理。</div><div class="risk-item">⚠️ index_macd_60m 四条本期 state 全部为 none（label『无顶背离』，参数 span=3、fast=12、slow=26、signal=9，来源 yfinance）。none 既不是 blunting 也不是 cleared——按本系统的四态口径，它只表示『最近两个高点未出现价格与动能背离』，不含任何方向含义，本报不引申。该判定使用的是一套非标准定义，换参数结论会变（E1）。</div><div class="risk-item">⚠️ <b>本期最重要的一条结构性风险</b><br>8/25 的上涨高度集中：液冷、光纤光缆、高速铜连接三个方向的 13 只贡献了全池 +77.36 个百分点，其余 37 只合计 -2.98 个百分点、均值 -0.0805%、16 涨 20 跌 1 平（E1）。全池均值 +1.4876% 不代表本报观察的 AI 硬件链在 8/25 普遍上涨。任何以全池均值为依据的乐观解读都会被这一集中度证伪。</div><div class="risk-item">⚠️ <b>流动性风险</b><br>沪深合计成交额 1.8318 万亿元、缩量 1756 亿元，A 股口径 18443 亿元创 2026 年下半年新低（E3、E4）；观察池 50 只成交量相对 8/24 的变化中位数为 -15.12%。缩量普涨的含义是抛压退出而非增量入场，其持续性弱于放量普涨。本报不把 8/25 定性为趋势反转。</div><div class="risk-item">⚠️ <b>指数结构风险</b><br>四大指数全部仍位于各自 MA20 之下（上证低 0.23%、深证成指低 2.12%、创业板指低 3.02%、科创50 低 4.47%），ma_trend 四条全部为『震荡偏空』。本报自上一期关闭 T-INDEX-STRUCTURE-INTACT 起，在指数层面不持有任何看多的结构性依据，本期维持（E1）。</div><div class="risk-item">⚠️ <b>论点空白风险</b><br>T-CHINA-CAPEX-MARGIN 于本期关闭后，本报在『国内 AI 资本开支』这条链上已不持有任何有效论点。阿里 800 亿港元的定价追踪只能留在 anomaly_investigation 的待核实项中。本报明确记录这是一个论点空白，而不是一个已解决的问题。</div><div class="risk-item">⚠️ <b>归因空白风险</b><br>本期涨幅最大的两个方向（液冷 +9.70%、光纤光缆 +4.77%）本报均未取得任何 8/25 当日的一手公告、订单、中标或政策来源；美团港股 -6.65% 与台股大立光 +6.22% 同样完全无法归因。本报按 R10 不强行套用旧的产业叙事去解释当日行情。</div><div class="risk-item">⚠️ <b>第二类覆盖盲区</b><br>本报十个子板块全部为硬件方向，无 AI 应用软件覆盖（连续第十三期）。本期该缺口的代价第三次具体化：AI语料 +2.50%、智谱AI概念 +2.27%、AI制药（医疗）+2.13% 三个应用/语料方向全部跑赢本报观察池均值（E1），而本报无法观测 AI 价值链内部由硬件向应用与平台的迁移是否正在 A 股发生。</div><div class="risk-item">⚠️ <b>社交信号不得当作事实</b><br>把 8/24 光模块下跌归因于 SK 海力士参与的 Nature Electronics 论文，是媒体与分析师的解读（E10），本报按社交信号登记，未取得第二条独立来源相互印证，不作为硬事实，也不据此单独形成交易结论。论文本身的存在、作者与技术内容属硬事实（E9），但它不含任何份额或商业化时间表数字，不能支持关于 2027 年 A 股光模块公司收入的任何推断。</div><div class="risk-item">⚠️ <b>本报本期新增规则带来的自我约束</b><br>R31（全池均值必须与剔除领涨后的均值同时给出）、R32（逆势型论点不得在顺势日判为通过）、R33（事件必须写清落在预测交易日的哪一侧）、R34（高波动计数型指标的门槛须逐期按新窗口重标）。这四条都指向同一类错误：用一个在当期恰好容易成立的指标去支撑结论。读者可据此检查本报下一期是否遵守。</div><div class="caveat-box"><div class="caveat-title">数据口径与方法说明（7 条）　—— 影响结论的可信度，但不是市场风险</div><div class="caveat-item"><b>数据口径，必须先读</b> 本次抓数为 by_request_id 匹配、snapshot.fresh=true、age_seconds=101.0、reason=fresh、state=completed、conclusion=success（E2），数据不是降级数据。但 latest.fetch_time=2026-08-26T00:21:46.826448Z（北京时间 08:21:46）反映的是 2026-08-25 的收盘状态，不是今日 8/26 的实时行情——本报全文的 A 股读数一律为 8/25 收盘，任何一处都不得当作今日实时数据阅读。git 通道不经过 api.github.com，故 run_id=null，这是 transport 的固有限制而非抓取失败。</div><div class="caveat-item">观察池 50 只的价格全部为 klines_cache 回填：is_fallback=true、technicals_source=cache、quote_source=efinance_backfill、provenance.by_source={klines_cache:50}、fallback_rows=50、max_stale_seconds=62506.8（约 17.4 小时）、oldest_as_of=2026-08-25T15:00:00+08:00（E1）。快照自带 caveat：『实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时』。对开盘前早报这是正确口径，但必须写明它不是实时值。</div><div class="caveat-item">open/high/low/amount 四个字段在观察池 50 行中全部为 null——klines_cache 只存收盘价与成交量，不含 OHLC。null 表示『日内振幅本期不可得』，不是零振幅。本报全文不出现任何由收盘价推出的日内高低点；唯二可确认振幅的是亨通光电与长飞光纤，因其龙虎榜上榜原因为『日价格振幅达到 15%』，可确认当日振幅≥15%（E1）。</div><div class="caveat-item">flow_divergence 的口径限制：主力/超大单按单笔成交金额机械划分，量化拆单会把大资金打散成中小单，因此该模块只说明大额单方向与价格方向不一致，不等于机构在出货或建仓。本期 8 只 distribution 中有 4 只 super_agrees=false（超大单与主力合计口径反向），这四条须降级表述；accumulation 仅 1 只，且 accumulation_detectable=true。本报观察池 50 只无一进入该名单（E1）。</div><div class="caveat-item"><b>观察池设计盲区，本期正式承认</b> 玻纤/电子布方向连续三期无法取得任一条公告、政策、订单或价格来源，同期该方向出现全池前列的中期跌幅（8/18→8/25 国际复材 -19.23%、中材科技 -18.47%、宏和科技 -15.30%）。本报确认这是观察池设计上的盲区，不再逐期重复登记『待核实』。</div><div class="caveat-item"><b>事件风险与时点</b> 英伟达 FY2027Q2 于美东 8/26 盘后发布＝北京时间 8/27 凌晨（E8），今日 8/26 的 A 股全天位于事件之前，属事件前观望时段，单日读数的信息量应被折价；沃什 8/28 美东上午 10:00 杰克逊霍尔演讲（须在 8/31 早报复盘）。CME FedWatch 带日期的原始读数连续第十三期 unavailable，本报对联储路径的市场定价没有量化依据。</div><div class="caveat-item"><b>宏观数据的口径不确定</b> 8/25 布伦特原油在不同来源间为 87.12／88.58／约 89.5 美元三个互不一致的数字，WTI 约 82.36 美元（E12）；本报只记录『继续下跌、区间约 87–89.5 美元』，精确读数记为 unavailable。10 年期美债的日度序列同样无法在来源间拼接（8/25 报 4.66%，另有来源记 8/24 一度下行超 7 个基点至 4.625%，两者不能连成序列，E13）；home.treasury.gov 第三次尝试仍返回 EGRESS_BLOCKED。</div></div></div>
+</div>
+
+
+<div class="section sec-evidence">
+  <div class="section-header">📎 附录　证据链</div>
+  <div class="section-body"><table><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E1</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">本报全部 A 股指数、观察池 50 只个股 price/chg_pct/均线/量比、十个 AI 子板块聚合、板块资金流、主力净流入前30、融资融券前100、龙虎榜、flow_divergence、index_macd_60m、global_markets 五区域快照，均逐字取自该文件。A 股基准交易日＝2026-08-25，四行指数 data_date 全部为 2026-08-25。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/morning_latest.json" style="color:#2563eb;text-decoration:none">本次抓数快照 morning_latest.json（GitHub Actions fetch-market-data.yml + cloud_fetch 合并）</a>　2026-08-26T00:21:46</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E2</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">request_id=morning-20260826T001830Z-4b4e9f4a、transport=git、trigger_commit_sha=6581f575a38de66f53f08ddfe8a6c473e144cec8、state=completed、conclusion=success、snapshot.match=by_request_id、snapshot.fresh=true、age_seconds=101.0、reason=fresh。run_id=null 是 git 通道的固有限制（不经过 api.github.com），不是抓取失败。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/triggers/morning.json" style="color:#2563eb;text-decoration:none">本次抓数编排状态 morning_dispatch_status.json（orchestration.py，git transport）</a>　2026-08-26T00:18:30</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E3</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">2026-08-25 收盘：沪指涨 0.19% 报 3889.44，深证成指跌 0.35% 报 13745.87，创业板指跌 1.00% 报 3397.52；沪深两市成交额 1.83 万亿元，较上一交易日缩量 1756 亿元。该三个指数读数与本次快照 E1 完全一致（快照四行分别为 3889.44/+0.19%、13745.87/-0.35%、3397.52/-1.00%、科创50 1604.59/+0.14%），本期外部收评与快照无口径分歧。来自搜索摘要，正文未取到（域名被出口代理拦截）。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://finance.cnr.cn/ycbd/20260825/t20260825_527791129.shtml" style="color:#2563eb;text-decoration:none">央广网／东方财富网 8月25日A股收评</a>　2026-08-25</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E4</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">2026-08-25 A 股成交额 18443 亿元，创 2026 年下半年新低；全市场超 4200 只个股上涨，市场热点快速轮动。来自搜索摘要，正文未取到。注：18443 亿元为 A 股口径、1.83 万亿元为沪深两市合计口径，两者不是同一个数，本报分别标注、不混用。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://m.21jingji.com/article/20260825/herald/f91b56ca67f9df43e4af70a7c13e3cc8.html" style="color:#2563eb;text-decoration:none">21财经／中华网 转载 8月25日A股复盘</a>　2026-08-25</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E5</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">2026-08-25 领涨：创新药、CRO 概念回暖（凯莱英、汉森制药、华森制药涨停）；农业板块全天强势（登海种业、万向德农涨停）；液冷服务器概念大幅反弹（康盛股份、英维克、金富科技涨停）；零售、旅游等消费股强势。领跌：贵金属、锂矿等资源股大幅回调（盛达资源、国城矿业、招金黄金、西部黄金领跌）。来自搜索摘要，正文未取到。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://finance.sina.com.cn/roll/2026-08-25/doc-inippmeu2238128.shtml" style="color:#2563eb;text-decoration:none">新浪财经 8月25日A股收评（板块）／每日经济新闻 A股收盘</a>　2026-08-25</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E6</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">2026-08-25 涨停股中，英维克封单金额 3.26 亿元、换手率 8.51%，为当日封单金额最高；特发信息封单 1.21 亿元，涉及 CPO 与业绩预增等多个概念。搜索摘要口径，正文取不到（stock.jrj.com.cn 返回 EGRESS_BLOCKED）。英维克换手率 8.51% 与本次快照龙虎榜 turnover_rate=8.5133 一致（E1），构成一次跨源交叉验证。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://stock.jrj.com.cn/2026/08/25173058231198.shtml" style="color:#2563eb;text-decoration:none">金融界 8月25日涨停复盘</a>　2026-08-25T17:30</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E7</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">2026-08-25 美东收盘：标普500 +0.32% 报 7677.28，纳斯达克 +0.66% 报 26151.30，道琼斯 +0.3% 报 53577.40（三连涨）；SOXX 半导体 ETF +1.56% 报 514.06；SMCI +9.35% 报 38.46，市场归因为思科（CSCO）宣布与其扩展 AI 基础设施合作，以及英伟达季报前的仓位布局。标普、纳指、SMCI 三个读数与本次快照 E1 完全一致。来自搜索摘要，正文未取到（cnbc.com/fool.com 已知被拦截）。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-aug-25-2026" style="color:#2563eb;text-decoration:none">TheStreet / startuphub.ai 美股 2026-08-25 收盘</a>　2026-08-25</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E8</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">英伟达将于 2026-08-26 美股盘后发布 FY2027 第二财季（日历 2026 年 5–7 月）财报。卖方一致预期营收约 918.5 亿美元（约 40 位分析师均值，较公司指引中值 910 亿美元高约 0.9%，指引区间 892–928 亿美元），非 GAAP EPS 约 2.08 美元；数据中心收入市场预期约 854 亿美元、同比约 +107%。来自搜索摘要，正文未取到。【时点】美东 8/26 盘后＝北京时间 8/27 凌晨，因此 8/26 的 A 股交易日整体位于该事件之前。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://m.sohu.com/a/1066809719_122132398" style="color:#2563eb;text-decoration:none">搜狐／老猿说 英伟达 FY2027Q2 财报前瞻</a>　2026-08-24</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E9</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">Nature Electronics 于 2026-08-19 刊出同行评审综述《Co-packaged optics for high-performance computing and artificial intelligence》，SK 海力士 AI Infra 团队负责人 Seunghoon Hong 与弗吉尼亚大学 Kyusang Lee 教授为共同通讯作者，合作机构含 UIUC、NTU、MIT、延世大学；论文投稿日 2025-11-18、接收日 2026-07-08。技术目标为单节点 >100 Tb/s、能效 <1 pJ/bit，并把光互连延伸至共享内存池。来自搜索摘要，正文未取到（storagereview.com 返回 EGRESS_BLOCKED）。【本报的口径声明】该文是一篇研究路线图综述，不含 CPO 与可插拔光模块在 2027 年的份额分配数字；因此本报把上一期登记的第 ③(c) 项判为『部分补齐』而非『补齐』。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://www.trendforce.com/news/2026/08/20/news-sk-hynix-unveils-cpo-roadmap-looks-beyond-hbm-to-ai-infrastructure/" style="color:#2563eb;text-decoration:none">Converge Digest / TrendForce 报道 SK hynix 于 Nature Electronics 发表 CPO 路线图综述</a>　2026-08-20</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E10</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#f1f5f9;color:#64748b;
+                         padding:1px 7px;border-radius:999px">社交信号</span></td>
+          <td style="font-size:11.5px;line-height:1.6">市场（分析师与财经媒体）把 8/24 光模块方向的下跌归因于 SK 海力士与弗吉尼亚大学在 Nature Electronics 联合发表 CPO 路线图论文，以及英伟达硅光交换机开始量产、合作名单曝光。【本报口径】论文本身的存在与内容属硬事实（见 E9）；把当日价格下跌归因于该论文，是媒体与分析师的解读，本报按社交信号登记，不作为硬事实，也不据此单独形成交易结论。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://finance.sina.com.cn/roll/2026-08-24/doc-inipkvry2965921.shtml" style="color:#2563eb;text-decoration:none">新浪财经／东方财富网 8月24日光模块三巨头下跌归因</a>　2026-08-24</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E11</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">央行 2026-08-25 以固定数量、利率招标、多重价位中标方式开展 5000 亿元 1 年期 MLF 操作；当月 MLF 到期 6000 亿元，净回笼 1000 亿元，结束此前连续 3 个月加量续作。同时公告 8 月 27 日至 9 月 1 日开展隔夜逆回购操作，每日操作量不超过 6000 亿元。8 月通过买断式逆回购与 MLF 合计净投放中长期流动性 1000 亿元。来自搜索摘要，正文未取到。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://www.thepaper.cn/newsDetail_forward_33840494" style="color:#2563eb;text-decoration:none">澎湃新闻／新浪财经 央行 8 月 MLF 与逆回购操作公告</a>　2026-08-24</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E12</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">美方本周一推出针对伊朗的全球制裁方案，但未设截止日期，且未涉及为伊朗石油资金清算的机构；市场反应弱于预期，油价继续回落。巴基斯坦陆军参谋长赴德黑兰单日访问，被报道携带涉及既有谅解备忘录下制裁豁免的方案。【数字冲突必须写明】8/25 布伦特读数在不同来源间不一致：一处为约 87.12 美元、另一处为约 88.58 美元、第三处为『周二跌 3% 至约 89.5 美元』；WTI 约 82.36 美元。本报不选定单一数字，只记录『8/25 油价继续下跌、区间约 87–89.5 美元』，并把精确读数记为 unavailable。上一期记录的 8/24 读数为布伦特 92.06、WTI 84.89 美元。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://energynow.ca/2026/08/oil-prices-slide-as-markets-shrug-off-new-u-s-sanctions-on-iran/" style="color:#2563eb;text-decoration:none">EnergyNow / polyestertime 原油与对伊制裁</a>　2026-08-25</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E13</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">2026-08-25 美国 30 年期国债收益率报 5.23%，较前一交易日基本持平；10 年期收益率降至 4.66%，较前一交易日下降约 4 个基点。另有来源记录 8/24 当日 10 年期一度下行超过 7 个基点至 4.625%，与上述 8/25 的 4.66% 不能拼成一条连续序列，本报把 10 年期的精确日度序列记为口径不确定。【本报第三次尝试直接取得 home.treasury.gov 的日度收益率曲线，第三次返回 EGRESS_BLOCKED，该项仍 unavailable。】
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://tradingeconomics.com/united-states/30-year-bond-yield" style="color:#2563eb;text-decoration:none">tradingeconomics 债券收益率页摘要（正文被出口代理拦截）</a>　2026-08-25</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E14</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">上交所 2026-08-21 披露长存控股股份有限公司科创板 IPO 申请获受理，拟发行不低于 19.8 亿股、不超过 24.3 亿股，募资 330 亿元（量产线技术升级 208 亿元、研发项目 122 亿元），保荐机构为中信证券与中信建投；公司 2026 年 1–3 月营业收入 470.42 亿元、归母净利润 333.79 亿元，按 TrendForce 数据 2026 年一季度全球 NAND 销售金额与出货量均列第三。【本期状态】8/25 未出现新节点（问询、注册或发行定价），该项本期无进展。来自搜索摘要，正文未取到。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://finance.sina.com.cn/jjxw/2026-08-21/doc-inipavkm8104231.shtml" style="color:#2563eb;text-decoration:none">21经济网／新浪财经 长江存储（长存控股）科创板 IPO</a>　2026-08-21</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E15</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">微软、Alphabet、亚马逊、Meta、甲骨文五家 2026 年资本开支合计承诺 6600 亿–6900 亿美元（亚马逊约 2000 亿、Alphabet 1750–1850 亿、Meta 1150–1350 亿、微软 1200 亿以上、甲骨文约 500 亿美元）。来自搜索摘要，正文未取到。本报只把它用作 T-CAPEX-SQUEEZE 与 T-AI-CREDIT-FINANCING 的量级背景，不用作任何单日价格解释。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://futurumgroup.com/insights/ai-capex-2026-the-690b-infrastructure-sprint/" style="color:#2563eb;text-decoration:none">Futurum Group 2026 年 AI 资本开支汇总</a>　2026-08</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E16</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">2026-08-24 港股收盘：恒生指数跌 1.89%，恒生科技指数跌 3.61%。该读数用于给本期 8/25 的港股读数提供前一交易日基准。8/25 港股本报未取得任何外部收评来源，港股当日读数只用本次快照（E1）。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://www.163.com/dy/article/L541K0HQ0534A4SC.html" style="color:#2563eb;text-decoration:none">网易转载 港股 8月24日收评</a>　2026-08-24</div></td>
+        </tr><tr>
+          <td style="white-space:nowrap;vertical-align:top;color:#9ca3af;font-size:11px">
+            E17</td>
+          <td style="white-space:nowrap;vertical-align:top">
+            <span style="font-size:10.5px;font-weight:700;background:#eff6ff;color:#1d4ed8;
+                         padding:1px 7px;border-radius:999px">硬事实</span></td>
+          <td style="font-size:11.5px;line-height:1.6">上一期的 forecast_ledger_entry（base 45 / bear 32 / bull 23，各自条件与作废条款）、20 项 next_check、28 条 thesis_updates 及其重开/关闭条件、规则 R1–R30，全部逐字取自该文件，用于本期复盘与连续性判定。
+            <div style="color:#9ca3af;margin-top:2px"><a href="https://raw.githubusercontent.com/ldwghm/AI-Mark-information/main/stock_report/data/morning_analysis.json" style="color:#2563eb;text-decoration:none">上一期最终报告 morning_analysis.json（2026-08-25 早报）</a>　2026-08-25</div></td>
+        </tr></table></div>
+</div>
+
+<div class="footer">
+  ⚠️ 仅供参考，不构成投资建议。股市有风险，入市需谨慎。<br>
+  数据来源: 东方财富 + 新浪财经 | AI分析: Claude | 自动推送
+</div>
+
+</div>
+</body></html>
