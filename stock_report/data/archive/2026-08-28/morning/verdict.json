@@ -1,0 +1,62 @@
+{
+  "ok": false,
+  "degraded": true,
+  "hard_fail": true,
+  "blocked": false,
+  "hard_reasons": [
+    "生益科技(600183) price 报 140.97 实际 130.01（偏离8%）",
+    "长飞光纤(601869) price 报 426.82 实际 388.02（偏离10%）",
+    "长飞光纤(601869) 涨跌方向相反 报10.0 实际-1.64（差11.64pct）",
+    "澜起科技(688008) price 报 221.22 实际 201.0（偏离10%）",
+    "中际旭创(300308) price 报 866.12 实际 850.9（偏离2%）",
+    "海光信息(688041) price 报 245.97 实际 230.96（偏离6%）",
+    "海光信息(688041) 涨跌方向相反 报6.5 实际-0.47（差6.97pct）",
+    "德明利(001309) price 报 429.76 实际 390.69（偏离10%）",
+    "德明利(001309) 涨跌方向相反 报10.0 实际-1.6（差11.60pct）",
+    "工业富联(601138) price 报 63.86 实际 60.57（偏离5%）",
+    "英维克(002837) price 报 65.97 实际 62.07（偏离6%）",
+    "中芯国际(688981) price 报 126.33 实际 124.15（偏离2%）"
+  ],
+  "soft_reasons": [
+    "行情非实时（来源 efinance_backfill，置信度 medium）：实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时，复盘以此为参考",
+    "生益科技(600183) chg_pct 报 8.43 实际 0.78",
+    "澜起科技(688008) chg_pct 报 10.06 实际 3.38",
+    "中际旭创(300308) chg_pct 报 1.79 实际 0.58",
+    "工业富联(601138) chg_pct 报 5.43 实际 0.7",
+    "英维克(002837) chg_pct 报 6.28 实际 3.05",
+    "中芯国际(688981) chg_pct 报 1.7559 实际 3.46",
+    "1 只 highlight 数字仅来自板块汇总，未在个股池二次核对"
+  ],
+  "block_reasons": [],
+  "mode": "morning",
+  "expected_data_date": "2026-08-27",
+  "quote_date_mode": null,
+  "continuity": {
+    "level": "pass",
+    "reason": "早报无需闭环校验",
+    "morning_date": null
+  },
+  "data_currency": {
+    "level": "pass",
+    "reason": ""
+  },
+  "coverage": {
+    "level": "pass",
+    "reason": "关注池覆盖率 50/51（98%）"
+  },
+  "liveness": {
+    "level": "pass",
+    "reason": "早报以收盘价为基准，不适用活性判定",
+    "live_rows": 0,
+    "total_rows": 50
+  },
+  "stale_highlights": [],
+  "global_index_staleness": {
+    "level": "pass",
+    "reason": "",
+    "stale_rows": [],
+    "misattributed": []
+  },
+  "primary_priced": 50,
+  "ef_priced": 147
+}
