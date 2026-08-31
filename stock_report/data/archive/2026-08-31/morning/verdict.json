@@ -1,0 +1,56 @@
+{
+  "ok": false,
+  "degraded": true,
+  "hard_fail": true,
+  "blocked": false,
+  "hard_reasons": [
+    "生益科技(600183) price 报 145.65 实际 140.97（偏离3%）",
+    "光库科技(300620) price 报 309.93 实际 300.9（偏离3%）",
+    "沪电股份(002463) 涨跌方向相反 报-0.26 实际2.35（差2.61pct）",
+    "长飞光纤(601869) price 报 422.36 实际 426.82（偏离1%）",
+    "长飞光纤(601869) 涨跌方向相反 报-1.0449 实际10.0（差11.04pct）",
+    "源杰科技(688498) price 报 1538.35 实际 1630.99（偏离6%）",
+    "源杰科技(688498) 涨跌方向相反 报-5.68 实际5.91（差11.59pct）"
+  ],
+  "soft_reasons": [
+    "行情非实时（来源 efinance_backfill，置信度 medium）：实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回填，非实时，复盘以此为参考",
+    "数据有延迟/快照但 risk_warnings 未明确标注",
+    "嘉立创(001232) 不在任何抓取数据中（无法核对）",
+    "生益科技(600183) chg_pct 报 3.3199 实际 8.43",
+    "光库科技(300620) chg_pct 报 3.0 实际 5.58",
+    "工业富联(601138) chg_pct 报 0.2819 实际 5.43",
+    "4 只 highlight 数字仅来自板块汇总，未在个股池二次核对"
+  ],
+  "block_reasons": [],
+  "mode": "morning",
+  "expected_data_date": "2026-08-28",
+  "quote_date_mode": null,
+  "continuity": {
+    "level": "pass",
+    "reason": "早报无需闭环校验",
+    "morning_date": null
+  },
+  "data_currency": {
+    "level": "pass",
+    "reason": ""
+  },
+  "coverage": {
+    "level": "pass",
+    "reason": "关注池覆盖率 50/51（98%）"
+  },
+  "liveness": {
+    "level": "pass",
+    "reason": "早报以收盘价为基准，不适用活性判定",
+    "live_rows": 0,
+    "total_rows": 50
+  },
+  "stale_highlights": [],
+  "global_index_staleness": {
+    "level": "pass",
+    "reason": "",
+    "stale_rows": [],
+    "misattributed": []
+  },
+  "primary_priced": 50,
+  "ef_priced": 108
+}
