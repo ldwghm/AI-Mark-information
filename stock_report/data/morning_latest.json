@@ -1,5 +1,5 @@
 {
-  "fetch_time": "2026-09-03T00:12:48.494502",
+  "fetch_time": "2026-09-03T00:31:24.406136",
   "fetch_date": "2026-09-03",
   "report_type": "morning",
   "indices": {
@@ -11595,15 +11595,15 @@
     "max_diff_pct": 0.0,
     "primary_source": "eastmoney",
     "secondary_source": "sina",
-    "checked_at": "2026-09-03T00:14:40.349268Z",
+    "checked_at": "2026-09-03T00:33:25.754473Z",
     "as_of_skew_seconds": 0.0
   },
   "orchestration_request": {
     "schema_version": 1,
-    "request_id": "morning-20260903T001223Z-494f17ca",
-    "requested_at": "2026-09-03T00:12:23.079944Z",
-    "requested_by": "claude-scheduled",
+    "request_id": "codex-morning-20260903T003047Z-o2ph81t3",
+    "requested_at": "2026-09-03T00:30:47.123Z",
+    "requested_by": "codex-scheduled",
     "source": "github_connector_push",
-    "trigger_commit_sha": "a3d5df7bf3eddcce5f88d97bea349c01ac85ff01"
+    "trigger_commit_sha": "1bb67f4911ea404cd0783f356ce629e65f253cac"
   }
 }
