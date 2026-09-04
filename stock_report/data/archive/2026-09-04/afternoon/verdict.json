@@ -1,0 +1,59 @@
+{
+  "ok": false,
+  "degraded": true,
+  "hard_fail": true,
+  "blocked": false,
+  "hard_reasons": [
+    "工业富联(601138) price 报 64.49 实际 63.2（偏离2%）",
+    "新易盛(300502) price 报 389.66 实际 384.76（偏离1%）",
+    "新易盛(300502) 涨跌方向相反 报1.27 实际-0.5（差1.77pct）",
+    "中际旭创(300308) 涨跌方向相反 报0.92 实际-1.14（差2.06pct）",
+    "中科曙光(603019) price 报 83.47 实际 84.35（偏离1%）",
+    "寒武纪(688256) price 报 1084.36 实际 1099.99（偏离1%）",
+    "长飞光纤(601869) price 报 382.1 实际 393.46（偏离3%）",
+    "亨通光电(600487) price 报 63.18 实际 65.29（偏离3%）"
+  ],
+  "soft_reasons": [
+    "行情非实时（来源 efinance@github_actions (盘中快照)，置信度 medium）：实时行情(新浪/雅虎)在云端不可达，价格来自 efinance 收盘/快照回",
+    "中际旭创(300308) price 报 820.5 实际 813.0（偏离1%）",
+    "天孚通信(300394) chg_pct 报 0.24 实际 -0.48",
+    "寒武纪(688256) chg_pct 报 -1.42 实际 -0.72",
+    "长飞光纤(601869) chg_pct 报 -2.89 实际 -3.52",
+    "亨通光电(600487) chg_pct 报 -3.23 实际 -2.41",
+    "科大讯飞(002230) 不在任何抓取数据中（无法核对）",
+    "观察池 50 只全部为回填数据（0 条当日实时报价），仅板块与资金流为当日盘中；个股价格与技术指标均非今日",
+    "数据落后市场最新可得 1360 分钟（超过 15 分钟）却使用了确定性措辞 ['实时']"
+  ],
+  "block_reasons": [],
+  "mode": "afternoon",
+  "expected_data_date": "2026-09-04",
+  "quote_date_mode": null,
+  "continuity": {
+    "level": "pass",
+    "reason": "早午报闭环成立（2026-09-04）",
+    "morning_date": "2026-09-04"
+  },
+  "data_currency": {
+    "level": "pass",
+    "reason": "午报数据为当日 2026-09-04"
+  },
+  "coverage": {
+    "level": "pass",
+    "reason": "关注池覆盖率 50/51（98%）"
+  },
+  "liveness": {
+    "level": "degrade",
+    "reason": "观察池 50 只全部为回填数据（0 条当日实时报价），仅板块与资金流为当日盘中；个股价格与技术指标均非今日",
+    "live_rows": 0,
+    "total_rows": 50
+  },
+  "stale_highlights": [],
+  "global_index_staleness": {
+    "level": "pass",
+    "reason": "",
+    "stale_rows": [],
+    "misattributed": []
+  },
+  "primary_priced": 50,
+  "ef_priced": 0
+}
