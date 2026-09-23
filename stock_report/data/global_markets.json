@@ -1,6 +1,6 @@
 {
-  "fetch_time": "2026-09-23T09:24:37.626857Z",
-  "fetch_time_bjt": "2026-09-23T17:24:37.626878+08:00",
+  "fetch_time": "2026-09-23T12:28:58.475307Z",
+  "fetch_time_bjt": "2026-09-23T20:28:58.475332+08:00",
   "markets": {
     "US": {
       "name": "美股",
@@ -23,7 +23,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "^IXIC",
@@ -42,7 +42,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "^SOX",
@@ -61,7 +61,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         }
       ],
       "stocks": [
@@ -82,7 +82,26 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
+        },
+        {
+          "code": "MSFT",
+          "name": "微软",
+          "market": "US",
+          "price": 498.0,
+          "chg": -0.72,
+          "prev_close": 501.61,
+          "market_date": "2026-09-22",
+          "as_of_bjt": "2026-09-23T04:00:00+08:00",
+          "source": "yfinance",
+          "as_of": "2026-09-22T16:00:00-04:00",
+          "retrieved_at": "2026-09-22T23:27:30.577081Z",
+          "is_fallback": false,
+          "stale_seconds": 12450.6,
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "GOOGL",
@@ -101,7 +120,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "META",
@@ -120,7 +139,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "AMD",
@@ -139,7 +158,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "AVGO",
@@ -158,7 +177,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "TSM",
@@ -177,7 +196,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "MU",
@@ -196,7 +215,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "SMCI",
@@ -215,7 +234,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "PLTR",
@@ -234,7 +253,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "ANET",
@@ -253,7 +272,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         },
         {
           "code": "VRT",
@@ -272,26 +291,7 @@
           "row_stale": false,
           "carried_forward": true,
           "carried_reason": "regressed",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
-        },
-        {
-          "code": "MSFT",
-          "name": "微软",
-          "market": "US",
-          "price": 498.0,
-          "chg": -0.72,
-          "prev_close": 501.61,
-          "market_date": "2026-09-22",
-          "as_of_bjt": "2026-09-23T04:00:00+08:00",
-          "source": "yfinance",
-          "as_of": "2026-09-22T16:00:00-04:00",
-          "retrieved_at": "2026-09-22T23:27:30.577081Z",
-          "is_fallback": false,
-          "stale_seconds": 12450.6,
-          "row_stale": false,
-          "carried_forward": true,
-          "carried_reason": "missing",
-          "carried_at": "2026-09-23T09:24:37.626857Z"
+          "carried_at": "2026-09-23T12:28:58.475307Z"
         }
       ],
       "as_of": "2026-09-22T16:00:00-04:00",
@@ -309,6 +309,7 @@
         "^IXIC",
         "^SOX",
         "NVDA",
+        "MSFT",
         "GOOGL",
         "META",
         "AMD",
@@ -318,8 +319,7 @@
         "SMCI",
         "PLTR",
         "ANET",
-        "VRT",
-        "MSFT"
+        "VRT"
       ]
     },
     "HK": {
@@ -337,9 +337,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         },
         {
@@ -353,9 +353,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         }
       ],
@@ -371,9 +371,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         },
         {
@@ -387,9 +387,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         },
         {
@@ -403,9 +403,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         },
         {
@@ -419,9 +419,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         },
         {
@@ -435,9 +435,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         },
         {
@@ -451,9 +451,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         },
         {
@@ -467,9 +467,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         },
         {
@@ -483,9 +483,9 @@
           "as_of_bjt": "2026-09-23T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T16:00:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 5077.6,
+          "stale_seconds": 16138.5,
           "row_stale": false
         }
       ],
@@ -515,9 +515,9 @@
           "as_of_bjt": "2026-09-18T14:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-18T15:00:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 444277.6,
+          "stale_seconds": 455338.5,
           "row_stale": false
         }
       ],
@@ -533,9 +533,9 @@
           "as_of_bjt": "2026-09-18T14:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-18T15:00:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 444277.6,
+          "stale_seconds": 455338.5,
           "row_stale": false
         },
         {
@@ -549,9 +549,9 @@
           "as_of_bjt": "2026-09-18T14:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-18T15:00:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 444277.6,
+          "stale_seconds": 455338.5,
           "row_stale": false
         },
         {
@@ -565,9 +565,9 @@
           "as_of_bjt": "2026-09-18T14:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-18T15:00:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 444277.6,
+          "stale_seconds": 455338.5,
           "row_stale": false
         },
         {
@@ -581,9 +581,9 @@
           "as_of_bjt": "2026-09-18T14:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-18T15:00:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 444277.6,
+          "stale_seconds": 455338.5,
           "row_stale": false
         },
         {
@@ -597,9 +597,9 @@
           "as_of_bjt": "2026-09-18T14:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-18T15:00:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 444277.6,
+          "stale_seconds": 455338.5,
           "row_stale": false
         },
         {
@@ -613,9 +613,9 @@
           "as_of_bjt": "2026-09-18T14:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-18T15:00:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 444277.6,
+          "stale_seconds": 455338.5,
           "row_stale": false
         }
       ],
@@ -645,9 +645,9 @@
           "as_of_bjt": "2026-09-23T14:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T15:30:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 10477.6,
+          "stale_seconds": 21538.5,
           "row_stale": false
         }
       ],
@@ -663,9 +663,9 @@
           "as_of_bjt": "2026-09-23T14:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T15:30:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 10477.6,
+          "stale_seconds": 21538.5,
           "row_stale": false
         },
         {
@@ -679,9 +679,9 @@
           "as_of_bjt": "2026-09-23T14:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T15:30:00+09:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 10477.6,
+          "stale_seconds": 21538.5,
           "row_stale": false
         }
       ],
@@ -711,9 +711,9 @@
           "as_of_bjt": "2026-09-23T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T13:30:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 14077.6,
+          "stale_seconds": 25138.5,
           "row_stale": false
         }
       ],
@@ -729,9 +729,9 @@
           "as_of_bjt": "2026-09-23T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T13:30:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 14077.6,
+          "stale_seconds": 25138.5,
           "row_stale": false
         },
         {
@@ -745,9 +745,9 @@
           "as_of_bjt": "2026-09-23T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T13:30:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 14077.6,
+          "stale_seconds": 25138.5,
           "row_stale": false
         },
         {
@@ -761,9 +761,9 @@
           "as_of_bjt": "2026-09-23T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T13:30:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 14077.6,
+          "stale_seconds": 25138.5,
           "row_stale": false
         },
         {
@@ -777,9 +777,9 @@
           "as_of_bjt": "2026-09-23T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-23T13:30:00+08:00",
-          "retrieved_at": "2026-09-23T09:24:37.626857Z",
+          "retrieved_at": "2026-09-23T12:28:58.475307Z",
           "is_fallback": false,
-          "stale_seconds": 14077.6,
+          "stale_seconds": 25138.5,
           "row_stale": false
         }
       ],
