@@ -1,6 +1,6 @@
 {
-  "fetch_time": "2026-09-29T13:38:23.817534Z",
-  "fetch_time_bjt": "2026-09-29T21:38:23.817568+08:00",
+  "fetch_time": "2026-09-29T15:14:42.724152Z",
+  "fetch_time_bjt": "2026-09-29T23:14:42.724175+08:00",
   "markets": {
     "US": {
       "name": "美股",
@@ -10,14 +10,14 @@
           "code": "^GSPC",
           "name": "标普500",
           "market": "US",
-          "price": 7683.28,
-          "chg": -0.01,
+          "price": 7670.87,
+          "chg": -0.17,
           "prev_close": 7683.69,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -26,14 +26,14 @@
           "code": "^IXIC",
           "name": "纳斯达克",
           "market": "US",
-          "price": 26837.84,
-          "chg": 0.07,
+          "price": 26824.28,
+          "chg": 0.01,
           "prev_close": 26820.38,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -42,14 +42,14 @@
           "code": "^SOX",
           "name": "费城半导体",
           "market": "US",
-          "price": 12635.59,
-          "chg": 1.37,
+          "price": 12718.73,
+          "chg": 2.03,
           "prev_close": 12465.24,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -60,14 +60,14 @@
           "code": "NVDA",
           "name": "英伟达",
           "market": "US",
-          "price": 230.74,
-          "chg": 0.82,
+          "price": 230.51,
+          "chg": 0.72,
           "prev_close": 228.86,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -76,14 +76,14 @@
           "code": "MSFT",
           "name": "微软",
           "market": "US",
-          "price": 505.76,
-          "chg": -0.68,
+          "price": 508.98,
+          "chg": -0.05,
           "prev_close": 509.22,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -92,14 +92,14 @@
           "code": "GOOGL",
           "name": "谷歌",
           "market": "US",
-          "price": 341.45,
-          "chg": -0.38,
+          "price": 339.01,
+          "chg": -1.09,
           "prev_close": 342.75,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -108,14 +108,14 @@
           "code": "META",
           "name": "Meta",
           "market": "US",
-          "price": 725.62,
-          "chg": 1.4,
+          "price": 721.89,
+          "chg": 0.88,
           "prev_close": 715.62,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -124,14 +124,14 @@
           "code": "AMD",
           "name": "AMD",
           "market": "US",
-          "price": 609.24,
-          "chg": 0.23,
+          "price": 617.19,
+          "chg": 1.53,
           "prev_close": 607.87,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -140,14 +140,14 @@
           "code": "AVGO",
           "name": "博通",
           "market": "US",
-          "price": 357.98,
-          "chg": 2.41,
+          "price": 360.14,
+          "chg": 3.03,
           "prev_close": 349.57,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -156,14 +156,14 @@
           "code": "TSM",
           "name": "台积电ADR",
           "market": "US",
-          "price": 448.06,
-          "chg": -1.06,
+          "price": 456.34,
+          "chg": 0.76,
           "prev_close": 452.88,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -172,14 +172,14 @@
           "code": "MU",
           "name": "美光",
           "market": "US",
-          "price": 1064.95,
-          "chg": 1.04,
+          "price": 1073.26,
+          "chg": 1.83,
           "prev_close": 1053.98,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -188,14 +188,14 @@
           "code": "SMCI",
           "name": "SuperMicro",
           "market": "US",
-          "price": 42.31,
-          "chg": 1.27,
+          "price": 41.79,
+          "chg": 0.02,
           "prev_close": 41.78,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -204,14 +204,14 @@
           "code": "PLTR",
           "name": "Palantir",
           "market": "US",
-          "price": 186.86,
-          "chg": -0.33,
+          "price": 186.32,
+          "chg": -0.62,
           "prev_close": 187.48,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -220,14 +220,14 @@
           "code": "ANET",
           "name": "Arista",
           "market": "US",
-          "price": 204.93,
-          "chg": 0.0,
+          "price": 203.24,
+          "chg": -0.82,
           "prev_close": 204.92,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -236,14 +236,14 @@
           "code": "VRT",
           "name": "Vertiv",
           "market": "US",
-          "price": 253.04,
-          "chg": 3.69,
+          "price": 251.51,
+          "chg": 3.06,
           "prev_close": 244.04,
           "market_date": "2026-09-29",
           "as_of_bjt": "2026-09-30T04:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00-04:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
           "stale_seconds": 0.0,
           "row_stale": false
@@ -275,9 +275,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         },
         {
@@ -291,9 +291,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         }
       ],
@@ -309,9 +309,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         },
         {
@@ -325,9 +325,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         },
         {
@@ -341,9 +341,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         },
         {
@@ -357,9 +357,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         },
         {
@@ -373,9 +373,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         },
         {
@@ -389,9 +389,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         },
         {
@@ -405,9 +405,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         },
         {
@@ -421,9 +421,9 @@
           "as_of_bjt": "2026-09-29T16:00:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T16:00:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 20303.8,
+          "stale_seconds": 26082.7,
           "row_stale": false
         }
       ],
@@ -456,7 +456,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 27503.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         }
       ],
       "stocks": [
@@ -474,7 +477,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 27503.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         },
         {
           "code": "6857.T",
@@ -490,7 +496,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 27503.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         },
         {
           "code": "6146.T",
@@ -506,7 +515,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 27503.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         },
         {
           "code": "4063.T",
@@ -522,7 +534,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 27503.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         },
         {
           "code": "6758.T",
@@ -538,7 +553,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 27503.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         },
         {
           "code": "6981.T",
@@ -554,7 +572,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 27503.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         }
       ],
       "as_of": "2026-09-29T15:00:00+09:00",
@@ -566,7 +587,16 @@
         "2026-09-29",
         "2026-09-29"
       ],
-      "stale_rows": []
+      "stale_rows": [],
+      "carried_rows": [
+        "^N225",
+        "8035.T",
+        "6857.T",
+        "6146.T",
+        "4063.T",
+        "6758.T",
+        "6981.T"
+      ]
     },
     "KR": {
       "name": "韩股",
@@ -586,7 +616,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 25703.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         }
       ],
       "stocks": [
@@ -604,7 +637,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 25703.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         },
         {
           "code": "000660.KS",
@@ -620,7 +656,10 @@
           "retrieved_at": "2026-09-29T13:38:23.817534Z",
           "is_fallback": false,
           "stale_seconds": 25703.8,
-          "row_stale": false
+          "row_stale": false,
+          "carried_forward": true,
+          "carried_reason": "regressed",
+          "carried_at": "2026-09-29T15:14:42.724152Z"
         }
       ],
       "as_of": "2026-09-29T15:30:00+09:00",
@@ -632,7 +671,12 @@
         "2026-09-29",
         "2026-09-29"
       ],
-      "stale_rows": []
+      "stale_rows": [],
+      "carried_rows": [
+        "^KS11",
+        "005930.KS",
+        "000660.KS"
+      ]
     },
     "TW": {
       "name": "台股",
@@ -649,9 +693,9 @@
           "as_of_bjt": "2026-09-29T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T13:30:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 29303.8,
+          "stale_seconds": 35082.7,
           "row_stale": false
         }
       ],
@@ -667,9 +711,9 @@
           "as_of_bjt": "2026-09-29T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T13:30:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 29303.8,
+          "stale_seconds": 35082.7,
           "row_stale": false
         },
         {
@@ -683,9 +727,9 @@
           "as_of_bjt": "2026-09-29T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T13:30:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 29303.8,
+          "stale_seconds": 35082.7,
           "row_stale": false
         },
         {
@@ -699,9 +743,9 @@
           "as_of_bjt": "2026-09-29T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T13:30:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 29303.8,
+          "stale_seconds": 35082.7,
           "row_stale": false
         },
         {
@@ -715,9 +759,9 @@
           "as_of_bjt": "2026-09-29T13:30:00+08:00",
           "source": "yfinance",
           "as_of": "2026-09-29T13:30:00+08:00",
-          "retrieved_at": "2026-09-29T13:38:23.817534Z",
+          "retrieved_at": "2026-09-29T15:14:42.724152Z",
           "is_fallback": false,
-          "stale_seconds": 29303.8,
+          "stale_seconds": 35082.7,
           "row_stale": false
         }
       ],
