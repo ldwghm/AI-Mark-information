@@ -1,5 +1,5 @@
 {
-  "fetch_time": "2026-09-30T10:23:51.727689",
+  "fetch_time": "2026-09-30T11:23:53.565881",
   "fetch_date": "2026-09-30",
   "expected_data_date": "2026-09-30",
   "report_type": "afternoon",
@@ -674,6 +674,156 @@
       "amount": 676158205.15,
       "main_net_flow": -141348498.0,
       "data_date": "2026-09-30"
+    },
+    {
+      "name": "飞荣达",
+      "code": "300602",
+      "sector": "液冷",
+      "current": 34.88,
+      "change_pct": -2.49,
+      "high": 36.47,
+      "low": 34.64,
+      "open": 36.3,
+      "yesterday_close": 35.77,
+      "volume": 99105,
+      "amount": 349461951.53,
+      "main_net_flow": -9865269.0,
+      "data_date": "2026-09-30"
+    },
+    {
+      "name": "沃尔核材",
+      "code": "002130",
+      "sector": "高速铜连接",
+      "current": 15.71,
+      "change_pct": 0.32,
+      "high": 15.82,
+      "low": 15.61,
+      "open": 15.75,
+      "yesterday_close": 15.66,
+      "volume": 124180,
+      "amount": 194955923.67,
+      "main_net_flow": 5993005.0,
+      "data_date": "2026-09-30"
+    },
+    {
+      "name": "兆龙互连",
+      "code": "300913",
+      "sector": "高速铜连接",
+      "current": 35.77,
+      "change_pct": -1.32,
+      "high": 37.3,
+      "low": 35.65,
+      "open": 36.63,
+      "yesterday_close": 36.25,
+      "volume": 70494,
+      "amount": 255822326.53,
+      "main_net_flow": -4485225.0,
+      "data_date": "2026-09-30"
+    },
+    {
+      "name": "神宇股份",
+      "code": "300563",
+      "sector": "高速铜连接",
+      "current": 24.3,
+      "change_pct": -0.65,
+      "high": 25.55,
+      "low": 24.3,
+      "open": 24.95,
+      "yesterday_close": 24.46,
+      "volume": 60346,
+      "amount": 149759052.72,
+      "main_net_flow": 8625538.0,
+      "data_date": "2026-09-30"
+    },
+    {
+      "name": "瑞可达",
+      "code": "688800",
+      "sector": "高速铜连接",
+      "current": 56.18,
+      "change_pct": -2.31,
+      "high": 58.8,
+      "low": 55.91,
+      "open": 58.11,
+      "yesterday_close": 57.51,
+      "volume": 63590,
+      "amount": 362425588.0,
+      "main_net_flow": -25768475.0,
+      "data_date": "2026-09-30"
+    },
+    {
+      "name": "新亚电子",
+      "code": "605277",
+      "sector": "高速铜连接",
+      "current": 16.73,
+      "change_pct": -1.82,
+      "high": 17.21,
+      "low": 16.71,
+      "open": 17.07,
+      "yesterday_close": 17.04,
+      "volume": 62407,
+      "amount": 105449407.0,
+      "main_net_flow": -3196208.0,
+      "data_date": "2026-09-30"
+    },
+    {
+      "name": "工业富联",
+      "code": "601138",
+      "sector": "AI服务器",
+      "current": 58.2,
+      "change_pct": -0.38,
+      "high": 59.48,
+      "low": 57.9,
+      "open": 58.81,
+      "yesterday_close": 58.42,
+      "volume": 518106,
+      "amount": 3035417445.0,
+      "main_net_flow": -2485600.0,
+      "data_date": "2026-09-30"
+    },
+    {
+      "name": "浪潮信息",
+      "code": "000977",
+      "sector": "AI服务器",
+      "current": 65.93,
+      "change_pct": -1.86,
+      "high": 67.89,
+      "low": 65.9,
+      "open": 67.53,
+      "yesterday_close": 67.18,
+      "volume": 331772,
+      "amount": 2206841623.8,
+      "main_net_flow": -226457131.0,
+      "data_date": "2026-09-30"
+    },
+    {
+      "name": "中科曙光",
+      "code": "603019",
+      "sector": "AI服务器",
+      "current": 79.52,
+      "change_pct": -1.09,
+      "high": 80.86,
+      "low": 79.25,
+      "open": 80.7,
+      "yesterday_close": 80.4,
+      "volume": 132550,
+      "amount": 1057442587.0,
+      "main_net_flow": -150933221.0,
+      "data_date": "2026-09-30"
+    },
+    {
+      "name": "紫光股份",
+      "code": "000938",
+      "sector": "AI服务器",
+      "current": 31.02,
+      "change_pct": -1.62,
+      "high": 31.85,
+      "low": 30.91,
+      "open": 31.75,
+      "yesterday_close": 31.53,
+      "volume": 719566,
+      "amount": 2245996330.94,
+      "main_net_flow": -309143055.0,
+      "data_date": "2026-09-30"
     }
   ],
   "sectors": [
@@ -769,6 +919,91 @@
           "code": "300442",
           "name": "润泽科技",
           "chg_pct": -2.65
+        }
+      ]
+    },
+    {
+      "sector": "高速铜连接",
+      "avg_chg": -1.16,
+      "up": 1,
+      "down": 4,
+      "total": 5,
+      "leader": {
+        "name": "沃尔核材",
+        "code": "002130",
+        "chg_pct": 0.32
+      },
+      "laggard": {
+        "name": "瑞可达",
+        "code": "688800",
+        "chg_pct": -2.31
+      },
+      "total_main_flow": -18831365.0,
+      "stocks": [
+        {
+          "code": "002130",
+          "name": "沃尔核材",
+          "chg_pct": 0.32
+        },
+        {
+          "code": "300563",
+          "name": "神宇股份",
+          "chg_pct": -0.65
+        },
+        {
+          "code": "300913",
+          "name": "兆龙互连",
+          "chg_pct": -1.32
+        },
+        {
+          "code": "605277",
+          "name": "新亚电子",
+          "chg_pct": -1.82
+        },
+        {
+          "code": "688800",
+          "name": "瑞可达",
+          "chg_pct": -2.31
+        }
+      ]
+    },
+    {
+      "sector": "AI服务器",
+      "avg_chg": -1.24,
+      "up": 0,
+      "down": 4,
+      "total": 4,
+      "leader": {
+        "name": "工业富联",
+        "code": "601138",
+        "chg_pct": -0.38
+      },
+      "laggard": {
+        "name": "浪潮信息",
+        "code": "000977",
+        "chg_pct": -1.86
+      },
+      "total_main_flow": -689019007.0,
+      "stocks": [
+        {
+          "code": "601138",
+          "name": "工业富联",
+          "chg_pct": -0.38
+        },
+        {
+          "code": "603019",
+          "name": "中科曙光",
+          "chg_pct": -1.09
+        },
+        {
+          "code": "000938",
+          "name": "紫光股份",
+          "chg_pct": -1.62
+        },
+        {
+          "code": "000977",
+          "name": "浪潮信息",
+          "chg_pct": -1.86
         }
       ]
     },
@@ -1004,22 +1239,27 @@
     },
     {
       "sector": "液冷",
-      "avg_chg": -4.2,
+      "avg_chg": -3.77,
       "up": 0,
-      "down": 3,
-      "total": 3,
+      "down": 4,
+      "total": 4,
       "leader": {
-        "name": "英维克",
-        "code": "002837",
-        "chg_pct": -2.93
+        "name": "飞荣达",
+        "code": "300602",
+        "chg_pct": -2.49
       },
       "laggard": {
         "name": "高澜股份",
         "code": "300499",
         "chg_pct": -6.18
       },
-      "total_main_flow": -298757940.0,
+      "total_main_flow": -308623209.0,
       "stocks": [
+        {
+          "code": "300602",
+          "name": "飞荣达",
+          "chg_pct": -2.49
+        },
         {
           "code": "002837",
           "name": "英维克",
@@ -1540,7 +1780,8 @@
     {
       "name": "飞荣达",
       "secid": "0.300602",
-      "code": "300602"
+      "code": "300602",
+      "sector": "液冷"
     },
     {
       "name": "曙光数创",
@@ -1550,69 +1791,185 @@
     {
       "name": "沃尔核材",
       "secid": "0.002130",
-      "code": "002130"
+      "code": "002130",
+      "sector": "高速铜连接"
     },
     {
       "name": "兆龙互连",
       "secid": "0.300913",
-      "code": "300913"
+      "code": "300913",
+      "sector": "高速铜连接"
     },
     {
       "name": "神宇股份",
       "secid": "0.300563",
-      "code": "300563"
+      "code": "300563",
+      "sector": "高速铜连接"
     },
     {
       "name": "瑞可达",
       "secid": "1.688800",
-      "code": "688800"
+      "code": "688800",
+      "sector": "高速铜连接"
     },
     {
       "name": "新亚电子",
       "secid": "1.605277",
-      "code": "605277"
+      "code": "605277",
+      "sector": "高速铜连接"
     },
     {
       "name": "工业富联",
       "secid": "1.601138",
-      "code": "601138"
+      "code": "601138",
+      "sector": "AI服务器"
     },
     {
       "name": "浪潮信息",
       "secid": "0.000977",
-      "code": "000977"
+      "code": "000977",
+      "sector": "AI服务器"
     },
     {
       "name": "中科曙光",
       "secid": "1.603019",
-      "code": "603019"
+      "code": "603019",
+      "sector": "AI服务器"
     },
     {
       "name": "紫光股份",
       "secid": "0.000938",
-      "code": "000938"
+      "code": "000938",
+      "sector": "AI服务器"
     }
   ],
-  "hk_stocks": [],
-  "us_stocks": [],
+  "hk_stocks": [
+    {
+      "code": "0700.HK",
+      "name": "腾讯",
+      "price": 431.0,
+      "chg": -0.23,
+      "src": "eastmoney"
+    },
+    {
+      "code": "9988.HK",
+      "name": "阿里巴巴",
+      "price": 106.6,
+      "chg": 0.38,
+      "src": "eastmoney"
+    },
+    {
+      "code": "3690.HK",
+      "name": "美团",
+      "price": 71.7,
+      "chg": 1.77,
+      "src": "eastmoney"
+    },
+    {
+      "code": "9999.HK",
+      "name": "网易",
+      "price": 192.6,
+      "chg": -0.1,
+      "src": "eastmoney"
+    },
+    {
+      "code": "1024.HK",
+      "name": "快手",
+      "price": 30.94,
+      "chg": 2.31,
+      "src": "eastmoney"
+    },
+    {
+      "code": "0020.HK",
+      "name": "商汤",
+      "price": 1.23,
+      "chg": 1.23,
+      "src": "eastmoney"
+    }
+  ],
+  "us_stocks": [
+    {
+      "code": "NVDA",
+      "name": "NVIDIA",
+      "price": 227.21,
+      "chg": -0.72,
+      "src": "eastmoney"
+    },
+    {
+      "code": "MSFT",
+      "name": "Microsoft",
+      "price": 508.96,
+      "chg": -0.05,
+      "src": "eastmoney"
+    },
+    {
+      "code": "GOOGL",
+      "name": "Alphabet",
+      "price": 340.92,
+      "chg": -0.53,
+      "src": "eastmoney"
+    },
+    {
+      "code": "META",
+      "name": "Meta",
+      "price": 738.79,
+      "chg": 3.24,
+      "src": "eastmoney"
+    },
+    {
+      "code": "AMD",
+      "name": "AMD",
+      "price": 607.57,
+      "chg": -0.05,
+      "src": "eastmoney"
+    },
+    {
+      "code": "AVGO",
+      "name": "博通",
+      "price": 355.1,
+      "chg": 1.58,
+      "src": "eastmoney"
+    },
+    {
+      "code": "TSM",
+      "name": "台积电",
+      "price": 456.94,
+      "chg": 0.9,
+      "src": "eastmoney"
+    },
+    {
+      "code": "SMCI",
+      "name": "SuperMicro",
+      "price": 41.02,
+      "chg": -1.82,
+      "src": "eastmoney"
+    },
+    {
+      "code": "PLTR",
+      "name": "Palantir",
+      "price": 186.97,
+      "chg": -0.27,
+      "src": "eastmoney"
+    }
+  ],
   "data_freshness": {
     "expected_date": "2026-09-30",
     "quote_date_mode": "2026-09-30",
     "stale_quote_count": 0,
-    "watchlist_count": 40,
-    "sectors_count": 8,
-    "hk_count": 0,
-    "us_count": 0
+    "watchlist_count": 50,
+    "sectors_count": 10,
+    "hk_count": 6,
+    "us_count": 9
   },
   "source_crosscheck": {
-    "checked_pairs": 16,
+    "checked_pairs": 20,
     "checked_conflicts": 0,
     "codes": [],
     "status": "agreed",
     "max_diff_pct": 0.0,
     "primary_source": "eastmoney",
     "secondary_source": "sina",
-    "checked_at": "2026-09-30T10:25:14.955349Z",
+    "checked_at": "2026-09-30T11:25:15.608556Z",
     "as_of_skew_seconds": 0.0
   }
 }
